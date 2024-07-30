@@ -836,7 +836,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Create a new code error class rubocop:disable Naming/MethodName.</p>
+    <span class="summary_desc"><div class='inline'><p>Create a new code error class.</p>
 </div></span>
   
 </li>
@@ -885,8 +885,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Create a new code error class
-rubocop:disable Naming/MethodName</p>
+    <p>Create a new code error class</p>
 
 
   </div>
@@ -900,6 +899,7 @@ rubocop:disable Naming/MethodName</p>
       <pre class="lines">
 
 
+87
 88
 89
 90
@@ -907,11 +907,10 @@ rubocop:disable Naming/MethodName</p>
 92
 93
 94
-95
-96</pre>
+95</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/discordrb/errors.rb', line 88</span>
+      <pre class="code"><span class="info file"># File 'lib/discordrb/errors.rb', line 87</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='const'>Code</span><span class='lparen'>(</span><span class='id identifier rubyid_code'>code</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_classy'>classy</span> <span class='op'>=</span> <span class='const'>Class</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="Errors/CodeError.html" title="Discordrb::Errors::CodeError (class)">CodeError</a></span></span><span class='rparen'>)</span>
@@ -988,12 +987,12 @@ rubocop:disable Naming/MethodName</p>
       <pre class="lines">
 
 
-101
-102
-103</pre>
+99
+100
+101</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/discordrb/errors.rb', line 101</span>
+      <pre class="code"><span class="info file"># File 'lib/discordrb/errors.rb', line 99</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_error_class_for'>error_class_for</span><span class='lparen'>(</span><span class='id identifier rubyid_code'>code</span><span class='rparen'>)</span>
   <span class='ivar'>@code_classes</span><span class='lbracket'>[</span><span class='id identifier rubyid_code'>code</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='const'><span class='object_link'><a href="#UnknownError-constant" title="Discordrb::Errors::UnknownError (constant)">UnknownError</a></span></span>
@@ -1008,7 +1007,7 @@ rubocop:disable Naming/MethodName</p>
 </div>
 
       <div id="footer">
-  Generated on Tue Jul 30 14:59:46 2024 by
+  Generated on Tue Jul 30 15:29:45 2024 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.36 (ruby-3.1.6).
 </div>
