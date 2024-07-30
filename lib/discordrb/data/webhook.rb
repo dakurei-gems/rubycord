@@ -227,7 +227,7 @@ module Discordrb
     def update_webhook(new_data)
       reason = new_data.delete(:reason)
       data = JSON.parse(if token?
-                          API::Webhook.token_update_webhook(@token, @id, new_data, reason)
+               API::Webhook.token_update_webhook(@token, @id, new_data, reason)
                         else
                           API::Webhook.update_webhook(@bot.token, @id, new_data, reason)
                         end)

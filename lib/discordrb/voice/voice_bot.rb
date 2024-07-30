@@ -357,7 +357,7 @@ module Discordrb::Voice
           ms_diff = (now - @length_adjust) / 1_000_000.0
           if ms_diff >= 0
             @length = if @adjust_average
-                        (IDEAL_LENGTH - ms_diff + @length) / 2.0
+              (IDEAL_LENGTH - ms_diff + @length) / 2.0
                       else
                         IDEAL_LENGTH - ms_diff
                       end

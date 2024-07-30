@@ -518,7 +518,7 @@ module Discordrb
       colour = colour.combined if colour.respond_to?(:combined)
 
       permissions = if permissions.is_a?(Array)
-                      Permissions.bits(permissions)
+        Permissions.bits(permissions)
                     elsif permissions.respond_to?(:bits)
                       permissions.bits
                     else

@@ -557,7 +557,7 @@ module Discordrb
       type = url ? 1 : activity_type
 
       activity_obj = if type == 4
-                       {"name" => activity, "type" => type, "state" => activity}
+        {"name" => activity, "type" => type, "state" => activity}
                      else
                        activity || url ? {"name" => activity, "url" => url, "type" => type} : nil
                      end
@@ -808,7 +808,7 @@ module Discordrb
     # @return [Array<ApplicationCommand>]
     def get_application_commands(server_id: nil)
       resp = if server_id
-               API::Application.get_guild_commands(@token, profile.id, server_id)
+        API::Application.get_guild_commands(@token, profile.id, server_id)
              else
                API::Application.get_global_commands(@token, profile.id)
              end
@@ -823,7 +823,7 @@ module Discordrb
     # @param server_id [String, Integer, nil] The ID of the server to get the command from. Global if `nil`.
     def get_application_command(command_id, server_id: nil)
       resp = if server_id
-               API::Application.get_guild_command(@token, profile.id, server_id, command_id)
+        API::Application.get_guild_command(@token, profile.id, server_id, command_id)
              else
                API::Application.get_global_command(@token, profile.id, command_id)
              end
@@ -852,7 +852,7 @@ module Discordrb
       yield(builder, permission_builder) if block_given?
 
       resp = if server_id
-               API::Application.create_guild_command(@token, profile.id, server_id, name, description, builder.to_a, default_permission, type)
+        API::Application.create_guild_command(@token, profile.id, server_id, name, description, builder.to_a, default_permission, type)
              else
                API::Application.create_global_command(@token, profile.id, name, description, builder.to_a, default_permission, type)
              end
@@ -878,7 +878,7 @@ module Discordrb
       yield(builder, permission_builder) if block_given?
 
       resp = if server_id
-               API::Application.edit_guild_command(@token, profile.id, server_id, command_id, name, description, builder.to_a, default_permission, type)
+        API::Application.edit_guild_command(@token, profile.id, server_id, command_id, name, description, builder.to_a, default_permission, type)
              else
                API::Application.edit_guild_command(@token, profile.id, command_id, name, description, builder.to_a, default_permission.type)
              end

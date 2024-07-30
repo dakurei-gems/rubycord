@@ -78,8 +78,8 @@ module Discordrb::API::Channel
   def create_message(token, channel_id, message, tts = false, embeds = nil, nonce = nil, attachments = nil, allowed_mentions = nil, message_reference = nil, components = nil)
     body = {content: message, tts: tts, embeds: embeds, nonce: nonce, allowed_mentions: allowed_mentions, message_reference: message_reference, components: components&.to_a}
     body = if attachments
-             files = [*0...attachments.size].zip(attachments).to_h
-             {**files, payload_json: body.to_json}
+      files = [*0...attachments.size].zip(attachments).to_h
+      {**files, payload_json: body.to_json}
            else
              body.to_json
            end

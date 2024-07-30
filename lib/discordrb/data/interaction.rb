@@ -69,8 +69,8 @@ module Discordrb
       @server_id = data["guild_id"]&.to_i
       @channel_id = data["channel_id"]&.to_i
       @user = if data["member"]
-                data["member"]["guild_id"] = @server_id
-                Discordrb::Member.new(data["member"], bot.servers[@server_id], bot)
+        data["member"]["guild_id"] = @server_id
+        Discordrb::Member.new(data["member"], bot.servers[@server_id], bot)
               else
                 bot.ensure_user(data["user"])
               end

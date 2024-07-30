@@ -49,28 +49,28 @@ module Discordrb::Events
         end,
         matches_all(@attributes[:mute], event.mute) do |a, e|
           a == if a.is_a? String
-                 e.to_s
+            e.to_s
                else
                  e
                end
         end,
         matches_all(@attributes[:deaf], event.deaf) do |a, e|
           a == if a.is_a? String
-                 e.to_s
+            e.to_s
                else
                  e
                end
         end,
         matches_all(@attributes[:self_mute], event.self_mute) do |a, e|
           a == if a.is_a? String
-                 e.to_s
+            e.to_s
                else
                  e
                end
         end,
         matches_all(@attributes[:self_deaf], event.self_deaf) do |a, e|
           a == if a.is_a? String
-                 e.to_s
+            e.to_s
                else
                  e
                end

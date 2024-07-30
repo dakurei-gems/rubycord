@@ -26,7 +26,7 @@ module Discordrb::Events
       @channel = bot.channel(@channel_id)
 
       @user = if channel.pm?
-                channel.recipient
+        channel.recipient
               elsif channel.group?
                 bot.user(@user_id)
               else

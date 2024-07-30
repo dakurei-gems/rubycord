@@ -268,8 +268,8 @@ module Discordrb
 
         # Store `others` parent (or if `other` is a category itself)
         parent = if category? && other.category?
-                   # If we're sorting two categories, there is no new parent
-                   nil
+          # If we're sorting two categories, there is no new parent
+          nil
                  elsif other.category?
                    # `other` is the category this channel will be moved into
                    other
@@ -283,7 +283,7 @@ module Discordrb
       # Collect and sort the IDs within the context (category or not) that we
       # need to form our payload with
       ids = if parent
-              parent.children
+        parent.children
             else
               server.channels.reject(&:parent_id).select { |c| c.type == @type }
             end.sort_by(&:position).map(&:id)
@@ -848,7 +848,7 @@ module Discordrb
       type = TYPES[type] || type
 
       data = if message
-               API::Channel.start_thread_with_message(@bot.token, @id, message_id, name, auto_archive_duration)
+        API::Channel.start_thread_with_message(@bot.token, @id, message_id, name, auto_archive_duration)
              else
                API::Channel.start_thread_without_message(@bot.token, @id, name, auto_archive_duration, type)
              end
@@ -966,7 +966,7 @@ module Discordrb
       new_nsfw = new_data[:nsfw].is_a?(TrueClass) || new_data[:nsfw].is_a?(FalseClass) ? new_data[:nsfw] : @nsfw
       # send permission_overwrite only when explicitly set
       overwrites = if new_data[:permission_overwrites].is_a?(Hash)
-                     new_data[:permission_overwrites]&.map { |_, v| v&.to_hash }
+        new_data[:permission_overwrites]&.map { |_, v| v&.to_hash }
                    else
                      new_data[:permission_overwrites]&.map(&:to_hash)
                    end

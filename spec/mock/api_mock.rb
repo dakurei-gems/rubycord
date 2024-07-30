@@ -16,7 +16,7 @@ module APIMock
       @last_method = type
       @last_url = attributes.first
       @last_body = if attributes[1]
-                     attributes[1].is_a?(Hash) ? nil : JSON.parse(attributes[1])
+        attributes[1].is_a?(Hash) ? nil : JSON.parse(attributes[1])
                    end
       @last_headers = attributes.last
     end

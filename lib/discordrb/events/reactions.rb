@@ -27,7 +27,7 @@ module Discordrb::Events
     def user
       # Cache the user so we don't do requests all the time
       @user ||= if server
-                  @server.member(@user_id)
+        @server.member(@user_id)
                 else
                   @bot.user(@user_id)
                 end

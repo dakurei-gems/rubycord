@@ -361,7 +361,7 @@ module Discordrb::Commands
     # @return [true, false] whether or not the user has the given permission
     def permission?(user, level, server)
       determined_level = if user.webhook? || server.nil?
-                           0
+        0
                          else
                            user.roles.reduce(0) do |memo, role|
                              [@permissions[:roles][role.id] || 0, memo].max

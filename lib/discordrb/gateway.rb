@@ -544,7 +544,7 @@ module Discordrb
       raw_url += "/" unless raw_url.end_with? "/"
 
       query = if @compress_mode == :stream
-                "?encoding=json&v=#{GATEWAY_VERSION}&compress=zlib-stream"
+        "?encoding=json&v=#{GATEWAY_VERSION}&compress=zlib-stream"
               else
                 "?encoding=json&v=#{GATEWAY_VERSION}"
               end

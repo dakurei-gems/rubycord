@@ -136,7 +136,7 @@ module Discordrb::API::User
   # TODO: Maybe change this method again after discriminator removal ?
   def default_avatar(discrim_id = 0, legacy: false)
     index = if legacy
-              discrim_id.to_i % 5
+      discrim_id.to_i % 5
             else
               (discrim_id.to_i >> 22) % 5
             end
@@ -146,7 +146,7 @@ module Discordrb::API::User
   # Make an avatar URL from the user and avatar IDs
   def avatar_url(user_id, avatar_id, format = nil)
     format ||= if avatar_id.start_with?("a_")
-                 "gif"
+      "gif"
                else
                  "webp"
                end

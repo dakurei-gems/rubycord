@@ -8,7 +8,7 @@ require "discordrb/websocket"
 
 begin
   LIBSODIUM_AVAILABLE = if ENV["DISCORDRB_NONACL"]
-                          false
+    false
                         else
                           require "discordrb/voice/sodium"
                         end

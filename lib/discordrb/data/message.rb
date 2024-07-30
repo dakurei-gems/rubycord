@@ -92,33 +92,33 @@ module Discordrb
       @webhook_id = data["webhook_id"]&.to_i
 
       @author = if data["author"]
-                  if @webhook_id
-                    # This is a webhook user! It would be pointless to try to resolve a member here, so we just create
-                    # a User and return that instead.
-                    Discordrb::LOGGER.debug("Webhook user: #{data["author"]["id"]}")
-                    User.new(data["author"].merge({"_webhook" => true}), @bot)
-                  elsif @channel.private?
-                    # Turn the message user into a recipient - we can't use the channel recipient
-                    # directly because the bot may also send messages to the channel
-                    Recipient.new(bot.user(data["author"]["id"].to_i), @channel, bot)
-                  else
-                    member = @channel.server.member(data["author"]["id"].to_i)
+        if @webhook_id
+          # This is a webhook user! It would be pointless to try to resolve a member here, so we just create
+          # a User and return that instead.
+          Discordrb::LOGGER.debug("Webhook user: #{data["author"]["id"]}")
+          User.new(data["author"].merge({"_webhook" => true}), @bot)
+        elsif @channel.private?
+          # Turn the message user into a recipient - we can't use the channel recipient
+          # directly because the bot may also send messages to the channel
+          Recipient.new(bot.user(data["author"]["id"].to_i), @channel, bot)
+        else
+          member = @channel.server.member(data["author"]["id"].to_i)
 
-                    if member
-                      member.update_data(data["member"]) if data["member"]
-                      member.update_global_name(data["author"]["global_name"]) if data["author"]["global_name"]
-                    else
-                      Discordrb::LOGGER.debug("Member with ID #{data["author"]["id"]} not cached (possibly left the server).")
-                      member = if data["member"]
-                                 member_data = data["author"].merge(data["member"])
-                                 Member.new(member_data, @server, bot)
-                               else
-                                 @bot.ensure_user(data["author"])
-                               end
-                    end
+          if member
+            member.update_data(data["member"]) if data["member"]
+            member.update_global_name(data["author"]["global_name"]) if data["author"]["global_name"]
+          else
+            Discordrb::LOGGER.debug("Member with ID #{data["author"]["id"]} not cached (possibly left the server).")
+            member = if data["member"]
+              member_data = data["author"].merge(data["member"])
+              Member.new(member_data, @server, bot)
+                     else
+                       @bot.ensure_user(data["author"])
+                     end
+          end
 
-                    member
-                  end
+          member
+        end
                 end
 
       @timestamp = Time.parse(data["timestamp"]) if data["timestamp"]
