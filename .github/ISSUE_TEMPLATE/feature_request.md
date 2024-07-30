@@ -19,6 +19,4 @@ about: Request a new feature, or change an existing one
 
   Do your best to think about how this new feature would impact the code
   of other people who use discordrb, and not just your own bot's codebase.
-
-  Stuck or need help? Join the Discord! https://discord.gg/cyK3Hjm
 --->

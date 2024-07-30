@@ -10,8 +10,6 @@
   the new behavior.
 
   - Reference any related issues or pull requests.
-
-  Stuck or need help? Join the Discord! https://discord.gg/cyK3Hjm
 --->
 
 ---

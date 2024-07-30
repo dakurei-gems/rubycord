@@ -9,5 +9,3 @@ the issue, so we can reproduce it on our own machines.
 For PRs, please make sure that you tested your code before every push; it's a little annoying to keep having to get back
 to a PR because of small avoidable oversights. (Huge bonus points if you're adding specs for your code! This project
 has very few specs in places where it should have more so every added spec is very much appreciated.)
-
-If you have any questions at all, don't be afraid to ask in the [discordrb channel on Discord](https://discord.gg/cyK3Hjm).
