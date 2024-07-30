@@ -458,7 +458,7 @@ module Discordrb::API::Server
       Authorization: token
     )
   end
-  alias embed widget
+  alias_method :embed, :widget
 
   # Modify a server's widget settings
   # https://discord.com/developers/docs/resources/guild#modify-guild-widget
@@ -474,7 +474,7 @@ module Discordrb::API::Server
       content_type: :json
     )
   end
-  alias modify_embed modify_widget
+  alias_method :modify_embed, :modify_widget
 
   # Adds a custom emoji.
   # https://discord.com/developers/docs/resources/emoji#create-guild-emoji

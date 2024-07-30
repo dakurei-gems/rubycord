@@ -32,7 +32,7 @@ module Discordrb::Events
     #   @see Invite#inviter
     delegate :code, :created_at, :max_age, :max_uses, :temporary, :inviter, to: :invite
 
-    alias temporary? temporary
+    alias_method :temporary?, :temporary
 
     def initialize(data, invite, bot)
       @bot = bot
