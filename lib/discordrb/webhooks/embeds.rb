@@ -5,7 +5,7 @@ module Discordrb::Webhooks
   # appearances.
   class Embed
     def initialize(title: nil, description: nil, url: nil, timestamp: nil, colour: nil, color: nil, footer: nil,
-                   image: nil, thumbnail: nil, video: nil, provider: nil, author: nil, fields: [])
+      image: nil, thumbnail: nil, video: nil, provider: nil, author: nil, fields: [])
       @title = title
       @description = description
       @url = url

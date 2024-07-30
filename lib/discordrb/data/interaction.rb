@@ -550,7 +550,7 @@ module Discordrb
       # @param channel_types [Array<Integer>] Channel types that can be provides for channel options.
       # @return Hash
       def option(type, name, description, required: nil, choices: nil, options: nil, min_value: nil, max_value: nil,
-                 channel_types: nil)
+        channel_types: nil)
         opt = {type: type, name: name, description: description}
         choices = choices.map { |option_name, value| {name: option_name, value: value} } if choices
 

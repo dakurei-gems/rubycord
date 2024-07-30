@@ -141,7 +141,7 @@ module Discordrb::API::Server
   # Update a user properties
   # https://discord.com/developers/docs/resources/guild#modify-guild-member
   def update_member(token, server_id, user_id, nick: :undef, roles: :undef, mute: :undef, deaf: :undef, channel_id: :undef,
-                    communication_disabled_until: :undef, reason: nil)
+    communication_disabled_until: :undef, reason: nil)
     Discordrb::API.request(
       :guilds_sid_members_uid,
       server_id,
