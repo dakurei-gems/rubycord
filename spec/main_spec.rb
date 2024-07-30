@@ -24,8 +24,8 @@ describe Discordrb do
     split = Discordrb.split_message("#{"a" * 800}\n" * 6)
     expect(split).to eq([
       "#{"a" * 800}\n#{"a" * 800}\n",
-                          "#{"a" * 800}\n#{"a" * 800}\n",
-                          "#{"a" * 800}\n#{"a" * 800}"
+      "#{"a" * 800}\n#{"a" * 800}\n",
+      "#{"a" * 800}\n#{"a" * 800}"
     ])
   end
 
