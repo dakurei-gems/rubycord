@@ -62,6 +62,11 @@ jobs:
           cd discordrb_docs
           bundle exec yard --output-dir /tmp/docs
 
+      - name: Cleanup Yard doc files
+        run: |
+          cd discordrb_docs
+          DOC_PATH="/tmp/docs" bin/clean_doc
+
       - name: Commit docs
         if: github.event_name == 'push'
         run: |
