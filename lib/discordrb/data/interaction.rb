@@ -529,7 +529,7 @@ module Discordrb
       # @return (see #option)
       def number(name, description, required: nil, min_value: nil, max_value: nil, choices: nil)
         option(TYPES[:number], name, description,
-               required: required, min_value: min_value, max_value: max_value, choices: choices)
+          required: required, min_value: min_value, max_value: max_value, choices: choices)
       end
 
       # @param name [String, Symbol] The name of the argument.

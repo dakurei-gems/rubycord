@@ -972,15 +972,15 @@ module Discordrb
       end
 
       response = JSON.parse(API::Channel.update(@bot.token, @id,
-                                                new_data[:name] || @name,
-                                                new_data[:topic] || @topic,
-                                                new_data[:position] || @position,
-                                                new_data[:bitrate] || @bitrate,
-                                                new_data[:user_limit] || @user_limit,
-                                                new_nsfw,
-                                                overwrites,
-                                                new_data[:parent_id] || @parent_id,
-                                                new_data[:rate_limit_per_user] || @rate_limit_per_user))
+        new_data[:name] || @name,
+        new_data[:topic] || @topic,
+        new_data[:position] || @position,
+        new_data[:bitrate] || @bitrate,
+        new_data[:user_limit] || @user_limit,
+        new_nsfw,
+        overwrites,
+        new_data[:parent_id] || @parent_id,
+        new_data[:rate_limit_per_user] || @rate_limit_per_user))
       update_data(response)
     end
 

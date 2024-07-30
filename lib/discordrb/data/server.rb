@@ -890,16 +890,16 @@ module Discordrb
 
     def update_server_data(new_data)
       response = JSON.parse(API::Server.update(@bot.token, @id,
-                                               new_data[:name] || @name,
-                                               new_data[:region] || @region_id,
-                                               new_data[:icon_id] || @icon_id,
-                                               new_data[:afk_channel_id] || @afk_channel_id,
-                                               new_data[:afk_timeout] || @afk_timeout,
-                                               new_data[:splash] || @splash,
-                                               new_data[:default_message_notifications] || @default_message_notifications,
-                                               new_data[:verification_level] || @verification_level,
-                                               new_data[:explicit_content_filter] || @explicit_content_filter,
-                                               new_data[:system_channel_id] || @system_channel_id))
+        new_data[:name] || @name,
+        new_data[:region] || @region_id,
+        new_data[:icon_id] || @icon_id,
+        new_data[:afk_channel_id] || @afk_channel_id,
+        new_data[:afk_timeout] || @afk_timeout,
+        new_data[:splash] || @splash,
+        new_data[:default_message_notifications] || @default_message_notifications,
+        new_data[:verification_level] || @verification_level,
+        new_data[:explicit_content_filter] || @explicit_content_filter,
+        new_data[:system_channel_id] || @system_channel_id))
       update_data(response)
     end
 

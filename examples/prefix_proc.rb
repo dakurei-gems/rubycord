@@ -46,7 +46,7 @@ bot = Discordrb::Commands::CommandBot.new(token: "token", prefix: prefix_proc)
 
 # A simple dice roll command, use it like: '!roll 2d10'
 bot.command(:roll, description: "rolls some dice",
-                   usage: "roll NdS", min_args: 1) do |_event, dnd_roll|
+  usage: "roll NdS", min_args: 1) do |_event, dnd_roll|
   # Parse the input
   number, sides = dnd_roll.split("d")
 
