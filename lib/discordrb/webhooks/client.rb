@@ -39,8 +39,8 @@ module Discordrb::Webhooks
     #   end
     # @return [RestClient::Response] the response returned by Discord.
     def execute(builder = nil, wait = false, components = nil)
-      raise TypeError, "builder needs to be nil or like a Discordrb::Webhooks::Builder!" unless
-        (builder.respond_to?(:file) && builder.respond_to?(:to_multipart_hash)) || builder.respond_to?(:to_json_hash) || builder.nil?
+      raise TypeError, "builder needs to be nil or like a Discordrb::Webhooks::Builder!" if
+        !(builder.respond_to?(:file) && builder.respond_to?(:to_multipart_hash)) && !builder.respond_to?(:to_json_hash) && !builder.nil?
 
       builder ||= Builder.new
       view = View.new

@@ -216,8 +216,8 @@ module Discordrb::Commands
 
       command = @commands[name]
       command = command.aliased_command if command.is_a?(CommandAlias)
-      return unless !check_permissions || channels?(event.channel, @attributes[:channels]) ||
-        (command && !command.attributes[:channels].nil?)
+      return if check_permissions && !channels?(event.channel, @attributes[:channels]) &&
+        (!command || command.attributes[:channels].nil?)
 
       unless command
         if @attributes[:command_doesnt_exist_message]
