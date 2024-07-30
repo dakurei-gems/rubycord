@@ -2102,7 +2102,7 @@ whether it should return immediately after sending the message. If <code>true</c
 </span>  <span class='id identifier rubyid_data'>data</span><span class='lbracket'>[</span><span class='symbol'>:avatar</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_avatarise'>avatarise</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='lbracket'>[</span><span class='symbol'>:avatar</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span><span class='lparen'>(</span><span class='symbol'>:avatar</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_data'>data</span><span class='lbracket'>[</span><span class='symbol'>:channel_id</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_data'>data</span><span class='lbracket'>[</span><span class='symbol'>:channel</span><span class='rbracket'>]</span><span class='op'>&amp;.</span><span class='id identifier rubyid_resolve_id'>resolve_id</span>
   <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='symbol'>:channel</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_update_webhook'>update_webhook</span><span class='lparen'>(</span><span class='op'>**</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_update_webhook'>update_webhook</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2114,9 +2114,9 @@ whether it should return immediately after sending the message. If <code>true</c
 </div>
 
       <div id="footer">
-  Generated on Sun Jun 23 00:26:35 2024 by
+  Generated on Tue Jul 30 12:04:07 2024 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.36 (ruby-3.3.3).
+  0.9.36 (ruby-3.1.6).
 </div>
 
     </div>
