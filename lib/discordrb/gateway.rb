@@ -457,7 +457,7 @@ module Discordrb
           else
             sleep 1
           end
-        rescue StandardError => e
+        rescue => e
           LOGGER.error("An error occurred while heartbeating!")
           LOGGER.log_exception(e)
         end
@@ -577,7 +577,7 @@ module Discordrb
 
       # We're done! Delegate to the websocket loop
       websocket_loop
-    rescue StandardError => e
+    rescue => e
       LOGGER.error("An error occurred while connecting to the websocket!")
       LOGGER.log_exception(e)
     end
@@ -635,7 +635,7 @@ module Discordrb
             # If the handshake hasn't finished, handle it
             handle_handshake_data(recv_data)
           end
-        rescue StandardError => e
+        rescue => e
           handle_error(e)
         end
       end
@@ -838,7 +838,7 @@ module Discordrb
       # Try to send it
       begin
         @socket.write frame.to_s
-      rescue StandardError => e
+      rescue => e
         # There has been an error!
         @pipe_broken = true
         handle_internal_close(e)

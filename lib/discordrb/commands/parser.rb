@@ -110,7 +110,7 @@ module Discordrb::Commands
     rescue LocalJumpError => e # occurs when breaking
       result = e.exit_value
       event.drain_into(result)
-    rescue StandardError => e # Something went wrong inside our @block!
+    rescue => e # Something went wrong inside our @block!
       rescue_value = @attributes[:rescue] || event.bot.attributes[:rescue]
       if rescue_value
         event.respond(rescue_value.gsub("%exception%", e.message)) if rescue_value.is_a?(String)

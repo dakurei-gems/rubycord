@@ -125,7 +125,7 @@ module Discordrb
 
       member = @bot.member(self, id)
       @members[id] = member unless member.nil?
-    rescue StandardError
+    rescue
       nil
     end
 

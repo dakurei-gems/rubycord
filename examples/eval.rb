@@ -14,7 +14,7 @@ bot.command(:eval, help_available: false) do |event, *code|
 
   begin
     eval code.join(" ") # standard:disable Security/Eval
-  rescue StandardError
+  rescue
     "An error occurred 😞"
   end
 end

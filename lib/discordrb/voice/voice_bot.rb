@@ -97,7 +97,7 @@ module Discordrb::Voice
 
       @encoder = Encoder.new
       @ws.connect
-    rescue StandardError => e
+    rescue => e
       Discordrb::LOGGER.log_exception(e)
       raise
     end
@@ -228,7 +228,7 @@ module Discordrb::Voice
           # Windows does not support TERM as a kill signal, so we use KILL. `Process.waitpid` verifies that our
           # child process has not already completed.
           Process.kill(Gem.win_platform? ? "KILL" : "TERM", pid) if Process.waitpid(pid, Process::WNOHANG).nil?
-        rescue StandardError => e
+        rescue => e
           Discordrb::LOGGER.warn("Failed to kill ffmpeg process! You *might* have a process leak now.")
           Discordrb::LOGGER.warn("Reason: #{e}")
         end

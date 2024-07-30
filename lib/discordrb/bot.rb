@@ -1587,7 +1587,7 @@ module Discordrb
               debug("Executing application command #{event.command_name}:#{event.command_id}")
 
               @application_commands[event.command_name]&.call(event)
-            rescue StandardError => e
+            rescue => e
               log_exception(e)
             end
           end
@@ -1673,7 +1673,7 @@ module Discordrb
         event = RawEvent.new(type, data, self)
         raise_event(event)
       end
-    rescue StandardError => e
+    rescue => e
       LOGGER.error("Gateway message error!")
       log_exception(e)
     end
@@ -1710,7 +1710,7 @@ module Discordrb
         begin
           handler.call(event)
           handler.after_call(event)
-        rescue StandardError => e
+        rescue => e
           log_exception(e)
         ensure
           @event_threads.delete(t)
