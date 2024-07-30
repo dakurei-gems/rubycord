@@ -2,6 +2,14 @@
 
 require "discordrb"
 
+# This data is shared across examples, so it needs to be defined here
+# TODO: Refactor, potentially use `shared_context`
+EVENT_SERVER_ID = 1
+EVENT_SERVER_NAME = "server_name"
+EVENT_EMOJI1_ID = 10
+EVENT_EMOJI1_NAME = "emoji_name_1"
+EVENT_EMOJI2_NAME = "emoji_name_2"
+
 describe Discordrb::Events do
   describe Discordrb::Events::Negated do
     it "should initialize without errors" do
@@ -204,15 +212,6 @@ describe Discordrb::Events do
     )
   end
 
-  # This data is shared across examples, so it needs to be defined here
-  # TODO: Refactor, potentially use `shared_context`
-  SERVER_ID = 1
-  SERVER_NAME = "server_name"
-  EMOJI1_ID = 10
-  EMOJI1_NAME = "emoji_name_1"
-  EMOJI2_ID = 11
-  EMOJI2_NAME = "emoji_name_2"
-
   shared_examples "ServerEvent" do
     describe "#initialize" do
       it "sets bot" do
@@ -227,12 +226,12 @@ describe Discordrb::Events do
   shared_examples "ServerEventHandler" do
     describe "#matches?" do
       it "matches server names" do
-        handler = described_class.new({server: SERVER_NAME}, nil)
+        handler = described_class.new({server: EVENT_SERVER_NAME}, nil)
         expect(handler.matches?(event)).to be_truthy
       end
 
       it "matches server ids" do
-        handler = described_class.new({server: SERVER_ID}, nil)
+        handler = described_class.new({server: EVENT_SERVER_ID}, nil)
         expect(handler.matches?(event)).to be_truthy
       end
 
@@ -246,12 +245,12 @@ describe Discordrb::Events do
   shared_examples "ServerEmojiEventHandler" do
     describe "#matches?" do
       it "matches emoji id" do
-        handler = described_class.new({id: EMOJI1_ID}, nil)
+        handler = described_class.new({id: EVENT_EMOJI1_ID}, nil)
         expect(handler.matches?(event)).to be_truthy
       end
 
       it "matches emoji name" do
-        handler = described_class.new({name: EMOJI1_NAME}, nil)
+        handler = described_class.new({name: EVENT_EMOJI1_NAME}, nil)
         expect(handler.matches?(event)).to be_truthy
       end
     end
@@ -262,7 +261,7 @@ describe Discordrb::Events do
     let(:server) { double }
 
     subject(:event) do
-      described_class.new({SERVER_ID => nil}, bot)
+      described_class.new({EVENT_SERVER_ID => nil}, bot)
     end
 
     it_behaves_like "ServerEvent"
@@ -332,16 +331,16 @@ describe Discordrb::Events do
 
   describe Discordrb::Events::ServerEventHandler do
     let(:event) { double("event", is_a?: true, emoji: emoji, server: server) }
-    let(:server) { double("server", name: SERVER_NAME, id: SERVER_ID) }
-    let(:emoji) { double("emoji", id: EMOJI1_ID, name: EMOJI1_NAME) }
+    let(:server) { double("server", name: EVENT_SERVER_NAME, id: EVENT_SERVER_ID) }
+    let(:emoji) { double("emoji", id: EVENT_EMOJI1_ID, name: EVENT_EMOJI1_NAME) }
 
     it_behaves_like "ServerEventHandler"
   end
 
   describe Discordrb::Events::ServerEmojiCDEventHandler do
     let(:event) { double("event", is_a?: true, emoji: emoji, server: server) }
-    let(:server) { double("server", name: SERVER_NAME, id: SERVER_ID) }
-    let(:emoji) { double("emoji", id: EMOJI1_ID, name: EMOJI1_NAME) }
+    let(:server) { double("server", name: EVENT_SERVER_NAME, id: EVENT_SERVER_ID) }
+    let(:emoji) { double("emoji", id: EVENT_EMOJI1_ID, name: EVENT_EMOJI1_NAME) }
 
     it_behaves_like "ServerEventHandler"
     it_behaves_like "ServerEmojiEventHandler"
@@ -349,16 +348,16 @@ describe Discordrb::Events do
 
   describe Discordrb::Events::ServerEmojiUpdateEventHandler do
     let(:event) { double("event", is_a?: true, emoji: emoji_new, old_emoji: emoji_old, server: server) }
-    let(:server) { double("server", name: SERVER_NAME, id: SERVER_ID) }
-    let(:emoji_old) { double("emoji_old", id: EMOJI1_ID, name: EMOJI2_NAME) }
-    let(:emoji_new) { double("emoji_new", name: EMOJI1_NAME) }
+    let(:server) { double("server", name: EVENT_SERVER_NAME, id: EVENT_SERVER_ID) }
+    let(:emoji_old) { double("emoji_old", id: EVENT_EMOJI1_ID, name: EVENT_EMOJI2_NAME) }
+    let(:emoji_new) { double("emoji_new", name: EVENT_EMOJI1_NAME) }
 
     it_behaves_like "ServerEventHandler"
     it_behaves_like "ServerEmojiEventHandler"
 
     describe "#matches?" do
       it "matches old emoji name" do
-        handler = described_class.new({old_name: EMOJI2_NAME}, nil)
+        handler = described_class.new({old_name: EVENT_EMOJI2_NAME}, nil)
         expect(handler.matches?(event)).to be_truthy
       end
     end

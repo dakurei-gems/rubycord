@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "bigdecimal/util"
+
 require "discordrb/voice/encoder"
 require "discordrb/voice/network"
 require "discordrb/logger"
@@ -211,7 +213,7 @@ module Discordrb::Voice
         end
 
         # Adjust volume
-        buf = @encoder.adjust_volume(buf, @volume) if @volume != 1.0
+        buf = @encoder.adjust_volume(buf, @volume) if @volume.to_d != BigDecimal("1.0")
 
         @first_packet = false
 
