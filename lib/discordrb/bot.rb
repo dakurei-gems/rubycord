@@ -1674,7 +1674,7 @@ module Discordrb
         event = RawEvent.new(type, data, self)
         raise_event(event)
       end
-    rescue Exception => e
+    rescue StandardError => e
       LOGGER.error("Gateway message error!")
       log_exception(e)
     end
