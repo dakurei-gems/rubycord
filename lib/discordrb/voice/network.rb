@@ -1,17 +1,17 @@
 # frozen_string_literal: true
 
-require 'websocket-client-simple'
-require 'socket'
-require 'json'
+require "websocket-client-simple"
+require "socket"
+require "json"
 
-require 'discordrb/websocket'
+require "discordrb/websocket"
 
 begin
-  LIBSODIUM_AVAILABLE = if ENV['DISCORDRB_NONACL']
-                          false
-                        else
-                          require 'discordrb/voice/sodium'
-                        end
+  LIBSODIUM_AVAILABLE = if ENV["DISCORDRB_NONACL"]
+    false
+  else
+    require "discordrb/voice/sodium"
+  end
 rescue LoadError
   puts "libsodium not available! You can continue to use discordrb as normal but voice support won't work.
         Read https://github.com/dakurei-gems/discordrb/wiki/Installing-libsodium for more details."
@@ -22,11 +22,11 @@ module Discordrb::Voice
   # Signifies to Discord that encryption should be used
   # @deprecated Discord now supports multiple encryption options.
   # TODO: Resolve replacement for this constant.
-  ENCRYPTED_MODE = 'xsalsa20_poly1305'
+  ENCRYPTED_MODE = "xsalsa20_poly1305"
 
   # Signifies to Discord that no encryption should be used
   # @deprecated Discord no longer supports unencrypted voice communication.
-  PLAIN_MODE = 'plain'
+  PLAIN_MODE = "plain"
 
   # Encryption modes supported by Discord
   ENCRYPTION_MODES = %w[xsalsa20_poly1305_lite xsalsa20_poly1305_suffix xsalsa20_poly1305].freeze
@@ -71,7 +71,7 @@ module Discordrb::Voice
       # Wait for a UDP message
       message = @socket.recv(74)
       ip = message[8..-3].delete("\0")
-      port = message[-2..].unpack1('n')
+      port = message[-2..].unpack1("n")
       [ip, port]
     end
 
@@ -82,7 +82,7 @@ module Discordrb::Voice
     #   sequence number multiplied by 960)
     def send_audio(buf, sequence, time)
       # Header of the audio packet
-      header = [0x80, 0x78, sequence, time, @ssrc].pack('CCnNN')
+      header = [0x80, 0x78, sequence, time, @ssrc].pack("CCnNN")
 
       nonce = generate_nonce(header)
       buf = encrypt_audio(buf, nonce)
@@ -90,7 +90,7 @@ module Discordrb::Voice
       data = header + buf
 
       # xsalsa20_poly1305 does not require an appended nonce
-      data += nonce unless @mode == 'xsalsa20_poly1305'
+      data += nonce unless @mode == "xsalsa20_poly1305"
 
       send_packet(data)
     end
@@ -99,16 +99,16 @@ module Discordrb::Voice
     # be received using {#receive_discovery_reply}
     def send_discovery
       # Create empty packet
-      discovery_packet = ''
+      discovery_packet = ""
 
       # Add Type request (0x1 = request, 0x2 = response)
-      discovery_packet += [0x1].pack('n')
+      discovery_packet += [0x1].pack("n")
 
       # Add Length (excluding Type and itself = 70)
-      discovery_packet += [70].pack('n')
+      discovery_packet += [70].pack("n")
 
       # Add SSRC
-      discovery_packet += [@ssrc].pack('N')
+      discovery_packet += [@ssrc].pack("N")
 
       # Add 66 zeroes so the packet is 74 bytes long
       discovery_packet += "\0" * 66
@@ -123,7 +123,7 @@ module Discordrb::Voice
     # @param nonce [String] The nonce to be used to encrypt the data
     # @return [String] the audio data, encrypted
     def encrypt_audio(buf, nonce)
-      raise 'No secret key found, despite encryption being enabled!' unless @secret_key
+      raise "No secret key found, despite encryption being enabled!" unless @secret_key
 
       secret_box = Discordrb::Voice::SecretBox.new(@secret_key)
 
@@ -144,18 +144,18 @@ module Discordrb::Voice
     #   In xsalsa20_poly1305_lite, the nonce is an incremental 4 byte int.
     def generate_nonce(header)
       case @mode
-      when 'xsalsa20_poly1305'
+      when "xsalsa20_poly1305"
         header
-      when 'xsalsa20_poly1305_suffix'
+      when "xsalsa20_poly1305_suffix"
         Random.urandom(24)
-      when 'xsalsa20_poly1305_lite'
+      when "xsalsa20_poly1305_lite"
         case @lite_nonce
         when nil, 0xff_ff_ff_ff
           @lite_nonce = 0
         else
           @lite_nonce += 1
         end
-        [@lite_nonce].pack('N')
+        [@lite_nonce].pack("N")
       else
         raise "`#{@mode}' is not a supported encryption mode"
       end
@@ -179,14 +179,14 @@ module Discordrb::Voice
     # @param session [String] The voice session ID Discord sends over the regular websocket
     # @param endpoint [String] The endpoint URL to connect to
     def initialize(channel, bot, token, session, endpoint)
-      raise 'libsodium is unavailable - unable to create voice bot! Please read https://github.com/dakurei-gems/discordrb/wiki/Installing-libsodium' unless LIBSODIUM_AVAILABLE
+      raise "libsodium is unavailable - unable to create voice bot! Please read https://github.com/dakurei-gems/discordrb/wiki/Installing-libsodium" unless LIBSODIUM_AVAILABLE
 
       @channel = channel
       @bot = bot
       @token = token
       @session = session
 
-      @endpoint = endpoint.split(':').first
+      @endpoint = endpoint.split(":").first
 
       @udp = VoiceUDP.new
     end
@@ -216,7 +216,7 @@ module Discordrb::Voice
       @client.send({
         op: 1,
         d: {
-          protocol: 'udp',
+          protocol: "udp",
           data: {
             address: ip,
             port: port,
@@ -228,7 +228,7 @@ module Discordrb::Voice
 
     # Send a heartbeat (op 3), has to be done every @heartbeat_interval seconds or the connection will terminate
     def send_heartbeat
-      millis = Time.now.strftime('%s%L').to_i
+      millis = Time.now.strftime("%s%L").to_i
       @bot.debug("Sending voice heartbeat at #{millis}")
 
       @client.send({
@@ -254,7 +254,7 @@ module Discordrb::Voice
     # @!visibility private
     def websocket_open
       # Give the current thread a name ('Voice Web Socket Internal')
-      Thread.current[:discordrb_name] = 'vws-i'
+      Thread.current[:discordrb_name] = "vws-i"
 
       # Send the init packet
       send_init(@channel.server.id, @bot.profile.id, @session, @token)
@@ -265,28 +265,28 @@ module Discordrb::Voice
       @bot.debug("Received VWS message! #{msg}")
       packet = JSON.parse(msg)
 
-      case packet['op']
+      case packet["op"]
       when 2
         # Opcode 2 contains data to initialize the UDP connection
-        @ws_data = packet['d']
+        @ws_data = packet["d"]
 
-        @ssrc = @ws_data['ssrc']
-        @port = @ws_data['port']
+        @ssrc = @ws_data["ssrc"]
+        @port = @ws_data["port"]
 
-        @udp_mode = (ENCRYPTION_MODES & @ws_data['modes']).first
+        @udp_mode = (ENCRYPTION_MODES & @ws_data["modes"]).first
 
-        @udp.connect(@ws_data['ip'], @port, @ssrc)
+        @udp.connect(@ws_data["ip"], @port, @ssrc)
         @udp.send_discovery
       when 4
         # Opcode 4 sends the secret key used for encryption
-        @ws_data = packet['d']
+        @ws_data = packet["d"]
 
         @ready = true
-        @udp.secret_key = @ws_data['secret_key'].pack('C*')
-        @udp.mode = @ws_data['mode']
+        @udp.secret_key = @ws_data["secret_key"].pack("C*")
+        @udp.mode = @ws_data["mode"]
       when 8
         # Opcode 8 contains the heartbeat interval.
-        @heartbeat_interval = packet['d']['heartbeat_interval']
+        @heartbeat_interval = packet["d"]["heartbeat_interval"]
       end
     end
 
@@ -307,11 +307,11 @@ module Discordrb::Voice
     def connect
       # Connect websocket
       @thread = Thread.new do
-        Thread.current[:discordrb_name] = 'vws'
+        Thread.current[:discordrb_name] = "vws"
         init_ws
       end
 
-      @bot.debug('Started websocket initialization, now waiting for UDP discovery reply')
+      @bot.debug("Started websocket initialization, now waiting for UDP discovery reply")
 
       # Now wait for opcode 2 and the resulting UDP reply packet
       ip, port = @udp.receive_discovery_reply
@@ -320,7 +320,7 @@ module Discordrb::Voice
       # Send UDP init packet with received UDP data
       send_udp_connection(ip, port, @udp_mode)
 
-      @bot.debug('Waiting for op 4 now')
+      @bot.debug("Waiting for op 4 now")
 
       # Wait for op 4, then finish
       sleep 0.05 until @ready
@@ -359,7 +359,7 @@ module Discordrb::Voice
         proc { |e| Discordrb::LOGGER.warn "VWS close: #{e}" }
       )
 
-      @bot.debug('VWS connected')
+      @bot.debug("VWS connected")
 
       # Block any further execution
       heartbeat_loop

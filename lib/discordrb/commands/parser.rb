@@ -100,7 +100,7 @@ module Discordrb::Commands
       if check_permissions
         rate_limited = event.bot.rate_limited?(@attributes[:bucket], event.author)
         if @attributes[:bucket] && rate_limited
-          event.respond @attributes[:rate_limit_message].gsub('%time%', rate_limited.round(2).to_s) if @attributes[:rate_limit_message]
+          event.respond @attributes[:rate_limit_message].gsub("%time%", rate_limited.round(2).to_s) if @attributes[:rate_limit_message]
           return
         end
       end
@@ -110,10 +110,10 @@ module Discordrb::Commands
     rescue LocalJumpError => e # occurs when breaking
       result = e.exit_value
       event.drain_into(result)
-    rescue StandardError => e # Something went wrong inside our @block!
+    rescue => e # Something went wrong inside our @block!
       rescue_value = @attributes[:rescue] || event.bot.attributes[:rescue]
       if rescue_value
-        event.respond(rescue_value.gsub('%exception%', e.message)) if rescue_value.is_a?(String)
+        event.respond(rescue_value.gsub("%exception%", e.message)) if rescue_value.is_a?(String)
         rescue_value.call(event, e) if rescue_value.respond_to?(:call)
       end
 
@@ -154,14 +154,14 @@ module Discordrb::Commands
     def execute_bare(event)
       b_start = -1
       b_level = 0
-      result = ''
+      result = ""
       quoted = false
       escaped = false
-      hacky_delim, hacky_space, hacky_prev, hacky_newline = [0xe001, 0xe002, 0xe003, 0xe004].pack('U*').chars
+      hacky_delim, hacky_space, hacky_prev, hacky_newline = [0xe001, 0xe002, 0xe003, 0xe004].pack("U*").chars
 
       @chain.each_char.with_index do |char, index|
         # Escape character
-        if char == '\\' && !escaped
+        if char == "\\" && !escaped
           escaped = true
           next
         elsif escaped && b_level <= 0
@@ -185,7 +185,7 @@ module Discordrb::Commands
             when @attributes[:previous]
               result += hacky_prev
               next
-            when ' '
+            when " "
               result += hacky_space
               next
             when "\n"
@@ -222,7 +222,7 @@ module Discordrb::Commands
 
       @chain_args, @chain = divide_chain(@chain)
 
-      prev = ''
+      prev = ""
 
       chain_to_split = @chain
 
@@ -231,10 +231,10 @@ module Discordrb::Commands
 
       first = true
       split_chain = if @attributes[:chain_delimiter].empty?
-                      [chain_to_split]
-                    else
-                      chain_to_split.split(@attributes[:chain_delimiter])
-                    end
+        [chain_to_split]
+      else
+        chain_to_split.split(@attributes[:chain_delimiter])
+      end
       split_chain.each do |command|
         command = @attributes[:chain_delimiter] + command if first && @chain.start_with?(@attributes[:chain_delimiter])
         first = false
@@ -244,9 +244,9 @@ module Discordrb::Commands
         # Replace the hacky delimiter that was used inside quotes with actual delimiters
         command = command.gsub hacky_delim, @attributes[:chain_delimiter]
 
-        first_space = command.index ' '
+        first_space = command.index " "
         command_name = first_space ? command[0..first_space - 1] : command
-        arguments = first_space ? command[first_space + 1..] : ''
+        arguments = first_space ? command[first_space + 1..] : ""
 
         # Append a previous sign if none is present
         arguments += @attributes[:previous] unless arguments.include? @attributes[:previous]
@@ -255,11 +255,11 @@ module Discordrb::Commands
         # Replace hacky previous signs with actual ones
         arguments = arguments.gsub hacky_prev, @attributes[:previous]
 
-        arguments = arguments.split ' '
+        arguments = arguments.split " "
 
         # Replace the hacky spaces/newlines with actual ones
         arguments.map! do |elem|
-          elem.gsub(hacky_space, ' ').gsub(hacky_newline, "\n")
+          elem.gsub(hacky_space, " ").gsub(hacky_newline, "\n")
         end
 
         # Finally execute the command
@@ -277,7 +277,7 @@ module Discordrb::Commands
     # @return [String] the result of the command chain execution.
     def execute(event)
       old_chain = @chain
-      @bot.debug 'Executing bare chain'
+      @bot.debug "Executing bare chain"
       result = execute_bare(event)
 
       @chain_args ||= []
@@ -286,8 +286,8 @@ module Discordrb::Commands
 
       @chain_args.each do |arg|
         case arg.first
-        when 'repeat'
-          new_result = ''
+        when "repeat"
+          new_result = ""
           executed_chain = divide_chain(old_chain).last
 
           arg[1].to_i.times do
@@ -310,12 +310,12 @@ module Discordrb::Commands
       chain_args = []
 
       if chain_args_index
-        chain_args = chain[0..chain_args_index].split ','
+        chain_args = chain[0..chain_args_index].split ","
 
         # Split up the arguments
 
         chain_args.map! do |arg|
-          arg.split ' '
+          arg.split " "
         end
 
         chain = chain[chain_args_index + 1..]

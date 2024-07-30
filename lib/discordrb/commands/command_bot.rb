@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require 'discordrb/bot'
-require 'discordrb/data'
-require 'discordrb/commands/parser'
-require 'discordrb/commands/events'
-require 'discordrb/commands/container'
-require 'discordrb/commands/rate_limiter'
-require 'time'
+require "discordrb/bot"
+require "discordrb/data"
+require "discordrb/commands/parser"
+require "discordrb/commands/events"
+require "discordrb/commands/container"
+require "discordrb/commands/rate_limiter"
+require "time"
 
 # Specialized bot to run commands
 
@@ -115,19 +115,19 @@ module Discordrb::Commands
 
         # All of the following need to be one character
         # String to designate previous result in command chain
-        previous: attributes[:previous] || '~',
+        previous: attributes[:previous] || "~",
 
         # Command chain delimiter
-        chain_delimiter: attributes[:chain_delimiter] || '>',
+        chain_delimiter: attributes[:chain_delimiter] || ">",
 
         # Chain argument delimiter
-        chain_args_delim: attributes[:chain_args_delim] || ':',
+        chain_args_delim: attributes[:chain_args_delim] || ":",
 
         # Sub-chain starting character
-        sub_chain_start: attributes[:sub_chain_start] || '[',
+        sub_chain_start: attributes[:sub_chain_start] || "[",
 
         # Sub-chain ending character
-        sub_chain_end: attributes[:sub_chain_end] || ']',
+        sub_chain_end: attributes[:sub_chain_end] || "]",
 
         # Quoted mode starting character
         quote_start: attributes[:quote_start] || '"',
@@ -146,7 +146,7 @@ module Discordrb::Commands
 
       return unless @attributes[:help_command]
 
-      command(@attributes[:help_command], max_args: 1, description: 'Shows a list of all the commands available or displays help for a specific command.', usage: 'help [command name]') do |event, command_name|
+      command(@attributes[:help_command], max_args: 1, description: "Shows a list of all the commands available or displays help for a specific command.", usage: "help [command name]") do |event, command_name|
         if command_name
           command = @commands[command_name.to_sym]
           if command.is_a?(CommandAlias)
@@ -155,20 +155,20 @@ module Discordrb::Commands
           end
           return "The command `#{command_name}` does not exist!" unless command
 
-          desc = command.attributes[:description] || '*No description available*'
+          desc = command.attributes[:description] || "*No description available*"
           usage = command.attributes[:usage]
           parameters = command.attributes[:parameters]
           result = "**`#{command_name}`**: #{desc}"
           aliases = command_aliases(command_name.to_sym)
           unless aliases.empty?
             result += "\nAliases: "
-            result += aliases.map { |a| "`#{a.name}`" }.join(', ')
+            result += aliases.map { |a| "`#{a.name}`" }.join(", ")
           end
           result += "\nUsage: `#{usage}`" if usage
           if parameters
             result += "\nAccepted Parameters:\n```"
             parameters.each { |p| result += "\n#{p}" }
-            result += '```'
+            result += "```"
           end
           result
         else
@@ -178,7 +178,7 @@ module Discordrb::Commands
           case available_commands.length
           when 0..5
             available_commands.reduce "**List of commands:**\n" do |memo, c|
-              memo + "**`#{c.name}`**: #{c.attributes[:description] || '*No description available*'}\n"
+              memo + "**`#{c.name}`**: #{c.attributes[:description] || "*No description available*"}\n"
             end
           when 5..50
             (available_commands.reduce "**List of commands:**\n" do |memo, c|
@@ -186,7 +186,7 @@ module Discordrb::Commands
             end)[0..-3]
           else
             event.user.pm(available_commands.reduce("**List of commands:**\n") { |m, e| m + "`#{e.name}`, " }[0..-3])
-            event.channel.pm? ? '' : 'Sending list in PM!'
+            event.channel.pm? ? "" : "Sending list in PM!"
           end
         end
       end
@@ -216,14 +216,14 @@ module Discordrb::Commands
 
       command = @commands[name]
       command = command.aliased_command if command.is_a?(CommandAlias)
-      return unless !check_permissions || channels?(event.channel, @attributes[:channels]) ||
-                    (command && !command.attributes[:channels].nil?)
+      return if check_permissions && !channels?(event.channel, @attributes[:channels]) &&
+        (!command || command.attributes[:channels].nil?)
 
       unless command
         if @attributes[:command_doesnt_exist_message]
           message = @attributes[:command_doesnt_exist_message]
           message = message.call(event) if message.respond_to?(:call)
-          event.respond message.gsub('%command%', name.to_s) if message
+          event.respond message.gsub("%command%", name.to_s) if message
         end
         return
       end
@@ -235,12 +235,12 @@ module Discordrb::Commands
          required_permissions?(event.author, command.attributes[:required_permissions], event.channel) &&
          required_roles?(event.author, command.attributes[:required_roles]) &&
          allowed_roles?(event.author, command.attributes[:allowed_roles])) ||
-         !check_permissions
+          !check_permissions
         event.command = command
         result = command.call(event, arguments, chained, check_permissions)
         stringify(result)
       else
-        event.respond command.attributes[:permission_message].gsub('%name%', name.to_s) if command.attributes[:permission_message]
+        event.respond command.attributes[:permission_message].gsub("%name%", name.to_s) if command.attributes[:permission_message]
         nil
       end
     rescue Discordrb::Errors::NoPermission
@@ -275,9 +275,9 @@ module Discordrb::Commands
             nil
           end
         elsif types[i] == TrueClass || types[i] == FalseClass
-          if arg.casecmp('true').zero? || arg.downcase.start_with?('y')
+          if arg.casecmp("true").zero? || arg.downcase.start_with?("y")
             true
-          elsif arg.casecmp('false').zero? || arg.downcase.start_with?('n')
+          elsif arg.casecmp("false").zero? || arg.downcase.start_with?("n")
             false
           end
         elsif types[i] == Symbol
@@ -302,10 +302,10 @@ module Discordrb::Commands
           end
         elsif types[i] == Range
           begin
-            if arg.include? '...'
-              Range.new(*arg.split('...').map(&:to_i), true)
-            elsif arg.include? '..'
-              Range.new(*arg.split('..').map(&:to_i))
+            if arg.include? "..."
+              Range.new(*arg.split("...").map(&:to_i), true)
+            elsif arg.include? ".."
+              Range.new(*arg.split("..").map(&:to_i))
             end
           rescue ArgumentError
             nil
@@ -320,7 +320,7 @@ module Discordrb::Commands
         elsif types[i].respond_to?(:from_argument)
           begin
             types[i].from_argument arg
-          rescue StandardError
+          rescue
             nil
           end
         else
@@ -336,7 +336,7 @@ module Discordrb::Commands
     def simple_execute(chain, event)
       return nil if chain.empty?
 
-      args = chain.split(' ')
+      args = chain.split(" ")
       execute_command(args[0].to_sym, event, args[1..])
     end
 
@@ -361,12 +361,12 @@ module Discordrb::Commands
     # @return [true, false] whether or not the user has the given permission
     def permission?(user, level, server)
       determined_level = if user.webhook? || server.nil?
-                           0
-                         else
-                           user.roles.reduce(0) do |memo, role|
-                             [@permissions[:roles][role.id] || 0, memo].max
-                           end
-                         end
+        0
+      else
+        user.roles.reduce(0) do |memo, role|
+          [@permissions[:roles][role.id] || 0, memo].max
+        end
+      end
 
       [@permissions[:users][user.id] || 0, determined_level].max >= level
     end
@@ -415,13 +415,13 @@ module Discordrb::Commands
       return message unless chain
 
       # Don't allow spaces between the prefix and the command
-      if chain.start_with?(' ') && !@attributes[:spaces_allowed]
-        debug('Chain starts with a space')
+      if chain.start_with?(" ") && !@attributes[:spaces_allowed]
+        debug("Chain starts with a space")
         return message
       end
 
       if chain.strip.empty?
-        debug('Chain is empty')
+        debug("Chain is empty")
         return message
       end
 
@@ -483,7 +483,7 @@ module Discordrb::Commands
 
       channels.any? do |c|
         # if c is string, make sure to remove the "#" from channel names in case it was specified
-        return true if c.is_a?(String) && c.delete('#') == channel.name
+        return true if c.is_a?(String) && c.delete("#") == channel.name
 
         c.resolve_id == channel.resolve_id
       end
@@ -503,7 +503,7 @@ module Discordrb::Commands
           else
             event.respond result unless result.nil? || result.empty?
           end
-        rescue StandardError => e
+        rescue => e
           log_exception(e)
         ensure
           @event_threads.delete(t)
@@ -513,7 +513,7 @@ module Discordrb::Commands
 
     # Turns the object into a string, using to_s by default
     def stringify(object)
-      return '' if object.is_a? Discordrb::Message
+      return "" if object.is_a? Discordrb::Message
 
       object.to_s
     end

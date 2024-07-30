@@ -46,13 +46,13 @@ class Discordrb::Webhooks::View
       style = BUTTON_STYLES[style] || style
 
       emoji = case emoji
-              when Integer, String
-                emoji.to_i.positive? ? { id: emoji } : { name: emoji }
-              else
-                emoji&.to_h
-              end
+      when Integer, String
+        emoji.to_i.positive? ? {id: emoji} : {name: emoji}
+      else
+        emoji&.to_h
+      end
 
-      @components << { type: COMPONENT_TYPES[:button], label: label, emoji: emoji, style: style, custom_id: custom_id, disabled: disabled, url: url }
+      @components << {type: COMPONENT_TYPES[:button], label: label, emoji: emoji, style: style, custom_id: custom_id, disabled: disabled, url: url}
     end
 
     # Add a select string to this action row.
@@ -120,7 +120,7 @@ class Discordrb::Webhooks::View
 
     # @!visibility private
     def to_h
-      { type: COMPONENT_TYPES[:action_row], components: @components }
+      {type: COMPONENT_TYPES[:action_row], components: @components}
     end
   end
 
@@ -146,13 +146,13 @@ class Discordrb::Webhooks::View
     # @param default [true, false, nil] Whether this is the default selected option.
     def option(label:, value:, description: nil, emoji: nil, default: nil)
       emoji = case emoji
-              when Integer, String
-                emoji.to_i.positive? ? { id: emoji } : { name: emoji }
-              else
-                emoji&.to_h
-              end
+      when Integer, String
+        emoji.to_i.positive? ? {id: emoji} : {name: emoji}
+      else
+        emoji&.to_h
+      end
 
-      @options << { label: label, value: value, description: description, emoji: emoji, default: default }
+      @options << {label: label, value: value, description: description, emoji: emoji, default: default}
     end
 
     # @!visibility private

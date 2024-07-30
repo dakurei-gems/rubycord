@@ -23,12 +23,12 @@ module Discordrb
       @bot = bot
       @roles = nil
 
-      @name = data['name']
+      @name = data["name"]
       @server = server
-      @id = data['id']&.to_i
-      @animated = data['animated']
+      @id = data["id"]&.to_i
+      @animated = data["animated"]
 
-      process_roles(data['roles']) if server
+      process_roles(data["roles"]) if server
     end
 
     # ID or name based comparison
@@ -45,7 +45,7 @@ module Discordrb
     def mention
       return name if id.nil?
 
-      "<#{'a' if animated}:#{name}:#{id}>"
+      "<#{"a" if animated}:#{name}:#{id}>"
     end
 
     alias_method :use, :mention

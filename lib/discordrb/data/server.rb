@@ -64,20 +64,20 @@ module Discordrb
     # @!visibility private
     def initialize(data, bot)
       @bot = bot
-      @owner_id = data['owner_id'].to_i
-      @id = data['id'].to_i
+      @owner_id = data["owner_id"].to_i
+      @id = data["id"].to_i
       @members = {}
       @voice_states = {}
       @emoji = {}
 
-      process_channels(data['channels'])
+      process_channels(data["channels"])
       update_data(data)
 
       # Whether this server's members have been chunked (resolved using op 8 and GUILD_MEMBERS_CHUNK) yet
       @chunked = false
 
-      @booster_count = data['premium_subscription_count'] || 0
-      @boost_level = data['premium_tier']
+      @booster_count = data["premium_subscription_count"] || 0
+      @boost_level = data["premium_tier"]
     end
 
     # @return [Member] The server owner.
@@ -125,7 +125,7 @@ module Discordrb
 
       member = @bot.member(self, id)
       @members[id] = member unless member.nil?
-    rescue StandardError
+    rescue
       nil
     end
 
@@ -137,7 +137,7 @@ module Discordrb
       @bot.debug("Members for server #{@id} not chunked yet - initiating")
 
       # If the SERVER_MEMBERS intent flag isn't set, the gateway won't respond when we ask for members.
-      raise 'The :server_members intent is required to get server members' if (@bot.gateway.intents & INTENTS[:server_members]).zero?
+      raise "The :server_members intent is required to get server members" if (@bot.gateway.intents & INTENTS[:server_members]).zero?
 
       @bot.request_chunks(@id)
       sleep 0.05 until @chunked
@@ -173,7 +173,7 @@ module Discordrb
     # @param before [Entry, String, Integer] The entry, or its ID, to use to not include all entries after it.
     # @return [AuditLogs] The server's audit logs.
     def audit_logs(action: nil, user: nil, limit: 50, before: nil)
-      raise 'Invalid audit log action!' if action && AuditLogs::ACTIONS.key(action).nil?
+      raise "Invalid audit log action!" if action && AuditLogs::ACTIONS.key(action).nil?
 
       action = AuditLogs::ACTIONS.key(action)
       user = user.resolve_id if user
@@ -186,8 +186,8 @@ module Discordrb
     # @!visibility private
     def cache_widget_data
       data = JSON.parse(API::Server.widget(@bot.token, @id))
-      @widget_enabled = data['enabled']
-      @widget_channel_id = data['channel_id']
+      @widget_enabled = data["enabled"]
+      @widget_channel_id = data["channel_id"]
     end
 
     # @return [true, false] whether or not the server has widget enabled
@@ -244,8 +244,8 @@ module Discordrb
       cache_widget_data if @widget_enabled.nil?
       channel_id = channel ? channel.resolve_id : @widget_channel_id
       response = JSON.parse(API::Server.modify_widget(@bot.token, @id, enabled, channel_id, reason))
-      @widget_enabled = response['enabled']
-      @widget_channel_id = response['channel_id']
+      @widget_enabled = response["enabled"]
+      @widget_channel_id = response["channel_id"]
     end
     alias_method :modify_embed, :modify_widget
 
@@ -285,10 +285,10 @@ module Discordrb
     # @return [Integer] number of members to be removed
     # @raise [ArgumentError] if days is not between 1 and 30 (inclusive)
     def prune_count(days)
-      raise ArgumentError, 'Days must be between 1 and 30' unless days.between?(1, 30)
+      raise ArgumentError, "Days must be between 1 and 30" unless days.between?(1, 30)
 
       response = JSON.parse API::Server.prune_count(@bot.token, @id, days)
-      response['pruned']
+      response["pruned"]
     end
 
     # Prunes (kicks) an amount of members for inactivity
@@ -297,10 +297,10 @@ module Discordrb
     # @return [Integer] the number of members removed at the end of the operation
     # @raise [ArgumentError] if days is not between 1 and 30 (inclusive)
     def begin_prune(days, reason = nil)
-      raise ArgumentError, 'Days must be between 1 and 30' unless days.between?(1, 30)
+      raise ArgumentError, "Days must be between 1 and 30" unless days.between?(1, 30)
 
       response = JSON.parse API::Server.begin_prune(@bot.token, @id, days, reason)
-      response['pruned']
+      response["pruned"]
     end
 
     alias_method :prune, :begin_prune
@@ -351,9 +351,9 @@ module Discordrb
 
     # @return [String] the hexadecimal ID used to identify this server's splash image for their VIP invite page.
     def splash_id
-      @splash_id ||= JSON.parse(API::Server.resolve(@bot.token, @id))['splash']
+      @splash_id ||= JSON.parse(API::Server.resolve(@bot.token, @id))["splash"]
     end
-    alias splash_hash splash_id
+    alias_method :splash_hash, :splash_id
 
     # @return [String, nil] the splash image URL for the server's VIP invite page.
     #   `nil` if there is no splash image.
@@ -366,7 +366,7 @@ module Discordrb
 
     # @return [String] the hexadecimal ID used to identify this server's banner image, shown by the server name.
     def banner_id
-      @banner_id ||= JSON.parse(API::Server.resolve(@bot.token, @id))['banner']
+      @banner_id ||= JSON.parse(API::Server.resolve(@bot.token, @id))["banner"]
     end
 
     # @return [String, nil] the banner image URL for the server's banner image, or
@@ -452,22 +452,22 @@ module Discordrb
     # @note For internal use only
     # @!visibility private
     def update_voice_state(data)
-      user_id = data['user_id'].to_i
+      user_id = data["user_id"].to_i
 
-      if data['channel_id']
+      if data["channel_id"]
         unless @voice_states[user_id]
           # Create a new voice state for the user
           @voice_states[user_id] = VoiceState.new(user_id)
         end
 
         # Update the existing voice state (or the one we just created)
-        channel = @channels_by_id[data['channel_id'].to_i]
+        channel = @channels_by_id[data["channel_id"].to_i]
         @voice_states[user_id].update(
           channel,
-          data['mute'],
-          data['deaf'],
-          data['self_mute'],
-          data['self_deaf']
+          data["mute"],
+          data["deaf"],
+          data["self_mute"],
+          data["self_deaf"]
         )
       else
         # The user is not in a voice channel anymore, so delete its voice state
@@ -496,7 +496,7 @@ module Discordrb
     # @raise [ArgumentError] if type is not 0 (text), 2 (voice), 4 (category), 5 (news), or 6 (store)
     def create_channel(name, type = 0, topic: nil, bitrate: nil, user_limit: nil, permission_overwrites: nil, parent: nil, nsfw: false, rate_limit_per_user: nil, position: nil, reason: nil)
       type = Channel::TYPES[type] if type.is_a?(Symbol)
-      raise ArgumentError, 'Channel type must be either 0 (text), 2 (voice), 4 (category), news (5), or store (6)!' unless [0, 2, 4, 5, 6].include?(type)
+      raise ArgumentError, "Channel type must be either 0 (text), 2 (voice), 4 (category), news (5), or store (6)!" unless [0, 2, 4, 5, 6].include?(type)
 
       permission_overwrites.map! { |e| e.is_a?(Overwrite) ? e.to_hash : e } if permission_overwrites.is_a?(Array)
       parent_id = parent.respond_to?(:resolve_id) ? parent.resolve_id : nil
@@ -514,16 +514,16 @@ module Discordrb
     # @param permissions [Integer, Array<Symbol>, Permissions, #bits] The permissions to write to the new role.
     # @param reason [String] The reason the for the creation of this role.
     # @return [Role] the created role.
-    def create_role(name: 'new role', colour: 0, hoist: false, mentionable: false, permissions: 104_324_161, reason: nil)
+    def create_role(name: "new role", colour: 0, hoist: false, mentionable: false, permissions: 104_324_161, reason: nil)
       colour = colour.combined if colour.respond_to?(:combined)
 
       permissions = if permissions.is_a?(Array)
-                      Permissions.bits(permissions)
-                    elsif permissions.respond_to?(:bits)
-                      permissions.bits
-                    else
-                      permissions
-                    end
+        Permissions.bits(permissions)
+      elsif permissions.respond_to?(:bits)
+        permissions.bits
+      else
+        permissions
+      end
 
       response = API::Server.create_role(@bot.token, @id, name, colour, hoist, mentionable, permissions, reason)
 
@@ -541,7 +541,7 @@ module Discordrb
     def add_emoji(name, image, roles = [], reason: nil)
       image_string = image
       if image.respond_to? :read
-        image_string = 'data:image/jpg;base64,'
+        image_string = "data:image/jpg;base64,"
         image_string += Base64.strict_encode64(image.read)
       end
 
@@ -593,7 +593,7 @@ module Discordrb
     def bans(limit: nil, before_id: nil, after_id: nil)
       response = JSON.parse(API::Server.bans(@bot.token, @id, limit, before_id, after_id))
       response.map do |e|
-        ServerBan.new(self, User.new(e['user'], @bot), e['reason'])
+        ServerBan.new(self, User.new(e["user"], @bot), e["reason"])
       end
     end
 
@@ -675,7 +675,7 @@ module Discordrb
     # @param icon [String, #read] The new icon, in base64-encoded JPG format.
     def icon=(icon)
       if icon.respond_to? :read
-        icon_string = 'data:image/jpg;base64,'
+        icon_string = "data:image/jpg;base64,"
         icon_string += Base64.strict_encode64(icon.read)
         update_server_data(icon_id: icon_string)
       else
@@ -824,37 +824,37 @@ module Discordrb
     # @!visibility private
     def update_data(new_data = nil)
       new_data ||= JSON.parse(API::Server.resolve(@bot.token, @id))
-      @name = new_data[:name] || new_data['name'] || @name
-      @region_id = new_data[:region] || new_data['region'] || @region_id
-      @icon_id = new_data[:icon] || new_data['icon'] || @icon_id
-      @afk_timeout = new_data[:afk_timeout] || new_data['afk_timeout'] || @afk_timeout
+      @name = new_data[:name] || new_data["name"] || @name
+      @region_id = new_data[:region] || new_data["region"] || @region_id
+      @icon_id = new_data[:icon] || new_data["icon"] || @icon_id
+      @afk_timeout = new_data[:afk_timeout] || new_data["afk_timeout"] || @afk_timeout
 
-      afk_channel_id = new_data[:afk_channel_id] || new_data['afk_channel_id'] || @afk_channel
+      afk_channel_id = new_data[:afk_channel_id] || new_data["afk_channel_id"] || @afk_channel
       @afk_channel_id = afk_channel_id&.resolve_id
-      widget_channel_id = new_data[:widget_channel_id] || new_data['widget_channel_id'] || @widget_channel
+      widget_channel_id = new_data[:widget_channel_id] || new_data["widget_channel_id"] || @widget_channel
       @widget_channel_id = widget_channel_id&.resolve_id
-      system_channel_id = new_data[:system_channel_id] || new_data['system_channel_id'] || @system_channel
+      system_channel_id = new_data[:system_channel_id] || new_data["system_channel_id"] || @system_channel
       @system_channel_id = system_channel_id&.resolve_id
 
-      @widget_enabled = new_data[:widget_enabled] || new_data['widget_enabled']
-      @splash = new_data[:splash_id] || new_data['splash_id'] || @splash_id
+      @widget_enabled = new_data[:widget_enabled] || new_data["widget_enabled"]
+      @splash = new_data[:splash_id] || new_data["splash_id"] || @splash_id
 
-      @verification_level = new_data[:verification_level] || new_data['verification_level'] || @verification_level
-      @explicit_content_filter = new_data[:explicit_content_filter] || new_data['explicit_content_filter'] || @explicit_content_filter
-      @default_message_notifications = new_data[:default_message_notifications] || new_data['default_message_notifications'] || @default_message_notifications
+      @verification_level = new_data[:verification_level] || new_data["verification_level"] || @verification_level
+      @explicit_content_filter = new_data[:explicit_content_filter] || new_data["explicit_content_filter"] || @explicit_content_filter
+      @default_message_notifications = new_data[:default_message_notifications] || new_data["default_message_notifications"] || @default_message_notifications
 
-      @large = new_data.key?('large') ? new_data['large'] : @large
-      @member_count = new_data['member_count'] || @member_count || 0
-      @splash_id = new_data['splash'] || @splash_id
-      @banner_id = new_data['banner'] || @banner_id
-      @features = new_data['features'] ? new_data['features'].map { |element| element.downcase.to_sym } : @features || []
+      @large = new_data.key?("large") ? new_data["large"] : @large
+      @member_count = new_data["member_count"] || @member_count || 0
+      @splash_id = new_data["splash"] || @splash_id
+      @banner_id = new_data["banner"] || @banner_id
+      @features = new_data["features"] ? new_data["features"].map { |element| element.downcase.to_sym } : @features || []
 
-      process_channels(new_data['channels']) if new_data['channels']
-      process_roles(new_data['roles']) if new_data['roles']
-      process_emoji(new_data['emojis']) if new_data['emojis']
-      process_members(new_data['members']) if new_data['members']
-      process_presences(new_data['presences']) if new_data['presences']
-      process_voice_states(new_data['voice_states']) if new_data['voice_states']
+      process_channels(new_data["channels"]) if new_data["channels"]
+      process_roles(new_data["roles"]) if new_data["roles"]
+      process_emoji(new_data["emojis"]) if new_data["emojis"]
+      process_members(new_data["members"]) if new_data["members"]
+      process_presences(new_data["presences"]) if new_data["presences"]
+      process_voice_states(new_data["voice_states"]) if new_data["voice_states"]
     end
 
     # Adds a channel to this server's cache
@@ -878,7 +878,7 @@ module Discordrb
     # @!visibility private
     def update_emoji_data(new_data)
       @emoji = {}
-      process_emoji(new_data['emojis'])
+      process_emoji(new_data["emojis"])
     end
 
     # The inspect method is overwritten to give more useful output
@@ -890,16 +890,16 @@ module Discordrb
 
     def update_server_data(new_data)
       response = JSON.parse(API::Server.update(@bot.token, @id,
-                                               new_data[:name] || @name,
-                                               new_data[:region] || @region_id,
-                                               new_data[:icon_id] || @icon_id,
-                                               new_data[:afk_channel_id] || @afk_channel_id,
-                                               new_data[:afk_timeout] || @afk_timeout,
-                                               new_data[:splash] || @splash,
-                                               new_data[:default_message_notifications] || @default_message_notifications,
-                                               new_data[:verification_level] || @verification_level,
-                                               new_data[:explicit_content_filter] || @explicit_content_filter,
-                                               new_data[:system_channel_id] || @system_channel_id))
+        new_data[:name] || @name,
+        new_data[:region] || @region_id,
+        new_data[:icon_id] || @icon_id,
+        new_data[:afk_channel_id] || @afk_channel_id,
+        new_data[:afk_timeout] || @afk_timeout,
+        new_data[:splash] || @splash,
+        new_data[:default_message_notifications] || @default_message_notifications,
+        new_data[:verification_level] || @verification_level,
+        new_data[:explicit_content_filter] || @explicit_content_filter,
+        new_data[:system_channel_id] || @system_channel_id))
       update_data(response)
     end
 
@@ -940,14 +940,14 @@ module Discordrb
       return unless presences
 
       presences.each do |element|
-        next unless element['user']
+        next unless element["user"]
 
-        user_id = element['user']['id'].to_i
+        user_id = element["user"]["id"].to_i
         user = @members[user_id]
         if user
           user.update_presence(element)
         else
-          LOGGER.warn "Rogue presence update! #{element['user']['id']} on #{@id}"
+          LOGGER.warn "Rogue presence update! #{element["user"]["id"]} on #{@id}"
         end
       end
     end

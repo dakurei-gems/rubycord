@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'websocket-client-simple'
+require "websocket-client-simple"
 
 # The WSCS module which we're hooking
 # @see Websocket::Client::Simple::Client

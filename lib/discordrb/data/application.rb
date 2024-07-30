@@ -25,13 +25,13 @@ module Discordrb
     def initialize(data, bot)
       @bot = bot
 
-      @name = data['name']
-      @id = data['id'].to_i
-      @description = data['description']
-      @icon_id = data['icon']
-      @rpc_origins = data['rpc_origins']
-      @flags = data['flags']
-      @owner = @bot.ensure_user(data['owner'])
+      @name = data["name"]
+      @id = data["id"].to_i
+      @description = data["description"]
+      @icon_id = data["icon"]
+      @rpc_origins = data["rpc_origins"]
+      @flags = data["flags"]
+      @owner = @bot.ensure_user(data["owner"])
     end
 
     # Utility function to get a application's icon URL.

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'discordrb/events/generic'
-require 'discordrb/data'
+require "discordrb/events/generic"
+require "discordrb/data"
 
 module Discordrb::Events
   # Module to make sending messages easier with the presence of a text channel in an event
@@ -35,8 +35,8 @@ module Discordrb::Events
     # @yield [embed] Yields the embed to allow for easy building inside a block.
     # @yieldparam embed [Discordrb::Webhooks::Embed] The embed from the parameters, or a new one.
     # @return [Message] The resulting message.
-    def send_embed(message = '', embed = nil, attachments = nil, tts = false, allowed_mentions = nil, message_reference = nil, components = nil, &block)
-      channel.send_embed(message, embed, attachments, tts, allowed_mentions, message_reference, components, &block)
+    def send_embed(message = "", embed = nil, attachments = nil, tts = false, allowed_mentions = nil, message_reference = nil, components = nil, &)
+      channel.send_embed(message, embed, attachments, tts, allowed_mentions, message_reference, components, &)
     end
 
     # Sends a temporary message to the channel this message was sent in, right now.
@@ -65,7 +65,7 @@ module Discordrb::Events
     # thrown away and nothing being sent to the channel (unless there is something saved after this).
     # @see #<<
     def drain
-      @saved_message = ''
+      @saved_message = ""
       nil
     end
 
@@ -76,7 +76,7 @@ module Discordrb::Events
     def drain_into(result)
       return if result.is_a?(Discordrb::Message)
 
-      result = (@saved_message.nil? ? '' : @saved_message.to_s) + (result.nil? ? '' : result.to_s)
+      result = (@saved_message.nil? ? "" : @saved_message.to_s) + (result.nil? ? "" : result.to_s)
       drain
       result
     end
@@ -128,7 +128,7 @@ module Discordrb::Events
       @bot = bot
       @message = message
       @channel = message.channel
-      @saved_message = ''
+      @saved_message = ""
       @file = nil
       @filename = nil
       @file_spoiler = nil
@@ -154,7 +154,7 @@ module Discordrb::Events
     # @param filename [String] Overrides the filename of the uploaded file
     # @param spoiler [true, false] Whether or not this file should appear as a spoiler.
     def attach_file(file, filename: nil, spoiler: nil)
-      raise ArgumentError, 'Argument is not a file!' unless file.is_a?(File)
+      raise ArgumentError, "Argument is not a file!" unless file.is_a?(File)
 
       @file = file
       @filename = filename
@@ -219,7 +219,7 @@ module Discordrb::Events
           case a
           when String
             # Make sure to remove the "#" from channel names in case it was specified
-            a.delete('#') == e.name
+            a.delete("#") == e.name
           when Integer
             a == e.id
           else
@@ -284,9 +284,9 @@ module Discordrb::Events
 
     # @!visibility private
     def initialize(data, bot)
-      @id = data['id'].to_i
-      @channel = bot.channel(data['channel_id'].to_i)
-      @saved_message = ''
+      @id = data["id"].to_i
+      @channel = bot.channel(data["channel_id"].to_i)
+      @saved_message = ""
       @bot = bot
     end
   end
@@ -305,7 +305,7 @@ module Discordrb::Events
           case a
           when String
             # Make sure to remove the "#" from channel names in case it was specified
-            a.delete('#') == e.name
+            a.delete("#") == e.name
           when Integer
             a == e.id
           else

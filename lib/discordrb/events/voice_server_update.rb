@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'discordrb/events/generic'
-require 'discordrb/data'
+require "discordrb/events/generic"
+require "discordrb/data"
 
 module Discordrb::Events
   # Event raised when a server's voice server is updating.
@@ -22,9 +22,9 @@ module Discordrb::Events
     def initialize(data, bot)
       @bot = bot
 
-      @token = data['token']
-      @endpoint = data['endpoint']
-      @server = bot.server(data['guild_id'])
+      @token = data["token"]
+      @endpoint = data["endpoint"]
+      @server = bot.server(data["guild_id"])
     end
   end
 
@@ -36,10 +36,10 @@ module Discordrb::Events
       [
         matches_all(@attributes[:from], event.server) do |a, e|
           a == if a.is_a? String
-                 e.name
-               else
-                 e
-               end
+            e.name
+          else
+            e
+          end
         end
       ]
     end

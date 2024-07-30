@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'discordrb/events/generic'
-require 'discordrb/data'
+require "discordrb/events/generic"
+require "discordrb/data"
 
 module Discordrb::Events
   # Event raised when a webhook is updated
@@ -15,8 +15,8 @@ module Discordrb::Events
     def initialize(data, bot)
       @bot = bot
 
-      @server = bot.server(data['guild_id'].to_i)
-      @channel = bot.channel(data['channel_id'].to_i)
+      @server = bot.server(data["guild_id"].to_i)
+      @channel = bot.channel(data["channel_id"].to_i)
     end
   end
 
@@ -29,19 +29,19 @@ module Discordrb::Events
       [
         matches_all(@attributes[:server], event.server) do |a, e|
           a == case a
-               when String
-                 e.name
-               when Integer
-                 e.id
-               else
-                 e
-               end
+          when String
+            e.name
+          when Integer
+            e.id
+          else
+            e
+          end
         end,
         matches_all(@attributes[:channel], event.channel) do |a, e|
           case a
           when String
             # Make sure to remove the "#" from channel names in case it was specified
-            a.delete('#') == e.name
+            a.delete("#") == e.name
           when Integer
             a == e.id
           else
@@ -50,13 +50,13 @@ module Discordrb::Events
         end,
         matches_all(@attributes[:webhook], event) do |a, e|
           a == case a
-               when String
-                 e.name
-               when Integer
-                 e.id
-               else
-                 e
-               end
+          when String
+            e.name
+          when Integer
+            e.id
+          else
+            e
+          end
         end
       ].reduce(true, &:&)
     end

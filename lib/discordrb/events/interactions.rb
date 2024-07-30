@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'discordrb/events/generic'
-require 'discordrb/data'
+require "discordrb/events/generic"
+require "discordrb/data"
 
 module Discordrb::Events
   # Generic subclass for interaction events
@@ -35,10 +35,10 @@ module Discordrb::Events
     end
 
     # (see Interaction#respond)
-    def respond(content: nil, tts: nil, embeds: nil, allowed_mentions: nil, flags: 0, ephemeral: nil, wait: false, components: nil, &block)
+    def respond(content: nil, tts: nil, embeds: nil, allowed_mentions: nil, flags: 0, ephemeral: nil, wait: false, components: nil, &)
       @interaction.respond(
         content: content, tts: tts, embeds: embeds, allowed_mentions: allowed_mentions,
-        flags: flags, ephemeral: ephemeral, wait: wait, components: components, &block
+        flags: flags, ephemeral: ephemeral, wait: wait, components: components, &
       )
     end
 
@@ -48,21 +48,21 @@ module Discordrb::Events
     end
 
     # (see Interaction#update_message)
-    def update_message(content: nil, tts: nil, embeds: nil, allowed_mentions: nil, flags: 0, ephemeral: nil, wait: false, components: nil, &block)
+    def update_message(content: nil, tts: nil, embeds: nil, allowed_mentions: nil, flags: 0, ephemeral: nil, wait: false, components: nil, &)
       @interaction.update_message(
         content: content, tts: tts, embeds: embeds, allowed_mentions: allowed_mentions,
-        flags: flags, ephemeral: ephemeral, wait: wait, components: components, &block
+        flags: flags, ephemeral: ephemeral, wait: wait, components: components, &
       )
     end
 
     # (see Interaction#show_modal)
-    def show_modal(title:, custom_id:, components: nil, &block)
-      @interaction.show_modal(title: title, custom_id: custom_id, components: components, &block)
+    def show_modal(title:, custom_id:, components: nil, &)
+      @interaction.show_modal(title: title, custom_id: custom_id, components: components, &)
     end
 
     # (see Interaction#edit_response)
-    def edit_response(content: nil, embeds: nil, allowed_mentions: nil, components: nil, &block)
-      @interaction.edit_response(content: content, embeds: embeds, allowed_mentions: allowed_mentions, components: components, &block)
+    def edit_response(content: nil, embeds: nil, allowed_mentions: nil, components: nil, &)
+      @interaction.edit_response(content: content, embeds: embeds, allowed_mentions: allowed_mentions, components: components, &)
     end
 
     # (see Interaction#delete_response)
@@ -71,13 +71,13 @@ module Discordrb::Events
     end
 
     # (see Interaction#send_message)
-    def send_message(content: nil, embeds: nil, tts: false, allowed_mentions: nil, flags: 0, ephemeral: nil, components: nil, &block)
-      @interaction.send_message(content: content, embeds: embeds, tts: tts, allowed_mentions: allowed_mentions, flags: flags, ephemeral: ephemeral, components: components, &block)
+    def send_message(content: nil, embeds: nil, tts: false, allowed_mentions: nil, flags: 0, ephemeral: nil, components: nil, &)
+      @interaction.send_message(content: content, embeds: embeds, tts: tts, allowed_mentions: allowed_mentions, flags: flags, ephemeral: ephemeral, components: components, &)
     end
 
     # (see Interaction#edit_message)
-    def edit_message(message, content: nil, embeds: nil, allowed_mentions: nil, &block)
-      @interaction.edit_message(message, content: content, embeds: embeds, allowed_mentions: allowed_mentions, &block)
+    def edit_message(message, content: nil, embeds: nil, allowed_mentions: nil, &)
+      @interaction.edit_message(message, content: content, embeds: embeds, allowed_mentions: allowed_mentions, &)
     end
 
     # (see Interaction#delete_message)
@@ -105,11 +105,11 @@ module Discordrb::Events
       [
         matches_all(@attributes[:type], event.type) do |a, e|
           a == case a
-               when String, Symbol
-                 Discordrb::Interactions::TYPES[e.to_sym]
-               else
-                 e
-               end
+          when String, Symbol
+            Discordrb::Interactions::TYPES[e.to_sym]
+          else
+            e
+          end
         end,
 
         matches_all(@attributes[:server], event.interaction) do |a, e|
@@ -130,7 +130,7 @@ module Discordrb::Events
   # Event for ApplicationCommand interactions.
   class ApplicationCommandEvent < InteractionCreateEvent
     # Struct to allow accessing data via [] or methods.
-    Resolved = Struct.new('Resolved', :channels, :members, :messages, :roles, :users, :attachments) # rubocop:disable Lint/StructNewOverride
+    Resolved = Struct.new("Resolved", :channels, :members, :messages, :roles, :users, :attachments) # rubocop:disable Lint/StructNewOverride
 
     # @return [String] The name of the command.
     attr_reader :command_name
@@ -156,32 +156,32 @@ module Discordrb::Events
     def initialize(data, bot)
       super
 
-      command_data = data['data']
+      command_data = data["data"]
 
-      @command_id = command_data['id']
-      @command_name = command_data['name'].to_sym
+      @command_id = command_data["id"]
+      @command_name = command_data["name"].to_sym
 
-      @target_id = command_data['target_id']&.to_i
+      @target_id = command_data["target_id"]&.to_i
       @resolved = Resolved.new({}, {}, {}, {}, {}, {})
-      process_resolved(command_data['resolved']) if command_data['resolved']
+      process_resolved(command_data["resolved"]) if command_data["resolved"]
 
-      options = command_data['options'] || []
+      options = command_data["options"] || []
 
       if options.empty?
         @options = {}
         return
       end
 
-      case options[0]['type']
+      case options[0]["type"]
       when 2
         options = options[0]
-        @subcommand_group = options['name'].to_sym
-        @subcommand = options['options'][0]['name'].to_sym
-        options = options['options'][0]['options']
+        @subcommand_group = options["name"].to_sym
+        @subcommand = options["options"][0]["name"].to_sym
+        options = options["options"][0]["options"]
       when 1
         options = options[0]
-        @subcommand = options['name'].to_sym
-        options = options['options']
+        @subcommand = options["name"].to_sym
+        options = options["options"]
       end
 
       @options = transform_options_hash(options || {})
@@ -197,36 +197,36 @@ module Discordrb::Events
     private
 
     def process_resolved(resolved_data)
-      resolved_data['users']&.each do |id, data|
+      resolved_data["users"]&.each do |id, data|
         @resolved[:users][id.to_i] = @bot.ensure_user(data)
       end
 
-      resolved_data['roles']&.each do |id, data|
+      resolved_data["roles"]&.each do |id, data|
         @resolved[:roles][id.to_i] = Discordrb::Role.new(data, @bot)
       end
 
-      resolved_data['channels']&.each do |id, data|
-        data['guild_id'] = @interaction.server_id
+      resolved_data["channels"]&.each do |id, data|
+        data["guild_id"] = @interaction.server_id
         @resolved[:channels][id.to_i] = Discordrb::Channel.new(data, @bot)
       end
 
-      resolved_data['members']&.each do |id, data|
-        data['user'] = resolved_data['users'][id]
-        data['guild_id'] = @interaction.server_id
+      resolved_data["members"]&.each do |id, data|
+        data["user"] = resolved_data["users"][id]
+        data["guild_id"] = @interaction.server_id
         @resolved[:members][id.to_i] = Discordrb::Member.new(data, nil, @bot)
       end
 
-      resolved_data['messages']&.each do |id, data|
+      resolved_data["messages"]&.each do |id, data|
         @resolved[:messages][id.to_i] = Discordrb::Message.new(data, @bot)
       end
 
-      resolved_data['attachments']&.each do |id, data|
+      resolved_data["attachments"]&.each do |id, data|
         @resolved[:attachments][id.to_i] = Discordrb::Attachment.new(data, nil, @bot)
       end
     end
 
     def transform_options_hash(hash)
-      hash.to_h { |opt| [opt['name'], opt['options'] || opt['value']] }
+      hash.to_h { |opt| [opt["name"], opt["options"] || opt["value"]] }
     end
   end
 
@@ -246,7 +246,7 @@ module Discordrb::Events
     # @yieldparam [SubcommandBuilder]
     # @return [ApplicationCommandEventHandler]
     def group(name)
-      raise ArgumentError, 'Unable to mix subcommands and groups' if @subcommands.any? { |_, v| v.is_a? Proc }
+      raise ArgumentError, "Unable to mix subcommands and groups" if @subcommands.any? { |_, v| v.is_a? Proc }
 
       builder = SubcommandBuilder.new(name)
       yield builder
@@ -259,7 +259,7 @@ module Discordrb::Events
     # @yieldparam [SubcommandBuilder]
     # @return [ApplicationCommandEventHandler]
     def subcommand(name, &block)
-      raise ArgumentError, 'Unable to mix subcommands and groups' if @subcommands.any? { |_, v| v.is_a? Hash }
+      raise ArgumentError, "Unable to mix subcommands and groups" if @subcommands.any? { |_, v| v.is_a? Hash }
 
       @subcommands[name.to_sym] = block
 
@@ -319,7 +319,7 @@ module Discordrb::Events
 
     # @!visibility private
     def to_h
-      @group ? { @group => @subcommands } : @subcommands
+      @group ? {@group => @subcommands} : @subcommands
     end
   end
 
@@ -335,8 +335,8 @@ module Discordrb::Events
     def initialize(data, bot)
       super
 
-      @message = Discordrb::Interactions::Message.new(data['message'], bot, @interaction) if data['message']
-      @custom_id = data['data']['custom_id']
+      @message = Discordrb::Interactions::Message.new(data["message"], bot, @interaction) if data["message"]
+      @custom_id = data["data"]["custom_id"]
     end
   end
 
@@ -385,7 +385,7 @@ module Discordrb::Events
     def initialize(data, bot)
       super
 
-      @values = data['data']['values']
+      @values = data["data"]["values"]
     end
   end
 
@@ -419,7 +419,7 @@ module Discordrb::Events
     def initialize(data, bot)
       super
 
-      @values = data['data']['values'].map { |e| bot.user(e) }
+      @values = data["data"]["values"].map { |e| bot.user(e) }
     end
   end
 
@@ -436,7 +436,7 @@ module Discordrb::Events
     def initialize(data, bot)
       super
 
-      @values = data['data']['values'].map { |e| bot.server(data['guild_id']).role(e) }
+      @values = data["data"]["values"].map { |e| bot.server(data["guild_id"]).role(e) }
     end
   end
 
@@ -453,9 +453,9 @@ module Discordrb::Events
     def initialize(data, bot)
       super
 
-      users   = data['data']['resolved']['users'].keys.map { |e| bot.user(e) }
-      roles   = data['data']['resolved']['roles'] ? data['data']['resolved']['roles'].keys.map { |e| bot.server(data['guild_id']).role(e) } : []
-      @values = { users: users, roles: roles }
+      users = data["data"]["resolved"]["users"].keys.map { |e| bot.user(e) }
+      roles = data["data"]["resolved"]["roles"] ? data["data"]["resolved"]["roles"].keys.map { |e| bot.server(data["guild_id"]).role(e) } : []
+      @values = {users: users, roles: roles}
     end
   end
 
@@ -472,7 +472,7 @@ module Discordrb::Events
     def initialize(data, bot)
       super
 
-      @values = data['data']['values'].map { |e| bot.channel(e, bot.server(data['guild_id'])) }
+      @values = data["data"]["values"].map { |e| bot.channel(e, bot.server(data["guild_id"])) }
     end
   end
 

@@ -63,20 +63,20 @@ module Discordrb
     def initialize(data, server, bot)
       @bot = bot
 
-      @user = bot.ensure_user(data['user'])
+      @user = bot.ensure_user(data["user"])
       super(@user) # Initialize the delegate class
 
       @server = server
-      @server_id = server&.id || data['guild_id'].to_i
+      @server_id = server&.id || data["guild_id"].to_i
 
-      @role_ids = data['roles']&.map(&:to_i) || []
+      @role_ids = data["roles"]&.map(&:to_i) || []
 
-      @nick = data['nick']
-      @joined_at = data['joined_at'] ? Time.parse(data['joined_at']) : nil
-      @boosting_since = data['premium_since'] ? Time.parse(data['premium_since']) : nil
-      timeout_until = data['communication_disabled_until']
+      @nick = data["nick"]
+      @joined_at = data["joined_at"] ? Time.parse(data["joined_at"]) : nil
+      @boosting_since = data["premium_since"] ? Time.parse(data["premium_since"]) : nil
+      timeout_until = data["communication_disabled_until"]
       @communication_disabled_until = timeout_until ? Time.parse(timeout_until) : nil
-      @permissions = Permissions.new(data['permissions']) if data['permissions']
+      @permissions = Permissions.new(data["permissions"]) if data["permissions"]
     end
 
     # @return [Server] the server this member is on.
@@ -86,7 +86,7 @@ module Discordrb
       return @server if @server
 
       @server = @bot.server(@server_id)
-      raise Discordrb::Errors::NoPermission, 'The bot does not have access to this server' unless @server
+      raise Discordrb::Errors::NoPermission, "The bot does not have access to this server" unless @server
 
       @server
     end
@@ -134,7 +134,7 @@ module Discordrb
     # Set a user's timeout duration, or remove it by setting the timeout to `nil`.
     # @param timeout_until [Time, nil] When the timeout will end.
     def communication_disabled_until=(timeout_until)
-      raise ArgumentError, 'A time out cannot exceed 28 days' if timeout_until && timeout_until > (Time.now + 2_419_200)
+      raise ArgumentError, "A time out cannot exceed 28 days" if timeout_until && timeout_until > (Time.now + 2_419_200)
 
       API::Server.update_member(@bot.token, @server_id, @user.id, communication_disabled_until: timeout_until.iso8601)
     end
@@ -278,7 +278,7 @@ module Discordrb
     # @param reason [String] The reason the user's nickname is being changed.
     def set_nick(nick, reason = nil)
       # Discord uses the empty string to signify 'no nickname' so we convert nil into that
-      nick ||= ''
+      nick ||= ""
 
       if @user.current_bot?
         API::User.change_own_nickname(@bot.token, @server_id, nick, reason)
@@ -331,13 +331,13 @@ module Discordrb
     # @note For internal use only.
     # @!visibility private
     def update_data(data)
-      update_roles(data['roles']) if data['roles']
-      update_nick(data['nick']) if data.key?('nick')
-      @mute = data['mute'] if data.key?('mute')
-      @deaf = data['deaf'] if data.key?('deaf')
+      update_roles(data["roles"]) if data["roles"]
+      update_nick(data["nick"]) if data.key?("nick")
+      @mute = data["mute"] if data.key?("mute")
+      @deaf = data["deaf"] if data.key?("deaf")
 
-      @joined_at = Time.parse(data['joined_at']) if data['joined_at']
-      timeout_until = data['communication_disabled_until']
+      @joined_at = Time.parse(data["joined_at"]) if data["joined_at"]
+      timeout_until = data["communication_disabled_until"]
       @communication_disabled_until = timeout_until ? Time.parse(timeout_until) : nil
     end
 

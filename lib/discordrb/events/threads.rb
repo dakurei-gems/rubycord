@@ -10,7 +10,7 @@ module Discordrb::Events
 
     def initialize(data, bot)
       @bot = bot
-      @thread = data.is_a?(Discordrb::Channel) ? data : bot.channel(data['id'].to_i)
+      @thread = data.is_a?(Discordrb::Channel) ? data : bot.channel(data["id"].to_i)
     end
   end
 
@@ -23,10 +23,10 @@ module Discordrb::Events
       [
         matches_all(@attributes[:name], event.name) do |a, e|
           a == if a.is_a? String
-                 e.to_s
-               else
-                 e
-               end
+            e.to_s
+          else
+            e
+          end
         end,
         matches_all(@attributes[:server], event.server) do |a, e|
           a.resolve_id == e.resolve_id
@@ -75,12 +75,12 @@ module Discordrb::Events
 
     def initialize(data, bot)
       @bot = bot
-      @thread = data.is_a?(Discordrb::Channel) ? data : bot.channel(data['id'].to_i)
-      @added_members = data['added_members']&.map do |member|
-        data['guild_id'] ? bot.member(data['guild_id'], member['user_id']) : bot.user(member['user_id'])
+      @thread = data.is_a?(Discordrb::Channel) ? data : bot.channel(data["id"].to_i)
+      @added_members = data["added_members"]&.map do |member|
+        data["guild_id"] ? bot.member(data["guild_id"], member["user_id"]) : bot.user(member["user_id"])
       end || []
-      @removed_member_ids = data['removed_member_ids']&.map(&:resolve_id) || []
-      @member_count = data['member_count']
+      @removed_member_ids = data["removed_member_ids"]&.map(&:resolve_id) || []
+      @member_count = data["member_count"]
     end
   end
 

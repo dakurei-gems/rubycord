@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require 'discordrb/api'
-require 'discordrb/api/server'
-require 'discordrb/api/invite'
-require 'discordrb/api/user'
-require 'discordrb/data'
+require "discordrb/api"
+require "discordrb/api/server"
+require "discordrb/api/invite"
+require "discordrb/api/user"
+require "discordrb/data"
 
 module Discordrb
   # This mixin module does caching stuff for the library. It conveniently separates the logic behind
@@ -30,7 +30,7 @@ module Discordrb
 
       regions = JSON.parse API.voice_regions(token)
       regions.each do |data|
-        @voice_regions[data['id']] = VoiceRegion.new(data)
+        @voice_regions[data["id"]] = VoiceRegion.new(data)
       end
 
       @voice_regions
@@ -138,10 +138,10 @@ module Discordrb
     # @param data [Hash] A data hash representing a user.
     # @return [User] the user represented by the data hash.
     def ensure_user(data)
-      if @users.include?(data['id'].to_i)
-        @users[data['id'].to_i]
+      if @users.include?(data["id"].to_i)
+        @users[data["id"].to_i]
       else
-        @users[data['id'].to_i] = User.new(data, self)
+        @users[data["id"].to_i] = User.new(data, self)
       end
     end
 
@@ -151,12 +151,12 @@ module Discordrb
     #   data if it already exists.
     # @return [Server] the server represented by the data hash.
     def ensure_server(data, force_cache = false)
-      if @servers.include?(data['id'].to_i)
-        server = @servers[data['id'].to_i]
+      if @servers.include?(data["id"].to_i)
+        server = @servers[data["id"].to_i]
         server.update_data(data) if force_cache
         server
       else
-        @servers[data['id'].to_i] = Server.new(data, self)
+        @servers[data["id"].to_i] = Server.new(data, self)
       end
     end
 
@@ -165,27 +165,27 @@ module Discordrb
     # @param server [Server, nil] The server the channel is on, if known.
     # @return [Channel] the channel represented by the data hash.
     def ensure_channel(data, server = nil)
-      if @channels.include?(data['id'].to_i)
-        @channels[data['id'].to_i]
+      if @channels.include?(data["id"].to_i)
+        @channels[data["id"].to_i]
       else
-        @channels[data['id'].to_i] = Channel.new(data, self, server)
+        @channels[data["id"].to_i] = Channel.new(data, self, server)
       end
     end
 
     # Ensures a given thread member object is cached.
     # @param data [Hash] Thread member data.
     def ensure_thread_member(data)
-      thread_id = data['id'].to_i
-      user_id = data['user_id'].to_i
+      thread_id = data["id"].to_i
+      user_id = data["user_id"].to_i
 
       @thread_members[thread_id] ||= {}
-      @thread_members[thread_id][user_id] = data.slice('join_timestamp', 'flags')
+      @thread_members[thread_id][user_id] = data.slice("join_timestamp", "flags")
     end
 
     # Requests member chunks for a given server ID.
     # @param id [Integer] The server ID to request chunks for.
     def request_chunks(id)
-      @gateway.send_request_members(id, '', 0)
+      @gateway.send_request_members(id, "", 0)
     end
 
     # Gets the code for an invite.
@@ -199,7 +199,7 @@ module Discordrb
     # @return [String] Only the code for the invite.
     def resolve_invite_code(invite)
       invite = invite.code if invite.is_a? Discordrb::Invite
-      invite = invite[invite.rindex('/') + 1..] if invite.start_with?('http', 'discord.gg')
+      invite = invite[invite.rindex("/") + 1..] if invite.start_with?("http", "discord.gg")
       invite
     end
 

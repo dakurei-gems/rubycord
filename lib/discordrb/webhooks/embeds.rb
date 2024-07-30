@@ -5,7 +5,7 @@ module Discordrb::Webhooks
   # appearances.
   class Embed
     def initialize(title: nil, description: nil, url: nil, timestamp: nil, colour: nil, color: nil, footer: nil,
-                   image: nil, thumbnail: nil, video: nil, provider: nil, author: nil, fields: [])
+      image: nil, thumbnail: nil, video: nil, provider: nil, author: nil, fields: [])
       @title = title
       @description = description
       @url = url
@@ -43,13 +43,13 @@ module Discordrb::Webhooks
       if value.nil?
         @colour = nil
       elsif value.is_a? Integer
-        raise ArgumentError, 'Embed colour must be 24-bit!' if value >= 16_777_216
+        raise ArgumentError, "Embed colour must be 24-bit!" if value >= 16_777_216
 
         @colour = value
       elsif value.is_a? String
-        self.colour = value.delete('#').to_i(16)
+        self.colour = value.delete("#").to_i(16)
       elsif value.is_a? Array
-        raise ArgumentError, 'Colour tuple must have three values!' if value.length != 3
+        raise ArgumentError, "Colour tuple must have three values!" if value.length != 3
 
         self.colour = (value[0] << 16) | (value[1] << 8) | value[2]
       else

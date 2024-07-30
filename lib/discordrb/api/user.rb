@@ -36,10 +36,10 @@ module Discordrb::API::User
       server_id, # This is technically a guild endpoint
       :patch,
       "#{Discordrb::API.api_base}/guilds/#{server_id}/members/@me/nick",
-      { nick: nick }.to_json,
+      {nick: nick}.to_json,
       Authorization: token,
       content_type: :json,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 
@@ -51,7 +51,7 @@ module Discordrb::API::User
       nil,
       :patch,
       "#{Discordrb::API.api_base}/users/@me",
-      { avatar: avatar, email: email, new_password: new_password, password: password, username: new_username }.to_json,
+      {avatar: avatar, email: email, new_password: new_password, password: password, username: new_username}.to_json,
       Authorization: token,
       content_type: :json
     )
@@ -101,7 +101,7 @@ module Discordrb::API::User
       nil,
       :post,
       "#{Discordrb::API.api_base}/users/@me/channels",
-      { recipient_id: recipient_id }.to_json,
+      {recipient_id: recipient_id}.to_json,
       Authorization: token,
       content_type: :json
     )
@@ -126,7 +126,7 @@ module Discordrb::API::User
       nil,
       :patch,
       "#{Discordrb::API.api_base}/users/@me/settings",
-      { status: status }.to_json,
+      {status: status}.to_json,
       Authorization: token,
       content_type: :json
     )
@@ -136,20 +136,20 @@ module Discordrb::API::User
   # TODO: Maybe change this method again after discriminator removal ?
   def default_avatar(discrim_id = 0, legacy: false)
     index = if legacy
-              discrim_id.to_i % 5
-            else
-              (discrim_id.to_i >> 22) % 5
-            end
+      discrim_id.to_i % 5
+    else
+      (discrim_id.to_i >> 22) % 5
+    end
     "#{Discordrb::API.cdn_url}/embed/avatars/#{index}.png"
   end
 
   # Make an avatar URL from the user and avatar IDs
   def avatar_url(user_id, avatar_id, format = nil)
-    format ||= if avatar_id.start_with?('a_')
-                 'gif'
-               else
-                 'webp'
-               end
+    format ||= if avatar_id.start_with?("a_")
+      "gif"
+    else
+      "webp"
+    end
     "#{Discordrb::API.cdn_url}/avatars/#{user_id}/#{avatar_id}.#{format}"
   end
 end

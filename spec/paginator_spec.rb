@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require 'discordrb'
+require "discordrb"
 
 describe Discordrb::Paginator do
-  context 'direction down' do
-    it 'requests all pages until empty' do
+  context "direction down" do
+    it "requests all pages until empty" do
       data = [
         [1, 2, 3],
         [4, 5],
@@ -24,8 +24,8 @@ describe Discordrb::Paginator do
     end
   end
 
-  context 'direction up' do
-    it 'requests all pages until empty' do
+  context "direction up" do
+    it "requests all pages until empty" do
       data = [
         [6, 7],
         [4, 5],
@@ -45,7 +45,7 @@ describe Discordrb::Paginator do
     end
   end
 
-  it 'only returns up to limit items' do
+  it "only returns up to limit items" do
     data = [
       [1, 2, 3],
       [4, 5],

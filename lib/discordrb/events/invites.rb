@@ -32,13 +32,13 @@ module Discordrb::Events
     #   @see Invite#inviter
     delegate :code, :created_at, :max_age, :max_uses, :temporary, :inviter, to: :invite
 
-    alias temporary? temporary
+    alias_method :temporary?, :temporary
 
     def initialize(data, invite, bot)
       @bot = bot
       @invite = invite
-      @channel = bot.channel(data['channel_id'])
-      @server = bot.server(data['guild_id']) if data['guild_id']
+      @channel = bot.channel(data["channel_id"])
+      @server = bot.server(data["guild_id"]) if data["guild_id"]
     end
   end
 
@@ -55,9 +55,9 @@ module Discordrb::Events
 
     def initialize(data, bot)
       @bot = bot
-      @channel = bot.channel(data['channel_id'])
-      @server = bot.server(data['guild_id']) if data['guild_id']
-      @code = data['code']
+      @channel = bot.channel(data["channel_id"])
+      @server = bot.server(data["guild_id"]) if data["guild_id"]
+      @code = data["code"]
     end
   end
 
@@ -69,23 +69,23 @@ module Discordrb::Events
       [
         matches_all(@attributes[:server], event.server) do |a, e|
           a == case a
-               when String
-                 e.name
-               when Integer
-                 e.id
-               else
-                 e
-               end
+          when String
+            e.name
+          when Integer
+            e.id
+          else
+            e
+          end
         end,
         matches_all(@attributes[:channel], event.channel) do |a, e|
           a == case a
-               when String
-                 e.name
-               when Integer
-                 e.id
-               else
-                 e
-               end
+          when String
+            e.name
+          when Integer
+            e.id
+          else
+            e
+          end
         end,
         matches_all(@attributes[:temporary], event.temporary?, &:==),
         matches_all(@attributes[:inviter], event.inviter, &:==)
@@ -101,23 +101,23 @@ module Discordrb::Events
       [
         matches_all(@attributes[:server], event.server) do |a, e|
           a == case a
-               when String
-                 e.name
-               when Integer
-                 e.id
-               else
-                 e
-               end
+          when String
+            e.name
+          when Integer
+            e.id
+          else
+            e
+          end
         end,
         matches_all(@attributes[:channel], event.channel) do |a, e|
           a == case a
-               when String
-                 e.name
-               when Integer
-                 e.id
-               else
-                 e
-               end
+          when String
+            e.name
+          when Integer
+            e.id
+          else
+            e
+          end
         end
       ].reduce(true, &:&)
     end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'discordrb'
+require "discordrb"
 
 # Here, we'll demonstrate one way to achieve a dynamic command prefix
 # in different contexts for your CommandBot.
@@ -10,8 +10,8 @@ require 'discordrb'
 # Define a map of Channel ID => Prefix string.
 # Here, we'll be using channel IDs so that it's easy to test in one server.
 PREFIXES = {
-  345687437722386433 => '!',
-  83281822225530880 => '?'
+  345687437722386433 => "!",
+  83281822225530880 => "?"
 }.freeze
 
 # The CommandBot initializer accepts a Proc as a prefix, which will be
@@ -35,30 +35,30 @@ prefix_proc = proc do |message|
   # Since we may get commands in channels we didn't define a prefix for, we can
   # use a logical OR to set a "default prefix" for any other channel as
   # PREFIXES[] will return nil.
-  prefix = PREFIXES[message.channel.id] || '.'
+  prefix = PREFIXES[message.channel.id] || "."
 
   # We use [prefix.size..] so we can handle prefixes of any length
   message.content[prefix.size..] if message.content.start_with?(prefix)
 end
 
 # Setup a new bot with our prefix proc
-bot = Discordrb::Commands::CommandBot.new(token: 'token', prefix: prefix_proc)
+bot = Discordrb::Commands::CommandBot.new(token: "token", prefix: prefix_proc)
 
 # A simple dice roll command, use it like: '!roll 2d10'
-bot.command(:roll, description: 'rolls some dice',
-                   usage: 'roll NdS', min_args: 1) do |_event, dnd_roll|
+bot.command(:roll, description: "rolls some dice",
+  usage: "roll NdS", min_args: 1) do |_event, dnd_roll|
   # Parse the input
-  number, sides = dnd_roll.split('d')
+  number, sides = dnd_roll.split("d")
 
   # Check for valid input; make sure we got both numbers
-  next 'Invalid syntax.. try: `roll 2d10`' unless number && sides
+  next "Invalid syntax.. try: `roll 2d10`" unless number && sides
 
   # Check for valid input; make sure we actually got numbers and not words
   begin
     number = Integer(number, 10)
-    sides  = Integer(sides, 10)
+    sides = Integer(sides, 10)
   rescue ArgumentError
-    next 'You must pass two *numbers*.. try: `roll 2d10`'
+    next "You must pass two *numbers*.. try: `roll 2d10`"
   end
 
   # Time to roll the dice!

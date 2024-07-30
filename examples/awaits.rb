@@ -4,10 +4,10 @@
 # require 'rubygems'
 # require 'bundler/setup'
 
-require 'discordrb'
+require "discordrb"
 
 # Create a bot
-bot = Discordrb::Bot.new token: 'B0T.T0KEN.here'
+bot = Discordrb::Bot.new token: "B0T.T0KEN.here"
 
 # Discordrb features an Awaits system that allows you to instantiate
 # temporary event handlers. The following example depicts a simple
@@ -15,7 +15,7 @@ bot = Discordrb::Bot.new token: 'B0T.T0KEN.here'
 # user's follow-up messages until a condition is satisfied.
 #
 # Start the game by typing "!game" in chat.
-bot.message(start_with: '!game') do |event|
+bot.message(start_with: "!game") do |event|
   # Pick a number between 1 and 10
   magic = rand(1..10)
 
@@ -35,11 +35,11 @@ bot.message(start_with: '!game') do |event|
     # event handler will persist and continue to handle messages.
     if guess == magic
       # This returns `true`, which will destroy the await so we don't reply anymore
-      guess_event.respond 'you win!'
+      guess_event.respond "you win!"
       true
     else
       # Let the user know if they guessed too high or low.
-      guess_event.respond(guess > magic ? 'too high' : 'too low')
+      guess_event.respond((guess > magic) ? "too high" : "too low")
 
       # Return false so the await is not destroyed, and we continue to listen
       false
@@ -59,9 +59,9 @@ end
 # the unicode ":x:" emoji
 CROSS_MARK = "\u274c"
 
-bot.message(content: '!time') do |event|
+bot.message(content: "!time") do |event|
   # Send a message, and store a reference to it that we can add the reaction.
-  message = event.respond "The current time is: #{Time.now.strftime('%F %T %Z')}"
+  message = event.respond "The current time is: #{Time.now.strftime("%F %T %Z")}"
 
   # React to the message to give a user an easy "button" to press
   message.react CROSS_MARK
@@ -73,7 +73,7 @@ bot.message(content: '!time') do |event|
   end
   # This code executes after our await concludes, or when the timeout runs out.
   # For demonstration purposes, it just prints "Await destroyed.". In your actual code you might want to edit the message or something alike.
-  puts 'Await destroyed.'
+  puts "Await destroyed."
 end
 
 # Connect to Discord

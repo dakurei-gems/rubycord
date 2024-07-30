@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'discordrb/id_object'
+require "discordrb/id_object"
 
 module Discordrb
   # Builder class for `allowed_mentions` when sending messages.

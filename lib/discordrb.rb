@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
-require 'discordrb/version'
-require 'discordrb/bot'
-require 'discordrb/commands/command_bot'
-require 'discordrb/logger'
+require "discordrb/version"
+require "discordrb/bot"
+require "discordrb/commands/command_bot"
+require "discordrb/logger"
 
 # All discordrb functionality, to be extended by other files
 module Discordrb
-  Thread.current[:discordrb_name] = 'main'
+  Thread.current[:discordrb_name] = "main"
 
   # The default debug logger used by discordrb.
-  LOGGER = Logger.new(ENV.fetch('DISCORDRB_FANCY_LOG', false))
+  LOGGER = Logger.new(ENV.fetch("DISCORDRB_FANCY_LOG", false))
 
   # The Unix timestamp Discord IDs are based on
   DISCORD_EPOCH = 1_420_070_400_000
@@ -56,13 +56,13 @@ module Discordrb
   # For creating timestamps with {timestamp}
   # @see https://discord.com/developers/docs/reference#message-formatting-timestamp-styles
   TIMESTAMP_STYLES = {
-    short_time: 't', # 16:20
-    long_time: 'T', # 16:20:30
-    short_date: 'd', # 20/04/2021
-    long_date: 'D', # 20 April 2021
-    short_datetime: 'f', # 20 April 2021 16:20
-    long_datetime: 'F', # Tuesday, 20 April 2021 16:20
-    relative: 'R' # 2 months ago
+    short_time: "t", # 16:20
+    long_time: "T", # 16:20:30
+    short_date: "d", # 20/04/2021
+    long_date: "D", # 20 April 2021
+    short_datetime: "f", # 20 April 2021 16:20
+    long_datetime: "F", # Tuesday, 20 April 2021 16:20
+    relative: "R" # 2 months ago
   }.freeze
 
   # Splits a message into chunks of 2000 characters. Attempts to split by lines if possible.
@@ -88,11 +88,11 @@ module Discordrb
     joined = tri.map(&:join)
 
     # Find the largest element that is still below the character limit, or if none such element exists return the first
-    ideal = joined.max_by { |e| e.length > CHARACTER_LIMIT ? -1 : e.length }
+    ideal = joined.max_by { |e| (e.length > CHARACTER_LIMIT) ? -1 : e.length }
 
     # If it's still larger than the character limit (none was smaller than it) split it into the largest chunk without
     # cutting words apart, breaking on the nearest space within character limit, otherwise just return an array with one element
-    ideal_ary = ideal.length > CHARACTER_LIMIT ? ideal.split(/(.{1,#{CHARACTER_LIMIT}}\b|.{1,#{CHARACTER_LIMIT}})/o).reject(&:empty?) : [ideal]
+    ideal_ary = (ideal.length > CHARACTER_LIMIT) ? ideal.split(/(.{1,#{CHARACTER_LIMIT}}\b|.{1,#{CHARACTER_LIMIT}})/o).reject(&:empty?) : [ideal]
 
     # Slice off the ideal part and strip newlines
     rest = msg[ideal.length..].strip

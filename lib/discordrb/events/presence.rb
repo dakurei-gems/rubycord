@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'discordrb/events/generic'
-require 'discordrb/data'
+require "discordrb/events/generic"
+require "discordrb/data"
 
 module Discordrb::Events
   # Event raised when a user's presence state updates (idle or online)
@@ -22,10 +22,10 @@ module Discordrb::Events
     def initialize(data, bot)
       @bot = bot
 
-      @user = bot.user(data['user']['id'].to_i)
-      @status = data['status'].to_sym
+      @user = bot.user(data["user"]["id"].to_i)
+      @status = data["status"].to_sym
       @client_status = user.client_status
-      @server = bot.server(data['guild_id'].to_i)
+      @server = bot.server(data["guild_id"].to_i)
     end
   end
 
@@ -38,20 +38,20 @@ module Discordrb::Events
       [
         matches_all(@attributes[:from], event.user) do |a, e|
           a == case a
-               when String
-                 e.name
-               when Integer
-                 e.id
-               else
-                 e
-               end
+          when String
+            e.name
+          when Integer
+            e.id
+          else
+            e
+          end
         end,
         matches_all(@attributes[:status], event.status) do |a, e|
           a == if a.is_a? String
-                 e.to_s
-               else
-                 e
-               end
+            e.to_s
+          else
+            e
+          end
         end
       ].reduce(true, &:&)
     end
@@ -86,8 +86,8 @@ module Discordrb::Events
       @bot = bot
       @activity = activity
 
-      @server = bot.server(data['guild_id'].to_i)
-      @user = bot.user(data['user']['id'].to_i)
+      @server = bot.server(data["guild_id"].to_i)
+      @user = bot.user(data["user"]["id"].to_i)
       @client_status = @user.client_status
     end
 
@@ -106,13 +106,13 @@ module Discordrb::Events
       [
         matches_all(@attributes[:from], event.user) do |a, e|
           a == case a
-               when String
-                 e.name
-               when Integer
-                 e.id
-               else
-                 e
-               end
+          when String
+            e.name
+          when Integer
+            e.id
+          else
+            e
+          end
         end,
         matches_all(@attributes[:game], event.game) do |a, e|
           a == e

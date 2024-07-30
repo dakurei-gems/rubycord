@@ -59,12 +59,12 @@ module Discordrb
       attr_reader :guild_connections
 
       def initialize(data)
-        @bot_id = data['bot_id']&.resolve_id
-        @integration_id = data['integration_id']&.resolve_id
-        @premium_subscriber = data.key?('premium_subscriber')
-        @subscription_listing_id = data['subscription_listing_id']&.resolve_id
-        @available_for_purchase = data.key?('available_for_purchase')
-        @guild_connections = data.key?('guild_connections')
+        @bot_id = data["bot_id"]&.resolve_id
+        @integration_id = data["integration_id"]&.resolve_id
+        @premium_subscriber = data.key?("premium_subscriber")
+        @subscription_listing_id = data["subscription_listing_id"]&.resolve_id
+        @available_for_purchase = data.key?("available_for_purchase")
+        @guild_connections = data.key?("guild_connections")
       end
     end
 
@@ -92,21 +92,21 @@ module Discordrb
     def initialize(data, bot, server = nil)
       @bot = bot
       @server = server
-      @permissions = Permissions.new(data['permissions'], RoleWriter.new(self, @bot.token))
-      @name = data['name']
-      @id = data['id'].to_i
+      @permissions = Permissions.new(data["permissions"], RoleWriter.new(self, @bot.token))
+      @name = data["name"]
+      @id = data["id"].to_i
 
-      @position = data['position']
+      @position = data["position"]
 
-      @hoist = data['hoist']
-      @mentionable = data['mentionable']
-      @managed = data['managed']
+      @hoist = data["hoist"]
+      @mentionable = data["mentionable"]
+      @managed = data["managed"]
 
-      @colour = ColourRGB.new(data['color'])
+      @colour = ColourRGB.new(data["color"])
 
-      @icon = data['icon']
+      @icon = data["icon"]
 
-      @tags = Tags.new(data['tags']) if data['tags']
+      @tags = Tags.new(data["tags"]) if data["tags"]
     end
 
     # @return [String] a string that will mention this role, if it is mentionable.
@@ -139,10 +139,10 @@ module Discordrb
     # @note For internal use only
     # @!visibility private
     def update_data(new_data)
-      @name = new_data[:name] || new_data['name'] || @name
-      @hoist = new_data['hoist'] unless new_data['hoist'].nil?
+      @name = new_data[:name] || new_data["name"] || @name
+      @hoist = new_data["hoist"] unless new_data["hoist"].nil?
       @hoist = new_data[:hoist] unless new_data[:hoist].nil?
-      @colour = new_data[:colour] || (new_data['color'] ? ColourRGB.new(new_data['color']) : @colour)
+      @colour = new_data[:colour] || (new_data["color"] ? ColourRGB.new(new_data["color"]) : @colour)
     end
 
     # Sets the role name to something new
@@ -177,7 +177,7 @@ module Discordrb
 
     # @param format ['webp', 'png', 'jpeg']
     # @return [String] URL to the icon on Discord's CDN.
-    def icon_url(format = 'webp')
+    def icon_url(format = "webp")
       return nil unless @icon
 
       Discordrb::API.role_icon_url(@id, @icon, format)
@@ -212,7 +212,7 @@ module Discordrb
       index = other ? roles.index { |role| role.id == other.id } + 1 : 1
       roles.insert(index, self)
 
-      updated_roles = roles.map.with_index { |role, position| { id: role.id, position: position } }
+      updated_roles = roles.map.with_index { |role, position| {id: role.id, position: position} }
       @server.update_role_positions(updated_roles)
       index
     end
@@ -235,13 +235,13 @@ module Discordrb
 
     def update_role_data(new_data)
       API::Server.update_role(@bot.token, @server.id, @id,
-                              new_data[:name] || @name,
-                              (new_data[:colour] || @colour).combined,
-                              new_data[:hoist].nil? ? @hoist : new_data[:hoist],
-                              new_data[:mentionable].nil? ? @mentionable : new_data[:mentionable],
-                              new_data[:permissions] || @permissions.bits,
-                              nil,
-                              new_data.key?(:icon) ? new_data[:icon] : :undef)
+        new_data[:name] || @name,
+        (new_data[:colour] || @colour).combined,
+        new_data[:hoist].nil? ? @hoist : new_data[:hoist],
+        new_data[:mentionable].nil? ? @mentionable : new_data[:mentionable],
+        new_data[:permissions] || @permissions.bits,
+        nil,
+        new_data.key?(:icon) ? new_data[:icon] : :undef)
       update_data(new_data)
     end
   end

@@ -6,13 +6,13 @@ module Discordrb::API::Server
 
   # Create a server
   # https://discord.com/developers/docs/resources/guild#create-guild
-  def create(token, name, region = :'eu-central')
+  def create(token, name, region = :"eu-central")
     Discordrb::API.request(
       :guilds,
       nil,
       :post,
       "#{Discordrb::API.api_base}/guilds",
-      { name: name, region: region.to_s }.to_json,
+      {name: name, region: region.to_s}.to_json,
       Authorization: token,
       content_type: :json
     )
@@ -25,7 +25,7 @@ module Discordrb::API::Server
       :guilds_sid,
       server_id,
       :get,
-      "#{Discordrb::API.api_base}/guilds/#{server_id}#{'?with_counts=true' if with_counts}",
+      "#{Discordrb::API.api_base}/guilds/#{server_id}#{"?with_counts=true" if with_counts}",
       Authorization: token
     )
   end
@@ -38,10 +38,10 @@ module Discordrb::API::Server
       server_id,
       :patch,
       "#{Discordrb::API.api_base}/guilds/#{server_id}",
-      { name: name, region: region, icon: icon, afk_channel_id: afk_channel_id, afk_timeout: afk_timeout, splash: splash, default_message_notifications: default_message_notifications, verification_level: verification_level, explicit_content_filter: explicit_content_filter, system_channel_id: system_channel_id }.to_json,
+      {name: name, region: region, icon: icon, afk_channel_id: afk_channel_id, afk_timeout: afk_timeout, splash: splash, default_message_notifications: default_message_notifications, verification_level: verification_level, explicit_content_filter: explicit_content_filter, system_channel_id: system_channel_id}.to_json,
       Authorization: token,
       content_type: :json,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 
@@ -53,10 +53,10 @@ module Discordrb::API::Server
       server_id,
       :patch,
       "#{Discordrb::API.api_base}/guilds/#{server_id}",
-      { owner_id: user_id }.to_json,
+      {owner_id: user_id}.to_json,
       Authorization: token,
       content_type: :json,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 
@@ -92,10 +92,10 @@ module Discordrb::API::Server
       server_id,
       :post,
       "#{Discordrb::API.api_base}/guilds/#{server_id}/channels",
-      { name: name, type: type, topic: topic, bitrate: bitrate, user_limit: user_limit, permission_overwrites: permission_overwrites, parent_id: parent_id, nsfw: nsfw, rate_limit_per_user: rate_limit_per_user, position: position }.to_json,
+      {name: name, type: type, topic: topic, bitrate: bitrate, user_limit: user_limit, permission_overwrites: permission_overwrites, parent_id: parent_id, nsfw: nsfw, rate_limit_per_user: rate_limit_per_user, position: position}.to_json,
       Authorization: token,
       content_type: :json,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 
@@ -128,7 +128,7 @@ module Discordrb::API::Server
   # Gets members from the server
   # https://discord.com/developers/docs/resources/guild#list-guild-members
   def resolve_members(token, server_id, limit, after = nil)
-    query_string = URI.encode_www_form({ limit: limit, after: after }.compact)
+    query_string = URI.encode_www_form({limit: limit, after: after}.compact)
     Discordrb::API.request(
       :guilds_sid_members,
       server_id,
@@ -141,7 +141,7 @@ module Discordrb::API::Server
   # Update a user properties
   # https://discord.com/developers/docs/resources/guild#modify-guild-member
   def update_member(token, server_id, user_id, nick: :undef, roles: :undef, mute: :undef, deaf: :undef, channel_id: :undef,
-                    communication_disabled_until: :undef, reason: nil)
+    communication_disabled_until: :undef, reason: nil)
     Discordrb::API.request(
       :guilds_sid_members_uid,
       server_id,
@@ -156,7 +156,7 @@ module Discordrb::API::Server
       }.reject { |_, v| v == :undef }.to_json,
       Authorization: token,
       content_type: :json,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 
@@ -170,14 +170,14 @@ module Discordrb::API::Server
       "#{Discordrb::API.api_base}/guilds/#{server_id}/members/#{user_id}",
       Authorization: token,
       content_type: :json,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 
   # Get a server's banned users
   # https://discord.com/developers/docs/resources/guild#get-guild-bans
   def bans(token, server_id, limit = nil, before = nil, after = nil)
-    query_string = URI.encode_www_form({ limit: limit, before: before, after: after }.compact)
+    query_string = URI.encode_www_form({limit: limit, before: before, after: after}.compact)
     Discordrb::API.request(
       :guilds_sid_bans,
       server_id,
@@ -210,7 +210,7 @@ module Discordrb::API::Server
       :delete,
       "#{Discordrb::API.api_base}/guilds/#{server_id}/bans/#{user_id}",
       Authorization: token,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 
@@ -237,10 +237,10 @@ module Discordrb::API::Server
       server_id,
       :post,
       "#{Discordrb::API.api_base}/guilds/#{server_id}/roles",
-      { color: colour, name: name, hoist: hoist, mentionable: mentionable, permissions: packed_permissions }.to_json,
+      {color: colour, name: name, hoist: hoist, mentionable: mentionable, permissions: packed_permissions}.to_json,
       Authorization: token,
       content_type: :json,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 
@@ -251,15 +251,15 @@ module Discordrb::API::Server
   # https://discord.com/developers/docs/resources/guild#batch-modify-guild-role
   # @param icon [:undef, File]
   def update_role(token, server_id, role_id, name, colour, hoist = false, mentionable = false, packed_permissions = 104_324_161, reason = nil, icon = :undef)
-    data = { color: colour, name: name, hoist: hoist, mentionable: mentionable, permissions: packed_permissions }
+    data = {color: colour, name: name, hoist: hoist, mentionable: mentionable, permissions: packed_permissions}
 
     if icon != :undef && icon
       path_method = %i[original_filename path local_path].find { |meth| icon.respond_to?(meth) }
 
-      raise ArgumentError, 'File object must respond to original_filename, path, or local path.' unless path_method
-      raise ArgumentError, 'File must respond to read' unless icon.respond_to? :read
+      raise ArgumentError, "File object must respond to original_filename, path, or local path." unless path_method
+      raise ArgumentError, "File must respond to read" unless icon.respond_to? :read
 
-      mime_type = MIME::Types.type_for(icon.__send__(path_method)).first&.to_s || 'image/jpeg'
+      mime_type = MIME::Types.type_for(icon.__send__(path_method)).first&.to_s || "image/jpeg"
       data[:icon] = "data:#{mime_type};base64,#{Base64.encode64(icon.read).strip}"
     elsif icon.nil?
       data[:icon] = nil
@@ -273,7 +273,7 @@ module Discordrb::API::Server
       data.to_json,
       Authorization: token,
       content_type: :json,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 
@@ -300,7 +300,7 @@ module Discordrb::API::Server
       :delete,
       "#{Discordrb::API.api_base}/guilds/#{server_id}/roles/#{role_id}",
       Authorization: token,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 
@@ -314,7 +314,7 @@ module Discordrb::API::Server
       "#{Discordrb::API.api_base}/guilds/#{server_id}/members/#{user_id}/roles/#{role_id}",
       nil,
       Authorization: token,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 
@@ -327,7 +327,7 @@ module Discordrb::API::Server
       :delete,
       "#{Discordrb::API.api_base}/guilds/#{server_id}/members/#{user_id}/roles/#{role_id}",
       Authorization: token,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 
@@ -351,9 +351,9 @@ module Discordrb::API::Server
       server_id,
       :post,
       "#{Discordrb::API.api_base}/guilds/#{server_id}/prune",
-      { days: days },
+      {days: days},
       Authorization: token,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 
@@ -401,9 +401,9 @@ module Discordrb::API::Server
       server_id,
       :post,
       "#{Discordrb::API.api_base}/guilds/#{server_id}/integrations",
-      { type: type, id: id },
+      {type: type, id: id},
       Authorization: token,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 
@@ -415,7 +415,7 @@ module Discordrb::API::Server
       server_id,
       :patch,
       "#{Discordrb::API.api_base}/guilds/#{server_id}/integrations/#{integration_id}",
-      { expire_behavior: expire_behavior, expire_grace_period: expire_grace_period, enable_emoticons: enable_emoticons }.to_json,
+      {expire_behavior: expire_behavior, expire_grace_period: expire_grace_period, enable_emoticons: enable_emoticons}.to_json,
       Authorization: token,
       content_type: :json
     )
@@ -430,7 +430,7 @@ module Discordrb::API::Server
       :delete,
       "#{Discordrb::API.api_base}/guilds/#{server_id}/integrations/#{integration_id}",
       Authorization: token,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 
@@ -458,7 +458,7 @@ module Discordrb::API::Server
       Authorization: token
     )
   end
-  alias embed widget
+  alias_method :embed, :widget
 
   # Modify a server's widget settings
   # https://discord.com/developers/docs/resources/guild#modify-guild-widget
@@ -468,13 +468,13 @@ module Discordrb::API::Server
       server_id,
       :patch,
       "#{Discordrb::API.api_base}/guilds/#{server_id}/widget",
-      { enabled: enabled, channel_id: channel_id }.to_json,
+      {enabled: enabled, channel_id: channel_id}.to_json,
       Authorization: token,
-      'X-Audit-Log-Reason': reason,
+      "X-Audit-Log-Reason": reason,
       content_type: :json
     )
   end
-  alias modify_embed modify_widget
+  alias_method :modify_embed, :modify_widget
 
   # Adds a custom emoji.
   # https://discord.com/developers/docs/resources/emoji#create-guild-emoji
@@ -484,10 +484,10 @@ module Discordrb::API::Server
       server_id,
       :post,
       "#{Discordrb::API.api_base}/guilds/#{server_id}/emojis",
-      { image: image, name: name, roles: roles }.to_json,
+      {image: image, name: name, roles: roles}.to_json,
       Authorization: token,
       content_type: :json,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 
@@ -499,10 +499,10 @@ module Discordrb::API::Server
       server_id,
       :patch,
       "#{Discordrb::API.api_base}/guilds/#{server_id}/emojis/#{emoji_id}",
-      { name: name, roles: roles }.to_json,
+      {name: name, roles: roles}.to_json,
       Authorization: token,
       content_type: :json,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 
@@ -515,7 +515,7 @@ module Discordrb::API::Server
       :delete,
       "#{Discordrb::API.api_base}/guilds/#{server_id}/emojis/#{emoji_id}",
       Authorization: token,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 
@@ -551,7 +551,7 @@ module Discordrb::API::Server
       server_id,
       :put,
       "#{Discordrb::API.api_base}/guilds/#{server_id}/members/#{user_id}",
-      { access_token: access_token, nick: nick, roles: roles, mute: mute, deaf: deaf }.to_json,
+      {access_token: access_token, nick: nick, roles: roles, mute: mute, deaf: deaf}.to_json,
       content_type: :json,
       Authorization: token
     )

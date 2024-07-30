@@ -2,11 +2,11 @@
 
 # This bot has various commands that show off CommandBot.
 
-require 'discordrb'
+require "discordrb"
 
 # Here we instantiate a `CommandBot` instead of a regular `Bot`, which has the functionality to add commands using the
 # `command` method. We have to set a `prefix` here, which will be the character that triggers command execution.
-bot = Discordrb::Commands::CommandBot.new token: 'B0T.T0KEN.here', prefix: '!'
+bot = Discordrb::Commands::CommandBot.new token: "B0T.T0KEN.here", prefix: "!"
 
 bot.command :user do |event|
   # Commands send whatever is returned from the block to the channel. This allows for compact commands like this,
@@ -17,11 +17,11 @@ end
 
 bot.command :bold do |_event, *args|
   # Again, the return value of the block is sent to the channel
-  "**#{args.join(' ')}**"
+  "**#{args.join(" ")}**"
 end
 
 bot.command :italic do |_event, *args|
-  "*#{args.join(' ')}*"
+  "*#{args.join(" ")}*"
 end
 
 bot.command(:invite, chain_usable: false) do |event|
@@ -30,7 +30,7 @@ bot.command(:invite, chain_usable: false) do |event|
   event.bot.invite_url
 end
 
-bot.command(:random, min_args: 0, max_args: 2, description: 'Generates a random number between 0 and 1, 0 and max or min and max.', usage: 'random [min/max] [max]') do |_event, min, max|
+bot.command(:random, min_args: 0, max_args: 2, description: "Generates a random number between 0 and 1, 0 and max or min and max.", usage: "random [min/max] [max]") do |_event, min, max|
   # The `if` statement returns one of multiple different things based on the condition. Its return value
   # is then returned from the block and sent to the channel
   if max
@@ -43,10 +43,10 @@ bot.command(:random, min_args: 0, max_args: 2, description: 'Generates a random 
 end
 
 bot.command :long do |event|
-  event << 'This is a long message.'
-  event << 'It has multiple lines that are each sent by doing `event << line`.'
-  event << 'This is an easy way to do such long messages, or to create lines that should only be sent conditionally.'
-  event << 'Anyway, have a nice day.'
+  event << "This is a long message."
+  event << "It has multiple lines that are each sent by doing `event << line`."
+  event << "This is an easy way to do such long messages, or to create lines that should only be sent conditionally."
+  event << "Anyway, have a nice day."
 
   # Here we don't have to worry about the return value because the `event << line` statement automatically returns nil.
 end

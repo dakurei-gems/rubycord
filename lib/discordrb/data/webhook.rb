@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'discordrb/webhooks/builder'
-require 'discordrb/webhooks/view'
+require "discordrb/webhooks/builder"
+require "discordrb/webhooks/view"
 
 module Discordrb
   # A webhook on a server channel
@@ -34,22 +34,22 @@ module Discordrb
     def initialize(data, bot)
       @bot = bot
 
-      @name = data['name']
-      @id = data['id'].to_i
-      @channel = bot.channel(data['channel_id'])
+      @name = data["name"]
+      @id = data["id"].to_i
+      @channel = bot.channel(data["channel_id"])
       @server = @channel.server
-      @token = data['token']
-      @avatar = data['avatar']
-      @type = data['type']
+      @token = data["token"]
+      @avatar = data["avatar"]
+      @type = data["type"]
 
       # Will not exist if the data was requested through a webhook token
-      return unless data['user']
+      return unless data["user"]
 
-      @owner = @server.member(data['user']['id'].to_i)
+      @owner = @server.member(data["user"]["id"].to_i)
       return if @owner
 
-      Discordrb::LOGGER.debug("Member with ID #{data['user']['id']} not cached (possibly left the server).")
-      @owner = @bot.ensure_user(data['user'])
+      Discordrb::LOGGER.debug("Member with ID #{data["user"]["id"]} not cached (possibly left the server).")
+      @owner = @bot.ensure_user(data["user"])
     end
 
     # Sets the webhook's avatar.
@@ -138,7 +138,7 @@ module Discordrb
     def execute(content: nil, username: nil, avatar_url: nil, tts: nil, file: nil, embeds: nil, allowed_mentions: nil, wait: true, builder: nil, components: nil)
       raise Discordrb::Errors::UnauthorizedWebhook unless @token
 
-      params = { content: content, username: username, avatar_url: avatar_url, tts: tts, file: file, embeds: embeds, allowed_mentions: allowed_mentions }
+      params = {content: content, username: username, avatar_url: avatar_url, tts: tts, file: file, embeds: embeds, allowed_mentions: allowed_mentions}
 
       builder ||= Webhooks::Builder.new
       view = Webhooks::View.new
@@ -175,7 +175,7 @@ module Discordrb
     def edit_message(message, content: nil, embeds: nil, allowed_mentions: nil, builder: nil, components: nil)
       raise Discordrb::Errors::UnauthorizedWebhook unless @token
 
-      params = { content: content, embeds: embeds, allowed_mentions: allowed_mentions }.compact
+      params = {content: content, embeds: embeds, allowed_mentions: allowed_mentions}.compact
 
       builder ||= Webhooks::Builder.new
       view ||= Webhooks::View.new
@@ -219,20 +219,16 @@ module Discordrb
     end
 
     def update_internal(data)
-      @name = data['name']
-      @avatar_id = data['avatar']
-      @channel = @bot.channel(data['channel_id'])
+      @name = data["name"]
+      @avatar_id = data["avatar"]
+      @channel = @bot.channel(data["channel_id"])
     end
 
     def update_webhook(new_data)
       reason = new_data.delete(:reason)
-      data = JSON.parse(if token?
-                          API::Webhook.token_update_webhook(@token, @id, new_data, reason)
-                        else
-                          API::Webhook.update_webhook(@bot.token, @id, new_data, reason)
-                        end)
+      data = JSON.parse(token? ? API::Webhook.token_update_webhook(@token, @id, new_data, reason) : API::Webhook.update_webhook(@bot.token, @id, new_data, reason))
       # Only update cache if API call worked
-      update_internal(data) if data['name']
+      update_internal(data) if data["name"]
     end
   end
 end

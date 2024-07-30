@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'discordrb/container'
-require 'discordrb/commands/rate_limiter'
+require "discordrb/container"
+require "discordrb/commands/rate_limiter"
 
 module Discordrb::Commands
   # This module holds a collection of commands that can be easily added to by calling the {CommandContainer#command}
@@ -58,7 +58,7 @@ module Discordrb::Commands
     # @note `LocalJumpError`s are rescued from internally, giving bots the opportunity to use `return` or `break` in
     #   their blocks without propagating an exception.
     # @return [Command] The command that was added.
-    def command(name, attributes = {}, &block)
+    def command(name, attributes = {}, &)
       @commands ||= {}
 
       # TODO: Remove in 4.0
@@ -66,10 +66,10 @@ module Discordrb::Commands
         name, *aliases = name
         attributes[:aliases] = aliases if attributes[:aliases].nil?
         Discordrb::LOGGER.warn("While registering command #{name.inspect}")
-        Discordrb::LOGGER.warn('Arrays for command aliases is removed. Please use `aliases` argument instead.')
+        Discordrb::LOGGER.warn("Arrays for command aliases is removed. Please use `aliases` argument instead.")
       end
 
-      new_command = Command.new(name, attributes, &block)
+      new_command = Command.new(name, attributes, &)
       new_command.attributes[:aliases].each do |aliased_name|
         @commands[aliased_name] = CommandAlias.new(aliased_name, new_command)
       end

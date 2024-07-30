@@ -2,7 +2,7 @@
 
 module Discordrb
   # The format log timestamps should be in, in strftime format
-  LOG_TIMESTAMP_FORMAT = '%Y-%m-%d %H:%M:%S.%L'
+  LOG_TIMESTAMP_FORMAT = "%Y-%m-%d %H:%M:%S.%L"
 
   # Logs debug messages
   class Logger
@@ -27,14 +27,14 @@ module Discordrb
 
     # The modes this logger can have. This is probably useless unless you want to write your own Logger
     MODES = {
-      debug: { long: 'DEBUG', short: 'D', format_code: '' },
-      good: { long: 'GOOD', short: '✓', format_code: "\u001B[32m" }, # green
-      info: { long: 'INFO', short: 'i', format_code: '' },
-      warn: { long: 'WARN', short: '!', format_code: "\u001B[33m" }, # yellow
-      error: { long: 'ERROR', short: '✗', format_code: "\u001B[31m" }, # red
-      out: { long: 'OUT', short: '→', format_code: "\u001B[36m" }, # cyan
-      in: { long: 'IN', short: '←', format_code: "\u001B[35m" }, # purple
-      ratelimit: { long: 'RATELIMIT', short: 'R', format_code: "\u001B[41m" } # red background
+      debug: {long: "DEBUG", short: "D", format_code: ""},
+      good: {long: "GOOD", short: "✓", format_code: "\u001B[32m"}, # green
+      info: {long: "INFO", short: "i", format_code: ""},
+      warn: {long: "WARN", short: "!", format_code: "\u001B[33m"}, # yellow
+      error: {long: "ERROR", short: "✗", format_code: "\u001B[31m"}, # red
+      out: {long: "OUT", short: "→", format_code: "\u001B[36m"}, # cyan
+      in: {long: "IN", short: "←", format_code: "\u001B[35m"}, # purple
+      ratelimit: {long: "RATELIMIT", short: "R", format_code: "\u001B[41m"} # red background
     }.freeze
 
     # The ANSI format code that resets formatting
@@ -92,11 +92,11 @@ module Discordrb
       timestamp = Time.now.strftime(LOG_TIMESTAMP_FORMAT)
 
       # Redact token if set
-      log = if @token && @token != ''
-              message.to_s.gsub(@token, 'REDACTED_TOKEN')
-            else
-              message.to_s
-            end
+      log = if @token && @token != ""
+        message.to_s.gsub(@token, "REDACTED_TOKEN")
+      else
+        message.to_s
+      end
 
       @streams.each do |stream|
         if @fancy && !stream.is_a?(File)

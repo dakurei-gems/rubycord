@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'discordrb/events/generic'
+require "discordrb/events/generic"
 
 module Discordrb::Events
   # Common superclass for all lifetime events

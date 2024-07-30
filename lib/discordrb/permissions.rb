@@ -117,10 +117,10 @@ module Discordrb
       @writer = writer
 
       @bits = if bits.is_a? Array
-                self.class.bits(bits)
-              else
-                bits.to_i
-              end
+        self.class.bits(bits)
+      else
+        bits.to_i
+      end
 
       init_vars
     end

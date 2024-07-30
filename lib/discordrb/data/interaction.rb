@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'discordrb/webhooks'
+require "discordrb/webhooks"
 
 module Discordrb
   # Base class for interaction objects.
@@ -61,22 +61,22 @@ module Discordrb
     def initialize(data, bot)
       @bot = bot
 
-      @id = data['id'].to_i
-      @application_id = data['application_id'].to_i
-      @type = data['type']
-      @message = data['message']
-      @data = data['data']
-      @server_id = data['guild_id']&.to_i
-      @channel_id = data['channel_id']&.to_i
-      @user = if data['member']
-                data['member']['guild_id'] = @server_id
-                Discordrb::Member.new(data['member'], bot.servers[@server_id], bot)
-              else
-                bot.ensure_user(data['user'])
-              end
-      @token = data['token']
-      @version = data['version']
-      @components = @data['components']&.filter_map { |component| Components.from_data(component, @bot) } || []
+      @id = data["id"].to_i
+      @application_id = data["application_id"].to_i
+      @type = data["type"]
+      @message = data["message"]
+      @data = data["data"]
+      @server_id = data["guild_id"]&.to_i
+      @channel_id = data["channel_id"]&.to_i
+      @user = if data["member"]
+        data["member"]["guild_id"] = @server_id
+        Discordrb::Member.new(data["member"], bot.servers[@server_id], bot)
+      else
+        bot.ensure_user(data["user"])
+      end
+      @token = data["token"]
+      @version = data["version"]
+      @components = @data["components"]&.filter_map { |component| Components.from_data(component, @bot) } || []
     end
 
     # Respond to the creation of this interaction. An interaction must be responded to or deferred,
@@ -274,9 +274,9 @@ module Discordrb
     def button
       return unless @type == TYPES[:component]
 
-      @message['components'].each do |row|
+      @message["components"].each do |row|
         Components::ActionRow.new(row, @bot).buttons.each do |button|
-          return button if button.custom_id == @data['custom_id']
+          return button if button.custom_id == @data["custom_id"]
         end
       end
     end
@@ -342,14 +342,14 @@ module Discordrb
     # @!visibility private
     def initialize(data, bot, server_id = nil)
       @bot = bot
-      @id = data['id'].to_i
-      @application_id = data['application_id'].to_i
+      @id = data["id"].to_i
+      @application_id = data["application_id"].to_i
       @server_id = server_id&.to_i
 
-      @name = data['name']
-      @description = data['description']
-      @default_permission = data['default_permission']
-      @options = data['options']
+      @name = data["name"]
+      @description = data["description"]
+      @default_permission = data["default_permission"]
+      @options = data["options"]
     end
 
     # @param subcommand [String, nil] The subcommand to mention.
@@ -374,8 +374,8 @@ module Discordrb
     # @param default_permission [true, false] Whether this command is available with default permissions.
     # @yieldparam (see Bot#edit_application_command)
     # @return (see Bot#edit_application_command)
-    def edit(name: nil, description: nil, default_permission: nil, &block)
-      @bot.edit_application_command(@id, server_id: @server_id, name: name, description: description, default_permission: default_permission, &block)
+    def edit(name: nil, description: nil, default_permission: nil, &)
+      @bot.edit_application_command(@id, server_id: @server_id, name: name, description: description, default_permission: default_permission, &)
     end
 
     # Delete this application command.
@@ -529,7 +529,7 @@ module Discordrb
       # @return (see #option)
       def number(name, description, required: nil, min_value: nil, max_value: nil, choices: nil)
         option(TYPES[:number], name, description,
-               required: required, min_value: min_value, max_value: max_value, choices: choices)
+          required: required, min_value: min_value, max_value: max_value, choices: choices)
       end
 
       # @param name [String, Symbol] The name of the argument.
@@ -550,12 +550,12 @@ module Discordrb
       # @param channel_types [Array<Integer>] Channel types that can be provides for channel options.
       # @return Hash
       def option(type, name, description, required: nil, choices: nil, options: nil, min_value: nil, max_value: nil,
-                 channel_types: nil)
-        opt = { type: type, name: name, description: description }
-        choices = choices.map { |option_name, value| { name: option_name, value: value } } if choices
+        channel_types: nil)
+        opt = {type: type, name: name, description: description}
+        choices = choices.map { |option_name, value| {name: option_name, value: value} } if choices
 
-        opt.merge!({ required: required, choices: choices, options: options, min_value: min_value,
-                     max_value: max_value, channel_types: channel_types }.compact)
+        opt.merge!({required: required, choices: choices, options: options, min_value: min_value,
+                    max_value: max_value, channel_types: channel_types}.compact)
 
         @options << opt
         opt
@@ -647,7 +647,7 @@ module Discordrb
       private
 
       def create_entry(id, type, permission)
-        @permissions << { id: id, type: type, permission: permission }
+        @permissions << {id: id, type: type, permission: permission}
         self
       end
     end
@@ -709,40 +709,40 @@ module Discordrb
         @data = data
         @bot = bot
         @interaction = interaction
-        @content = data['content']
-        @channel_id = data['channel_id'].to_i
-        @pinned = data['pinned']
-        @tts = data['tts']
+        @content = data["content"]
+        @channel_id = data["channel_id"].to_i
+        @pinned = data["pinned"]
+        @tts = data["tts"]
 
-        @message_reference = data['message_reference']
+        @message_reference = data["message_reference"]
 
-        @server_id = data['guild_id']&.to_i
+        @server_id = data["guild_id"]&.to_i
 
-        @timestamp = Time.parse(data['timestamp']) if data['timestamp']
-        @edited_timestamp = data['edited_timestamp'].nil? ? nil : Time.parse(data['edited_timestamp'])
+        @timestamp = Time.parse(data["timestamp"]) if data["timestamp"]
+        @edited_timestamp = data["edited_timestamp"].nil? ? nil : Time.parse(data["edited_timestamp"])
         @edited = !@edited_timestamp.nil?
 
-        @id = data['id'].to_i
+        @id = data["id"].to_i
 
-        @author = bot.ensure_user(data['author'] || data['member']['user'])
+        @author = bot.ensure_user(data["author"] || data["member"]["user"])
 
         @attachments = []
-        @attachments = data['attachments'].map { |e| Attachment.new(e, self, @bot) } if data['attachments']
+        @attachments = data["attachments"].map { |e| Attachment.new(e, self, @bot) } if data["attachments"]
 
         @embeds = []
-        @embeds = data['embeds'].map { |e| Embed.new(e, self) } if data['embeds']
+        @embeds = data["embeds"].map { |e| Embed.new(e, self) } if data["embeds"]
 
         @mentions = []
 
-        data['mentions']&.each do |element|
+        data["mentions"]&.each do |element|
           @mentions << bot.ensure_user(element)
         end
 
-        @mention_roles = data['mention_roles']
-        @mention_everyone = data['mention_everyone']
-        @flags = data['flags']
-        @pinned = data['pinned']
-        @components = data['components'].map { |component_data| Components.from_data(component_data, @bot) } if data['components']
+        @mention_roles = data["mention_roles"]
+        @mention_everyone = data["mention_everyone"]
+        @flags = data["flags"]
+        @pinned = data["pinned"]
+        @components = data["components"].map { |component_data| Components.from_data(component_data, @bot) } if data["components"]
       end
 
       # @return [Member, nil] This will return nil if the bot does not have access to the
@@ -766,8 +766,8 @@ module Discordrb
       # Respond to this message.
       # @param (see Interaction#send_message)
       # @yieldparam (see Interaction#send_message)
-      def respond(content: nil, embeds: nil, allowed_mentions: nil, flags: 0, ephemeral: true, components: nil, &block)
-        @interaction.send_message(content: content, embeds: embeds, allowed_mentions: allowed_mentions, flags: flags, ephemeral: ephemeral, components: components, &block)
+      def respond(content: nil, embeds: nil, allowed_mentions: nil, flags: 0, ephemeral: true, components: nil, &)
+        @interaction.send_message(content: content, embeds: embeds, allowed_mentions: allowed_mentions, flags: flags, ephemeral: ephemeral, components: components, &)
       end
 
       # Delete this message.
@@ -780,8 +780,8 @@ module Discordrb
       # @param embeds (see Interaction#send_message)
       # @param allowed_mentions (see Interaction#send_message)
       # @yieldparam (see Interaction#send_message)
-      def edit(content: nil, embeds: nil, allowed_mentions: nil, components: nil, &block)
-        @interaction.edit_message(@id, content: content, embeds: embeds, allowed_mentions: allowed_mentions, components: components, &block)
+      def edit(content: nil, embeds: nil, allowed_mentions: nil, components: nil, &)
+        @interaction.edit_message(@id, content: content, embeds: embeds, allowed_mentions: allowed_mentions, components: components, &)
       end
 
       # @return [Discordrb::Message]

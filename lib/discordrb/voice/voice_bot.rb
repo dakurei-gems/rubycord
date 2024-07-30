@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'discordrb/voice/encoder'
-require 'discordrb/voice/network'
-require 'discordrb/logger'
+require "discordrb/voice/encoder"
+require "discordrb/voice/network"
+require "discordrb/logger"
 
 # Voice support
 module Discordrb::Voice
@@ -97,7 +97,7 @@ module Discordrb::Voice
 
       @encoder = Encoder.new
       @ws.connect
-    rescue StandardError => e
+    rescue => e
       Discordrb::LOGGER.log_exception(e)
       raise
     end
@@ -195,9 +195,9 @@ module Discordrb::Voice
         begin
           buf = encoded_io.readpartial(DATA_LENGTH) if encoded_io
         rescue EOFError
-          raise IOError, 'File or stream not found!' if @first_packet
+          raise IOError, "File or stream not found!" if @first_packet
 
-          @bot.debug('EOF while reading, breaking immediately')
+          @bot.debug("EOF while reading, breaking immediately")
           next :stop
         end
 
@@ -227,9 +227,9 @@ module Discordrb::Voice
           pid = encoded_io.pid
           # Windows does not support TERM as a kill signal, so we use KILL. `Process.waitpid` verifies that our
           # child process has not already completed.
-          Process.kill(Gem.win_platform? ? 'KILL' : 'TERM', pid) if Process.waitpid(pid, Process::WNOHANG).nil?
-        rescue StandardError => e
-          Discordrb::LOGGER.warn('Failed to kill ffmpeg process! You *might* have a process leak now.')
+          Process.kill(Gem.win_platform? ? "KILL" : "TERM", pid) if Process.waitpid(pid, Process::WNOHANG).nil?
+        rescue => e
+          Discordrb::LOGGER.warn("Failed to kill ffmpeg process! You *might* have a process leak now.")
           Discordrb::LOGGER.warn("Reason: #{e}")
         end
       end
@@ -241,14 +241,14 @@ module Discordrb::Voice
     # Plays an encoded audio file of arbitrary format to the channel.
     # @see Encoder#encode_file
     # @see #play
-    def play_file(file, options = '')
+    def play_file(file, options = "")
       play @encoder.encode_file(file, options)
     end
 
     # Plays a stream of encoded audio data of arbitrary format to the channel.
     # @see Encoder#encode_io
     # @see #play
-    def play_io(io, options = '')
+    def play_io(io, options = "")
       play @encoder.encode_io(io, options)
     end
 
@@ -266,10 +266,10 @@ module Discordrb::Voice
       input_stream = File.open(file)
 
       magic = input_stream.read(4)
-      raise ArgumentError, 'Not a DCA1 file! The file might have been corrupted, please recreate it.' unless magic == 'DCA1'
+      raise ArgumentError, "Not a DCA1 file! The file might have been corrupted, please recreate it." unless magic == "DCA1"
 
       # Read the metadata header, then read the metadata and discard it as we don't care about it
-      metadata_header = input_stream.read(4).unpack1('l<')
+      metadata_header = input_stream.read(4).unpack1("l<")
       input_stream.read(metadata_header)
 
       # Play the data, without re-encoding it to opus
@@ -279,15 +279,15 @@ module Discordrb::Voice
           header_str = input_stream.read(2)
 
           unless header_str
-            @bot.debug 'Finished DCA parsing (header is nil)'
+            @bot.debug "Finished DCA parsing (header is nil)"
             next :stop
           end
 
-          header = header_str.unpack1('s<')
+          header = header_str.unpack1("s<")
 
-          raise 'Negative header in DCA file! Your file is likely corrupted.' if header.negative?
+          raise "Negative header in DCA file! Your file is likely corrupted." if header.negative?
         rescue EOFError
-          @bot.debug 'Finished DCA parsing (EOFError)'
+          @bot.debug "Finished DCA parsing (EOFError)"
           next :stop
         end
 
@@ -357,10 +357,10 @@ module Discordrb::Voice
           ms_diff = (now - @length_adjust) / 1_000_000.0
           if ms_diff >= 0
             @length = if @adjust_average
-                        (IDEAL_LENGTH - ms_diff + @length) / 2.0
-                      else
-                        IDEAL_LENGTH - ms_diff
-                      end
+              (IDEAL_LENGTH - ms_diff + @length) / 2.0
+            else
+              IDEAL_LENGTH - ms_diff
+            end
 
             # Track the time it took to encode
             encode_ms = (@intermediate_adjust - @length_adjust) / 1_000_000.0
@@ -376,11 +376,11 @@ module Discordrb::Voice
           # Wait `length` ms, then send the next packet
           sleep @length / 1000.0
         else
-          Discordrb::LOGGER.warn('Audio encoding and sending together took longer than Discord expects one packet to be (20 ms)! This may be indicative of network problems.')
+          Discordrb::LOGGER.warn("Audio encoding and sending together took longer than Discord expects one packet to be (20 ms)! This may be indicative of network problems.")
         end
       end
 
-      @bot.debug('Sending five silent frames to clear out buffers')
+      @bot.debug("Sending five silent frames to clear out buffers")
 
       5.times do
         increment_packet_headers
@@ -390,7 +390,7 @@ module Discordrb::Voice
         sleep IDEAL_LENGTH / 1000.0
       end
 
-      @bot.debug('Performing final cleanup after stream ended')
+      @bot.debug("Performing final cleanup after stream ended")
 
       # Final clean-up
       stop_playing
@@ -401,8 +401,8 @@ module Discordrb::Voice
 
     # Increment sequence and time
     def increment_packet_headers
-      @sequence + 10 < 65_535 ? @sequence += 1 : @sequence = 0
-      @time + 9600 < 4_294_967_295 ? @time += 960 : @time = 0
+      (@sequence + 10 < 65_535) ? @sequence += 1 : @sequence = 0
+      (@time + 9600 < 4_294_967_295) ? @time += 960 : @time = 0
     end
   end
 end

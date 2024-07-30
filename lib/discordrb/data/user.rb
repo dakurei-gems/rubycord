@@ -65,7 +65,7 @@ module Discordrb
     # @return [String] distinct representation of user
     # TODO: Maybe change this method again after discriminator removal ?
     def distinct
-      if @discriminator && @discriminator != '0'
+      if @discriminator && @discriminator != "0"
         "#{@username}##{@discriminator}"
       else
         @username.to_s
@@ -78,7 +78,7 @@ module Discordrb
     # TODO: Maybe change this method again after discriminator removal ?
     def avatar_url(format = nil)
       unless @avatar_id
-        return API::User.default_avatar(@discriminator, legacy: true) if @discriminator && @discriminator != '0'
+        return API::User.default_avatar(@discriminator, legacy: true) if @discriminator && @discriminator != "0"
 
         return API::User.default_avatar(@id)
       end
@@ -115,23 +115,23 @@ module Discordrb
     def initialize(data, bot)
       @bot = bot
 
-      @username = data['username']
-      @global_name = data['global_name']
-      @id = data['id'].to_i
-      @discriminator = data['discriminator']
-      @avatar_id = data['avatar']
+      @username = data["username"]
+      @global_name = data["global_name"]
+      @id = data["id"].to_i
+      @discriminator = data["discriminator"]
+      @avatar_id = data["avatar"]
       @roles = {}
       @activities = Discordrb::ActivitySet.new
-      @public_flags = data['public_flags'] || 0
+      @public_flags = data["public_flags"] || 0
 
       @bot_account = false
-      @bot_account = true if data['bot']
+      @bot_account = true if data["bot"]
 
       @webhook_account = false
-      @webhook_account = true if data['_webhook']
+      @webhook_account = true if data["_webhook"]
 
       @status = :offline
-      @client_status = process_client_status(data['client_status'])
+      @client_status = process_client_status(data["client_status"])
     end
 
     # Get a user's PM channel or send them a PM
@@ -185,24 +185,24 @@ module Discordrb
     # @note for internal use only
     # @!visibility private
     def update_presence(data)
-      @status = data['status'].to_sym
-      @client_status = process_client_status(data['client_status'])
+      @status = data["status"].to_sym
+      @client_status = process_client_status(data["client_status"])
 
-      @activities = Discordrb::ActivitySet.new(data['activities'].map { |act| Activity.new(act, @bot) })
+      @activities = Discordrb::ActivitySet.new(data["activities"].map { |act| Activity.new(act, @bot) })
     end
 
     # Add an await for a message from this user. Specifically, this adds a global await for a MessageEvent with this
     # user's ID as a :from attribute.
     # @see Bot#add_await
-    def await(key, attributes = {}, &block)
-      @bot.add_await(key, Discordrb::Events::MessageEvent, { from: @id }.merge(attributes), &block)
+    def await(key, attributes = {}, &)
+      @bot.add_await(key, Discordrb::Events::MessageEvent, {from: @id}.merge(attributes), &)
     end
 
     # Add a blocking await for a message from this user. Specifically, this adds a global await for a MessageEvent with this
     # user's ID as a :from attribute.
     # @see Bot#add_await!
-    def await!(attributes = {}, &block)
-      @bot.add_await!(Discordrb::Events::MessageEvent, { from: @id }.merge(attributes), &block)
+    def await!(attributes = {}, &)
+      @bot.add_await!(Discordrb::Events::MessageEvent, {from: @id}.merge(attributes), &)
     end
 
     # Gets the member this user is on a server

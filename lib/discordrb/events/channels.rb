@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'discordrb/events/generic'
-require 'discordrb/data'
+require "discordrb/events/generic"
+require "discordrb/data"
 
 module Discordrb::Events
   # Raised when a channel is created
@@ -31,7 +31,7 @@ module Discordrb::Events
 
     def initialize(data, bot)
       @bot = bot
-      @channel = data.is_a?(Discordrb::Channel) ? data : bot.channel(data['id'].to_i)
+      @channel = data.is_a?(Discordrb::Channel) ? data : bot.channel(data["id"].to_i)
     end
   end
 
@@ -44,17 +44,17 @@ module Discordrb::Events
       [
         matches_all(@attributes[:type], event.type) do |a, e|
           a == if a.is_a? String
-                 e.name
-               else
-                 e
-               end
+            e.name
+          else
+            e
+          end
         end,
         matches_all(@attributes[:name], event.name) do |a, e|
           a == if a.is_a? String
-                 e.to_s
-               else
-                 e
-               end
+            e.to_s
+          else
+            e
+          end
         end
       ].reduce(true, &:&)
     end
@@ -86,14 +86,14 @@ module Discordrb::Events
     def initialize(data, bot)
       @bot = bot
 
-      @type = data['type']
-      @topic = data['topic']
-      @position = data['position']
-      @name = data['name']
-      @is_private = data['is_private']
-      @id = data['id'].to_i
-      @server = bot.server(data['guild_id'].to_i) if data['guild_id']
-      @owner_id = bot.user(data['owner_id']) if @type == 3
+      @type = data["type"]
+      @topic = data["topic"]
+      @position = data["position"]
+      @name = data["name"]
+      @is_private = data["is_private"]
+      @id = data["id"].to_i
+      @server = bot.server(data["guild_id"].to_i) if data["guild_id"]
+      @owner_id = bot.user(data["owner_id"]) if @type == 3
     end
   end
 
@@ -106,17 +106,17 @@ module Discordrb::Events
       [
         matches_all(@attributes[:type], event.type) do |a, e|
           a == if a.is_a? String
-                 e.name
-               else
-                 e
-               end
+            e.name
+          else
+            e
+          end
         end,
         matches_all(@attributes[:name], event.name) do |a, e|
           a == if a.is_a? String
-                 e.to_s
-               else
-                 e
-               end
+            e.to_s
+          else
+            e
+          end
         end
       ].reduce(true, &:&)
     end
@@ -137,8 +137,8 @@ module Discordrb::Events
     def initialize(data, bot)
       @bot = bot
 
-      @channel = bot.channel(data['channel_id'].to_i)
-      recipient = data['user']
+      @channel = bot.channel(data["channel_id"].to_i)
+      recipient = data["user"]
       recipient_user = bot.ensure_user(recipient)
       @recipient = Discordrb::Recipient.new(recipient_user, @channel, bot)
     end
@@ -159,10 +159,10 @@ module Discordrb::Events
         end,
         matches_all(@attributes[:name], event.name) do |a, e|
           a == if a.is_a? String
-                 e.to_s
-               else
-                 e
-               end
+            e.to_s
+          else
+            e
+          end
         end
       ]
     end

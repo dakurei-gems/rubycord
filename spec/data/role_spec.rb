@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require 'discordrb'
+require "discordrb"
 
 describe Discordrb::Role do
-  let(:server) { double('server', id: double) }
-  let(:bot) { double('bot', token: double) }
+  let(:server) { double("server", id: double) }
+  let(:bot) { double("bot", token: double) }
 
   subject(:role) do
     described_class.new(role_data, bot, server)
@@ -12,9 +12,9 @@ describe Discordrb::Role do
 
   fixture :role_data, %i[role]
 
-  describe '#sort_above' do
-    context 'when other is nil' do
-      it 'sorts the role to position 1' do
+  describe "#sort_above" do
+    context "when other is nil" do
+      it "sorts the role to position 1" do
         allow(server).to receive(:update_role_positions)
         allow(server).to receive(:roles).and_return [
           double(id: 0, position: 0),
@@ -26,8 +26,8 @@ describe Discordrb::Role do
       end
     end
 
-    context 'when other is given' do
-      it 'sorts above other' do
+    context "when other is given" do
+      it "sorts above other" do
         other = double(id: 1, position: 1, resolve_id: 1)
         allow(server).to receive(:update_role_positions)
         allow(server).to receive(:role).and_return other

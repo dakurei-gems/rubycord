@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'discordrb/events/message'
+require "discordrb/events/message"
 
 module Discordrb::Commands
   # Extension of MessageEvent for commands that contains the command called and makes the bot readable

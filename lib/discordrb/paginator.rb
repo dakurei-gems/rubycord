@@ -29,11 +29,11 @@ module Discordrb
         return if page.empty?
 
         enumerator = case @direction
-                     when :down
-                       page.each
-                     when :up
-                       page.reverse_each
-                     end
+        when :down
+          page.each
+        when :up
+          page.reverse_each
+        end
 
         enumerator.each do |item|
           yield item

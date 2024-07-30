@@ -13,7 +13,7 @@ module Discordrb
     def initialize(user, channel, bot)
       @bot = bot
       @channel = channel
-      raise ArgumentError, 'Tried to create a recipient for a public channel!' unless @channel.private?
+      raise ArgumentError, "Tried to create a recipient for a public channel!" unless @channel.private?
 
       @user = user
       super(@user)

@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-require 'ffi'
+require "ffi"
 
 module Discordrb::Voice
   # @!visibility private
   module Sodium
     extend ::FFI::Library
 
-    ffi_lib(['sodium', 'libsodium.so.18', 'libsodium.so.23'])
+    ffi_lib(["sodium", "libsodium.so.18", "libsodium.so.23"])
 
     # Encryption & decryption
     attach_function(:crypto_secretbox_xsalsa20poly1305, %i[pointer pointer ulong_long pointer pointer], :int)
@@ -45,7 +45,7 @@ module Discordrb::Voice
 
     # @param key [String] Crypto key of length {KEY_LENGTH}
     def initialize(key)
-      raise(LengthError, 'Key length') if key.bytesize != KEY_LENGTH
+      raise(LengthError, "Key length") if key.bytesize != KEY_LENGTH
 
       @key = key
     end
@@ -54,7 +54,7 @@ module Discordrb::Voice
     # @param nonce [String] encryption nonce for this message
     # @param message [String] message to be encrypted
     def box(nonce, message)
-      raise(LengthError, 'Nonce length') if nonce.bytesize != NONCE_BYTES
+      raise(LengthError, "Nonce length") if nonce.bytesize != NONCE_BYTES
 
       message_padded = prepend_zeroes(ZERO_BYTES, message)
       buffer = zero_string(message_padded.bytesize)
@@ -69,7 +69,7 @@ module Discordrb::Voice
     # @param nonce [String] encryption nonce for this ciphertext
     # @param ciphertext [String] ciphertext to decrypt
     def open(nonce, ciphertext)
-      raise(LengthError, 'Nonce length') if nonce.bytesize != NONCE_BYTES
+      raise(LengthError, "Nonce length") if nonce.bytesize != NONCE_BYTES
 
       ct_padded = prepend_zeroes(BOX_ZERO_BYTES, ciphertext)
       buffer = zero_string(ct_padded.bytesize)
@@ -84,7 +84,7 @@ module Discordrb::Voice
 
     def zero_string(size)
       str = "\0" * size
-      str.force_encoding('ASCII-8BIT') if str.respond_to?(:force_encoding)
+      str.force_encoding("ASCII-8BIT") if str.respond_to?(:force_encoding)
     end
 
     def prepend_zeroes(size, string)

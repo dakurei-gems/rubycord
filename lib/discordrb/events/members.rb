@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'discordrb/events/generic'
-require 'discordrb/data'
+require "discordrb/events/generic"
+require "discordrb/data"
 
 module Discordrb::Events
   # Generic subclass for server member events (add/update/delete)
@@ -19,7 +19,7 @@ module Discordrb::Events
     def initialize(data, bot)
       @bot = bot
 
-      @server = bot.server(data['guild_id'].to_i)
+      @server = bot.server(data["guild_id"].to_i)
       return unless @server
 
       init_user(data, bot)
@@ -29,15 +29,15 @@ module Discordrb::Events
     private
 
     def init_user(data, _)
-      user_id = data['user']['id'].to_i
+      user_id = data["user"]["id"].to_i
       @user = @server.member(user_id)
     end
 
     def init_roles(data, _)
       @roles = [@server.role(@server.id)]
-      return unless data['roles']
+      return unless data["roles"]
 
-      data['roles'].each do |element|
+      data["roles"].each do |element|
         role_id = element.to_i
         @roles << @server.roles.find { |r| r.id == role_id }
       end
@@ -53,10 +53,10 @@ module Discordrb::Events
       [
         matches_all(@attributes[:username], event.user.name) do |a, e|
           a == if a.is_a? String
-                 e.to_s
-               else
-                 e
-               end
+            e.to_s
+          else
+            e
+          end
         end
       ].reduce(true, &:&)
     end
@@ -81,7 +81,7 @@ module Discordrb::Events
   class ServerMemberDeleteEvent < ServerMemberEvent
     # Override init_user to account for the deleted user on the server
     def init_user(data, bot)
-      @user = Discordrb::User.new(data['user'], bot)
+      @user = Discordrb::User.new(data["user"], bot)
     end
 
     # @return [User] the user in question.

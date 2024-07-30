@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'discordrb/events/generic'
-require 'discordrb/data'
+require "discordrb/events/generic"
+require "discordrb/data"
 
 module Discordrb::Events
   # Generic subclass for server events (create/update/delete)
@@ -18,7 +18,7 @@ module Discordrb::Events
     # Initializes this event with server data. Should be overwritten in case the server doesn't exist at the time
     # of event creation (e. g. {ServerDeleteEvent})
     def init_server(data, bot)
-      @server = bot.server(data['id'].to_i)
+      @server = bot.server(data["id"].to_i)
     end
   end
 
@@ -31,13 +31,13 @@ module Discordrb::Events
       [
         matches_all(@attributes[:server], event.server) do |a, e|
           a == case a
-               when String
-                 e.name
-               when Integer
-                 e.id
-               else
-                 e
-               end
+          when String
+            e.name
+          when Integer
+            e.id
+          else
+            e
+          end
         end
       ].reduce(true, &:&)
     end
@@ -66,7 +66,7 @@ module Discordrb::Events
 
     # Override init_server to account for the deleted server
     def init_server(data, _bot)
-      @server = data['id'].to_i
+      @server = data["id"].to_i
     end
   end
 
@@ -89,8 +89,8 @@ module Discordrb::Events
 
     # @!visibility private
     def process_emoji(data)
-      @emoji = data['emojis'].map do |e|
-        @server.emoji[e['id']]
+      @emoji = data["emojis"].map do |e|
+        @server.emoji[e["id"]]
       end
     end
   end
@@ -147,13 +147,13 @@ module Discordrb::Events
       [
         matches_all(@attributes[:server], event.server) do |a, e|
           a == case a
-               when String
-                 e.name
-               when Integer
-                 e.id
-               else
-                 e
-               end
+          when String
+            e.name
+          when Integer
+            e.id
+          else
+            e
+          end
         end,
         matches_all(@attributes[:id], event.emoji.id) { |a, e| a.resolve_id == e.resolve_id },
         matches_all(@attributes[:name], event.emoji.name) { |a, e| a == e }
@@ -176,13 +176,13 @@ module Discordrb::Events
       [
         matches_all(@attributes[:server], event.server) do |a, e|
           a == case a
-               when String
-                 e.name
-               when Integer
-                 e.id
-               else
-                 e
-               end
+          when String
+            e.name
+          when Integer
+            e.id
+          else
+            e
+          end
         end,
         matches_all(@attributes[:id], event.old_emoji.id) { |a, e| a.resolve_id == e.resolve_id },
         matches_all(@attributes[:old_name], event.old_emoji.name) { |a, e| a == e },

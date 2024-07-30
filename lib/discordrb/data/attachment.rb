@@ -42,20 +42,20 @@ module Discordrb
       @bot = bot
       @message = message
 
-      @id = data['id'].to_i
-      @url = data['url']
-      @proxy_url = data['proxy_url']
-      @filename = data['filename']
+      @id = data["id"].to_i
+      @url = data["url"]
+      @proxy_url = data["proxy_url"]
+      @filename = data["filename"]
 
-      @size = data['size']
+      @size = data["size"]
 
-      @width = data['width']
-      @height = data['height']
+      @width = data["width"]
+      @height = data["height"]
 
-      @description = data['description']
-      @content_type = data['content_type']
+      @description = data["description"]
+      @content_type = data["content_type"]
 
-      @ephemeral = data['ephemeral']
+      @ephemeral = data["ephemeral"]
     end
 
     # @return [true, false] whether this file is an image file.
@@ -65,7 +65,7 @@ module Discordrb
 
     # @return [true, false] whether this file is tagged as a spoiler.
     def spoiler?
-      @filename.start_with? 'SPOILER_'
+      @filename.start_with? "SPOILER_"
     end
   end
 end

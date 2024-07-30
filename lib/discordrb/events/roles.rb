@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'discordrb/events/generic'
-require 'discordrb/data'
+require "discordrb/events/generic"
+require "discordrb/data"
 
 module Discordrb::Events
   # Raised when a role is created on a server
@@ -20,10 +20,10 @@ module Discordrb::Events
     def initialize(data, bot)
       @bot = bot
 
-      @server = bot.server(data['guild_id'].to_i)
+      @server = bot.server(data["guild_id"].to_i)
       return unless @server
 
-      role_id = data['role']['id'].to_i
+      role_id = data["role"]["id"].to_i
       @role = @server.roles.find { |r| r.id == role_id }
     end
   end
@@ -37,10 +37,10 @@ module Discordrb::Events
       [
         matches_all(@attributes[:name], event.name) do |a, e|
           a == if a.is_a? String
-                 e.to_s
-               else
-                 e
-               end
+            e.to_s
+          else
+            e
+          end
         end
       ].reduce(true, &:&)
     end
@@ -60,8 +60,8 @@ module Discordrb::Events
       # The role should already be deleted from the server's list
       # by the time we create this event, so we'll create a temporary
       # role object for event consumers to use.
-      @id = data['role_id'].to_i
-      server_id = data['guild_id'].to_i
+      @id = data["role_id"].to_i
+      server_id = data["guild_id"].to_i
       @server = bot.server(server_id)
     end
   end

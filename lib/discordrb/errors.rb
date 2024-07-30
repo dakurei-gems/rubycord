@@ -7,7 +7,7 @@ module Discordrb
     class InvalidAuthenticationError < RuntimeError
       # Default message for this exception
       def message
-        'User login failed due to an invalid email or password!'
+        "User login failed due to an invalid email or password!"
       end
     end
 
@@ -70,10 +70,10 @@ module Discordrb
             key = /\A\d+\Z/.match?(key) ? "#{prev_key}[#{key}]" : "#{prev_key}.#{key}"
           end
 
-          if (errs = sub_err['_errors'])
-            "#{key}: #{errs.map { |e| e['message'] }.join(' ')}"
-          elsif sub_err['message'] || sub_err['code']
-            "#{sub_err['code'] ? "#{sub_err['code']}: " : nil}#{err_msg}"
+          if (errs = sub_err["_errors"])
+            "#{key}: #{errs.map { |e| e["message"] }.join(" ")}"
+          elsif sub_err["message"] || sub_err["code"]
+            "#{sub_err["code"] ? "#{sub_err["code"]}: " : nil}#{err_msg}"
           elsif sub_err.is_a? String
             sub_err
           else

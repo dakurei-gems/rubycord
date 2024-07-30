@@ -2,7 +2,7 @@
 
 # This makes opus an optional dependency
 begin
-  require 'opus-ruby'
+  require "opus-ruby"
   OPUS_AVAILABLE = true
 rescue LoadError
   OPUS_AVAILABLE = false
@@ -29,7 +29,7 @@ module Discordrb::Voice
       channels = 2
       @filter_volume = 1
 
-      raise LoadError, 'Opus unavailable - voice not supported! Please install opus for voice support to work.' unless OPUS_AVAILABLE
+      raise LoadError, "Opus unavailable - voice not supported! Please install opus for voice support to work." unless OPUS_AVAILABLE
 
       @opus = Opus::Encoder.new(sample_rate, frame_size, channels)
     end
@@ -48,7 +48,7 @@ module Discordrb::Voice
     end
 
     # One frame of complete silence Opus encoded
-    OPUS_SILENCE = [0xF8, 0xFF, 0xFE].pack('C*').freeze
+    OPUS_SILENCE = [0xF8, 0xFF, 0xFE].pack("C*").freeze
 
     # Adjusts the volume of a given buffer of s16le PCM data.
     # @param buf [String] An unencoded PCM (s16le) buffer.
@@ -59,7 +59,7 @@ module Discordrb::Voice
       return unless buf
 
       # buf is s16le so use 's<' for signed, 16 bit, LE
-      result = buf.unpack('s<*').map do |sample|
+      result = buf.unpack("s<*").map do |sample|
         sample *= mult
 
         # clamp to s16 range
@@ -67,7 +67,7 @@ module Discordrb::Voice
       end
 
       # After modification, make it s16le again
-      result.pack('s<*')
+      result.pack("s<*")
     end
 
     # Encodes a given file (or rather, decodes it) using ffmpeg. This accepts pretty much any format, even videos with
@@ -76,7 +76,7 @@ module Discordrb::Voice
     # @param file [String] The path or URL to encode.
     # @param options [String] ffmpeg options to pass after the -i flag
     # @return [IO] the audio, encoded as s16le PCM
-    def encode_file(file, options = '')
+    def encode_file(file, options = "")
       command = ffmpeg_command(input: file, options: options)
       IO.popen(command)
     end
@@ -86,28 +86,28 @@ module Discordrb::Voice
     # @param io [IO] The stream to encode.
     # @param options [String] ffmpeg options to pass after the -i flag
     # @return [IO] the audio, encoded as s16le PCM
-    def encode_io(io, options = '')
+    def encode_io(io, options = "")
       command = ffmpeg_command(options: options)
       IO.popen(command, in: io)
     end
 
     private
 
-    def ffmpeg_command(input: '-', options: null)
+    def ffmpeg_command(input: "-", options: null)
       [
-        @use_avconv ? 'avconv' : 'ffmpeg',
-        '-loglevel', '0',
-        '-i', input,
-        '-f', 's16le',
-        '-ar', '48000',
-        '-ac', '2',
-        'pipe:1',
+        @use_avconv ? "avconv" : "ffmpeg",
+        "-loglevel", "0",
+        "-i", input,
+        "-f", "s16le",
+        "-ar", "48000",
+        "-ac", "2",
+        "pipe:1",
         filter_volume_argument
-      ].concat(options.split).reject { |segment| segment.nil? || segment == '' }
+      ].concat(options.split).reject { |segment| segment.nil? || segment == "" }
     end
 
     def filter_volume_argument
-      return '' if @filter_volume == 1
+      return "" if @filter_volume == 1
 
       @use_avconv ? "-vol #{(@filter_volume * 256).ceil}" : "-af volume=#{@filter_volume}"
     end

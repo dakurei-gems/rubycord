@@ -1,4 +1,4 @@
-name: "RuboCop"
+name: "Standard"
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
 
 jobs:
   rubocop:
-    name: RuboCop
+    name: Standard
     runs-on: ubuntu-latest
     env:
       api-dir: ./
@@ -28,6 +28,6 @@ jobs:
         ruby-version: '3.1'
         bundler-cache: true
 
-    - name: RuboCop checks
+    - name: Standard checks
       working-directory: ${{env.api-dir}}
-      run: bundle exec rubocop
+      run: bundle exec standardrb
