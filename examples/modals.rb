@@ -46,7 +46,7 @@ bot.application_command :modal_await_test do |event|
 end
 
 bot.modal_submit custom_id: "test1234" do |event|
-  event.respond(content: "Thanks for submitting your modal. You sent #{event.value('input').chars.count} characters.")
+  event.respond(content: "Thanks for submitting your modal. You sent #{event.value("input").chars.count} characters.")
 end
 
 bot.run

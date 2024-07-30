@@ -61,7 +61,7 @@ CROSS_MARK = "\u274c"
 
 bot.message(content: "!time") do |event|
   # Send a message, and store a reference to it that we can add the reaction.
-  message = event.respond "The current time is: #{Time.now.strftime('%F %T %Z')}"
+  message = event.respond "The current time is: #{Time.now.strftime("%F %T %Z")}"
 
   # React to the message to give a user an easy "button" to press
   message.react CROSS_MARK

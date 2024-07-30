@@ -48,7 +48,7 @@ module Discordrb
       @owner = @server.member(data["user"]["id"].to_i)
       return if @owner
 
-      Discordrb::LOGGER.debug("Member with ID #{data['user']['id']} not cached (possibly left the server).")
+      Discordrb::LOGGER.debug("Member with ID #{data["user"]["id"]} not cached (possibly left the server).")
       @owner = @bot.ensure_user(data["user"])
     end
 

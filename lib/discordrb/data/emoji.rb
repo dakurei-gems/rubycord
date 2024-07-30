@@ -45,7 +45,7 @@ module Discordrb
     def mention
       return name if id.nil?
 
-      "<#{'a' if animated}:#{name}:#{id}>"
+      "<#{"a" if animated}:#{name}:#{id}>"
     end
 
     alias_method :use, :mention

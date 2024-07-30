@@ -25,7 +25,7 @@ module Discordrb::API::Server
       :guilds_sid,
       server_id,
       :get,
-      "#{Discordrb::API.api_base}/guilds/#{server_id}#{'?with_counts=true' if with_counts}",
+      "#{Discordrb::API.api_base}/guilds/#{server_id}#{"?with_counts=true" if with_counts}",
       Authorization: token
     )
   end

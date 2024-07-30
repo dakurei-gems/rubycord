@@ -714,7 +714,7 @@ module Discordrb
 
       case type
       when :READY
-        LOGGER.info("Discord using gateway protocol version: #{data['v']}, requested: #{GATEWAY_VERSION}")
+        LOGGER.info("Discord using gateway protocol version: #{data["v"]}, requested: #{GATEWAY_VERSION}")
 
         @session = Session.new(data["session_id"])
         @session.sequence = 0
@@ -763,7 +763,7 @@ module Discordrb
       interval = packet["d"]["heartbeat_interval"].to_f / 1000.0
       setup_heartbeats(interval)
 
-      LOGGER.debug("Trace: #{packet['d']['_trace']}")
+      LOGGER.debug("Trace: #{packet["d"]["_trace"]}")
       LOGGER.debug("Session: #{@session.inspect}")
 
       if @session&.should_resume?
@@ -819,7 +819,7 @@ module Discordrb
         LOGGER.error("The websocket connection has closed due to an error!")
         LOGGER.log_exception(e)
       else
-        LOGGER.error("The websocket connection has closed: #{e&.inspect || '(no information)'}")
+        LOGGER.error("The websocket connection has closed: #{e&.inspect || "(no information)"}")
       end
     end
 

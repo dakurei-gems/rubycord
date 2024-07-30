@@ -17,11 +17,11 @@ end
 
 bot.command :bold do |_event, *args|
   # Again, the return value of the block is sent to the channel
-  "**#{args.join(' ')}**"
+  "**#{args.join(" ")}**"
 end
 
 bot.command :italic do |_event, *args|
-  "*#{args.join(' ')}*"
+  "*#{args.join(" ")}*"
 end
 
 bot.command(:invite, chain_usable: false) do |event|

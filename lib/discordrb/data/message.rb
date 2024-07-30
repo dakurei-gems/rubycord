@@ -95,7 +95,7 @@ module Discordrb
                   if @webhook_id
                     # This is a webhook user! It would be pointless to try to resolve a member here, so we just create
                     # a User and return that instead.
-                    Discordrb::LOGGER.debug("Webhook user: #{data['author']['id']}")
+                    Discordrb::LOGGER.debug("Webhook user: #{data["author"]["id"]}")
                     User.new(data["author"].merge({ "_webhook" => true }), @bot)
                   elsif @channel.private?
                     # Turn the message user into a recipient - we can't use the channel recipient
@@ -108,7 +108,7 @@ module Discordrb
                       member.update_data(data["member"]) if data["member"]
                       member.update_global_name(data["author"]["global_name"]) if data["author"]["global_name"]
                     else
-                      Discordrb::LOGGER.debug("Member with ID #{data['author']['id']} not cached (possibly left the server).")
+                      Discordrb::LOGGER.debug("Member with ID #{data["author"]["id"]} not cached (possibly left the server).")
                       member = if data["member"]
                                  member_data = data["author"].merge(data["member"])
                                  Member.new(member_data, @server, bot)
@@ -363,7 +363,7 @@ module Discordrb
 
     # @return [String] a URL that a user can use to navigate to this message in the client
     def link
-      "https://discord.com/channels/#{@server&.id || '@me'}/#{@channel.id}/#{@id}"
+      "https://discord.com/channels/#{@server&.id || "@me"}/#{@channel.id}/#{@id}"
     end
 
     alias_method :jump_link, :link

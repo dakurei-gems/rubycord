@@ -78,35 +78,35 @@ end
 bot.string_select do |event|
   # bot.select_menu do |event| # also available with the alias to keep the compatibility with the old method
   event.interaction.respond(
-    content: "**[STRING_SELECT]**\nYou have chosen the values: **#{event.values.join('**, **')}**",
+    content: "**[STRING_SELECT]**\nYou have chosen the values: **#{event.values.join("**, **")}**",
     ephemeral: true
   )
 end
 
 bot.user_select do |event|
   event.interaction.respond(
-    content: "**[USER_SELECT]**\nYou have chosen users : **#{event.values.map(&:username).join('**, **')}**",
+    content: "**[USER_SELECT]**\nYou have chosen users : **#{event.values.map(&:username).join("**, **")}**",
     ephemeral: true
   )
 end
 
 bot.role_select do |event|
   event.interaction.respond(
-    content: "**[ROLE_SELECT]**\nYou have chosen roles : **#{event.values.map(&:name).join('**, **')}**",
+    content: "**[ROLE_SELECT]**\nYou have chosen roles : **#{event.values.map(&:name).join("**, **")}**",
     ephemeral: true
   )
 end
 
 bot.mentionable_select do |event|
   event.interaction.respond(
-    content: "**[MENTIONABLE_SELECT]**\nYou have chosen mentionables :\n  Users: **#{event.values[:users].map(&:username).join('**, **')}**\n  Roles: **#{event.values[:roles].map(&:name).join('**, **')}**",
+    content: "**[MENTIONABLE_SELECT]**\nYou have chosen mentionables :\n  Users: **#{event.values[:users].map(&:username).join("**, **")}**\n  Roles: **#{event.values[:roles].map(&:name).join("**, **")}**",
     ephemeral: true
   )
 end
 
 bot.channel_select do |event|
   event.interaction.respond(
-    content: "**[CHANNEL_SELECT]**\nYou have chosen channels : **#{event.values.map(&:name).join('**, **')}**",
+    content: "**[CHANNEL_SELECT]**\nYou have chosen channels : **#{event.values.map(&:name).join("**, **")}**",
     ephemeral: true
   )
 end

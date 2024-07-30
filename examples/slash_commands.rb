@@ -47,7 +47,7 @@ bot.application_command(:example).group(:fun) do |group|
     wisdom = ["Yes", "No", "Try Again Later"].sample
     event.respond(content: <<~STR, ephemeral: true)
       ```
-      #{event.options['question']}
+      #{event.options["question"]}
       ```
       _#{wisdom}_
     STR
@@ -106,7 +106,7 @@ bot.button(custom_id: /^test_button:/) do |event|
 end
 
 bot.select_menu(custom_id: "test_select") do |event|
-  event.respond(content: "You selected: #{event.values.join(', ')}")
+  event.respond(content: "You selected: #{event.values.join(", ")}")
 end
 
 bot.run

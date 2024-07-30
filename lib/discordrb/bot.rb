@@ -1301,12 +1301,12 @@ module Discordrb
         raise_event(InviteDeleteEvent.new(data, self))
       when :MESSAGE_CREATE
         if ignored?(data["author"]["id"])
-          debug("Ignored author with ID #{data['author']['id']}")
+          debug("Ignored author with ID #{data["author"]["id"]}")
           return
         end
 
         if @ignore_bots && data["author"]["bot"]
-          debug("Ignored Bot account with ID #{data['author']['id']}")
+          debug("Ignored Bot account with ID #{data["author"]["id"]}")
           return
         end
 
@@ -1359,7 +1359,7 @@ module Discordrb
         event = MessageDeleteEvent.new(data, self)
         raise_event(event)
       when :MESSAGE_DELETE_BULK
-        debug("MESSAGE_DELETE_BULK will raise #{data['ids'].length} events")
+        debug("MESSAGE_DELETE_BULK will raise #{data["ids"].length} events")
 
         data["ids"].each do |single_id|
           # Form a data hash for a single ID so the methods get what they want
@@ -1528,7 +1528,7 @@ module Discordrb
         delete_guild(data)
 
         if data["unavailable"].is_a? TrueClass
-          LOGGER.warn("Server #{data['id']} is unavailable due to an outage!")
+          LOGGER.warn("Server #{data["id"]} is unavailable due to an outage!")
           return # Don't raise an event
         end
 

@@ -947,7 +947,7 @@ module Discordrb
         if user
           user.update_presence(element)
         else
-          LOGGER.warn "Rogue presence update! #{element['user']['id']} on #{@id}"
+          LOGGER.warn "Rogue presence update! #{element["user"]["id"]} on #{@id}"
         end
       end
     end
