@@ -3,7 +3,7 @@
 [![Gem](https://img.shields.io/badge/gem-v3.5.0-007ec6.svg)](https://github.com/dakurei-gems/discordrb/releases/tag/v3.5.0)
 [![Gem](https://img.shields.io/badge/docs-v3.5.0-979797.svg)](https://dakurei-gems.github.io/discordrb/v3.5.0/)
 [![Github Actions Rspec](https://github.com/dakurei-gems/discordrb/actions/workflows/rspec.yml/badge.svg?branch=main&event=push)](https://github.com/shardlab/discordrb/actions/workflows/rspec.yml)
-[![Github Actions Rubocop](https://github.com/dakurei-gems/discordrb/actions/workflows/rubocop.yml/badge.svg?branch=main&event=push)](https://github.com/shardlab/discordrb/actions/workflows/rubocop.yml)
+[![Github Actions Standard](https://github.com/dakurei-gems/discordrb/actions/workflows/standard.yml/badge.svg?branch=main&event=push)](https://github.com/shardlab/discordrb/actions/workflows/standard.yml)
 [![Inline docs](https://img.shields.io/badge/docs-main-979797.svg)](https://dakurei-gems.github.io/discordrb/main/)
 
 An implementation of the [Discord](https://discord.com/) API using Ruby.
@@ -156,7 +156,7 @@ Be sure to use the search function in our documentation or on GitHub, to see if 
 
 **This section is for developing discordrb itself! If you just want to make a bot, see the [Installation](https://github.com/dakurei-gems/discordrb#installation) section.**
 
-After checking out the repo, run `bin/setup` to install dependencies. You can then run tests via `bundle exec rspec spec`. Make sure to run rubocop also: `bundle exec rubocop`. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+After checking out the repo, run `bin/setup` to install dependencies. You can then run tests via `bundle exec rspec spec`. Make sure to run standard also: `bundle exec standardrb`. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
 To install this gem onto your local machine, run `bundle exec rake install`.
 
