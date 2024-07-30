@@ -97,7 +97,7 @@ module Discordrb::API::Channel
     )
   rescue RestClient::BadRequest => e
     parsed = JSON.parse(e.response.body)
-    raise Discordrb::Errors::MessageTooLong, "Message over the character limit (#{message.length} > 2000)" if parsed['content'].is_a?(Array) && parsed['content'].first == 'Must be 2000 or fewer in length.'
+    raise Discordrb::Errors::MessageTooLong, "Message over the character limit (#{message.length} > 2000)" if parsed["content"].is_a?(Array) && parsed["content"].first == "Must be 2000 or fewer in length."
 
     raise
   end
@@ -374,11 +374,11 @@ module Discordrb::API::Channel
       content_type: :json
     )
   rescue RestClient::InternalServerError
-    raise 'Attempted to add self as a new group channel recipient!'
+    raise "Attempted to add self as a new group channel recipient!"
   rescue RestClient::NoContent
-    raise 'Attempted to create a group channel with the PM channel recipient!'
+    raise "Attempted to create a group channel with the PM channel recipient!"
   rescue RestClient::Forbidden
-    raise 'Attempted to add a user to group channel without permission!'
+    raise "Attempted to add a user to group channel without permission!"
   end
 
   # Add a user to a group channel.

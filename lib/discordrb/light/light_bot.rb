@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require 'discordrb/api'
-require 'discordrb/api/invite'
-require 'discordrb/api/user'
-require 'discordrb/light/data'
-require 'discordrb/light/integrations'
+require "discordrb/api"
+require "discordrb/api/invite"
+require "discordrb/api/user"
+require "discordrb/light/data"
+require "discordrb/light/integrations"
 
 # This module contains classes to allow connections to bots without a connection to the gateway socket, i.e. bots
 # that only use the REST part of the API.
@@ -21,7 +21,7 @@ module Discordrb::Light
         token = token.token
       end
 
-      unless token.include? '.'
+      unless token.include? "."
         # Discord user/bot tokens always contain two dots, so if there's none we can assume it's an OAuth token.
         token = "Bearer #{token}" # OAuth tokens have to be prefixed with 'Bearer' for Discord to be able to use them
       end

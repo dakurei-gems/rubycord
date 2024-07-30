@@ -15,9 +15,9 @@ module Discordrb
     def initialize(data, bot)
       @bot = bot
 
-      @id = data['id'].to_i
-      @name = data['name']
-      @type = data['type']
+      @id = data["id"].to_i
+      @name = data["name"]
+      @type = data["type"]
     end
   end
 
@@ -36,9 +36,9 @@ module Discordrb
     def initialize(data, bot)
       @bot = bot
 
-      @id = data['id'].to_i
-      @name = data['name']
-      @splash_hash = data['splash_hash']
+      @id = data["id"].to_i
+      @name = data["name"]
+      @splash_hash = data["splash_hash"]
     end
   end
 
@@ -87,28 +87,28 @@ module Discordrb
     def initialize(data, bot)
       @bot = bot
 
-      @channel = if data['channel_id']
-                   bot.channel(data['channel_id'])
+      @channel = if data["channel_id"]
+                   bot.channel(data["channel_id"])
                  else
-                   InviteChannel.new(data['channel'], bot)
+                   InviteChannel.new(data["channel"], bot)
                  end
 
-      @server = if data['guild_id']
-                  bot.server(data['guild_id'])
+      @server = if data["guild_id"]
+                  bot.server(data["guild_id"])
                 else
-                  InviteServer.new(data['guild'], bot)
+                  InviteServer.new(data["guild"], bot)
                 end
 
-      @uses = data['uses']
-      @inviter = data['inviter'] ? bot.ensure_user(data['inviter']) : nil
-      @temporary = data['temporary']
-      @revoked = data['revoked']
-      @online_member_count = data['approximate_presence_count']
-      @member_count = data['approximate_member_count']
-      @max_age = data['max_age']
-      @created_at = data['created_at']
+      @uses = data["uses"]
+      @inviter = data["inviter"] ? bot.ensure_user(data["inviter"]) : nil
+      @temporary = data["temporary"]
+      @revoked = data["revoked"]
+      @online_member_count = data["approximate_presence_count"]
+      @member_count = data["approximate_member_count"]
+      @max_age = data["max_age"]
+      @created_at = data["created_at"]
 
-      @code = data['code']
+      @code = data["code"]
     end
 
     # Code based comparison

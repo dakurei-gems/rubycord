@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'discordrb/data'
+require "discordrb/data"
 
 module Discordrb::Light
   # Represents the bot account used for the light bot, but without any methods to change anything.
@@ -12,17 +12,17 @@ module Discordrb::Light
     def initialize(data, bot)
       @bot = bot
 
-      @username = data['username']
-      @id = data['id'].to_i
-      @discriminator = data['discriminator']
-      @avatar_id = data['avatar']
+      @username = data["username"]
+      @id = data["id"].to_i
+      @discriminator = data["discriminator"]
+      @avatar_id = data["avatar"]
 
       @bot_account = false
-      @bot_account = true if data['bot']
+      @bot_account = true if data["bot"]
 
-      @verified = data['verified']
+      @verified = data["verified"]
 
-      @email = data['email']
+      @email = data["email"]
     end
   end
 
@@ -35,10 +35,10 @@ module Discordrb::Light
     def initialize(data, bot)
       @bot = bot
 
-      @id = data['id'].to_i
+      @id = data["id"].to_i
 
-      @name = data['name']
-      @icon_id = data['icon']
+      @name = data["name"]
+      @icon_id = data["icon"]
     end
   end
 
@@ -55,8 +55,8 @@ module Discordrb::Light
     def initialize(data, bot)
       super
 
-      @bot_is_owner = data['owner']
-      @bot_permissions = Discordrb::Permissions.new(data['permissions'])
+      @bot_is_owner = data["owner"]
+      @bot_permissions = Discordrb::Permissions.new(data["permissions"])
     end
   end
 end

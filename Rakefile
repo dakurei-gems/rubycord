@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-require 'bundler/gem_helper'
+require "bundler/gem_helper"
 
 namespace :main do
-  Bundler::GemHelper.install_tasks(name: 'discordrb')
+  Bundler::GemHelper.install_tasks(name: "discordrb")
 end
 
 namespace :webhooks do
-  Bundler::GemHelper.install_tasks(name: 'discordrb-webhooks')
+  Bundler::GemHelper.install_tasks(name: "discordrb-webhooks")
 end
 
 task build: %i[main:build webhooks:build]

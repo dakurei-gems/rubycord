@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'discordrb/container'
-require 'discordrb/commands/rate_limiter'
+require "discordrb/container"
+require "discordrb/commands/rate_limiter"
 
 module Discordrb::Commands
   # This module holds a collection of commands that can be easily added to by calling the {CommandContainer#command}
@@ -66,7 +66,7 @@ module Discordrb::Commands
         name, *aliases = name
         attributes[:aliases] = aliases if attributes[:aliases].nil?
         Discordrb::LOGGER.warn("While registering command #{name.inspect}")
-        Discordrb::LOGGER.warn('Arrays for command aliases is removed. Please use `aliases` argument instead.')
+        Discordrb::LOGGER.warn("Arrays for command aliases is removed. Please use `aliases` argument instead.")
       end
 
       new_command = Command.new(name, attributes, &block)

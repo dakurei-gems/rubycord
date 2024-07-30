@@ -1,43 +1,43 @@
 # frozen_string_literal: true
 
-require 'rest-client'
-require 'zlib'
-require 'set'
+require "rest-client"
+require "zlib"
+require "set"
 
-require 'discordrb/events/message'
-require 'discordrb/events/typing'
-require 'discordrb/events/lifetime'
-require 'discordrb/events/presence'
-require 'discordrb/events/voice_state_update'
-require 'discordrb/events/channels'
-require 'discordrb/events/members'
-require 'discordrb/events/roles'
-require 'discordrb/events/guilds'
-require 'discordrb/events/await'
-require 'discordrb/events/bans'
-require 'discordrb/events/raw'
-require 'discordrb/events/reactions'
-require 'discordrb/events/webhooks'
-require 'discordrb/events/invites'
-require 'discordrb/events/interactions'
-require 'discordrb/events/threads'
+require "discordrb/events/message"
+require "discordrb/events/typing"
+require "discordrb/events/lifetime"
+require "discordrb/events/presence"
+require "discordrb/events/voice_state_update"
+require "discordrb/events/channels"
+require "discordrb/events/members"
+require "discordrb/events/roles"
+require "discordrb/events/guilds"
+require "discordrb/events/await"
+require "discordrb/events/bans"
+require "discordrb/events/raw"
+require "discordrb/events/reactions"
+require "discordrb/events/webhooks"
+require "discordrb/events/invites"
+require "discordrb/events/interactions"
+require "discordrb/events/threads"
 
-require 'discordrb/api'
-require 'discordrb/api/channel'
-require 'discordrb/api/server'
-require 'discordrb/api/invite'
-require 'discordrb/api/interaction'
-require 'discordrb/api/application'
+require "discordrb/api"
+require "discordrb/api/channel"
+require "discordrb/api/server"
+require "discordrb/api/invite"
+require "discordrb/api/interaction"
+require "discordrb/api/application"
 
-require 'discordrb/errors'
-require 'discordrb/data'
-require 'discordrb/await'
-require 'discordrb/container'
-require 'discordrb/websocket'
-require 'discordrb/cache'
-require 'discordrb/gateway'
+require "discordrb/errors"
+require "discordrb/data"
+require "discordrb/await"
+require "discordrb/container"
+require "discordrb/websocket"
+require "discordrb/cache"
+require "discordrb/gateway"
 
-require 'discordrb/voice/voice_bot'
+require "discordrb/voice/voice_bot"
 
 module Discordrb
   # Represents a Discord bot, including servers, users, etc.
@@ -114,7 +114,7 @@ module Discordrb
     def initialize(
       log_mode: :normal,
       token: nil, client_id: nil,
-      type: nil, name: '', fancy_log: false, suppress_ready: false, parse_self: false,
+      type: nil, name: "", fancy_log: false, suppress_ready: false, parse_self: false,
       shard_id: nil, num_shards: nil, redact_token: true, ignore_bots: false,
       compress_mode: :large, intents: :all
     )
@@ -135,7 +135,7 @@ module Discordrb
 
       @compress_mode = compress_mode
 
-      raise 'Token string is empty or nil' if token.nil? || token.empty?
+      raise "Token string is empty or nil" if token.nil? || token.empty?
 
       @intents = case intents
                  when :all
@@ -253,7 +253,7 @@ module Discordrb
     # @return [String] the raw token, without any prefix
     # @see #token
     def raw_token
-      @token.split(' ').last
+      @token.split(" ").last
     end
 
     # Runs the bot, which logs into Discord and connects the WebSocket. This
@@ -272,7 +272,7 @@ module Discordrb
       @gateway.run_async
       return if background
 
-      debug('Oh wait! Not exiting yet as run was run synchronously.')
+      debug("Oh wait! Not exiting yet as run was run synchronously.")
       @gateway.sync
     end
 
@@ -310,7 +310,7 @@ module Discordrb
     # @param redirect_uri [String] Redirect URI that should be appended to invite url.
     # @param scopes [Array<String>] Scopes that should be appended to invite url.
     # @return [String] the OAuth invite URL.
-    def invite_url(server: nil, permission_bits: nil, redirect_uri: nil, scopes: ['bot'])
+    def invite_url(server: nil, permission_bits: nil, redirect_uri: nil, scopes: ["bot"])
       @client_id ||= bot_application.id
 
       query = URI.encode_www_form({
@@ -318,7 +318,7 @@ module Discordrb
         guild_id: server&.id,
         permissions: permission_bits,
         redirect_uri: redirect_uri,
-        scope: scopes.join(' ')
+        scope: scopes.join(" ")
       }.compact)
 
       "https://discord.com/oauth2/authorize?#{query}"
@@ -351,13 +351,13 @@ module Discordrb
     #   (uses an XSalsa20 stream cipher for encryption and Poly1305 for authentication)
     # @return [Voice::VoiceBot] the initialized bot over which audio data can then be sent.
     def voice_connect(chan, encrypted = true)
-      raise ArgumentError, 'Unencrypted voice connections are no longer supported.' unless encrypted
+      raise ArgumentError, "Unencrypted voice connections are no longer supported." unless encrypted
 
       chan = channel(chan.resolve_id)
       server_id = chan.server.id
 
       if @voices[chan.id]
-        debug('Voice bot exists already! Destroying it')
+        debug("Voice bot exists already! Destroying it")
         @voices[chan.id].destroy
         @voices.delete(chan.id)
       end
@@ -367,10 +367,10 @@ module Discordrb
       @should_connect_to_voice[server_id] = chan
       @gateway.send_voice_state_update(server_id.to_s, chan.id.to_s, false, false)
 
-      debug('Voice channel init packet sent! Now waiting.')
+      debug("Voice channel init packet sent! Now waiting.")
 
       sleep(0.05) until @voices[server_id]
-      debug('Voice connect succeeded!')
+      debug("Voice connect succeeded!")
       @voices[server_id]
     end
 
@@ -451,7 +451,7 @@ module Discordrb
       if file.respond_to?(:read)
         if spoiler
           filename ||= File.basename(file.path)
-          filename = "SPOILER_#{filename}" unless filename.start_with? 'SPOILER_'
+          filename = "SPOILER_#{filename}" unless filename.start_with? "SPOILER_"
         end
         # https://github.com/rest-client/rest-client/blob/v2.0.2/lib/restclient/payload.rb#L160
         file.define_singleton_method(:original_filename) { filename } if filename
@@ -471,7 +471,7 @@ module Discordrb
     # @return [Server] The server that was created.
     def create_server(name, region = :'eu-central')
       response = API::Server.create(token, name, region)
-      id = JSON.parse(response)['id'].to_i
+      id = JSON.parse(response)["id"].to_i
       sleep 0.1 until (server = @servers[id])
       debug "Successfully created server #{server.id} with name #{server.name}"
       server
@@ -484,7 +484,7 @@ module Discordrb
     # @return [Array(String, String)] your applications' client ID and client secret to be used in OAuth authorization.
     def create_oauth_application(name, redirect_uris)
       response = JSON.parse(API.create_oauth_application(@token, name, redirect_uris))
-      [response['id'], response['secret']]
+      [response["id"], response["secret"]]
     end
 
     # Changes information about your OAuth application
@@ -493,7 +493,7 @@ module Discordrb
     # @param description [String] A string that describes what your application does.
     # @param icon [String, nil] A data URI for your icon image (for example a base 64 encoded image), or nil if no icon
     #   should be set or changed.
-    def update_oauth_application(name, redirect_uris, description = '', icon = nil)
+    def update_oauth_application(name, redirect_uris, description = "", icon = nil)
       API.update_oauth_application(@token, name, redirect_uris, description, icon)
     end
 
@@ -504,14 +504,14 @@ module Discordrb
     def parse_mentions(mentions, server = nil)
       array_to_return = []
       # While possible mentions may be in message
-      while mentions.include?('<') && mentions.include?('>')
+      while mentions.include?("<") && mentions.include?(">")
         # Removing all content before the next possible mention
-        mentions = mentions.split('<', 2)[1]
+        mentions = mentions.split("<", 2)[1]
         # Locate the first valid mention enclosed in `<...>`, otherwise advance to the next open `<`
-        next unless mentions.split('>', 2).first.length < mentions.split('<', 2).first.length
+        next unless mentions.split(">", 2).first.length < mentions.split("<", 2).first.length
 
         # Store the possible mention value to be validated with RegEx
-        mention = mentions.split('>', 2).first
+        mention = mentions.split(">", 2).first
         if /@!?(?<id>\d+)/ =~ mention
           array_to_return << user(id) unless user(id).nil?
         elsif /#(?<id>\d+)/ =~ mention
@@ -525,7 +525,7 @@ module Discordrb
             end
           end
         elsif /(?<animated>^a|^${0}):(?<name>\w+):(?<id>\d+)/ =~ mention
-          array_to_return << (emoji(id) || Emoji.new({ 'animated' => !animated.nil?, 'name' => name, 'id' => id }, self, nil))
+          array_to_return << (emoji(id) || Emoji.new({ "animated" => !animated.nil?, "name" => name, "id" => id }, self, nil))
         end
       end
       array_to_return
@@ -557,14 +557,14 @@ module Discordrb
       type = url ? 1 : activity_type
 
       activity_obj = if type == 4
-                       { 'name' => activity, 'type' => type, 'state' => activity }
+                       { "name" => activity, "type" => type, "state" => activity }
                      else
-                       activity || url ? { 'name' => activity, 'url' => url, 'type' => type } : nil
+                       activity || url ? { "name" => activity, "url" => url, "type" => type } : nil
                      end
       @gateway.send_status_update(status, since, activity_obj, afk)
 
       # Update the status in the cache
-      profile.update_presence('status' => status.to_s, 'activities' => [activity_obj].compact)
+      profile.update_presence("status" => status.to_s, "activities" => [activity_obj].compact)
     end
 
     # Sets the currently playing game to the specified game.
@@ -721,7 +721,7 @@ module Discordrb
       raise "You can't await an AwaitEvent!" if type == Discordrb::Events::AwaitEvent
 
       timeout = attributes[:timeout]
-      raise ArgumentError, 'Timeout must be a number > 0' if timeout.is_a?(Numeric) && !timeout.positive?
+      raise ArgumentError, "Timeout must be a number > 0" if timeout.is_a?(Numeric) && !timeout.positive?
 
       mutex = Mutex.new
       cv = ConditionVariable.new
@@ -750,7 +750,7 @@ module Discordrb
       mutex.synchronize { cv.wait(mutex) }
 
       remove_handler(handler)
-      raise 'ConditionVariable was signaled without returning an event!' if response.nil? && timeout.nil?
+      raise "ConditionVariable was signaled without returning an event!" if response.nil? && timeout.nil?
 
       response
     end
@@ -859,7 +859,7 @@ module Discordrb
       cmd = ApplicationCommand.new(JSON.parse(resp), self, server_id)
 
       if permission_builder.to_a.any?
-        raise ArgumentError, 'Permissions can only be set for guild commands' unless server_id
+        raise ArgumentError, "Permissions can only be set for guild commands" unless server_id
 
         edit_application_command_permissions(cmd.id, server_id, permission_builder.to_a)
       end
@@ -885,7 +885,7 @@ module Discordrb
       cmd = ApplicationCommand.new(JSON.parse(resp), self, server_id)
 
       if permission_builder.to_a.any?
-        raise ArgumentError, 'Permissions can only be set for guild commands' unless server_id
+        raise ArgumentError, "Permissions can only be set for guild commands" unless server_id
 
         edit_application_command_permissions(cmd.id, server_id, permission_builder.to_a)
       end
@@ -929,7 +929,7 @@ module Discordrb
       return unless @unavailable_servers&.positive?
 
       LOGGER.warn("#{@unavailable_servers} servers haven't been cached yet.")
-      LOGGER.warn('Servers may be unavailable due to an outage, or your bot is on very large servers that are taking a while to load.')
+      LOGGER.warn("Servers may be unavailable due to an outage, or your bot is on very large servers that are taking a while to load.")
     end
 
     ### ##    ## ######## ######## ########  ##    ##    ###    ##        ######
@@ -943,10 +943,10 @@ module Discordrb
     # Internal handler for PRESENCE_UPDATE
     def update_presence(data)
       # Friends list presences have no server ID so ignore these to not cause an error
-      return unless data['guild_id']
+      return unless data["guild_id"]
 
-      user_id = data['user']['id'].to_i
-      server_id = data['guild_id'].to_i
+      user_id = data["user"]["id"].to_i
+      server_id = data["guild_id"].to_i
       server = server(server_id)
       return unless server
 
@@ -964,13 +964,13 @@ module Discordrb
         member_is_new = true
       end
 
-      username = data['user']['username']
+      username = data["user"]["username"]
       if username && !member_is_new # Don't set the username for newly-cached members
         debug "Implicitly updating presence-obtained information username for member #{user_id}"
         member.update_username(username)
       end
 
-      global_name = data['user']['global_name']
+      global_name = data["user"]["global_name"]
       if global_name && !member_is_new # Don't set the global_name for newly-cached members
         debug "Implicitly updating presence-obtained information global_name for member #{user_id}"
         member.update_global_name(global_name)
@@ -978,20 +978,20 @@ module Discordrb
 
       member.update_presence(data)
 
-      member.avatar_id = data['user']['avatar'] if data['user']['avatar']
+      member.avatar_id = data["user"]["avatar"] if data["user"]["avatar"]
 
       server.cache_member(member)
     end
 
     # Internal handler for VOICE_STATE_UPDATE
     def update_voice_state(data)
-      @session_id = data['session_id']
+      @session_id = data["session_id"]
 
-      server_id = data['guild_id'].to_i
+      server_id = data["guild_id"].to_i
       server = server(server_id)
       return unless server
 
-      user_id = data['user_id'].to_i
+      user_id = data["user_id"].to_i
       old_voice_state = server.voice_states[user_id]
       old_channel_id = old_voice_state.voice_channel&.id if old_voice_state
 
@@ -999,7 +999,7 @@ module Discordrb
 
       existing_voice = @voices[server_id]
       if user_id == @profile.id && existing_voice
-        new_channel_id = data['channel_id']
+        new_channel_id = data["channel_id"]
         if new_channel_id
           new_channel = channel(new_channel_id)
           existing_voice.channel = new_channel
@@ -1013,24 +1013,24 @@ module Discordrb
 
     # Internal handler for VOICE_SERVER_UPDATE
     def update_voice_server(data)
-      server_id = data['guild_id'].to_i
+      server_id = data["guild_id"].to_i
       channel = @should_connect_to_voice[server_id]
 
       debug("Voice server update received! chan: #{channel.inspect}")
       return unless channel
 
       @should_connect_to_voice.delete(server_id)
-      debug('Updating voice server!')
+      debug("Updating voice server!")
 
-      token = data['token']
-      endpoint = data['endpoint']
+      token = data["token"]
+      endpoint = data["endpoint"]
 
       unless endpoint
-        debug('VOICE_SERVER_UPDATE sent with nil endpoint! Ignoring')
+        debug("VOICE_SERVER_UPDATE sent with nil endpoint! Ignoring")
         return
       end
 
-      debug('Got data, now creating the bot.')
+      debug("Got data, now creating the bot.")
       @voices[server_id] = Discordrb::Voice::VoiceBot.new(channel, self, token, @session_id, endpoint)
     end
 
@@ -1079,27 +1079,27 @@ module Discordrb
 
     # Internal handler for CHANNEL_RECIPIENT_ADD
     def add_recipient(data)
-      channel_id = data['channel_id'].to_i
+      channel_id = data["channel_id"].to_i
       channel = self.channel(channel_id)
 
-      recipient_user = ensure_user(data['user'])
+      recipient_user = ensure_user(data["user"])
       recipient = Recipient.new(recipient_user, channel, self)
       channel.add_recipient(recipient)
     end
 
     # Internal handler for CHANNEL_RECIPIENT_REMOVE
     def remove_recipient(data)
-      channel_id = data['channel_id'].to_i
+      channel_id = data["channel_id"].to_i
       channel = self.channel(channel_id)
 
-      recipient_user = ensure_user(data['user'])
+      recipient_user = ensure_user(data["user"])
       recipient = Recipient.new(recipient_user, channel, self)
       channel.remove_recipient(recipient)
     end
 
     # Internal handler for GUILD_MEMBER_ADD
     def add_guild_member(data)
-      server_id = data['guild_id'].to_i
+      server_id = data["guild_id"].to_i
       server = self.server(server_id)
 
       member = Member.new(data, server, self)
@@ -1108,24 +1108,24 @@ module Discordrb
 
     # Internal handler for GUILD_MEMBER_UPDATE
     def update_guild_member(data)
-      server_id = data['guild_id'].to_i
+      server_id = data["guild_id"].to_i
       server = self.server(server_id)
 
-      member = server.member(data['user']['id'].to_i)
-      member.update_roles(data['roles'])
-      member.update_nick(data['nick'])
-      member.update_global_name(data['user']['global_name']) if data['user']['global_name']
-      member.update_boosting_since(data['premium_since'])
-      member.update_communication_disabled_until(data['communication_disabled_until'])
+      member = server.member(data["user"]["id"].to_i)
+      member.update_roles(data["roles"])
+      member.update_nick(data["nick"])
+      member.update_global_name(data["user"]["global_name"]) if data["user"]["global_name"]
+      member.update_boosting_since(data["premium_since"])
+      member.update_communication_disabled_until(data["communication_disabled_until"])
     end
 
     # Internal handler for GUILD_MEMBER_DELETE
     def delete_guild_member(data)
-      server_id = data['guild_id'].to_i
+      server_id = data["guild_id"].to_i
       server = self.server(server_id)
       return unless server
 
-      user_id = data['user']['id'].to_i
+      user_id = data["user"]["id"].to_i
       server.delete_member(user_id)
     rescue Discordrb::Errors::NoPermission
       Discordrb::LOGGER.warn("delete_guild_member attempted to access a server for which the bot doesn't have permission! Not sure what happened here, ignoring")
@@ -1138,30 +1138,30 @@ module Discordrb
 
     # Internal handler for GUILD_UPDATE
     def update_guild(data)
-      @servers[data['id'].to_i].update_data(data)
+      @servers[data["id"].to_i].update_data(data)
     end
 
     # Internal handler for GUILD_DELETE
     def delete_guild(data)
-      id = data['id'].to_i
+      id = data["id"].to_i
       @servers.delete(id)
     end
 
     # Internal handler for GUILD_ROLE_UPDATE
     def update_guild_role(data)
-      role_data = data['role']
-      server_id = data['guild_id'].to_i
+      role_data = data["role"]
+      server_id = data["guild_id"].to_i
       server = @servers[server_id]
       new_role = Role.new(role_data, self, server)
-      role_id = role_data['id'].to_i
+      role_id = role_data["id"].to_i
       old_role = server.roles.find { |r| r.id == role_id }
       old_role.update_from(new_role)
     end
 
     # Internal handler for GUILD_ROLE_CREATE
     def create_guild_role(data)
-      role_data = data['role']
-      server_id = data['guild_id'].to_i
+      role_data = data["role"]
+      server_id = data["guild_id"].to_i
       server = @servers[server_id]
       new_role = Role.new(role_data, self, server)
       existing_role = server.role(new_role.id)
@@ -1174,15 +1174,15 @@ module Discordrb
 
     # Internal handler for GUILD_ROLE_DELETE
     def delete_guild_role(data)
-      role_id = data['role_id'].to_i
-      server_id = data['guild_id'].to_i
+      role_id = data["role_id"].to_i
+      server_id = data["guild_id"].to_i
       server = @servers[server_id]
       server.delete_role(role_id)
     end
 
     # Internal handler for GUILD_EMOJIS_UPDATE
     def update_guild_emoji(data)
-      server_id = data['guild_id'].to_i
+      server_id = data["guild_id"].to_i
       server = @servers[server_id]
       server.update_emoji_data(data)
     end
@@ -1224,7 +1224,7 @@ module Discordrb
 
     def process_token(type, token)
       # Remove the "Bot " prefix if it exists
-      token = token[4..] if token.start_with? 'Bot '
+      token = token[4..] if token.start_with? "Bot "
 
       token = "Bot #{token}" unless type == :user
       token
@@ -1235,7 +1235,7 @@ module Discordrb
       if @unavailable_servers&.positive? && (Time.now - @unavailable_timeout_time) > 10 && !((@intents || 0) & INTENTS[:servers]).zero?
         # The server streaming timed out!
         LOGGER.debug("Server streaming timed out with #{@unavailable_servers} servers remaining")
-        LOGGER.debug('Calling ready now because server loading is taking a long time. Servers may be unavailable due to an outage, or your bot is on very large servers.')
+        LOGGER.debug("Calling ready now because server loading is taking a long time. Servers may be unavailable due to an outage, or your bot is on very large servers.")
 
         # Unset the unavailable server count so this doesn't get triggered again
         @unavailable_servers = 0
@@ -1250,7 +1250,7 @@ module Discordrb
         # replaced.
         init_cache
 
-        @profile = Profile.new(data['user'], self)
+        @profile = Profile.new(data["user"], self)
 
         # Initialize servers
         @servers = {}
@@ -1258,10 +1258,10 @@ module Discordrb
         # Count unavailable servers
         @unavailable_servers = 0
 
-        data['guilds'].each do |element|
+        data["guilds"].each do |element|
           # Check for true specifically because unavailable=false indicates that a previously unavailable server has
           # come online
-          if element['unavailable']
+          if element["unavailable"]
             @unavailable_servers += 1
 
             # Ignore any unavailable servers
@@ -1272,7 +1272,7 @@ module Discordrb
         end
 
         # Add PM and group channels
-        data['private_channels'].each do |element|
+        data["private_channels"].each do |element|
           channel = ensure_channel(element)
           if channel.pm?
             @pm_channels[channel.recipient.id] = channel
@@ -1291,21 +1291,21 @@ module Discordrb
         @ready_time = Time.now
         @unavailable_timeout_time = Time.now
       when :GUILD_MEMBERS_CHUNK
-        id = data['guild_id'].to_i
+        id = data["guild_id"].to_i
         server = server(id)
-        server.process_chunk(data['members'], data['chunk_index'], data['chunk_count'])
+        server.process_chunk(data["members"], data["chunk_index"], data["chunk_count"])
       when :INVITE_CREATE
         invite = Invite.new(data, self)
         raise_event(InviteCreateEvent.new(data, invite, self))
       when :INVITE_DELETE
         raise_event(InviteDeleteEvent.new(data, self))
       when :MESSAGE_CREATE
-        if ignored?(data['author']['id'])
+        if ignored?(data["author"]["id"])
           debug("Ignored author with ID #{data['author']['id']}")
           return
         end
 
-        if @ignore_bots && data['author']['bot']
+        if @ignore_bots && data["author"]["bot"]
           debug("Ignored Bot account with ID #{data['author']['id']}")
           return
         end
@@ -1361,11 +1361,11 @@ module Discordrb
       when :MESSAGE_DELETE_BULK
         debug("MESSAGE_DELETE_BULK will raise #{data['ids'].length} events")
 
-        data['ids'].each do |single_id|
+        data["ids"].each do |single_id|
           # Form a data hash for a single ID so the methods get what they want
           single_data = {
-            'id' => single_id,
-            'channel_id' => data['channel_id']
+            "id" => single_id,
+            "channel_id" => data["channel_id"]
           }
 
           # Raise as normal
@@ -1381,19 +1381,19 @@ module Discordrb
           event = TypingEvent.new(data, self)
           raise_event(event)
         rescue Discordrb::Errors::NoPermission
-          debug 'Typing started in channel the bot has no access to, ignoring'
+          debug "Typing started in channel the bot has no access to, ignoring"
         end
       when :MESSAGE_REACTION_ADD
         add_message_reaction(data)
 
-        return if profile.id == data['user_id'].to_i && !should_parse_self
+        return if profile.id == data["user_id"].to_i && !should_parse_self
 
         event = ReactionAddEvent.new(data, self)
         raise_event(event)
       when :MESSAGE_REACTION_REMOVE
         remove_message_reaction(data)
 
-        return if profile.id == data['user_id'].to_i && !should_parse_self
+        return if profile.id == data["user_id"].to_i && !should_parse_self
 
         event = ReactionRemoveEvent.new(data, self)
         raise_event(event)
@@ -1404,10 +1404,10 @@ module Discordrb
         raise_event(event)
       when :PRESENCE_UPDATE
         # Ignore friends list presences
-        return unless data['guild_id']
+        return unless data["guild_id"]
 
-        new_activities = (data['activities'] || []).map { |act_data| Activity.new(act_data, self) }
-        presence_user = @users[data['user']['id'].to_i]
+        new_activities = (data["activities"] || []).map { |act_data| Activity.new(act_data, self) }
+        presence_user = @users[data["user"]["id"].to_i]
         old_activities = presence_user&.activities || []
         update_presence(data)
 
@@ -1507,7 +1507,7 @@ module Discordrb
         create_guild(data)
 
         # Check for false specifically (no data means the server has never been unavailable)
-        if data['unavailable'].is_a? FalseClass
+        if data["unavailable"].is_a? FalseClass
           @unavailable_servers -= 1 if @unavailable_servers
           @unavailable_timeout_time = Time.now
 
@@ -1527,7 +1527,7 @@ module Discordrb
       when :GUILD_DELETE
         delete_guild(data)
 
-        if data['unavailable'].is_a? TrueClass
+        if data["unavailable"].is_a? TrueClass
           LOGGER.warn("Server #{data['id']} is unavailable due to an outage!")
           return # Don't raise an event
         end
@@ -1535,7 +1535,7 @@ module Discordrb
         event = ServerDeleteEvent.new(data, self)
         raise_event(event)
       when :GUILD_EMOJIS_UPDATE
-        server_id = data['guild_id'].to_i
+        server_id = data["guild_id"].to_i
         server = @servers[server_id]
         old_emoji_data = server.emoji.clone
         update_guild_emoji(data)
@@ -1568,7 +1568,7 @@ module Discordrb
         event = InteractionCreateEvent.new(data, self)
         raise_event(event)
 
-        case data['type']
+        case data["type"]
         when Interaction::TYPES[:command]
           event = ApplicationCommandEvent.new(data, self)
 
@@ -1584,7 +1584,7 @@ module Discordrb
             end
           end
         when Interaction::TYPES[:component]
-          case data['data']['component_type']
+          case data["data"]["component_type"]
           when Webhooks::View::COMPONENT_TYPES[:button]
             event = ButtonEvent.new(data, self)
 
@@ -1630,23 +1630,23 @@ module Discordrb
         raise_event(event)
       when :THREAD_DELETE
         delete_channel(data)
-        @thread_members.delete(data['id']&.resolve_id)
+        @thread_members.delete(data["id"]&.resolve_id)
 
         # raise ThreadDeleteEvent
       when :THREAD_LIST_SYNC
-        data['members'].map { |member| ensure_thread_member(member) }
-        data['threads'].map { |channel| ensure_channel(channel, data['guild_id']) }
+        data["members"].map { |member| ensure_thread_member(member) }
+        data["threads"].map { |channel| ensure_channel(channel, data["guild_id"]) }
 
         # raise ThreadListSyncEvent?
       when :THREAD_MEMBER_UPDATE
         ensure_thread_member(data)
       when :THREAD_MEMBERS_UPDATE
-        data['added_members']&.each do |added_member|
-          ensure_thread_member(added_member) if added_member['user_id']
+        data["added_members"]&.each do |added_member|
+          ensure_thread_member(added_member) if added_member["user_id"]
         end
 
-        data['removed_member_ids']&.each do |member_id|
-          @thread_members[data['id']&.resolve_id]&.delete(member_id&.resolve_id)
+        data["removed_member_ids"]&.each do |member_id|
+          @thread_members[data["id"]&.resolve_id]&.delete(member_id&.resolve_id)
         end
 
         event = ThreadMembersUpdateEvent.new(data, self)
@@ -1666,7 +1666,7 @@ module Discordrb
         raise_event(event)
       end
     rescue Exception => e
-      LOGGER.error('Gateway message error!')
+      LOGGER.error("Gateway message error!")
       log_exception(e)
     end
 
@@ -1674,7 +1674,7 @@ module Discordrb
     def notify_ready
       # Make sure to raise the event
       raise_event(ReadyEvent.new(self))
-      LOGGER.good 'Ready'
+      LOGGER.good "Ready"
 
       @gateway.notify_ready
     end

@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require 'rest-client'
-require 'json'
+require "rest-client"
+require "json"
 
-require 'discordrb/webhooks/builder'
+require "discordrb/webhooks/builder"
 
 module Discordrb::Webhooks
   # A client for a particular webhook added to a Discord channel.
@@ -39,7 +39,7 @@ module Discordrb::Webhooks
     #   end
     # @return [RestClient::Response] the response returned by Discord.
     def execute(builder = nil, wait = false, components = nil)
-      raise TypeError, 'builder needs to be nil or like a Discordrb::Webhooks::Builder!' unless
+      raise TypeError, "builder needs to be nil or like a Discordrb::Webhooks::Builder!" unless
         (builder.respond_to?(:file) && builder.respond_to?(:to_multipart_hash)) || builder.respond_to?(:to_json_hash) || builder.nil?
 
       builder ||= Builder.new
@@ -119,12 +119,12 @@ module Discordrb::Webhooks
 
     def post_json(builder, components, wait)
       data = builder.to_json_hash.merge({ components: components.to_a })
-      RestClient.post(@url + (wait ? '?wait=true' : ''), data.to_json, content_type: :json)
+      RestClient.post(@url + (wait ? "?wait=true" : ""), data.to_json, content_type: :json)
     end
 
     def post_multipart(builder, components, wait)
       data = builder.to_multipart_hash.merge({ components: components.to_a })
-      RestClient.post(@url + (wait ? '?wait=true' : ''), data)
+      RestClient.post(@url + (wait ? "?wait=true" : ""), data)
     end
 
     def generate_url(id, token)

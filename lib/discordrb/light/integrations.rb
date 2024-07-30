@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'discordrb/data'
-require 'discordrb/light/data'
+require "discordrb/data"
+require "discordrb/light/data"
 
 module Discordrb::Light
   # A connection of your Discord account to a particular other service (currently, Twitch and YouTube)
@@ -26,12 +26,12 @@ module Discordrb::Light
     def initialize(data, bot)
       @bot = bot
 
-      @revoked = data['revoked']
-      @type = data['type'].to_sym
-      @name = data['name']
-      @id = data['id']
+      @revoked = data["revoked"]
+      @type = data["type"].to_sym
+      @name = data["name"]
+      @id = data["id"]
 
-      @integrations = data['integrations'].map { |e| Integration.new(e, self, bot) }
+      @integrations = data["integrations"].map { |e| Integration.new(e, self, bot) }
     end
   end
 
@@ -57,15 +57,15 @@ module Discordrb::Light
       @bot = bot
       @integrated_connection = integrated
 
-      @server = UltraLightServer.new(data['guild'], bot)
+      @server = UltraLightServer.new(data["guild"], bot)
 
       # Restructure the given data so we can reuse the Connection initializer
       restructured = {}
 
-      restructured['type'] = data['type']
-      restructured['id'] = data['account']['id']
-      restructured['name'] = data['account']['name']
-      restructured['integrations'] = []
+      restructured["type"] = data["type"]
+      restructured["id"] = data["account"]["id"]
+      restructured["name"] = data["account"]["name"]
+      restructured["integrations"] = []
 
       @server_connection = Connection.new(restructured, bot)
     end

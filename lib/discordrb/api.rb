@@ -1,18 +1,18 @@
 # frozen_string_literal: true
 
-require 'rest-client'
-require 'json'
-require 'time'
+require "rest-client"
+require "json"
+require "time"
 
-require 'discordrb/errors'
+require "discordrb/errors"
 
 # List of methods representing endpoints in Discord's API
 module Discordrb::API
   # The base URL of the Discord REST API.
-  APIBASE = 'https://discord.com/api/v9'
+  APIBASE = "https://discord.com/api/v9"
 
   # The URL of Discord's CDN
-  CDN_URL = 'https://cdn.discordapp.com'
+  CDN_URL = "https://cdn.discordapp.com"
 
   module_function
 
@@ -52,7 +52,7 @@ module Discordrb::API
   def user_agent
     # This particular string is required by the Discord devs.
     required = "DiscordBot (https://github.com/dakurei-gems/discordrb, v#{Discordrb::VERSION})"
-    @bot_name ||= ''
+    @bot_name ||= ""
 
     "#{required} rest-client/#{RestClient::VERSION} #{RUBY_ENGINE}/#{RUBY_VERSION}p#{RUBY_PATCHLEVEL} discordrb/#{Discordrb::VERSION} #{@bot_name}"
   end
@@ -85,7 +85,7 @@ module Discordrb::API
     noprm.define_singleton_method(:_rc_response) { e.response }
     raise noprm, "The bot doesn't have the required permission to do this!"
   rescue RestClient::BadGateway
-    Discordrb::LOGGER.warn('Got a 502 while sending a request! Not a big deal, retrying the request')
+    Discordrb::LOGGER.warn("Got a 502 while sending a request! Not a big deal, retrying the request")
     retry
   end
 
@@ -115,8 +115,8 @@ module Discordrb::API
 
         if response.body && !e.is_a?(RestClient::TooManyRequests)
           data = JSON.parse(response.body)
-          err_klass = Discordrb::Errors.error_class_for(data['code'] || 0)
-          e = err_klass.new(data['message'], data['errors'])
+          err_klass = Discordrb::Errors.error_class_for(data["code"] || 0)
+          e = err_klass.new(data["message"], data["errors"])
 
           Discordrb::LOGGER.error(e.full_message)
         end
@@ -132,18 +132,18 @@ module Discordrb::API
         raise e
       ensure
         if response
-          handle_preemptive_rl(response.headers, mutex, key) if response.headers[:x_ratelimit_remaining] == '0' && !mutex.locked?
+          handle_preemptive_rl(response.headers, mutex, key) if response.headers[:x_ratelimit_remaining] == "0" && !mutex.locked?
         else
-          Discordrb::LOGGER.ratelimit('Response was nil before trying to preemptively rate limit!')
+          Discordrb::LOGGER.ratelimit("Response was nil before trying to preemptively rate limit!")
         end
       end
     rescue RestClient::TooManyRequests => e
       # If the 429 is from the global RL, then we have to use the global mutex instead.
-      mutex = @global_mutex if e.response.headers[:x_ratelimit_global] == 'true'
+      mutex = @global_mutex if e.response.headers[:x_ratelimit_global] == "true"
 
       unless mutex.locked?
         response = JSON.parse(e.response)
-        wait_seconds = response['retry_after'] ? response['retry_after'].to_f : e.response.headers[:retry_after].to_i
+        wait_seconds = response["retry_after"] ? response["retry_after"].to_f : e.response.headers[:retry_after].to_i
         Discordrb::LOGGER.ratelimit("Locking RL mutex (key: #{key}) for #{wait_seconds} seconds due to Discord rate limiting")
         trace("429 #{key.join(' ')}")
 
@@ -184,42 +184,42 @@ module Discordrb::API
   end
 
   # Make an icon URL from server and icon IDs
-  def icon_url(server_id, icon_id, format = 'webp')
+  def icon_url(server_id, icon_id, format = "webp")
     "#{cdn_url}/icons/#{server_id}/#{icon_id}.#{format}"
   end
 
   # Make an icon URL from application and icon IDs
-  def app_icon_url(app_id, icon_id, format = 'webp')
+  def app_icon_url(app_id, icon_id, format = "webp")
     "#{cdn_url}/app-icons/#{app_id}/#{icon_id}.#{format}"
   end
 
   # Make a widget picture URL from server ID
-  def widget_url(server_id, style = 'shield')
+  def widget_url(server_id, style = "shield")
     "#{api_base}/guilds/#{server_id}/widget.png?style=#{style}"
   end
 
   # Make a splash URL from server and splash IDs
-  def splash_url(server_id, splash_id, format = 'webp')
+  def splash_url(server_id, splash_id, format = "webp")
     "#{cdn_url}/splashes/#{server_id}/#{splash_id}.#{format}"
   end
 
   # Make a banner URL from server and banner IDs
-  def banner_url(server_id, banner_id, format = 'webp')
+  def banner_url(server_id, banner_id, format = "webp")
     "#{cdn_url}/banners/#{server_id}/#{banner_id}.#{format}"
   end
 
   # Make an emoji icon URL from emoji ID
-  def emoji_icon_url(emoji_id, format = 'webp')
+  def emoji_icon_url(emoji_id, format = "webp")
     "#{cdn_url}/emojis/#{emoji_id}.#{format}"
   end
 
   # Make an asset URL from application and asset IDs
-  def asset_url(application_id, asset_id, format = 'webp')
+  def asset_url(application_id, asset_id, format = "webp")
     "#{cdn_url}/app-assets/#{application_id}/#{asset_id}.#{format}"
   end
 
   # Make an achievement icon URL from application ID, achievement ID, and icon hash
-  def achievement_icon_url(application_id, achievement_id, icon_hash, format = 'webp')
+  def achievement_icon_url(application_id, achievement_id, icon_hash, format = "webp")
     "#{cdn_url}/app-assets/#{application_id}/achievements/#{achievement_id}/icons/#{icon_hash}.#{format}"
   end
 
@@ -227,7 +227,7 @@ module Discordrb::API
   # @param icon_hash [String]
   # @param format ['webp', 'png', 'jpeg']
   # @return [String]
-  def role_icon_url(role_id, icon_hash, format = 'webp')
+  def role_icon_url(role_id, icon_hash, format = "webp")
     "#{cdn_url}/role-icons/#{role_id}/#{icon_hash}.#{format}"
   end
 
@@ -269,7 +269,7 @@ module Discordrb::API
   end
 
   # Change an OAuth application's properties
-  def update_oauth_application(token, name, redirect_uris, description = '', icon = nil)
+  def update_oauth_application(token, name, redirect_uris, description = "", icon = nil)
     request(
       :oauth2_applications,
       nil,

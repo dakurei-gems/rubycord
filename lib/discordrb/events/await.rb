@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'discordrb/events/generic'
-require 'discordrb/await'
+require "discordrb/events/generic"
+require "discordrb/await"
 
 module Discordrb::Events
   # @see Bot#await

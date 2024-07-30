@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'discordrb/webhooks/view'
-require 'time'
+require "discordrb/webhooks/view"
+require "time"
 
 module Discordrb
   # A Discord channel, including data like the topic
@@ -114,51 +114,51 @@ module Discordrb
       # data is sometimes a Hash and other times an array of Hashes, you only want the last one if it's an array
       data = data[-1] if data.is_a?(Array)
 
-      @id = data['id'].to_i
-      @type = data['type'] || 0
-      @topic = data['topic']
-      @bitrate = data['bitrate']
-      @user_limit = data['user_limit']
-      @position = data['position']
-      @parent_id = data['parent_id'].to_i if data['parent_id']
+      @id = data["id"].to_i
+      @type = data["type"] || 0
+      @topic = data["topic"]
+      @bitrate = data["bitrate"]
+      @user_limit = data["user_limit"]
+      @position = data["position"]
+      @parent_id = data["parent_id"].to_i if data["parent_id"]
 
       if private?
         @recipients = []
-        data['recipients']&.each do |recipient|
+        data["recipients"]&.each do |recipient|
           recipient_user = bot.ensure_user(recipient)
           @recipients << Recipient.new(recipient_user, self, bot)
         end
         if pm?
           @name = @recipients.first.username
         else
-          @name = data['name']
-          @owner_id = data['owner_id']
+          @name = data["name"]
+          @owner_id = data["owner_id"]
         end
       else
-        @name = data['name']
-        @server_id = server&.id || data['guild_id'].to_i
+        @name = data["name"]
+        @server_id = server&.id || data["guild_id"].to_i
         @server = server
       end
 
-      @nsfw = data['nsfw'] || false
-      @rate_limit_per_user = data['rate_limit_per_user'] || 0
-      @message_count = data['message_count']
-      @member_count = data['member_count']
+      @nsfw = data["nsfw"] || false
+      @rate_limit_per_user = data["rate_limit_per_user"] || 0
+      @message_count = data["message_count"]
+      @member_count = data["member_count"]
 
-      if (metadata = data['thread_metadata'])
-        @archived = metadata['archived']
-        @auto_archive_duration = metadata['auto_archive_duration']
-        @archive_timestamp = Time.iso8601(metadata['archive_timestamp'])
-        @locked = metadata['locked']
-        @invitable = metadata['invitable']
+      if (metadata = data["thread_metadata"])
+        @archived = metadata["archived"]
+        @auto_archive_duration = metadata["auto_archive_duration"]
+        @archive_timestamp = Time.iso8601(metadata["archive_timestamp"])
+        @locked = metadata["locked"]
+        @invitable = metadata["invitable"]
       end
 
-      if (member = data['member'])
-        @member_join = Time.iso8601(member['join_timestamp'])
-        @member_flags = member['flags']
+      if (member = data["member"])
+        @member_join = Time.iso8601(member["join_timestamp"])
+        @member_flags = member["flags"]
       end
 
-      process_permission_overwrites(data['permission_overwrites'])
+      process_permission_overwrites(data["permission_overwrites"])
     end
 
     # @return [Server, nil] the server this channel is on. If this channel is a PM channel, it will be nil.
@@ -169,7 +169,7 @@ module Discordrb
       return nil if private?
 
       @server = @bot.server(@server_id)
-      raise Discordrb::Errors::NoPermission, 'The bot does not have access to this server' unless @server
+      raise Discordrb::Errors::NoPermission, "The bot does not have access to this server" unless @server
 
       @server
     end
@@ -241,7 +241,7 @@ module Discordrb
     # @raise [ArgumentError] if the target channel isn't a category
     def category=(channel)
       channel = @bot.channel(channel)
-      raise ArgumentError, 'Cannot set parent category to a channel that isn\'t a category' unless channel.category?
+      raise ArgumentError, "Cannot set parent category to a channel that isn't a category" unless channel.category?
 
       update_channel_data(parent_id: channel.id)
     end
@@ -254,7 +254,7 @@ module Discordrb
     #   be sorted at the top of the channel list.
     # @param lock_permissions [true, false] Whether the channel's permissions should be synced to the category's
     def sort_after(other = nil, lock_permissions = false)
-      raise TypeError, 'other must be one of Channel, NilClass, String, or Integer' unless other.is_a?(Channel) || other.nil? || other.respond_to?(:resolve_id)
+      raise TypeError, "other must be one of Channel, NilClass, String, or Integer" unless other.is_a?(Channel) || other.nil? || other.respond_to?(:resolve_id)
 
       other = @bot.channel(other.resolve_id) if other
 
@@ -262,9 +262,9 @@ module Discordrb
       move_argument = []
 
       if other
-        raise ArgumentError, 'Can only sort a channel after a channel of the same type!' unless other.category? || (@type == other.type)
+        raise ArgumentError, "Can only sort a channel after a channel of the same type!" unless other.category? || (@type == other.type)
 
-        raise ArgumentError, 'Can only sort a channel after a channel in the same server!' unless other.server == server
+        raise ArgumentError, "Can only sort a channel after a channel in the same server!" unless other.server == server
 
         # Store `others` parent (or if `other` is a category itself)
         parent = if category? && other.category?
@@ -318,7 +318,7 @@ module Discordrb
     # @param nsfw [true, false]
     # @raise [ArgumentError] if value isn't one of true, false
     def nsfw=(nsfw)
-      raise ArgumentError, 'nsfw value must be true or false' unless nsfw.is_a?(TrueClass) || nsfw.is_a?(FalseClass)
+      raise ArgumentError, "nsfw value must be true or false" unless nsfw.is_a?(TrueClass) || nsfw.is_a?(FalseClass)
 
       update_channel_data(nsfw: nsfw)
     end
@@ -350,7 +350,7 @@ module Discordrb
     # @param rate [Integer]
     # @raise [ArgumentError] if value isn't between 0 and 21600
     def rate_limit_per_user=(rate)
-      raise ArgumentError, 'rate_limit_per_user must be between 0 and 21600' unless rate.between?(0, 21_600)
+      raise ArgumentError, "rate_limit_per_user must be between 0 and 21600" unless rate.between?(0, 21_600)
 
       update_channel_data(rate_limit_per_user: rate)
     end
@@ -360,7 +360,7 @@ module Discordrb
     # Syncs this channels overwrites with its parent category
     # @raise [RuntimeError] if this channel is not in a category
     def sync_overwrites
-      raise 'Cannot sync overwrites on a channel with no parent category' unless parent
+      raise "Cannot sync overwrites on a channel with no parent category" unless parent
 
       self.permission_overwrites = parent.permission_overwrites
     end
@@ -464,7 +464,7 @@ module Discordrb
     # @yield [embed] Yields the embed to allow for easy building inside a block.
     # @yieldparam embed [Discordrb::Webhooks::Embed] The embed from the parameters, or a new one.
     # @return [Message] The resulting message.
-    def send_embed(message = '', embed = nil, attachments = nil, tts = false, allowed_mentions = nil, message_reference = nil, components = nil)
+    def send_embed(message = "", embed = nil, attachments = nil, tts = false, allowed_mentions = nil, message_reference = nil, components = nil)
       embed ||= Discordrb::Webhooks::Embed.new
       view = Discordrb::Webhooks::View.new
 
@@ -519,7 +519,7 @@ module Discordrb
     # Sets this channel's topic.
     # @param topic [String] The new topic.
     def topic=(topic)
-      raise 'Tried to set topic on voice channel' if voice?
+      raise "Tried to set topic on voice channel" if voice?
 
       update_channel_data(topic: topic)
     end
@@ -527,7 +527,7 @@ module Discordrb
     # Sets this channel's bitrate.
     # @param bitrate [Integer] The new bitrate (in bps). Number has to be between 8000-96000 (128000 for VIP servers)
     def bitrate=(bitrate)
-      raise 'Tried to set bitrate on text channel' if text?
+      raise "Tried to set bitrate on text channel" if text?
 
       update_channel_data(bitrate: bitrate)
     end
@@ -535,7 +535,7 @@ module Discordrb
     # Sets this channel's user limit.
     # @param limit [Integer] The new user limit. `0` for unlimited, has to be a number between 0-99
     def user_limit=(limit)
-      raise 'Tried to set user_limit on text channel' if text?
+      raise "Tried to set user_limit on text channel" if text?
 
       update_channel_data(user_limit: limit)
     end
@@ -584,7 +584,7 @@ module Discordrb
     # @param target [Member, User, Role, Profile, Recipient, String, Integer] What permission overwrite to delete
     #   @param reason [String] The reason the for the overwrite deletion.
     def delete_overwrite(target, reason = nil)
-      raise 'Tried deleting a overwrite for an invalid target' unless target.is_a?(Member) || target.is_a?(User) || target.is_a?(Role) || target.is_a?(Profile) || target.is_a?(Recipient) || target.respond_to?(:resolve_id)
+      raise "Tried deleting a overwrite for an invalid target" unless target.is_a?(Member) || target.is_a?(User) || target.is_a?(Role) || target.is_a?(Profile) || target.is_a?(Recipient) || target.respond_to?(:resolve_id)
 
       API::Channel.delete_permission(@bot.token, @id, target.resolve_id, reason)
     end
@@ -639,14 +639,14 @@ module Discordrb
     # @!visibility private
     def history_ids(amount, before_id = nil, after_id = nil, around_id = nil)
       logs = API::Channel.messages(@bot.token, @id, amount, before_id, after_id, around_id)
-      JSON.parse(logs).map { |message| message['id'].to_i }
+      JSON.parse(logs).map { |message| message["id"].to_i }
     end
 
     # Returns a single message from this channel's history by ID.
     # @param message_id [Integer] The ID of the message to retrieve.
     # @return [Message, nil] the retrieved message, or `nil` if it couldn't be found.
     def load_message(message_id)
-      raise ArgumentError, 'message_id cannot be nil' if message_id.nil?
+      raise ArgumentError, "message_id cannot be nil" if message_id.nil?
 
       response = API::Channel.message(@bot.token, @id, message_id)
       Message.new(JSON.parse(response), @bot)
@@ -674,7 +674,7 @@ module Discordrb
     #   channel.prune(100) { |m| m.author.id == 83283213010599936 }
     # @return [Integer] The amount of messages that were successfully deleted
     def prune(amount, strict = false, reason = nil, &block)
-      raise ArgumentError, 'Can only delete between 1 and 100 messages!' unless amount.between?(1, 100)
+      raise ArgumentError, "Can only delete between 1 and 100 messages!" unless amount.between?(1, 100)
 
       messages =
         if block
@@ -702,7 +702,7 @@ module Discordrb
     # @raise [ArgumentError] if the amount of messages is not a value between 2 and 100
     # @return [Integer] The amount of messages that were successfully deleted
     def delete_messages(messages, strict = false, reason = nil)
-      raise ArgumentError, 'Can only delete between 2 and 100 messages!' unless messages.count.between?(2, 100)
+      raise ArgumentError, "Can only delete between 2 and 100 messages!" unless messages.count.between?(2, 100)
 
       messages.map!(&:resolve_id)
       bulk_delete(messages, strict, reason)
@@ -758,7 +758,7 @@ module Discordrb
     #   the recipient of the PM channel).
     # @return [Channel] the created channel.
     def create_group(user_ids)
-      raise 'Attempted to create group channel on a non-pm channel!' unless pm?
+      raise "Attempted to create group channel on a non-pm channel!" unless pm?
 
       response = API::Channel.create_group(@bot.token, @id, user_ids.shift)
       channel = Channel.new(JSON.parse(response), @bot)
@@ -769,7 +769,7 @@ module Discordrb
     # @param user_ids [Array<String, Integer>, String, Integer] User ID or array of user IDs to add to the group channel.
     # @return [Channel] the group channel.
     def add_group_users(user_ids)
-      raise 'Attempted to add a user to a non-group channel!' unless group?
+      raise "Attempted to add a user to a non-group channel!" unless group?
 
       user_ids = [user_ids] unless user_ids.is_a? Array
       user_ids.each do |user_id|
@@ -784,7 +784,7 @@ module Discordrb
     # @param user_ids [Array<String, Integer>, String, Integer] User ID or array of user IDs to remove from the group channel.
     # @return [Channel] the group channel.
     def remove_group_users(user_ids)
-      raise 'Attempted to remove a user from a non-group channel!' unless group?
+      raise "Attempted to remove a user from a non-group channel!" unless group?
 
       user_ids = [user_ids] unless user_ids.is_a? Array
       user_ids.each do |user_id|
@@ -797,7 +797,7 @@ module Discordrb
 
     # Leaves the group.
     def leave_group
-      raise 'Attempted to leave a non-group channel!' unless group?
+      raise "Attempted to leave a non-group channel!" unless group?
 
       API::Channel.leave_group(@bot.token, @id)
     end
@@ -811,8 +811,8 @@ module Discordrb
     # @raise [ArgumentError] if the channel isn't a text channel in a server.
     # @return [Webhook] the created webhook.
     def create_webhook(name, avatar = nil, reason = nil)
-      raise ArgumentError, 'Tried to create a webhook in a non-server channel' unless server
-      raise ArgumentError, 'Tried to create a webhook in a non-text channel' unless text?
+      raise ArgumentError, "Tried to create a webhook in a non-server channel" unless server
+      raise ArgumentError, "Tried to create a webhook in a non-text channel" unless text?
 
       response = API::Channel.create_webhook(@bot.token, @id, name, avatar, reason)
       Webhook.new(JSON.parse(response), @bot)
@@ -821,7 +821,7 @@ module Discordrb
     # Requests a list of Webhooks on the channel.
     # @return [Array<Webhook>] webhooks on the channel.
     def webhooks
-      raise 'Tried to request webhooks from a non-server channel' unless server
+      raise "Tried to request webhooks from a non-server channel" unless server
 
       webhooks = JSON.parse(API::Channel.webhooks(@bot.token, @id))
       webhooks.map { |webhook_data| Webhook.new(webhook_data, @bot) }
@@ -830,7 +830,7 @@ module Discordrb
     # Requests a list of Invites to the channel.
     # @return [Array<Invite>] invites to the channel.
     def invites
-      raise 'Tried to request invites from a non-server channel' unless server
+      raise "Tried to request invites from a non-server channel" unless server
 
       invites = JSON.parse(API::Channel.invites(@bot.token, @id))
       invites.map { |invite_data| Invite.new(invite_data, @bot) }
@@ -897,8 +897,8 @@ module Discordrb
     # @note For internal use only
     # @!visibility private
     def add_recipient(recipient)
-      raise 'Tried to add recipient to a non-group channel' unless group?
-      raise ArgumentError, 'Tried to add a non-recipient to a group' unless recipient.is_a?(Recipient)
+      raise "Tried to add recipient to a non-group channel" unless group?
+      raise ArgumentError, "Tried to add a non-recipient to a group" unless recipient.is_a?(Recipient)
 
       @recipients << recipient
     end
@@ -909,8 +909,8 @@ module Discordrb
     # @note For internal use only
     # @!visibility private
     def remove_recipient(recipient)
-      raise 'Tried to remove recipient from a non-group channel' unless group?
-      raise ArgumentError, 'Tried to remove a non-recipient from a group' unless recipient.is_a?(Recipient)
+      raise "Tried to remove recipient from a non-group channel" unless group?
+      raise ArgumentError, "Tried to remove a non-recipient from a group" unless recipient.is_a?(Recipient)
 
       @recipients.delete(recipient)
     end
@@ -920,16 +920,16 @@ module Discordrb
     # @!visibility private
     def update_data(new_data = nil)
       new_data ||= JSON.parse(API::Channel.resolve(@bot.token, @id))
-      @name = new_data[:name] || new_data['name'] || @name
-      @topic = new_data[:topic] || new_data['topic'] || @topic
-      @position = new_data[:position] || new_data['position'] || @position
-      @bitrate = new_data[:bitrate] || new_data['bitrate'] || @bitrate
-      @user_limit = new_data[:user_limit] || new_data['user_limit'] || @user_limit
-      new_nsfw = new_data.key?(:nsfw) ? new_data[:nsfw] : new_data['nsfw']
+      @name = new_data[:name] || new_data["name"] || @name
+      @topic = new_data[:topic] || new_data["topic"] || @topic
+      @position = new_data[:position] || new_data["position"] || @position
+      @bitrate = new_data[:bitrate] || new_data["bitrate"] || @bitrate
+      @user_limit = new_data[:user_limit] || new_data["user_limit"] || @user_limit
+      new_nsfw = new_data.key?(:nsfw) ? new_data[:nsfw] : new_data["nsfw"]
       @nsfw = new_nsfw.nil? ? @nsfw : new_nsfw
-      @parent_id = new_data[:parent_id] || new_data['parent_id'] || @parent_id
-      process_permission_overwrites(new_data[:permission_overwrites] || new_data['permission_overwrites'])
-      @rate_limit_per_user = new_data[:rate_limit_per_user] || new_data['rate_limit_per_user'] || @rate_limit_per_user
+      @parent_id = new_data[:parent_id] || new_data["parent_id"] || @parent_id
+      process_permission_overwrites(new_data[:permission_overwrites] || new_data["permission_overwrites"])
+      @rate_limit_per_user = new_data[:rate_limit_per_user] || new_data["rate_limit_per_user"] || @rate_limit_per_user
     end
 
     # @return [String] a URL that a user can use to navigate to this channel in the client
@@ -990,7 +990,7 @@ module Discordrb
       return unless overwrites
 
       overwrites.each do |element|
-        id = element['id'].to_i
+        id = element["id"].to_i
         @permission_overwrites[id] = Overwrite.from_hash(element)
       end
     end

@@ -6,9 +6,9 @@
 # quality. If you want something better you can replace the files in the data/ directory. Make sure to execute this
 # example from the appropriate place, so that it has access to the files in that directory.
 
-require 'discordrb'
+require "discordrb"
 
-bot = Discordrb::Commands::CommandBot.new token: ENV.fetch('DISCORDRB_TOKEN'), prefix: '!'
+bot = Discordrb::Commands::CommandBot.new token: ENV.fetch("DISCORDRB_TOKEN"), prefix: "!"
 
 bot.command(:connect) do |event|
   # The `voice_channel` method returns the voice channel the user is currently in, or `nil` if the user is not in a
@@ -33,7 +33,7 @@ bot.command(:play_mp3) do |event|
   #
   # It returns a `VoiceBot` object that methods such as `play_file` can be called on.
   voice_bot = event.voice
-  voice_bot.play_file('data/music.mp3')
+  voice_bot.play_file("data/music.mp3")
 end
 
 # DCA is a custom audio format developed by a couple people from the Discord API community (including myself, meew0).
@@ -47,7 +47,7 @@ bot.command(:play_dca) do |event|
 
   # Since the DCA format is non-standard (i.e. ffmpeg doesn't support it), a separate method other than `play_file` has
   # to be used to play DCA files back. `play_dca` fulfills that role.
-  voice_bot.play_dca('data/music.dca')
+  voice_bot.play_dca("data/music.dca")
 end
 
 bot.run

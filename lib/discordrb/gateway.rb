@@ -164,22 +164,22 @@ module Discordrb
     # Connect to the gateway server in a separate thread
     def run_async
       @ws_thread = Thread.new do
-        Thread.current[:discordrb_name] = 'websocket'
+        Thread.current[:discordrb_name] = "websocket"
         connect_loop
-        LOGGER.warn('The WS loop exited! Not sure if this is a good thing')
+        LOGGER.warn("The WS loop exited! Not sure if this is a good thing")
       end
 
-      LOGGER.debug('WS thread created! Now waiting for confirmation that everything worked')
+      LOGGER.debug("WS thread created! Now waiting for confirmation that everything worked")
       loop do
         sleep(0.5)
 
         if @ws_success
-          LOGGER.debug('Confirmation received! Exiting run.')
+          LOGGER.debug("Confirmation received! Exiting run.")
           break
         end
 
         if @should_reconnect == false
-          LOGGER.debug('Reconnection flag was unset. Exiting run.')
+          LOGGER.debug("Reconnection flag was unset. Exiting run.")
           break
         end
       end
@@ -254,7 +254,7 @@ module Discordrb
         unless @last_heartbeat_acked
           # We're in a bad situation - apparently the last heartbeat wasn't ACK'd, which means the connection is likely
           # a zombie. Reconnect
-          LOGGER.warn('Last heartbeat was not acked, so this is a zombie connection! Reconnecting')
+          LOGGER.warn("Last heartbeat was not acked, so this is a zombie connection! Reconnecting")
 
           # We can't send anything on zombie connections
           @pipe_broken = true
@@ -281,10 +281,10 @@ module Discordrb
       compress = @compress_mode == :large
       send_identify(@token, {
                       os: RUBY_PLATFORM,
-                      browser: 'discordrb',
-                      device: 'discordrb',
-                      referrer: '',
-                      referring_domain: ''
+                      browser: "discordrb",
+                      device: "discordrb",
+                      referrer: "",
+                      referring_domain: ""
                     }, compress, LARGE_THRESHOLD, @shard_key, @intents)
     end
 
@@ -446,7 +446,7 @@ module Discordrb
 
       @heartbeat_interval = interval
       @heartbeat_thread = Thread.new do
-        Thread.current[:discordrb_name] = 'heartbeat'
+        Thread.current[:discordrb_name] = "heartbeat"
         loop do
           # Send a heartbeat if heartbeats are active and either no session exists yet, or an existing session is
           # suspended (e.g. after op7)
@@ -458,7 +458,7 @@ module Discordrb
             sleep 1
           end
         rescue StandardError => e
-          LOGGER.error('An error occurred while heartbeating!')
+          LOGGER.error("An error occurred while heartbeating!")
           LOGGER.log_exception(e)
         end
       end
@@ -475,7 +475,7 @@ module Discordrb
         break unless @should_reconnect
 
         if @instant_reconnect
-          LOGGER.info('Instant reconnection flag was set - reconnecting right away')
+          LOGGER.info("Instant reconnection flag was set - reconnecting right away")
           @instant_reconnect = false
         else
           wait_for_reconnect
@@ -504,8 +504,8 @@ module Discordrb
       if secure_uri?(uri)
         ctx = OpenSSL::SSL::SSLContext.new
 
-        if ENV['DISCORDRB_SSL_VERIFY_NONE']
-          ctx.ssl_version = 'SSLv23'
+        if ENV["DISCORDRB_SSL_VERIFY_NONE"]
+          ctx.ssl_version = "SSLv23"
           ctx.verify_mode = OpenSSL::SSL::VERIFY_NONE # use VERIFY_PEER for verification
 
           cert_store = OpenSSL::X509::Store.new
@@ -534,14 +534,14 @@ module Discordrb
 
     def find_gateway
       response = API.gateway(@token)
-      JSON.parse(response)['url']
+      JSON.parse(response)["url"]
     end
 
     def process_gateway
       raw_url = find_gateway
 
       # Append a slash in case it's not there (I'm not sure how well WSCS handles it otherwise)
-      raw_url += '/' unless raw_url.end_with? '/'
+      raw_url += "/" unless raw_url.end_with? "/"
 
       query = if @compress_mode == :stream
                 "?encoding=json&v=#{GATEWAY_VERSION}&compress=zlib-stream"
@@ -553,7 +553,7 @@ module Discordrb
     end
 
     def connect
-      LOGGER.debug('Connecting')
+      LOGGER.debug("Connecting")
 
       # Get the URI we should connect to
       url = process_gateway
@@ -567,7 +567,7 @@ module Discordrb
 
       # Connect to the obtained URI with a socket
       @socket = obtain_socket(gateway_uri)
-      LOGGER.debug('Obtained socket')
+      LOGGER.debug("Obtained socket")
 
       # Initialise some properties
       @handshake = ::WebSocket::Handshake::Client.new(url: url) # Represents the handshake between us and the server
@@ -578,7 +578,7 @@ module Discordrb
       # We're done! Delegate to the websocket loop
       websocket_loop
     rescue StandardError => e
-      LOGGER.error('An error occurred while connecting to the websocket!')
+      LOGGER.error("An error occurred while connecting to the websocket!")
       LOGGER.log_exception(e)
     end
 
@@ -592,8 +592,8 @@ module Discordrb
       until @closed
         begin
           unless @socket
-            LOGGER.warn('Socket is nil in websocket_loop! Reconnecting')
-            handle_internal_close('Socket is nil in websocket_loop')
+            LOGGER.warn("Socket is nil in websocket_loop! Reconnecting")
+            handle_internal_close("Socket is nil in websocket_loop")
             next
           end
 
@@ -602,7 +602,7 @@ module Discordrb
             recv_data = @socket.readpartial(4096)
           rescue EOFError
             @pipe_broken = true
-            handle_internal_close('Socket EOF in websocket_loop')
+            handle_internal_close("Socket EOF in websocket_loop")
             next
           end
 
@@ -652,7 +652,7 @@ module Discordrb
     def handle_open; end
 
     def handle_error(e)
-      LOGGER.error('An error occurred in the main websocket loop!')
+      LOGGER.error("An error occurred in the main websocket loop!")
       LOGGER.log_exception(e)
     end
 
@@ -661,7 +661,7 @@ module Discordrb
     def handle_message(msg)
       case @compress_mode
       when :large
-        if msg.byteslice(0) == 'x'
+        if msg.byteslice(0) == "x"
           # The message is compressed, inflate it
           msg = Zlib::Inflate.inflate(msg)
         end
@@ -673,12 +673,12 @@ module Discordrb
         return if msg.bytesize < 4 || msg.byteslice(-4, 4) != ZLIB_SUFFIX
 
         # Inflate the deflated buffer
-        msg = @zlib_reader.inflate('')
+        msg = @zlib_reader.inflate("")
       end
 
       # Parse packet
       packet = JSON.parse(msg)
-      op = packet['op'].to_i
+      op = packet["op"].to_i
 
       LOGGER.in(packet)
 
@@ -687,7 +687,7 @@ module Discordrb
       # Only do this, of course, if a session has been created already; for a READY dispatch (which has s=0 set but is
       # the packet that starts the session in the first place) we need not do any handling since initialising the
       # session will set it to 0 by default.
-      @session.sequence = packet['s'] if packet['s'] && @session
+      @session.sequence = packet["s"] if packet["s"] && @session
 
       case op
       when Opcodes::DISPATCH
@@ -709,21 +709,21 @@ module Discordrb
 
     # Op 0
     def handle_dispatch(packet)
-      data = packet['d']
-      type = packet['t'].intern
+      data = packet["d"]
+      type = packet["t"].intern
 
       case type
       when :READY
         LOGGER.info("Discord using gateway protocol version: #{data['v']}, requested: #{GATEWAY_VERSION}")
 
-        @session = Session.new(data['session_id'])
+        @session = Session.new(data["session_id"])
         @session.sequence = 0
         @bot.__send__(:notify_ready) if @intents && (@intents & INTENTS[:servers]).zero?
       when :RESUMED
         # The RESUMED event is received after a successful op 6 (resume). It does nothing except tell the bot the
         # connection is initiated (like READY would). Starting with v5, it doesn't set a new heartbeat interval anymore
         # since that is handled by op 10 (HELLO).
-        LOGGER.info 'Resumed'
+        LOGGER.info "Resumed"
         return
       end
 
@@ -733,23 +733,23 @@ module Discordrb
     # Op 1
     def handle_heartbeat(packet)
       # If we receive a heartbeat, we have to resend one with the same sequence
-      send_heartbeat(packet['s'])
+      send_heartbeat(packet["s"])
     end
 
     # Op 7
     def handle_reconnect
-      LOGGER.debug('Received op 7, reconnecting and attempting resume')
+      LOGGER.debug("Received op 7, reconnecting and attempting resume")
       reconnect
     end
 
     # Op 9
     def handle_invalidate_session
-      LOGGER.debug('Received op 9, invalidating session and re-identifying.')
+      LOGGER.debug("Received op 9, invalidating session and re-identifying.")
 
       if @session
         @session.invalidate
       else
-        LOGGER.warn('Received op 9 without a running session! Not invalidating, we *should* be fine though.')
+        LOGGER.warn("Received op 9 without a running session! Not invalidating, we *should* be fine though.")
       end
 
       identify
@@ -757,10 +757,10 @@ module Discordrb
 
     # Op 10
     def handle_hello(packet)
-      LOGGER.debug('Hello!')
+      LOGGER.debug("Hello!")
 
       # The heartbeat interval is given in ms, so divide it by 1000 to get seconds
-      interval = packet['d']['heartbeat_interval'].to_f / 1000.0
+      interval = packet["d"]["heartbeat_interval"].to_f / 1000.0
       setup_heartbeats(interval)
 
       LOGGER.debug("Trace: #{packet['d']['_trace']}")
@@ -801,7 +801,7 @@ module Discordrb
 
       if e.respond_to? :code
         # It is a proper close frame we're dealing with, print reason and message to console
-        LOGGER.error('Websocket close frame received!')
+        LOGGER.error("Websocket close frame received!")
         LOGGER.error("Code: #{e.code}")
         LOGGER.error("Message: #{e.data}")
 
@@ -816,7 +816,7 @@ module Discordrb
         @should_reconnect = false if FATAL_CLOSE_CODES.include?(e.code)
       elsif e.is_a? Exception
         # Log the exception
-        LOGGER.error('The websocket connection has closed due to an error!')
+        LOGGER.error("The websocket connection has closed due to an error!")
         LOGGER.log_exception(e)
       else
         LOGGER.error("The websocket connection has closed: #{e&.inspect || '(no information)'}")
@@ -828,7 +828,7 @@ module Discordrb
 
       unless @handshaked && !@closed
         # If we're not handshaked or closed, it means there's no connection to send anything to
-        raise 'Tried to send something to the websocket while not being connected!'
+        raise "Tried to send something to the websocket while not being connected!"
       end
 
       # Create the frame we're going to send

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'discordrb/webhooks/builder'
-require 'discordrb/webhooks/view'
+require "discordrb/webhooks/builder"
+require "discordrb/webhooks/view"
 
 module Discordrb
   # A webhook on a server channel
@@ -34,22 +34,22 @@ module Discordrb
     def initialize(data, bot)
       @bot = bot
 
-      @name = data['name']
-      @id = data['id'].to_i
-      @channel = bot.channel(data['channel_id'])
+      @name = data["name"]
+      @id = data["id"].to_i
+      @channel = bot.channel(data["channel_id"])
       @server = @channel.server
-      @token = data['token']
-      @avatar = data['avatar']
-      @type = data['type']
+      @token = data["token"]
+      @avatar = data["avatar"]
+      @type = data["type"]
 
       # Will not exist if the data was requested through a webhook token
-      return unless data['user']
+      return unless data["user"]
 
-      @owner = @server.member(data['user']['id'].to_i)
+      @owner = @server.member(data["user"]["id"].to_i)
       return if @owner
 
       Discordrb::LOGGER.debug("Member with ID #{data['user']['id']} not cached (possibly left the server).")
-      @owner = @bot.ensure_user(data['user'])
+      @owner = @bot.ensure_user(data["user"])
     end
 
     # Sets the webhook's avatar.
@@ -219,9 +219,9 @@ module Discordrb
     end
 
     def update_internal(data)
-      @name = data['name']
-      @avatar_id = data['avatar']
-      @channel = @bot.channel(data['channel_id'])
+      @name = data["name"]
+      @avatar_id = data["avatar"]
+      @channel = @bot.channel(data["channel_id"])
     end
 
     def update_webhook(new_data)
@@ -232,7 +232,7 @@ module Discordrb
                           API::Webhook.update_webhook(@bot.token, @id, new_data, reason)
                         end)
       # Only update cache if API call worked
-      update_internal(data) if data['name']
+      update_internal(data) if data["name"]
     end
   end
 end

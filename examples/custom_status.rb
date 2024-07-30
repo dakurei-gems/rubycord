@@ -1,28 +1,28 @@
 # frozen_string_literal: true
 
-require 'discordrb'
+require "discordrb"
 
-bot = Discordrb::Bot.new token: ENV.fetch('DISCORDRB_TOKEN')
-custom_status = ['Hello World!', '❤️ Love you', 'Finally custom status 🎉']
+bot = Discordrb::Bot.new token: ENV.fetch("DISCORDRB_TOKEN")
+custom_status = ["Hello World!", "❤️ Love you", "Finally custom status 🎉"]
 initialized = false
 thread = []
 
 bot.ready do |_|
   next if initialized
 
-  bot.game = 'game'
+  bot.game = "game"
   sleep 5
 
-  bot.listening = 'music'
+  bot.listening = "music"
   sleep 5
 
-  bot.watching = 'you'
+  bot.watching = "you"
   sleep 5
 
-  bot.competing = 'mario kart'
+  bot.competing = "mario kart"
   sleep 5
 
-  bot.stream('discordrb', 'https://twitch.tv/shardlab')
+  bot.stream("discordrb", "https://twitch.tv/shardlab")
   sleep 5
 
   initialized = true

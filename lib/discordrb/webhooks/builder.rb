@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require 'discordrb/webhooks/embeds'
+require "discordrb/webhooks/embeds"
 
 module Discordrb::Webhooks
   # A class that acts as a builder for a webhook message object.
   class Builder
-    def initialize(content: '', username: nil, avatar_url: nil, tts: false, file: nil, embeds: [], allowed_mentions: nil)
+    def initialize(content: "", username: nil, avatar_url: nil, tts: false, file: nil, embeds: [], allowed_mentions: nil)
       @content = content
       @username = username
       @avatar_url = avatar_url
@@ -37,7 +37,7 @@ module Discordrb::Webhooks
     # either a file to be sent or an embed.
     # @param file [File] A file to be sent.
     def file=(file)
-      raise ArgumentError, 'Embeds and files are mutually exclusive!' unless @embeds.empty?
+      raise ArgumentError, "Embeds and files are mutually exclusive!" unless @embeds.empty?
 
       @file = file
     end
@@ -45,7 +45,7 @@ module Discordrb::Webhooks
     # Adds an embed to this message.
     # @param embed [Embed] The embed to add.
     def <<(embed)
-      raise ArgumentError, 'Embeds and files are mutually exclusive!' if @file
+      raise ArgumentError, "Embeds and files are mutually exclusive!" if @file
 
       @embeds << embed
     end

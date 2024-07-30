@@ -45,7 +45,7 @@ module Discordrb
     def initialize(object = nil, type: nil, allow: 0, deny: 0)
       if type
         type = TYPES.value?(type) ? TYPES.key(type) : type.to_sym
-        raise ArgumentError, 'Overwrite type must be :member or :role' unless type
+        raise ArgumentError, "Overwrite type must be :member or :role" unless type
       end
 
       @id = object.respond_to?(:id) ? object.id : object
@@ -76,10 +76,10 @@ module Discordrb
     # @!visibility private
     def self.from_hash(data)
       new(
-        data['id'].to_i,
-        type: TYPES.key(data['type']),
-        allow: Permissions.new(data['allow']),
-        deny: Permissions.new(data['deny'])
+        data["id"].to_i,
+        type: TYPES.key(data["type"]),
+        allow: Permissions.new(data["allow"]),
+        deny: Permissions.new(data["deny"])
       )
     end
 

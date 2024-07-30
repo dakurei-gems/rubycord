@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'discordrb/events/generic'
+require "discordrb/events/generic"
 
 module Discordrb::Events
   # Raised when a user is banned
@@ -13,8 +13,8 @@ module Discordrb::Events
 
     # @!visibility private
     def initialize(data, bot)
-      @user = bot.user(data['user']['id'].to_i)
-      @server = bot.server(data['guild_id'].to_i)
+      @user = bot.user(data["user"]["id"].to_i)
+      @server = bot.server(data["guild_id"].to_i)
       @bot = bot
     end
   end

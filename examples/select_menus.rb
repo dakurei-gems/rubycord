@@ -1,22 +1,22 @@
 # frozen_string_literal: true
 
-require 'discordrb'
-require 'securerandom'
+require "discordrb"
+require "securerandom"
 
-bot = Discordrb::Bot.new(token: ENV.fetch('DISCORDRB_TOKEN'))
+bot = Discordrb::Bot.new(token: ENV.fetch("DISCORDRB_TOKEN"))
 
 bot.message do |event|
-  if event.message.content == 'TEST'
-    event.channel.send_message('Examples of different select menus')
+  if event.message.content == "TEST"
+    event.channel.send_message("Examples of different select menus")
 
     event.channel.send_message(
-      'string_select (old select_menu, but alias define to keep legacy)', false, nil, nil, nil, nil,
+      "string_select (old select_menu, but alias define to keep legacy)", false, nil, nil, nil, nil,
       Discordrb::Components::View.new do |builder|
         builder.row do |r|
-          r.string_select(custom_id: 'string_select', placeholder: 'Test of StringSelect', max_values: 3) do |ss|
-            ss.option(label: 'Value 1', value: '1', description: 'First value', emoji: { name: '1️⃣' })
-            ss.option(label: 'Value 2', value: '2', description: 'Second value', emoji: { name: '2️⃣' })
-            ss.option(label: 'Value 3', value: '3', description: 'Third value', emoji: { name: '3️⃣' })
+          r.string_select(custom_id: "string_select", placeholder: "Test of StringSelect", max_values: 3) do |ss|
+            ss.option(label: "Value 1", value: "1", description: "First value", emoji: { name: "1️⃣" })
+            ss.option(label: "Value 2", value: "2", description: "Second value", emoji: { name: "2️⃣" })
+            ss.option(label: "Value 3", value: "3", description: "Third value", emoji: { name: "3️⃣" })
           end
           # Same as above with the alias to keep the compatibility with the old method
           # r.select_menu(custom_id: 'string_select', placeholder: 'Test of StringSelect', max_values: 3) do |ss|
@@ -29,46 +29,46 @@ bot.message do |event|
     )
 
     event.channel.send_message(
-      'user_select', false, nil, nil, nil, nil,
+      "user_select", false, nil, nil, nil, nil,
       Discordrb::Components::View.new do |builder|
         builder.row do |r|
-          r.user_select(custom_id: 'user_select', placeholder: 'Test of UserSelect', max_values: 3, disabled: true)
+          r.user_select(custom_id: "user_select", placeholder: "Test of UserSelect", max_values: 3, disabled: true)
         end
       end
     )
 
     event.channel.send_message(
-      'user_select', false, nil, nil, nil, nil,
+      "user_select", false, nil, nil, nil, nil,
       Discordrb::Components::View.new do |builder|
         builder.row do |r|
-          r.user_select(custom_id: 'user_select', placeholder: 'Test of UserSelect', max_values: 3)
+          r.user_select(custom_id: "user_select", placeholder: "Test of UserSelect", max_values: 3)
         end
       end
     )
 
     event.channel.send_message(
-      'role_select', false, nil, nil, nil, nil,
+      "role_select", false, nil, nil, nil, nil,
       Discordrb::Components::View.new do |builder|
         builder.row do |r|
-          r.role_select(custom_id: 'role_select', placeholder: 'Test of RoleSelect', max_values: 3)
+          r.role_select(custom_id: "role_select", placeholder: "Test of RoleSelect", max_values: 3)
         end
       end
     )
 
     event.channel.send_message(
-      'mentionable_select', false, nil, nil, nil, nil,
+      "mentionable_select", false, nil, nil, nil, nil,
       Discordrb::Components::View.new do |builder|
         builder.row do |r|
-          r.mentionable_select(custom_id: 'mentionable_select', placeholder: 'Test of MentionableSelect', max_values: 3)
+          r.mentionable_select(custom_id: "mentionable_select", placeholder: "Test of MentionableSelect", max_values: 3)
         end
       end
     )
 
     event.channel.send_message(
-      'channel_select', false, nil, nil, nil, nil,
+      "channel_select", false, nil, nil, nil, nil,
       Discordrb::Components::View.new do |builder|
         builder.row do |r|
-          r.channel_select(custom_id: 'channel_select', placeholder: 'Test of ChannelSelect', max_values: 3)
+          r.channel_select(custom_id: "channel_select", placeholder: "Test of ChannelSelect", max_values: 3)
         end
       end
     )

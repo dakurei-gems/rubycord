@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'discordrb/events/generic'
-require 'discordrb/data'
+require "discordrb/events/generic"
+require "discordrb/data"
 
 module Discordrb::Events
   # Generic superclass for events about adding and removing reactions
@@ -17,10 +17,10 @@ module Discordrb::Events
     def initialize(data, bot)
       @bot = bot
 
-      @emoji = Discordrb::Emoji.new(data['emoji'], bot, nil)
-      @user_id = data['user_id'].to_i
-      @message_id = data['message_id'].to_i
-      @channel_id = data['channel_id'].to_i
+      @emoji = Discordrb::Emoji.new(data["emoji"], bot, nil)
+      @user_id = data["user_id"].to_i
+      @message_id = data["message_id"].to_i
+      @channel_id = data["channel_id"].to_i
     end
 
     # @return [User, Member] the user that reacted to this message, or member if a server exists.
@@ -61,7 +61,7 @@ module Discordrb::Events
           when Integer
             e.id == a
           when String
-            e.name == a || e.name == a.delete(':') || e.id == a.resolve_id
+            e.name == a || e.name == a.delete(":") || e.id == a.resolve_id
           else
             e == a
           end
@@ -73,7 +73,7 @@ module Discordrb::Events
           case a
           when String
             # Make sure to remove the "#" from channel names in case it was specified
-            a.delete('#') == e.name
+            a.delete("#") == e.name
           when Integer
             a == e.id
           else
@@ -116,8 +116,8 @@ module Discordrb::Events
     def initialize(data, bot)
       @bot = bot
 
-      @message_id = data['message_id'].to_i
-      @channel_id = data['channel_id'].to_i
+      @message_id = data["message_id"].to_i
+      @channel_id = data["channel_id"].to_i
     end
 
     # @return [Channel] the channel where the removal occurred.
@@ -145,7 +145,7 @@ module Discordrb::Events
           case a
           when String
             # Make sure to remove the "#" from channel names in case it was specified
-            a.delete('#') == e.name
+            a.delete("#") == e.name
           when Integer
             a == e.id
           else

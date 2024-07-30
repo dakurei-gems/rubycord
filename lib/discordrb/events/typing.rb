@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'discordrb/events/generic'
+require "discordrb/events/generic"
 
 module Discordrb::Events
   # Event raised when a user starts typing
@@ -20,9 +20,9 @@ module Discordrb::Events
     def initialize(data, bot)
       @bot = bot
 
-      @user_id = data['user_id'].to_i
+      @user_id = data["user_id"].to_i
 
-      @channel_id = data['channel_id'].to_i
+      @channel_id = data["channel_id"].to_i
       @channel = bot.channel(@channel_id)
 
       @user = if channel.pm?
@@ -33,7 +33,7 @@ module Discordrb::Events
                 bot.member(@channel.server.id, @user_id)
               end
 
-      @timestamp = Time.at(data['timestamp'].to_i)
+      @timestamp = Time.at(data["timestamp"].to_i)
     end
   end
 
@@ -47,7 +47,7 @@ module Discordrb::Events
         matches_all(@attributes[:in], event.channel) do |a, e|
           case a
           when String
-            a.delete('#') == e.name
+            a.delete("#") == e.name
           when Integer
             a == e.id
           else

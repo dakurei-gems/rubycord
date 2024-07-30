@@ -26,7 +26,7 @@ module Discordrb
         # Set the file to binary mode if supported, so we don't get problems with Windows
         avatar.binmode if avatar.respond_to?(:binmode)
 
-        avatar_string = 'data:image/jpg;base64,'
+        avatar_string = "data:image/jpg;base64,"
         avatar_string += Base64.strict_encode64(avatar.read)
         update_profile_data(avatar: avatar_string)
       else
@@ -45,19 +45,19 @@ module Discordrb
     # Sets the user status setting to Online.
     # @note Only usable on User accounts.
     def online
-      update_profile_status_setting('online')
+      update_profile_status_setting("online")
     end
 
     # Sets the user status setting to Idle.
     # @note Only usable on User accounts.
     def idle
-      update_profile_status_setting('idle')
+      update_profile_status_setting("idle")
     end
 
     # Sets the user status setting to Do Not Disturb.
     # @note Only usable on User accounts.
     def dnd
-      update_profile_status_setting('dnd')
+      update_profile_status_setting("dnd")
     end
 
     alias_method(:busy, :dnd)
@@ -65,7 +65,7 @@ module Discordrb
     # Sets the user status setting to Invisible.
     # @note Only usable on User accounts.
     def invisible
-      update_profile_status_setting('invisible')
+      update_profile_status_setting("invisible")
     end
 
     # The inspect method is overwritten to give more useful output

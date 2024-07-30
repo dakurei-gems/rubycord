@@ -1,21 +1,21 @@
 # frozen_string_literal: true
 
-require 'discordrb/events/message'
-require 'discordrb/events/typing'
-require 'discordrb/events/lifetime'
-require 'discordrb/events/presence'
-require 'discordrb/events/voice_state_update'
-require 'discordrb/events/voice_server_update'
-require 'discordrb/events/channels'
-require 'discordrb/events/members'
-require 'discordrb/events/roles'
-require 'discordrb/events/guilds'
-require 'discordrb/events/await'
-require 'discordrb/events/bans'
-require 'discordrb/events/reactions'
-require 'discordrb/events/interactions'
+require "discordrb/events/message"
+require "discordrb/events/typing"
+require "discordrb/events/lifetime"
+require "discordrb/events/presence"
+require "discordrb/events/voice_state_update"
+require "discordrb/events/voice_server_update"
+require "discordrb/events/channels"
+require "discordrb/events/members"
+require "discordrb/events/roles"
+require "discordrb/events/guilds"
+require "discordrb/events/await"
+require "discordrb/events/bans"
+require "discordrb/events/reactions"
+require "discordrb/events/interactions"
 
-require 'discordrb/await'
+require "discordrb/await"
 
 module Discordrb
   # This module provides the functionality required for events and awaits. It is separated
@@ -722,7 +722,7 @@ module Discordrb
     # @return [Class, nil] the event type, or nil if the handler_class isn't a handler class (i.e. ends with Handler)
     def self.event_class(handler_class)
       class_name = handler_class.to_s
-      return nil unless class_name.end_with? 'Handler'
+      return nil unless class_name.end_with? "Handler"
 
       EventContainer.class_from_string(class_name[0..-8])
     end
@@ -731,7 +731,7 @@ module Discordrb
     # @param str [String] The name of the class
     # @return [Class] the class
     def self.class_from_string(str)
-      str.split('::').inject(Object) do |mod, class_name|
+      str.split("::").inject(Object) do |mod, class_name|
         mod.const_get(class_name)
       end
     end

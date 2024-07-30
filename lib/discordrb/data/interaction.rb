@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'discordrb/webhooks'
+require "discordrb/webhooks"
 
 module Discordrb
   # Base class for interaction objects.
@@ -61,22 +61,22 @@ module Discordrb
     def initialize(data, bot)
       @bot = bot
 
-      @id = data['id'].to_i
-      @application_id = data['application_id'].to_i
-      @type = data['type']
-      @message = data['message']
-      @data = data['data']
-      @server_id = data['guild_id']&.to_i
-      @channel_id = data['channel_id']&.to_i
-      @user = if data['member']
-                data['member']['guild_id'] = @server_id
-                Discordrb::Member.new(data['member'], bot.servers[@server_id], bot)
+      @id = data["id"].to_i
+      @application_id = data["application_id"].to_i
+      @type = data["type"]
+      @message = data["message"]
+      @data = data["data"]
+      @server_id = data["guild_id"]&.to_i
+      @channel_id = data["channel_id"]&.to_i
+      @user = if data["member"]
+                data["member"]["guild_id"] = @server_id
+                Discordrb::Member.new(data["member"], bot.servers[@server_id], bot)
               else
-                bot.ensure_user(data['user'])
+                bot.ensure_user(data["user"])
               end
-      @token = data['token']
-      @version = data['version']
-      @components = @data['components']&.filter_map { |component| Components.from_data(component, @bot) } || []
+      @token = data["token"]
+      @version = data["version"]
+      @components = @data["components"]&.filter_map { |component| Components.from_data(component, @bot) } || []
     end
 
     # Respond to the creation of this interaction. An interaction must be responded to or deferred,
@@ -274,9 +274,9 @@ module Discordrb
     def button
       return unless @type == TYPES[:component]
 
-      @message['components'].each do |row|
+      @message["components"].each do |row|
         Components::ActionRow.new(row, @bot).buttons.each do |button|
-          return button if button.custom_id == @data['custom_id']
+          return button if button.custom_id == @data["custom_id"]
         end
       end
     end
@@ -342,14 +342,14 @@ module Discordrb
     # @!visibility private
     def initialize(data, bot, server_id = nil)
       @bot = bot
-      @id = data['id'].to_i
-      @application_id = data['application_id'].to_i
+      @id = data["id"].to_i
+      @application_id = data["application_id"].to_i
       @server_id = server_id&.to_i
 
-      @name = data['name']
-      @description = data['description']
-      @default_permission = data['default_permission']
-      @options = data['options']
+      @name = data["name"]
+      @description = data["description"]
+      @default_permission = data["default_permission"]
+      @options = data["options"]
     end
 
     # @param subcommand [String, nil] The subcommand to mention.
@@ -709,40 +709,40 @@ module Discordrb
         @data = data
         @bot = bot
         @interaction = interaction
-        @content = data['content']
-        @channel_id = data['channel_id'].to_i
-        @pinned = data['pinned']
-        @tts = data['tts']
+        @content = data["content"]
+        @channel_id = data["channel_id"].to_i
+        @pinned = data["pinned"]
+        @tts = data["tts"]
 
-        @message_reference = data['message_reference']
+        @message_reference = data["message_reference"]
 
-        @server_id = data['guild_id']&.to_i
+        @server_id = data["guild_id"]&.to_i
 
-        @timestamp = Time.parse(data['timestamp']) if data['timestamp']
-        @edited_timestamp = data['edited_timestamp'].nil? ? nil : Time.parse(data['edited_timestamp'])
+        @timestamp = Time.parse(data["timestamp"]) if data["timestamp"]
+        @edited_timestamp = data["edited_timestamp"].nil? ? nil : Time.parse(data["edited_timestamp"])
         @edited = !@edited_timestamp.nil?
 
-        @id = data['id'].to_i
+        @id = data["id"].to_i
 
-        @author = bot.ensure_user(data['author'] || data['member']['user'])
+        @author = bot.ensure_user(data["author"] || data["member"]["user"])
 
         @attachments = []
-        @attachments = data['attachments'].map { |e| Attachment.new(e, self, @bot) } if data['attachments']
+        @attachments = data["attachments"].map { |e| Attachment.new(e, self, @bot) } if data["attachments"]
 
         @embeds = []
-        @embeds = data['embeds'].map { |e| Embed.new(e, self) } if data['embeds']
+        @embeds = data["embeds"].map { |e| Embed.new(e, self) } if data["embeds"]
 
         @mentions = []
 
-        data['mentions']&.each do |element|
+        data["mentions"]&.each do |element|
           @mentions << bot.ensure_user(element)
         end
 
-        @mention_roles = data['mention_roles']
-        @mention_everyone = data['mention_everyone']
-        @flags = data['flags']
-        @pinned = data['pinned']
-        @components = data['components'].map { |component_data| Components.from_data(component_data, @bot) } if data['components']
+        @mention_roles = data["mention_roles"]
+        @mention_everyone = data["mention_everyone"]
+        @flags = data["flags"]
+        @pinned = data["pinned"]
+        @components = data["components"].map { |component_data| Components.from_data(component_data, @bot) } if data["components"]
       end
 
       # @return [Member, nil] This will return nil if the bot does not have access to the

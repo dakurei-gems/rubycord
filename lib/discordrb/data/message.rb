@@ -76,44 +76,44 @@ module Discordrb
     # @!visibility private
     def initialize(data, bot)
       @bot = bot
-      @content = data['content']
-      @channel = bot.channel(data['channel_id'].to_i)
-      @pinned = data['pinned']
-      @type = data['type']
-      @tts = data['tts']
-      @nonce = data['nonce']
-      @mention_everyone = data['mention_everyone']
+      @content = data["content"]
+      @channel = bot.channel(data["channel_id"].to_i)
+      @pinned = data["pinned"]
+      @type = data["type"]
+      @tts = data["tts"]
+      @nonce = data["nonce"]
+      @mention_everyone = data["mention_everyone"]
 
-      @referenced_message = Message.new(data['referenced_message'], bot) if data['referenced_message']
-      @message_reference = data['message_reference']
+      @referenced_message = Message.new(data["referenced_message"], bot) if data["referenced_message"]
+      @message_reference = data["message_reference"]
 
       @server = @channel.server
 
-      @webhook_id = data['webhook_id']&.to_i
+      @webhook_id = data["webhook_id"]&.to_i
 
-      @author = if data['author']
+      @author = if data["author"]
                   if @webhook_id
                     # This is a webhook user! It would be pointless to try to resolve a member here, so we just create
                     # a User and return that instead.
                     Discordrb::LOGGER.debug("Webhook user: #{data['author']['id']}")
-                    User.new(data['author'].merge({ '_webhook' => true }), @bot)
+                    User.new(data["author"].merge({ "_webhook" => true }), @bot)
                   elsif @channel.private?
                     # Turn the message user into a recipient - we can't use the channel recipient
                     # directly because the bot may also send messages to the channel
-                    Recipient.new(bot.user(data['author']['id'].to_i), @channel, bot)
+                    Recipient.new(bot.user(data["author"]["id"].to_i), @channel, bot)
                   else
-                    member = @channel.server.member(data['author']['id'].to_i)
+                    member = @channel.server.member(data["author"]["id"].to_i)
 
                     if member
-                      member.update_data(data['member']) if data['member']
-                      member.update_global_name(data['author']['global_name']) if data['author']['global_name']
+                      member.update_data(data["member"]) if data["member"]
+                      member.update_global_name(data["author"]["global_name"]) if data["author"]["global_name"]
                     else
                       Discordrb::LOGGER.debug("Member with ID #{data['author']['id']} not cached (possibly left the server).")
-                      member = if data['member']
-                                 member_data = data['author'].merge(data['member'])
+                      member = if data["member"]
+                                 member_data = data["author"].merge(data["member"])
                                  Member.new(member_data, @server, bot)
                                else
-                                 @bot.ensure_user(data['author'])
+                                 @bot.ensure_user(data["author"])
                                end
                     end
 
@@ -121,22 +121,22 @@ module Discordrb
                   end
                 end
 
-      @timestamp = Time.parse(data['timestamp']) if data['timestamp']
-      @edited_timestamp = data['edited_timestamp'].nil? ? nil : Time.parse(data['edited_timestamp'])
+      @timestamp = Time.parse(data["timestamp"]) if data["timestamp"]
+      @edited_timestamp = data["edited_timestamp"].nil? ? nil : Time.parse(data["edited_timestamp"])
       @edited = !@edited_timestamp.nil?
-      @id = data['id'].to_i
+      @id = data["id"].to_i
 
       @emoji = []
 
       @reactions = []
 
-      data['reactions']&.each do |element|
+      data["reactions"]&.each do |element|
         @reactions << Reaction.new(element)
       end
 
       @mentions = []
 
-      data['mentions']&.each do |element|
+      data["mentions"]&.each do |element|
         @mentions << bot.ensure_user(element)
       end
 
@@ -144,19 +144,19 @@ module Discordrb
 
       # Role mentions can only happen on public servers so make sure we only parse them there
       if @channel.text?
-        data['mention_roles']&.each do |element|
+        data["mention_roles"]&.each do |element|
           @role_mentions << @channel.server.role(element.to_i)
         end
       end
 
       @attachments = []
-      @attachments = data['attachments'].map { |e| Attachment.new(e, self, @bot) } if data['attachments']
+      @attachments = data["attachments"].map { |e| Attachment.new(e, self, @bot) } if data["attachments"]
 
       @embeds = []
-      @embeds = data['embeds'].map { |e| Embed.new(e, self) } if data['embeds']
+      @embeds = data["embeds"].map { |e| Embed.new(e, self) } if data["embeds"]
 
       @components = []
-      @components = data['components'].map { |component_data| Components.from_data(component_data, @bot) } if data['components']
+      @components = data["components"].map { |component_data| Components.from_data(component_data, @bot) } if data["components"]
     end
 
     # Replies to this message with the specified content.
@@ -385,8 +385,8 @@ module Discordrb
       return @referenced_message if @referenced_message
       return nil unless @message_reference
 
-      referenced_channel = @bot.channel(@message_reference['channel_id'])
-      @referenced_message = referenced_channel.message(@message_reference['message_id'])
+      referenced_channel = @bot.channel(@message_reference["channel_id"])
+      @referenced_message = referenced_channel.message(@message_reference["message_id"])
     end
 
     # @return [Array<Components::Button>]

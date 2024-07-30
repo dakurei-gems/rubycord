@@ -5,17 +5,17 @@
 # taken since anyone with access to the command can execute arbitrary code on your system which may potentially be
 # malicious.
 
-require 'discordrb'
+require "discordrb"
 
-bot = Discordrb::Commands::CommandBot.new token: 'B0T.T0KEN.here', prefix: '!'
+bot = Discordrb::Commands::CommandBot.new token: "B0T.T0KEN.here", prefix: "!"
 
 bot.command(:eval, help_available: false) do |event, *code|
   break unless event.user.id == 66237334693085184 # Replace number with your ID
 
   begin
-    eval code.join(' ')
+    eval code.join(" ")
   rescue StandardError
-    'An error occurred 😞'
+    "An error occurred 😞"
   end
 end
 
