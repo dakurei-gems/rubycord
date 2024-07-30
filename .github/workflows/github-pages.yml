@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - name: Checkout repository for Yard
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: discordrb_docs
 
@@ -28,6 +28,11 @@ jobs:
           sudo apt update
           sudo apt install -y git openssh-client
 
+      - name: Setup Git config
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
       - name: Setup Ruby 3.1
         uses: ruby/setup-ruby@v1
         with:
@@ -35,7 +40,7 @@ jobs:
           bundler-cache: true
 
       - name: Checkout repository for Github Pages
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: discordrb_gh
           ref: gh-pages
@@ -52,14 +57,16 @@ jobs:
           cd discordrb_docs
           bundle exec yard --output-dir /tmp/docs
 
-      - name: Commit & Push docs
+      - name: Commit docs
         run: |
           cd discordrb_gh
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git config user.name "github-actions[bot]"
           mkdir -p $GITHUB_REF_NAME
           rm -rf $GITHUB_REF_NAME/*
           cp -r /tmp/docs/. $GITHUB_REF_NAME
           git add $GITHUB_REF_NAME
           git commit --allow-empty -m "[skip ci] Deploy docs"
+
+      - name: Push
+        run: |
+          cd discordrb_gh
           git push

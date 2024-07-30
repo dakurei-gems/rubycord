@@ -22,7 +22,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Setup libraries
       run: |
@@ -35,19 +35,6 @@ jobs:
         ruby-version: ${{ matrix.versions }}
         bundler-cache: true
 
-    - name: Run bundle install (Ruby ${{ matrix.versions }})
-      working-directory: ${{env.api-dir}}
-      run: |
-        gem install bundler
-        bundle install --jobs 4 --retry 3
-
     - name: RSpec spec (Ruby ${{ matrix.versions }})
       working-directory: ${{env.api-dir}}
-      run: bundle exec rspec spec --format progress --format RspecJunitFormatter -o ~/rspec/rspec.xml
-
-    - name: Save test results (Ruby ${{ matrix.versions }})
-      uses: actions/upload-artifact@v3
-      with:
-        name: rspec_results_${{ matrix.versions }}
-        path: ~/rspec/rspec.xml
-        retention-days: 30
+      run: bundle exec rspec spec --format progress
