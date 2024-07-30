@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Discordrb::Commands
   # This class represents a bucket for rate limiting - it keeps track of how many requests have been made and when
   # exactly the user should be rate limited.

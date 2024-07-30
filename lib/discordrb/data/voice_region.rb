@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Discordrb
   # Voice regions are the locations of servers that handle voice communication in Discord
   class VoiceRegion

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Discordrb
   # A permissions overwrite, when applied to channels describes additional
   # permissions a member needs to perform certain actions in context.

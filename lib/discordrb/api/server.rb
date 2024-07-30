@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # API calls for Server
 module Discordrb::API::Server
   module_function

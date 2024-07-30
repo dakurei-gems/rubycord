@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require "discordrb/id_object"
 
 module Discordrb

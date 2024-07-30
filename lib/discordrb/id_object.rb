@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Discordrb
   # Mixin for objects that have IDs
   module IDObject

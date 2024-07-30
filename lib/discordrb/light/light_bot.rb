@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require "discordrb/api"
 require "discordrb/api/invite"
 require "discordrb/api/user"

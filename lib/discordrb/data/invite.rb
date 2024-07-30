@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Discordrb
   # A channel referenced by an invite. It has less data than regular channels, so it's a separate class
   class InviteChannel

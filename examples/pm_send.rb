@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # This bot shows off PM functionality by sending a PM every time the bot is mentioned.
 
 require "discordrb"

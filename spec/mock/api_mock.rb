@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Mock for Discordrb::API that allows setting arbitrary results and checking previous requests
 require "json"
 

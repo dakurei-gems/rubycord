@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require "discordrb/webhooks/builder"
 require "discordrb/webhooks/view"
 

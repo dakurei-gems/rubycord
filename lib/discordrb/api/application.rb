@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # API calls for slash commands.
 module Discordrb::API::Application
   module_function

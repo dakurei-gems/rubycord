@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # A reusable view representing a component collection, with builder methods.
 class Discordrb::Webhooks::View
   # Possible button style names and values.

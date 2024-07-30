@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require "discordrb"
 
 bot = Discordrb::Bot.new token: ENV.fetch("DISCORDRB_TOKEN")

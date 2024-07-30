@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require "discordrb"
 
 # This data is shared across examples, so it needs to be defined here

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # For use with bundler:
 # require 'rubygems'
 # require 'bundler/setup'

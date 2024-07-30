@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Discordrb
   # A colour (red, green and blue values). Used for role colours. If you prefer the American spelling, the alias
   # {ColorRGB} is also available.

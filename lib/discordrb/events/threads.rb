@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Discordrb::Events
   # Raised when a thread is created
   class ThreadCreateEvent < Event

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Discordrb
   # Components are interactable interfaces that can be attached to messages.
   module Components

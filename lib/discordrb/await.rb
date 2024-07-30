@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Discordrb
   # Awaits are a way to register new, temporary event handlers on the fly. Awaits can be
   # registered using {Bot#add_await}, {User#await}, {Message#await} and {Channel#await}.

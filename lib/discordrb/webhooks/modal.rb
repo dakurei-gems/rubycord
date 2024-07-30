@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Modal component builder.
 class Discordrb::Webhooks::Modal
   # A mapping of names to types of components usable in a modal.

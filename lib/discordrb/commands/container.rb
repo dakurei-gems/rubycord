@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require "discordrb/container"
 require "discordrb/commands/rate_limiter"
 

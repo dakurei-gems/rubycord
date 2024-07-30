@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require "discordrb"
 
 # TODO: Integrate better into specs

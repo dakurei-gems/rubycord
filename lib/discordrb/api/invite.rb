@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # API calls for Invite object
 module Discordrb::API::Invite
   module_function

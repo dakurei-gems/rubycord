@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Discordrb
   # OAuth Application information
   class Application

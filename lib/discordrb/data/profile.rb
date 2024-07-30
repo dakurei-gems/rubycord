@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Discordrb
   # This class is a special variant of User that represents the bot's user profile (things like own username and the avatar).
   # It can be accessed using {Bot#profile}.

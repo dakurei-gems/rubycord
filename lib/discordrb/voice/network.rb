@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require "websocket-client-simple"
 require "socket"
 require "json"

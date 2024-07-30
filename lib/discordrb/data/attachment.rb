@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Discordrb
   # An attachment to a message
   class Attachment

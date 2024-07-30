@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Discordrb
   # Basic attributes a server should have
   module ServerAttributes

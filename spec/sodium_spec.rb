@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require "discordrb/voice/sodium"
 
 describe Discordrb::Voice::SecretBox do

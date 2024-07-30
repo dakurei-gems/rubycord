@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # API calls for interactions.
 module Discordrb::API::Interaction
   module_function

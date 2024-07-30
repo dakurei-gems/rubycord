@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Discordrb
   # A Discord role that contains permissions and applies to certain users
   class Role

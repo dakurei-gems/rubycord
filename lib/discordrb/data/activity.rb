@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Discordrb
   # Contains information about user activities such as the game they are playing,
   # music they are listening to, or their live stream.

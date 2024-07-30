@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # This makes opus an optional dependency
 begin
   require "opus-ruby"

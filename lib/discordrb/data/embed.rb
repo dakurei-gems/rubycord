@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Discordrb
   # An Embed object that is contained in a message
   # A freshly generated embed object will not appear in a message object

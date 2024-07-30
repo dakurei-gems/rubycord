@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require "discordrb"
 
 # alias so I don't have to type it out every time...

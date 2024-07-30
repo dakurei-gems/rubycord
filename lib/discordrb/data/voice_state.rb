@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Discordrb
   # A voice state represents the state of a member's connection to a voice channel. It includes data like the voice
   # channel the member is connected to and mute/deaf flags.

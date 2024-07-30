@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Discordrb
   # A message on Discord that was sent to a text channel
   class Message
