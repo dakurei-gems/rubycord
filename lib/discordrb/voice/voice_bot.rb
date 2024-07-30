@@ -211,7 +211,7 @@ module Discordrb::Voice
         end
 
         # Adjust volume
-        buf = @encoder.adjust_volume(buf, @volume) if @volume != 1.0 # rubocop:disable Lint/FloatComparison
+        buf = @encoder.adjust_volume(buf, @volume) if @volume != 1.0
 
         @first_packet = false
 

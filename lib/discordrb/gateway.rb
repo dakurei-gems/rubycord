@@ -512,7 +512,7 @@ module Discordrb
           cert_store.set_default_paths
           ctx.cert_store = cert_store
         else
-          ctx.set_params ssl_version: :TLSv1_2 # rubocop:disable Naming/VariableNumber
+          ctx.set_params ssl_version: :TLSv1_2
         end
 
         socket = OpenSSL::SSL::SSLSocket.new(socket, ctx)

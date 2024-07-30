@@ -84,7 +84,6 @@ module Discordrb
     end
 
     # Create a new code error class
-    # rubocop:disable Naming/MethodName
     def self.Code(code)
       classy = Class.new(CodeError)
       classy.instance_variable_set(:@code, code)
@@ -94,7 +93,6 @@ module Discordrb
 
       classy
     end
-    # rubocop:enable Naming/MethodName
 
     # @param code [Integer] The code to check
     # @return [Class] the error class for the given code
