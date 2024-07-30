@@ -99,7 +99,8 @@ module Discordrb::Events
     end
 
     # to be overwritten by extending event handlers
-    def after_call(event); end
+    def after_call(event)
+    end
 
     # @see Discordrb::Events::matches_all
     def matches_all(attributes, to_check, &block)

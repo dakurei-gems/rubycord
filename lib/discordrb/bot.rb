@@ -1188,31 +1188,40 @@ module Discordrb
     end
 
     # Internal handler for MESSAGE_CREATE
-    def create_message(data); end
+    def create_message(data)
+    end
 
     # Internal handler for TYPING_START
-    def start_typing(data); end
+    def start_typing(data)
+    end
 
     # Internal handler for MESSAGE_UPDATE
-    def update_message(data); end
+    def update_message(data)
+    end
 
     # Internal handler for MESSAGE_DELETE
-    def delete_message(data); end
+    def delete_message(data)
+    end
 
     # Internal handler for MESSAGE_REACTION_ADD
-    def add_message_reaction(data); end
+    def add_message_reaction(data)
+    end
 
     # Internal handler for MESSAGE_REACTION_REMOVE
-    def remove_message_reaction(data); end
+    def remove_message_reaction(data)
+    end
 
     # Internal handler for MESSAGE_REACTION_REMOVE_ALL
-    def remove_all_message_reactions(data); end
+    def remove_all_message_reactions(data)
+    end
 
     # Internal handler for GUILD_BAN_ADD
-    def add_user_ban(data); end
+    def add_user_ban(data)
+    end
 
     # Internal handler for GUILD_BAN_REMOVE
-    def remove_user_ban(data); end
+    def remove_user_ban(data)
+    end
 
     ##        #######   ######   #### ##    ##
     ##       ##     ## ##    ##   ##  ###   ##

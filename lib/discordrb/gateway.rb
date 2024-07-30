@@ -649,7 +649,8 @@ module Discordrb
       handle_open
     end
 
-    def handle_open; end
+    def handle_open
+    end
 
     def handle_error(e)
       LOGGER.error("An error occurred in the main websocket loop!")
