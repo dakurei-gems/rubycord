@@ -2,7 +2,6 @@
 
 require "rest-client"
 require "zlib"
-require "set"
 
 require "discordrb/events/message"
 require "discordrb/events/typing"
