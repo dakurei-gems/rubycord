@@ -23,10 +23,10 @@ describe Discordrb do
     # and (if it hadn't raised) produced incorrect results
     split = Discordrb.split_message("#{"a" * 800}\n" * 6)
     expect(split).to eq([
-                          "#{"a" * 800}\n#{"a" * 800}\n",
+      "#{"a" * 800}\n#{"a" * 800}\n",
                           "#{"a" * 800}\n#{"a" * 800}\n",
                           "#{"a" * 800}\n#{"a" * 800}"
-                        ])
+    ])
   end
 
   describe Discordrb::IDObject do
