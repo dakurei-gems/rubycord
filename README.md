@@ -1,6 +1,7 @@
 [![Github Actions Rspec](https://github.com/dakurei-gems/discordrb/actions/workflows/rspec.yml/badge.svg?branch=main&event=push)](https://github.com/dakurei-gems/discordrb/actions/workflows/rspec.yml)
 [![Github Actions Standard](https://github.com/dakurei-gems/discordrb/actions/workflows/standard.yml/badge.svg?branch=main&event=push)](https://github.com/dakurei-gems/discordrb/actions/workflows/standard.yml)
 [![Github Actions CodeQL](https://github.com/dakurei-gems/discordrb/actions/workflows/codeql.yml/badge.svg?branch=main&event=push)](https://github.com/dakurei-gems/discordrb/actions/workflows/codeql.yml)
+
 [![Release](https://img.shields.io/badge/gem-v3.5.1-007ec6.svg)](https://github.com/dakurei-gems/discordrb/releases/tag/v3.5.1)
 [![Release](https://img.shields.io/badge/docs-v3.5.1-979797.svg)](https://dakurei-gems.github.io/discordrb/v3.5.1/)
 [![Stable](https://img.shields.io/badge/gem-stable-007ec6.svg)](https://github.com/dakurei-gems/discordrb/tree/stable)
