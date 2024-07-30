@@ -1,4 +1,4 @@
-name: "Github Pages"
+name: "Generate Docs"
 
 on:
   push:
@@ -6,10 +6,14 @@ on:
       - main
     tags:
       - v*
+  pull_request:
+    branches:
+      - main
 
 jobs:
   pages:
-    name: Github Pages
+    name: Generate Docs
+    if: github.repository == 'dakurei-gems/discordrb'
     runs-on: ubuntu-latest
     env:
       api-dir: ./
@@ -40,6 +44,7 @@ jobs:
           bundler-cache: true
 
       - name: Checkout repository for Github Pages
+        if: github.event_name == 'push'
         uses: actions/checkout@v4
         with:
           path: discordrb_gh
@@ -58,6 +63,7 @@ jobs:
           bundle exec yard --output-dir /tmp/docs
 
       - name: Commit docs
+        if: github.event_name == 'push'
         run: |
           cd discordrb_gh
           mkdir -p $GITHUB_REF_NAME
@@ -67,6 +73,7 @@ jobs:
           git commit --allow-empty -m "[skip ci] Deploy docs"
 
       - name: Push
+        if: github.event_name == 'push'
         run: |
           cd discordrb_gh
           git push
