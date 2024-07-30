@@ -13,7 +13,7 @@ bot.command(:eval, help_available: false) do |event, *code|
   break unless event.user.id == 66237334693085184 # Replace number with your ID
 
   begin
-    eval code.join(" ")
+    eval code.join(" ") # standard:disable Security/Eval
   rescue StandardError
     "An error occurred 😞"
   end
