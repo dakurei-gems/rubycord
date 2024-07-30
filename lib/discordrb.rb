@@ -88,11 +88,11 @@ module Discordrb
     joined = tri.map(&:join)
 
     # Find the largest element that is still below the character limit, or if none such element exists return the first
-    ideal = joined.max_by { |e| e.length > CHARACTER_LIMIT ? -1 : e.length }
+    ideal = joined.max_by { |e| (e.length > CHARACTER_LIMIT) ? -1 : e.length }
 
     # If it's still larger than the character limit (none was smaller than it) split it into the largest chunk without
     # cutting words apart, breaking on the nearest space within character limit, otherwise just return an array with one element
-    ideal_ary = ideal.length > CHARACTER_LIMIT ? ideal.split(/(.{1,#{CHARACTER_LIMIT}}\b|.{1,#{CHARACTER_LIMIT}})/o).reject(&:empty?) : [ideal]
+    ideal_ary = (ideal.length > CHARACTER_LIMIT) ? ideal.split(/(.{1,#{CHARACTER_LIMIT}}\b|.{1,#{CHARACTER_LIMIT}})/o).reject(&:empty?) : [ideal]
 
     # Slice off the ideal part and strip newlines
     rest = msg[ideal.length..].strip

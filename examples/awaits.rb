@@ -39,7 +39,7 @@ bot.message(start_with: "!game") do |event|
       true
     else
       # Let the user know if they guessed too high or low.
-      guess_event.respond(guess > magic ? "too high" : "too low")
+      guess_event.respond((guess > magic) ? "too high" : "too low")
 
       # Return false so the await is not destroyed, and we continue to listen
       false

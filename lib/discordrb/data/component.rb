@@ -203,7 +203,7 @@ module Discordrb
       # @!visibility private
       def initialize(data, bot)
         @bot = bot
-        @style = data["style"] == SHORT ? :short : :paragraph
+        @style = (data["style"] == SHORT) ? :short : :paragraph
         @label = data["label"]
         @min_length = data["min_length"]
         @max_length = data["max_length"]

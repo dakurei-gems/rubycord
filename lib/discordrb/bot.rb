@@ -559,7 +559,7 @@ module Discordrb
       activity_obj = if type == 4
         {"name" => activity, "type" => type, "state" => activity}
       else
-        activity || url ? {"name" => activity, "url" => url, "type" => type} : nil
+        (activity || url) ? {"name" => activity, "url" => url, "type" => type} : nil
       end
       @gateway.send_status_update(status, since, activity_obj, afk)
 
