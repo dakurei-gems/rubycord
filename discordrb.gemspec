@@ -7,19 +7,19 @@ require 'discordrb/version'
 Gem::Specification.new do |spec|
   spec.name          = 'discordrb'
   spec.version       = Discordrb::VERSION
-  spec.authors       = %w[meew0 swarley]
+  spec.authors       = %w[meew0 swarley Dakurei]
   spec.email         = ['']
 
   spec.summary       = 'Discord API for Ruby'
   spec.description   = 'A Ruby implementation of the Discord (https://discord.com) API.'
-  spec.homepage      = 'https://github.com/shardlab/discordrb'
+  spec.homepage      = 'https://github.com/dakurei-gems/discordrb'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features|examples|lib/discordrb/webhooks)/}) }
   spec.bindir        = 'exe'
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.metadata = {
-    'changelog_uri' => 'https://github.com/shardlab/discordrb/blob/main/CHANGELOG.md',
+    'changelog_uri' => 'https://github.com/dakurei-gems/discordrb/blob/main/CHANGELOG.md',
     'rubygems_mfa_required' => 'true'
   }
   spec.require_paths = ['lib']
