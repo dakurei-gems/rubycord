@@ -28,6 +28,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency "opus-ruby", ">= 1.0.1"
   spec.add_dependency "rest-client", ">= 2.0.0"
   spec.add_dependency "websocket-client-simple", ">= 0.3.0"
+  spec.add_dependency "base64", ">= 0.2.0"
+  spec.add_dependency "bigdecimal", ">= 3.1.8"
 
   spec.add_dependency "discordrb-webhooks", "~> 3.5.0"
 
