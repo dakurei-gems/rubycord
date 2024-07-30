@@ -1,10 +1,14 @@
-# discordrb
-
-[![Gem](https://img.shields.io/badge/gem-v3.5.1-007ec6.svg)](https://github.com/dakurei-gems/discordrb/releases/tag/v3.5.1)
-[![Gem](https://img.shields.io/badge/docs-v3.5.1-979797.svg)](https://dakurei-gems.github.io/discordrb/v3.5.1/)
 [![Github Actions Rspec](https://github.com/dakurei-gems/discordrb/actions/workflows/rspec.yml/badge.svg?branch=main&event=push)](https://github.com/dakurei-gems/discordrb/actions/workflows/rspec.yml)
 [![Github Actions Standard](https://github.com/dakurei-gems/discordrb/actions/workflows/standard.yml/badge.svg?branch=main&event=push)](https://github.com/dakurei-gems/discordrb/actions/workflows/standard.yml)
-[![Inline docs](https://img.shields.io/badge/docs-main-979797.svg)](https://dakurei-gems.github.io/discordrb/main/)
+[![Github Actions CodeQL](https://github.com/dakurei-gems/discordrb/actions/workflows/codeql.yml/badge.svg?branch=main&event=push)](https://github.com/dakurei-gems/discordrb/actions/workflows/codeql.yml)
+[![Release](https://img.shields.io/badge/gem-v3.5.1-007ec6.svg)](https://github.com/dakurei-gems/discordrb/releases/tag/v3.5.1)
+[![Release](https://img.shields.io/badge/docs-v3.5.1-979797.svg)](https://dakurei-gems.github.io/discordrb/v3.5.1/)
+[![Stable](https://img.shields.io/badge/gem-stable-007ec6.svg)](https://github.com/dakurei-gems/discordrb/tree/stable)
+[![Stable](https://img.shields.io/badge/docs-stable-979797.svg)](https://dakurei-gems.github.io/discordrb/stable/)
+[![Main (Unreleased)](https://img.shields.io/badge/gem-main-007ec6.svg)](https://github.com/dakurei-gems/discordrb/tree/main)
+[![Main (Unreleased)](https://img.shields.io/badge/docs-main-979797.svg)](https://dakurei-gems.github.io/discordrb/main/)
+
+# discordrb
 
 An implementation of the [Discord](https://discord.com/) API using Ruby.
 
@@ -62,22 +66,22 @@ This section only applies to you if you want to use voice functionality.
 Using [Bundler](https://bundler.io/#getting-started), you can add discordrb to your Gemfile:
 
 ```ruby
-gem 'discordrb', github: 'dakurei-gems/discordrb'
+gem "discordrb", github: "dakurei-gems/discordrb", branch: "stable"
 ```
 
 And then install via `bundle install`.
 
 _If you want to run a specific release, use this gem line:_
 ```ruby
-gem 'discordrb', github: 'dakurei-gems/discordrb', tag: 'v3.5.1'
+gem "discordrb", github: "dakurei-gems/discordrb", tag: "v3.5.1"
 ```
 
 _If you want to run the latest code instead, use this gem line instead:_
 ```ruby
-gem 'discordrb', github: 'dakurei-gems/discordrb', branch: 'main'
+gem "discordrb", github: "dakurei-gems/discordrb", branch: "main"
 ```
 
-⚠️ **Note that main may contain breaking changes or other unstable code !**
+⚠️ **Note that `main` may contain breaking changes or other unstable code !**
 
 Run the [ping example](https://github.com/dakurei-gems/discordrb/blob/main/examples/ping.rb) to verify that the installation works (make sure to replace the token and client ID in there with your bots'!):
 
