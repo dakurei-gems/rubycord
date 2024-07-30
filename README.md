@@ -1,7 +1,7 @@
 # discordrb
 
-[![Gem](https://img.shields.io/badge/gem-v3.5.0-007ec6.svg)](https://github.com/dakurei-gems/discordrb/releases/tag/v3.5.0)
-[![Gem](https://img.shields.io/badge/docs-v3.5.0-979797.svg)](https://dakurei-gems.github.io/discordrb/v3.5.0/)
+[![Gem](https://img.shields.io/badge/gem-v3.5.1-007ec6.svg)](https://github.com/dakurei-gems/discordrb/releases/tag/v3.5.1)
+[![Gem](https://img.shields.io/badge/docs-v3.5.1-979797.svg)](https://dakurei-gems.github.io/discordrb/v3.5.1/)
 [![Github Actions Rspec](https://github.com/dakurei-gems/discordrb/actions/workflows/rspec.yml/badge.svg?branch=main&event=push)](https://github.com/dakurei-gems/discordrb/actions/workflows/rspec.yml)
 [![Github Actions Standard](https://github.com/dakurei-gems/discordrb/actions/workflows/standard.yml/badge.svg?branch=main&event=push)](https://github.com/dakurei-gems/discordrb/actions/workflows/standard.yml)
 [![Inline docs](https://img.shields.io/badge/docs-main-979797.svg)](https://dakurei-gems.github.io/discordrb/main/)
@@ -19,7 +19,7 @@ An implementation of the [Discord](https://discord.com/) API using Ruby.
 - [Development](https://github.com/dakurei-gems/discordrb#development), [Contributing](https://github.com/dakurei-gems/discordrb#contributing)
 - [License](https://github.com/dakurei-gems/discordrb#license)
 
-See also: [Documentation](https://dakurei-gems.github.io/discordrb/v3.5.0/), [Tutorials](https://github.com/dakurei-gems/discordrb/wiki)
+See also: [Documentation](https://dakurei-gems.github.io/discordrb/v3.5.1/), [Tutorials](https://github.com/dakurei-gems/discordrb/wiki)
 
 ## Introduction
 
@@ -69,7 +69,7 @@ And then install via `bundle install`.
 
 _If you want to run a specific release, use this gem line:_
 ```ruby
-gem 'discordrb', github: 'dakurei-gems/discordrb', tag: 'v3.5.0'
+gem 'discordrb', github: 'dakurei-gems/discordrb', tag: 'v3.5.1'
 ```
 
 _If you want to run the latest code instead, use this gem line instead:_
@@ -115,7 +115,7 @@ If you've made an open source project on GitHub that uses discordrb, consider ad
 
 Also included is a webhooks client, which can be used as a separate gem `discordrb-webhooks`. This special client can be used to form requests to Discord webhook URLs in a high-level manner.
 
-- [`discordrb-webhooks` documentation](https://dakurei-gems.github.io/discordrb/v3.5.0/Discordrb/Webhooks.html)
+- [`discordrb-webhooks` documentation](https://dakurei-gems.github.io/discordrb/v3.5.1/Discordrb/Webhooks.html)
 - [More information about webhooks](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks)
 - [Embed visualizer tool](https://leovoel.github.io/embed-visualizer/) - Includes a discordrb code generator for forming embeds
 
