@@ -224,7 +224,7 @@ module Discordrb
     # @param url [String, nil] the URL to connect to or nil if one should be obtained from Discord.
     def inject_reconnect(url = nil)
       # When no URL is specified, the data should be nil, as is the case with Discord-sent packets.
-      data = url ? { url: url } : nil
+      data = url ? {url: url} : nil
 
       handle_message({
         op: Opcodes::RECONNECT,

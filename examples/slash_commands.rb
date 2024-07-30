@@ -21,7 +21,7 @@ bot.register_application_command(:example, "Example commands", server_id: ENV.fe
 
     group.subcommand("calculator", "do math!") do |sub|
       sub.integer("first", "First number")
-      sub.string("operation", "What to do", choices: { times: "*", divided_by: "/", plus: "+", minus: "-" })
+      sub.string("operation", "What to do", choices: {times: "*", divided_by: "/", plus: "+", minus: "-"})
       sub.integer("second", "Second number")
     end
 

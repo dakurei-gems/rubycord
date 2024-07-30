@@ -551,11 +551,11 @@ module Discordrb
       # @return Hash
       def option(type, name, description, required: nil, choices: nil, options: nil, min_value: nil, max_value: nil,
                  channel_types: nil)
-        opt = { type: type, name: name, description: description }
-        choices = choices.map { |option_name, value| { name: option_name, value: value } } if choices
+        opt = {type: type, name: name, description: description}
+        choices = choices.map { |option_name, value| {name: option_name, value: value} } if choices
 
-        opt.merge!({ required: required, choices: choices, options: options, min_value: min_value,
-                     max_value: max_value, channel_types: channel_types }.compact)
+        opt.merge!({required: required, choices: choices, options: options, min_value: min_value,
+                    max_value: max_value, channel_types: channel_types}.compact)
 
         @options << opt
         opt
@@ -647,7 +647,7 @@ module Discordrb
       private
 
       def create_entry(id, type, permission)
-        @permissions << { id: id, type: type, permission: permission }
+        @permissions << {id: id, type: type, permission: permission}
         self
       end
     end

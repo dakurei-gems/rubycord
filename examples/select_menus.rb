@@ -14,9 +14,9 @@ bot.message do |event|
       Discordrb::Components::View.new do |builder|
         builder.row do |r|
           r.string_select(custom_id: "string_select", placeholder: "Test of StringSelect", max_values: 3) do |ss|
-            ss.option(label: "Value 1", value: "1", description: "First value", emoji: { name: "1️⃣" })
-            ss.option(label: "Value 2", value: "2", description: "Second value", emoji: { name: "2️⃣" })
-            ss.option(label: "Value 3", value: "3", description: "Third value", emoji: { name: "3️⃣" })
+            ss.option(label: "Value 1", value: "1", description: "First value", emoji: {name: "1️⃣"})
+            ss.option(label: "Value 2", value: "2", description: "Second value", emoji: {name: "2️⃣"})
+            ss.option(label: "Value 3", value: "3", description: "Third value", emoji: {name: "3️⃣"})
           end
           # Same as above with the alias to keep the compatibility with the old method
           # r.select_menu(custom_id: 'string_select', placeholder: 'Test of StringSelect', max_values: 3) do |ss|

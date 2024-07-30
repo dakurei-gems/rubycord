@@ -195,14 +195,14 @@ module Discordrb
     # user's ID as a :from attribute.
     # @see Bot#add_await
     def await(key, attributes = {}, &block)
-      @bot.add_await(key, Discordrb::Events::MessageEvent, { from: @id }.merge(attributes), &block)
+      @bot.add_await(key, Discordrb::Events::MessageEvent, {from: @id}.merge(attributes), &block)
     end
 
     # Add a blocking await for a message from this user. Specifically, this adds a global await for a MessageEvent with this
     # user's ID as a :from attribute.
     # @see Bot#add_await!
     def await!(attributes = {}, &block)
-      @bot.add_await!(Discordrb::Events::MessageEvent, { from: @id }.merge(attributes), &block)
+      @bot.add_await!(Discordrb::Events::MessageEvent, {from: @id}.merge(attributes), &block)
     end
 
     # Gets the member this user is on a server

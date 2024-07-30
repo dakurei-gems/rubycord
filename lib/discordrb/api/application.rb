@@ -36,7 +36,7 @@ module Discordrb::API::Application
       nil,
       :post,
       "#{Discordrb::API.api_base}/applications/#{application_id}/commands",
-      { name: name, description: description, options: options, default_permission: default_permission, type: type }.to_json,
+      {name: name, description: description, options: options, default_permission: default_permission, type: type}.to_json,
       Authorization: token,
       content_type: :json
     )
@@ -50,7 +50,7 @@ module Discordrb::API::Application
       nil,
       :patch,
       "#{Discordrb::API.api_base}/applications/#{application_id}/commands/#{command_id}",
-      { name: name, description: description, options: options, default_permission: default_permission, type: type }.compact.to_json,
+      {name: name, description: description, options: options, default_permission: default_permission, type: type}.compact.to_json,
       Authorization: token,
       content_type: :json
     )
@@ -114,7 +114,7 @@ module Discordrb::API::Application
       guild_id,
       :post,
       "#{Discordrb::API.api_base}/applications/#{application_id}/guilds/#{guild_id}/commands",
-      { name: name, description: description, options: options, default_permission: default_permission, type: type }.to_json,
+      {name: name, description: description, options: options, default_permission: default_permission, type: type}.to_json,
       Authorization: token,
       content_type: :json
     )
@@ -128,7 +128,7 @@ module Discordrb::API::Application
       guild_id,
       :patch,
       "#{Discordrb::API.api_base}/applications/#{application_id}/guilds/#{guild_id}/commands/#{command_id}",
-      { name: name, description: description, options: options, default_permission: default_permission, type: type }.compact.to_json,
+      {name: name, description: description, options: options, default_permission: default_permission, type: type}.compact.to_json,
       Authorization: token,
       content_type: :json
     )
@@ -180,7 +180,7 @@ module Discordrb::API::Application
       guild_id,
       :put,
       "#{Discordrb::API.api_base}/applications/#{application_id}/guilds/#{guild_id}/commands/#{command_id}/permissions",
-      { permissions: permissions }.to_json,
+      {permissions: permissions}.to_json,
       Authorization: token,
       content_type: :json
     )

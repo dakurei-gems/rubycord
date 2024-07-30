@@ -84,7 +84,7 @@ describe Discordrb::Channel do
         data = double(property_name)
         expectation = Array.new(num) { anything } << data << any_args
         expect(Discordrb::API::Channel).to receive(:update).with(*expectation)
-        new_data = { property_name => data }
+        new_data = {property_name => data}
         channel.__send__(:update_channel_data, new_data)
       end
     end
@@ -278,7 +278,7 @@ describe Discordrb::Channel do
   describe "#process_permission_overwrites" do
     it "should assign permission overwrites" do
       overwrite = double("overwrite")
-      element = { "id" => 1 }
+      element = {"id" => 1}
       overwrites = [element]
       allow(Discordrb::Overwrite).to receive(:from_hash).and_call_original
       allow(Discordrb::Overwrite).to receive(:from_hash).with(element).and_return(overwrite)
@@ -303,7 +303,7 @@ describe Discordrb::Channel do
       non_text_channels = channels.reject { |e| e.type == 0 }
 
       expect(Discordrb::API::Server).to receive(:update_channel_positions)
-        .with(any_args, an_array_excluding(*non_text_channels.map { |e| { id: e.id, position: instance_of(Integer) } }))
+        .with(any_args, an_array_excluding(*non_text_channels.map { |e| {id: e.id, position: instance_of(Integer)} }))
       channel.sort_after
     end
 
@@ -336,7 +336,7 @@ describe Discordrb::Channel do
         allow(category).to receive(:children).and_return [other_channel, channel]
         allow(bot).to receive(:channel).and_return(other_channel)
         expect(Discordrb::API::Server).to receive(:update_channel_positions)
-          .with(any_args, [{ id: 2, position: 0 }, { id: channel.id, position: 1, parent_id: category.id }])
+          .with(any_args, [{id: 2, position: 0}, {id: channel.id, position: 1, parent_id: category.id}])
         channel.sort_after(other_channel)
       end
     end
@@ -347,7 +347,7 @@ describe Discordrb::Channel do
         allow(server).to receive(:channels).and_return [other_channel, channel]
         allow(bot).to receive(:channel).and_return(other_channel)
         expect(Discordrb::API::Server).to receive(:update_channel_positions)
-          .with(any_args, [{ id: 2, position: 0 }, { id: channel.id, position: 1, parent_id: nil }])
+          .with(any_args, [{id: 2, position: 0}, {id: channel.id, position: 1, parent_id: nil}])
         channel.sort_after(other_channel)
       end
     end

@@ -96,7 +96,7 @@ module Discordrb
                     # This is a webhook user! It would be pointless to try to resolve a member here, so we just create
                     # a User and return that instead.
                     Discordrb::LOGGER.debug("Webhook user: #{data["author"]["id"]}")
-                    User.new(data["author"].merge({ "_webhook" => true }), @bot)
+                    User.new(data["author"].merge({"_webhook" => true}), @bot)
                   elsif @channel.private?
                     # Turn the message user into a recipient - we can't use the channel recipient
                     # directly because the bot may also send messages to the channel
@@ -178,7 +178,7 @@ module Discordrb
     # @param components [View, Array<Hash>] Interaction components to associate with this message.
     # @return (see #respond)
     def reply!(content, tts: false, embed: nil, attachments: nil, allowed_mentions: {}, mention_user: false, components: nil)
-      allowed_mentions = { parse: [] } if allowed_mentions == false
+      allowed_mentions = {parse: []} if allowed_mentions == false
       allowed_mentions = allowed_mentions.to_hash.transform_keys(&:to_sym)
       allowed_mentions[:replied_user] = mention_user
 
@@ -228,26 +228,26 @@ module Discordrb
     # @see Bot#add_await
     # @deprecated Will be changed to blocking behavior in v4.0. Use {#await!} instead.
     def await(key, attributes = {}, &block)
-      @bot.add_await(key, Discordrb::Events::MessageEvent, { from: @author.id, in: @channel.id }.merge(attributes), &block)
+      @bot.add_await(key, Discordrb::Events::MessageEvent, {from: @author.id, in: @channel.id}.merge(attributes), &block)
     end
 
     # Add a blocking {Await} for a message with the same user and channel.
     # @see Bot#add_await!
     def await!(attributes = {}, &block)
-      @bot.add_await!(Discordrb::Events::MessageEvent, { from: @author.id, in: @channel.id }.merge(attributes), &block)
+      @bot.add_await!(Discordrb::Events::MessageEvent, {from: @author.id, in: @channel.id}.merge(attributes), &block)
     end
 
     # Add an {Await} for a reaction to be added on this message.
     # @see Bot#add_await
     # @deprecated Will be changed to blocking behavior in v4.0. Use {#await_reaction!} instead.
     def await_reaction(key, attributes = {}, &block)
-      @bot.add_await(key, Discordrb::Events::ReactionAddEvent, { message: @id }.merge(attributes), &block)
+      @bot.add_await(key, Discordrb::Events::ReactionAddEvent, {message: @id}.merge(attributes), &block)
     end
 
     # Add a blocking {Await} for a reaction to be added on this message.
     # @see Bot#add_await!
     def await_reaction!(attributes = {}, &block)
-      @bot.add_await!(Discordrb::Events::ReactionAddEvent, { message: @id }.merge(attributes), &block)
+      @bot.add_await!(Discordrb::Events::ReactionAddEvent, {message: @id}.merge(attributes), &block)
     end
 
     # @return [true, false] whether this message was sent by the current {Bot}.
@@ -332,7 +332,7 @@ module Discordrb
     # @return [Hash<String => Array<User>>] A hash mapping the string representation of a
     #   reaction to an array of users.
     def all_reaction_users(limit: 100)
-      all_reactions = @reactions.map { |r| { r.to_s => reacted_with(r, limit: limit) } }
+      all_reactions = @reactions.map { |r| {r.to_s => reacted_with(r, limit: limit)} }
       all_reactions.reduce({}, :merge)
     end
 

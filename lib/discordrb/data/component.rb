@@ -107,12 +107,12 @@ module Discordrb
 
       # Await a button click
       def await_click(key, **attributes, &block)
-        @bot.add_await(key, Discordrb::Events::ButtonEvent, { custom_id: @custom_id }.merge(attributes), &block)
+        @bot.add_await(key, Discordrb::Events::ButtonEvent, {custom_id: @custom_id}.merge(attributes), &block)
       end
 
       # Await a button click, blocking.
       def await_click!(**attributes, &block)
-        @bot.add_await!(Discordrb::Events::ButtonEvent, { custom_id: @custom_id }.merge(attributes), &block)
+        @bot.add_await!(Discordrb::Events::ButtonEvent, {custom_id: @custom_id}.merge(attributes), &block)
       end
     end
 

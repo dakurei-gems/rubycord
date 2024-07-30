@@ -319,7 +319,7 @@ module Discordrb::Events
 
     # @!visibility private
     def to_h
-      @group ? { @group => @subcommands } : @subcommands
+      @group ? {@group => @subcommands} : @subcommands
     end
   end
 
@@ -455,7 +455,7 @@ module Discordrb::Events
 
       users = data["data"]["resolved"]["users"].keys.map { |e| bot.user(e) }
       roles = data["data"]["resolved"]["roles"] ? data["data"]["resolved"]["roles"].keys.map { |e| bot.server(data["guild_id"]).role(e) } : []
-      @values = { users: users, roles: roles }
+      @values = {users: users, roles: roles}
     end
   end
 

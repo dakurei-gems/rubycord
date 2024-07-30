@@ -212,7 +212,7 @@ module Discordrb
       index = other ? roles.index { |role| role.id == other.id } + 1 : 1
       roles.insert(index, self)
 
-      updated_roles = roles.map.with_index { |role, position| { id: role.id, position: position } }
+      updated_roles = roles.map.with_index { |role, position| {id: role.id, position: position} }
       @server.update_role_positions(updated_roles)
       index
     end

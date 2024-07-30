@@ -19,7 +19,7 @@ module Discordrb::API::Channel
   # Update a channel's data
   # https://discord.com/developers/docs/resources/channel#modify-channel
   def update(token, channel_id, name, topic, position, bitrate, user_limit, nsfw, permission_overwrites = nil, parent_id = nil, rate_limit_per_user = nil, reason = nil)
-    data = { name: name, position: position, topic: topic, bitrate: bitrate, user_limit: user_limit, nsfw: nsfw, parent_id: parent_id, rate_limit_per_user: rate_limit_per_user }
+    data = {name: name, position: position, topic: topic, bitrate: bitrate, user_limit: user_limit, nsfw: nsfw, parent_id: parent_id, rate_limit_per_user: rate_limit_per_user}
     data[:permission_overwrites] = permission_overwrites unless permission_overwrites.nil?
     Discordrb::API.request(
       :channels_cid,
@@ -49,7 +49,7 @@ module Discordrb::API::Channel
   # Get a list of messages from a channel's history
   # https://discord.com/developers/docs/resources/channel#get-channel-messages
   def messages(token, channel_id, amount, before = nil, after = nil, around = nil)
-    query_string = URI.encode_www_form({ limit: amount, before: before, after: after, around: around }.compact)
+    query_string = URI.encode_www_form({limit: amount, before: before, after: after, around: around}.compact)
     Discordrb::API.request(
       :channels_cid_messages,
       channel_id,
@@ -76,15 +76,15 @@ module Discordrb::API::Channel
   # @param attachments [Array<File>, nil] Attachments to use with `attachment://` in embeds. See
   #   https://discord.com/developers/docs/resources/channel#create-message-using-attachments-within-embeds
   def create_message(token, channel_id, message, tts = false, embeds = nil, nonce = nil, attachments = nil, allowed_mentions = nil, message_reference = nil, components = nil)
-    body = { content: message, tts: tts, embeds: embeds, nonce: nonce, allowed_mentions: allowed_mentions, message_reference: message_reference, components: components&.to_a }
+    body = {content: message, tts: tts, embeds: embeds, nonce: nonce, allowed_mentions: allowed_mentions, message_reference: message_reference, components: components&.to_a}
     body = if attachments
              files = [*0...attachments.size].zip(attachments).to_h
-             { **files, payload_json: body.to_json }
+             {**files, payload_json: body.to_json}
            else
              body.to_json
            end
 
-    headers = { Authorization: token }
+    headers = {Authorization: token}
     headers[:content_type] = :json unless attachments
 
     Discordrb::API.request(
@@ -110,7 +110,7 @@ module Discordrb::API::Channel
       channel_id,
       :post,
       "#{Discordrb::API.api_base}/channels/#{channel_id}/messages",
-      { file: file, content: caption, tts: tts },
+      {file: file, content: caption, tts: tts},
       Authorization: token
     )
   end
@@ -123,7 +123,7 @@ module Discordrb::API::Channel
       channel_id,
       :patch,
       "#{Discordrb::API.api_base}/channels/#{channel_id}/messages/#{message_id}",
-      { content: message, mentions: mentions, embeds: embeds, components: components }.to_json,
+      {content: message, mentions: mentions, embeds: embeds, components: components}.to_json,
       Authorization: token,
       content_type: :json
     )
@@ -150,7 +150,7 @@ module Discordrb::API::Channel
       channel_id,
       :post,
       "#{Discordrb::API.api_base}/channels/#{channel_id}/messages/bulk-delete",
-      { messages: messages }.to_json,
+      {messages: messages}.to_json,
       Authorization: token,
       content_type: :json,
       'X-Audit-Log-Reason': reason
@@ -202,7 +202,7 @@ module Discordrb::API::Channel
   # https://discord.com/developers/docs/resources/channel#get-reactions
   def get_reactions(token, channel_id, message_id, emoji, before_id, after_id, limit = 100)
     emoji = URI.encode_www_form_component(emoji) unless emoji.ascii_only?
-    query_string = URI.encode_www_form({ limit: limit || 100, before: before_id, after: after_id }.compact)
+    query_string = URI.encode_www_form({limit: limit || 100, before: before_id, after: after_id}.compact)
     Discordrb::API.request(
       :channels_cid_messages_mid_reactions_emoji,
       channel_id,
@@ -246,7 +246,7 @@ module Discordrb::API::Channel
       channel_id,
       :put,
       "#{Discordrb::API.api_base}/channels/#{channel_id}/permissions/#{overwrite_id}",
-      { type: type, id: overwrite_id, allow: allow, deny: deny }.to_json,
+      {type: type, id: overwrite_id, allow: allow, deny: deny}.to_json,
       Authorization: token,
       content_type: :json,
       'X-Audit-Log-Reason': reason
@@ -273,7 +273,7 @@ module Discordrb::API::Channel
       channel_id,
       :post,
       "#{Discordrb::API.api_base}/channels/#{channel_id}/invites",
-      { max_age: max_age, max_uses: max_uses, temporary: temporary, unique: unique }.to_json,
+      {max_age: max_age, max_uses: max_uses, temporary: temporary, unique: unique}.to_json,
       Authorization: token,
       content_type: :json,
       'X-Audit-Log-Reason': reason
@@ -432,7 +432,7 @@ module Discordrb::API::Channel
       channel_id,
       :post,
       "#{Discordrb::API.api_base}/channels/#{channel_id}/webhooks",
-      { name: name, avatar: avatar }.to_json,
+      {name: name, avatar: avatar}.to_json,
       Authorization: token,
       content_type: :json,
       'X-Audit-Log-Reason': reason
@@ -459,7 +459,7 @@ module Discordrb::API::Channel
       channel_id,
       :post,
       "#{Discordrb::API.api_base}/channels/#{channel_id}/messages/#{message_id}/threads",
-      { name: name, auto_archive_duration: auto_archive_duration }.to_json,
+      {name: name, auto_archive_duration: auto_archive_duration}.to_json,
       Authorization: token,
       content_type: :json
     )
@@ -473,7 +473,7 @@ module Discordrb::API::Channel
       channel_id,
       :post,
       "#{Discordrb::API.api_base}/channels/#{channel_id}/threads",
-      { name: name, auto_archive_duration: auto_archive_duration, type: type },
+      {name: name, auto_archive_duration: auto_archive_duration, type: type},
       Authorization: token,
       content_type: :json
     )
@@ -532,7 +532,7 @@ module Discordrb::API::Channel
   # Get the members of a thread.
   # https://discord.com/developers/docs/resources/channel#list-thread-members
   def list_thread_members(token, channel_id, before, limit)
-    query = URI.encode_www_form({ before: before, limit: limit }.compact)
+    query = URI.encode_www_form({before: before, limit: limit}.compact)
 
     Discordrb::API.request(
       :channels_cid_thread_members,
@@ -558,7 +558,7 @@ module Discordrb::API::Channel
   # List public archived threads.
   # https://discord.com/developers/docs/resources/channel#list-public-archived-threads
   def list_public_archived_threads(token, channel_id, before = nil, limit = nil)
-    query = URI.encode_www_form({ before: before, limit: limit }.compact)
+    query = URI.encode_www_form({before: before, limit: limit}.compact)
 
     Discordrb::API.request(
       :channels_cid_threads_archived_public,
@@ -572,7 +572,7 @@ module Discordrb::API::Channel
   # List private archived threads.
   # https://discord.com/developers/docs/resources/channel#list-private-archived-threads
   def list_private_archived_threads(token, channel_id, before = nil, limit = nil)
-    query = URI.encode_www_form({ before: before, limit: limit }.compact)
+    query = URI.encode_www_form({before: before, limit: limit}.compact)
 
     Discordrb::API.request(
       :channels_cid_threads_archived_private,
@@ -586,7 +586,7 @@ module Discordrb::API::Channel
   # List joined private archived threads.
   # https://discord.com/developers/docs/resources/channel#list-joined-private-archived-threads
   def list_joined_private_archived_threads(token, channel_id, before = nil, limit = nil)
-    query = URI.encode_www_form({ before: before, limit: limit }.compact)
+    query = URI.encode_www_form({before: before, limit: limit}.compact)
 
     Discordrb::API.request(
       :channels_cid_users_me_threads_archived_private,

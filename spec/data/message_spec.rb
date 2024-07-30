@@ -50,8 +50,8 @@ describe Discordrb::Message do
 
   describe "#emoji" do
     it "caches and returns only emojis from the message" do
-      emoji_a = Discordrb::Emoji.new({ "name" => "a", "id" => 123 }, bot, server)
-      emoji_b = Discordrb::Emoji.new({ "name" => "b", "id" => 456 }, bot, server)
+      emoji_a = Discordrb::Emoji.new({"name" => "a", "id" => 123}, bot, server)
+      emoji_b = Discordrb::Emoji.new({"name" => "b", "id" => 456}, bot, server)
 
       allow(bot).to receive(:user).with("123").and_return(message_author)
       allow(bot).to receive(:channel).with("123", server).and_return(channel)
@@ -69,8 +69,8 @@ describe Discordrb::Message do
     end
 
     it "calls Bot#parse_mentions once" do
-      emoji_a = Discordrb::Emoji.new({ "name" => "a", "id" => 123 }, bot, server)
-      emoji_b = Discordrb::Emoji.new({ "name" => "b", "id" => 456 }, bot, server)
+      emoji_a = Discordrb::Emoji.new({"name" => "a", "id" => 123}, bot, server)
+      emoji_b = Discordrb::Emoji.new({"name" => "b", "id" => 456}, bot, server)
 
       allow(bot).to receive(:parse_mentions).once.and_return([emoji_a, emoji_b])
 
@@ -183,7 +183,7 @@ describe Discordrb::Message do
 
     it "returns a filled hash" do
       reactions_hash = message.all_reaction_users
-      expect(reactions_hash).to eq({ "123" => [user1, user2], "456" => [user1, user3] })
+      expect(reactions_hash).to eq({"123" => [user1, user2], "456" => [user1, user3]})
     end
   end
 
@@ -199,7 +199,7 @@ describe Discordrb::Message do
     end
 
     it "sets replied_user in allowed_mentions" do
-      expect(message).to receive(:respond).with(content, false, nil, nil, { replied_user: mention }, message, nil)
+      expect(message).to receive(:respond).with(content, false, nil, nil, {replied_user: mention}, message, nil)
 
       message.reply!(content, mention_user: mention)
     end
@@ -208,7 +208,7 @@ describe Discordrb::Message do
       let(:mention) { double("mention") }
 
       it "sets parse to an empty array add merges the mention_user param" do
-        expect(message).to receive(:respond).with(content, false, nil, nil, { parse: [], replied_user: mention }, message, nil)
+        expect(message).to receive(:respond).with(content, false, nil, nil, {parse: [], replied_user: mention}, message, nil)
 
         message.reply!(content, allowed_mentions: false, mention_user: mention)
       end

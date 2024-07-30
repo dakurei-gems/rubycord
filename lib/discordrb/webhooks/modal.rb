@@ -51,7 +51,7 @@ class Discordrb::Webhooks::Modal
 
     # @!visibility private
     def to_h
-      { type: COMPONENT_TYPES[:action_row], components: @components }
+      {type: COMPONENT_TYPES[:action_row], components: @components}
     end
   end
 

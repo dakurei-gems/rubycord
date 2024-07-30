@@ -406,8 +406,8 @@ module Discordrb
     def send_message(channel, content, tts = false, embeds = nil, attachments = nil, allowed_mentions = nil, message_reference = nil, components = nil)
       channel = channel.resolve_id
       debug("Sending message to #{channel} with content '#{content}'")
-      allowed_mentions = { parse: [] } if allowed_mentions == false
-      message_reference = { message_id: message_reference.id } if message_reference.respond_to?(:id)
+      allowed_mentions = {parse: []} if allowed_mentions == false
+      message_reference = {message_id: message_reference.id} if message_reference.respond_to?(:id)
       embeds = (embeds.instance_of?(Array) ? embeds.map(&:to_hash) : [embeds&.to_hash]).compact
 
       response = API::Channel.create_message(token, channel, content, tts, embeds, nil, attachments, allowed_mentions&.to_hash, message_reference, components)
@@ -525,7 +525,7 @@ module Discordrb
             end
           end
         elsif /(?<animated>^a|^${0}):(?<name>\w+):(?<id>\d+)/ =~ mention
-          array_to_return << (emoji(id) || Emoji.new({ "animated" => !animated.nil?, "name" => name, "id" => id }, self, nil))
+          array_to_return << (emoji(id) || Emoji.new({"animated" => !animated.nil?, "name" => name, "id" => id}, self, nil))
         end
       end
       array_to_return
@@ -557,9 +557,9 @@ module Discordrb
       type = url ? 1 : activity_type
 
       activity_obj = if type == 4
-                       { "name" => activity, "type" => type, "state" => activity }
+                       {"name" => activity, "type" => type, "state" => activity}
                      else
-                       activity || url ? { "name" => activity, "url" => url, "type" => type } : nil
+                       activity || url ? {"name" => activity, "url" => url, "type" => type} : nil
                      end
       @gateway.send_status_update(status, since, activity_obj, afk)
 

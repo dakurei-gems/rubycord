@@ -229,7 +229,7 @@ describe Discordrb::Webhooks do
       it "makes a POST request with JSON data" do
         subject.__send__(:post_json, builder, [], false)
 
-        expect(RestClient).to have_received(:post).with(provided_url, builder.to_json_hash.merge({ components: [] }).to_json, content_type: :json)
+        expect(RestClient).to have_received(:post).with(provided_url, builder.to_json_hash.merge({components: []}).to_json, content_type: :json)
       end
 
       it "waits when wait=true" do
