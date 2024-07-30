@@ -73,11 +73,11 @@ describe Discordrb::Overwrite do
     it "creates a hash from the relevant values" do
       overwrite = described_class.new(id, type: :member, allow: allow_perm, deny: deny_perm)
       expect(overwrite.to_hash).to eq({
-                                        id: id,
-                                        type: Discordrb::Overwrite::TYPES[:member],
-                                        allow: allow_bits,
-                                        deny: deny_bits
-                                      })
+        id: id,
+        type: Discordrb::Overwrite::TYPES[:member],
+        allow: allow_bits,
+        deny: deny_bits
+      })
     end
   end
 
@@ -91,8 +91,8 @@ describe Discordrb::Overwrite do
 
     it "converts a hash to an Overwrite" do
       overwrite = described_class.from_hash({
-                                              "id" => id, "type" => type, "allow" => 0, deny: 0
-                                            })
+        "id" => id, "type" => type, "allow" => 0, deny: 0
+      })
 
       expect(overwrite).to eq described_class.new(id, type: :role, allow: 0, deny: 0)
     end

@@ -280,12 +280,12 @@ module Discordrb
     def identify
       compress = @compress_mode == :large
       send_identify(@token, {
-                      os: RUBY_PLATFORM,
-                      browser: "discordrb",
-                      device: "discordrb",
-                      referrer: "",
-                      referring_domain: ""
-                    }, compress, LARGE_THRESHOLD, @shard_key, @intents)
+        os: RUBY_PLATFORM,
+        browser: "discordrb",
+        device: "discordrb",
+        referrer: "",
+        referring_domain: ""
+      }, compress, LARGE_THRESHOLD, @shard_key, @intents)
     end
 
     # Sends an identify packet (op 2). This starts a new session on the current connection and tells Discord who we are.
