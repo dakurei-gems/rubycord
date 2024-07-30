@@ -112,8 +112,8 @@ module Discordrb
             member = if data["member"]
               member_data = data["author"].merge(data["member"])
               Member.new(member_data, @server, bot)
-                     else
-                       @bot.ensure_user(data["author"])
+            else
+              @bot.ensure_user(data["author"])
                      end
           end
 

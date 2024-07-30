@@ -545,8 +545,8 @@ module Discordrb
 
       query = if @compress_mode == :stream
         "?encoding=json&v=#{GATEWAY_VERSION}&compress=zlib-stream"
-              else
-                "?encoding=json&v=#{GATEWAY_VERSION}"
+      else
+        "?encoding=json&v=#{GATEWAY_VERSION}"
               end
 
       raw_url + query

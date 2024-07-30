@@ -33,8 +33,8 @@ module Discordrb::API::Webhook
     body = {content: content, username: username, avatar_url: avatar_url, tts: tts, embeds: embeds&.map(&:to_hash), allowed_mentions: allowed_mentions, flags: flags, components: components}
     body = if file
       {file: file, payload_json: body.to_json}
-           else
-             body.to_json
+    else
+      body.to_json
            end
 
     headers = {content_type: :json} unless file

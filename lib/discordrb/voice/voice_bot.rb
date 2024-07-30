@@ -358,8 +358,8 @@ module Discordrb::Voice
           if ms_diff >= 0
             @length = if @adjust_average
               (IDEAL_LENGTH - ms_diff + @length) / 2.0
-                      else
-                        IDEAL_LENGTH - ms_diff
+            else
+              IDEAL_LENGTH - ms_diff
                       end
 
             # Track the time it took to encode

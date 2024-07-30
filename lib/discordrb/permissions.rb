@@ -118,8 +118,8 @@ module Discordrb
 
       @bits = if bits.is_a? Array
         self.class.bits(bits)
-              else
-                bits.to_i
+      else
+        bits.to_i
               end
 
       init_vars

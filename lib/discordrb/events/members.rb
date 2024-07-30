@@ -54,8 +54,8 @@ module Discordrb::Events
         matches_all(@attributes[:username], event.user.name) do |a, e|
           a == if a.is_a? String
             e.to_s
-               else
-                 e
+          else
+            e
                end
         end
       ].reduce(true, &:&)

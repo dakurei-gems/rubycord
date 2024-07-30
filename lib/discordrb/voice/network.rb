@@ -9,8 +9,8 @@ require "discordrb/websocket"
 begin
   LIBSODIUM_AVAILABLE = if ENV["DISCORDRB_NONACL"]
     false
-                        else
-                          require "discordrb/voice/sodium"
+  else
+    require "discordrb/voice/sodium"
                         end
 rescue LoadError
   puts "libsodium not available! You can continue to use discordrb as normal but voice support won't work.

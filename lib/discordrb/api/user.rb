@@ -137,8 +137,8 @@ module Discordrb::API::User
   def default_avatar(discrim_id = 0, legacy: false)
     index = if legacy
       discrim_id.to_i % 5
-            else
-              (discrim_id.to_i >> 22) % 5
+    else
+      (discrim_id.to_i >> 22) % 5
             end
     "#{Discordrb::API.cdn_url}/embed/avatars/#{index}.png"
   end
@@ -147,8 +147,8 @@ module Discordrb::API::User
   def avatar_url(user_id, avatar_id, format = nil)
     format ||= if avatar_id.start_with?("a_")
       "gif"
-               else
-                 "webp"
+    else
+      "webp"
                end
     "#{Discordrb::API.cdn_url}/avatars/#{user_id}/#{avatar_id}.#{format}"
   end

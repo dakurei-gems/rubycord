@@ -362,10 +362,10 @@ module Discordrb::Commands
     def permission?(user, level, server)
       determined_level = if user.webhook? || server.nil?
         0
-                         else
-                           user.roles.reduce(0) do |memo, role|
-                             [@permissions[:roles][role.id] || 0, memo].max
-                           end
+      else
+        user.roles.reduce(0) do |memo, role|
+          [@permissions[:roles][role.id] || 0, memo].max
+        end
                          end
 
       [@permissions[:users][user.id] || 0, determined_level].max >= level

@@ -228,8 +228,8 @@ module Discordrb
       reason = new_data.delete(:reason)
       data = JSON.parse(if token?
                API::Webhook.token_update_webhook(@token, @id, new_data, reason)
-                        else
-                          API::Webhook.update_webhook(@bot.token, @id, new_data, reason)
+             else
+               API::Webhook.update_webhook(@bot.token, @id, new_data, reason)
                         end)
       # Only update cache if API call worked
       update_internal(data) if data["name"]

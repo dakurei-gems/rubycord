@@ -37,8 +37,8 @@ module Discordrb::Events
         matches_all(@attributes[:from], event.server) do |a, e|
           a == if a.is_a? String
             e.name
-               else
-                 e
+          else
+            e
                end
         end
       ]

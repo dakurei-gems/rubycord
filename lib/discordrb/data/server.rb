@@ -519,10 +519,10 @@ module Discordrb
 
       permissions = if permissions.is_a?(Array)
         Permissions.bits(permissions)
-                    elsif permissions.respond_to?(:bits)
-                      permissions.bits
-                    else
-                      permissions
+      elsif permissions.respond_to?(:bits)
+        permissions.bits
+      else
+        permissions
                     end
 
       response = API::Server.create_role(@bot.token, @id, name, colour, hoist, mentionable, permissions, reason)

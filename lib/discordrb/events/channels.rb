@@ -45,15 +45,15 @@ module Discordrb::Events
         matches_all(@attributes[:type], event.type) do |a, e|
           a == if a.is_a? String
             e.name
-               else
-                 e
+          else
+            e
                end
         end,
         matches_all(@attributes[:name], event.name) do |a, e|
           a == if a.is_a? String
             e.to_s
-               else
-                 e
+          else
+            e
                end
         end
       ].reduce(true, &:&)
@@ -107,15 +107,15 @@ module Discordrb::Events
         matches_all(@attributes[:type], event.type) do |a, e|
           a == if a.is_a? String
             e.name
-               else
-                 e
+          else
+            e
                end
         end,
         matches_all(@attributes[:name], event.name) do |a, e|
           a == if a.is_a? String
             e.to_s
-               else
-                 e
+          else
+            e
                end
         end
       ].reduce(true, &:&)
@@ -160,8 +160,8 @@ module Discordrb::Events
         matches_all(@attributes[:name], event.name) do |a, e|
           a == if a.is_a? String
             e.to_s
-               else
-                 e
+          else
+            e
                end
         end
       ]

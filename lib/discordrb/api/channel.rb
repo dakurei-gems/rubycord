@@ -80,8 +80,8 @@ module Discordrb::API::Channel
     body = if attachments
       files = [*0...attachments.size].zip(attachments).to_h
       {**files, payload_json: body.to_json}
-           else
-             body.to_json
+    else
+      body.to_json
            end
 
     headers = {Authorization: token}

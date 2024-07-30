@@ -94,8 +94,8 @@ module Discordrb
       # Redact token if set
       log = if @token && @token != ""
         message.to_s.gsub(@token, "REDACTED_TOKEN")
-            else
-              message.to_s
+      else
+        message.to_s
             end
 
       @streams.each do |stream|

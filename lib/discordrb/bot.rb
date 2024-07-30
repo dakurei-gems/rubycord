@@ -558,8 +558,8 @@ module Discordrb
 
       activity_obj = if type == 4
         {"name" => activity, "type" => type, "state" => activity}
-                     else
-                       activity || url ? {"name" => activity, "url" => url, "type" => type} : nil
+      else
+        activity || url ? {"name" => activity, "url" => url, "type" => type} : nil
                      end
       @gateway.send_status_update(status, since, activity_obj, afk)
 
@@ -809,8 +809,8 @@ module Discordrb
     def get_application_commands(server_id: nil)
       resp = if server_id
         API::Application.get_guild_commands(@token, profile.id, server_id)
-             else
-               API::Application.get_global_commands(@token, profile.id)
+      else
+        API::Application.get_global_commands(@token, profile.id)
              end
 
       JSON.parse(resp).map do |command_data|
@@ -824,8 +824,8 @@ module Discordrb
     def get_application_command(command_id, server_id: nil)
       resp = if server_id
         API::Application.get_guild_command(@token, profile.id, server_id, command_id)
-             else
-               API::Application.get_global_command(@token, profile.id, command_id)
+      else
+        API::Application.get_global_command(@token, profile.id, command_id)
              end
       ApplicationCommand.new(JSON.parse(resp), self, server_id)
     end
@@ -853,8 +853,8 @@ module Discordrb
 
       resp = if server_id
         API::Application.create_guild_command(@token, profile.id, server_id, name, description, builder.to_a, default_permission, type)
-             else
-               API::Application.create_global_command(@token, profile.id, name, description, builder.to_a, default_permission, type)
+      else
+        API::Application.create_global_command(@token, profile.id, name, description, builder.to_a, default_permission, type)
              end
       cmd = ApplicationCommand.new(JSON.parse(resp), self, server_id)
 
@@ -879,8 +879,8 @@ module Discordrb
 
       resp = if server_id
         API::Application.edit_guild_command(@token, profile.id, server_id, command_id, name, description, builder.to_a, default_permission, type)
-             else
-               API::Application.edit_guild_command(@token, profile.id, command_id, name, description, builder.to_a, default_permission.type)
+      else
+        API::Application.edit_guild_command(@token, profile.id, command_id, name, description, builder.to_a, default_permission.type)
              end
       cmd = ApplicationCommand.new(JSON.parse(resp), self, server_id)
 

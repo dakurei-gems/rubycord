@@ -232,8 +232,8 @@ module Discordrb::Commands
       first = true
       split_chain = if @attributes[:chain_delimiter].empty?
         [chain_to_split]
-                    else
-                      chain_to_split.split(@attributes[:chain_delimiter])
+      else
+        chain_to_split.split(@attributes[:chain_delimiter])
                     end
       split_chain.each do |command|
         command = @attributes[:chain_delimiter] + command if first && @chain.start_with?(@attributes[:chain_delimiter])
