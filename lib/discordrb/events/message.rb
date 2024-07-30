@@ -35,8 +35,8 @@ module Discordrb::Events
     # @yield [embed] Yields the embed to allow for easy building inside a block.
     # @yieldparam embed [Discordrb::Webhooks::Embed] The embed from the parameters, or a new one.
     # @return [Message] The resulting message.
-    def send_embed(message = "", embed = nil, attachments = nil, tts = false, allowed_mentions = nil, message_reference = nil, components = nil, &block)
-      channel.send_embed(message, embed, attachments, tts, allowed_mentions, message_reference, components, &block)
+    def send_embed(message = "", embed = nil, attachments = nil, tts = false, allowed_mentions = nil, message_reference = nil, components = nil, &)
+      channel.send_embed(message, embed, attachments, tts, allowed_mentions, message_reference, components, &)
     end
 
     # Sends a temporary message to the channel this message was sent in, right now.

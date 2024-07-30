@@ -229,8 +229,8 @@ module Discordrb
 
     # @!visibility private
     # Implement each for Enumerable
-    def each(&block)
-      @activities.each(&block)
+    def each(&)
+      @activities.each(&)
     end
 
     # @return [Array<Activity>] all activities

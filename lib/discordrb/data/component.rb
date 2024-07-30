@@ -35,8 +35,8 @@ module Discordrb
       end
 
       # Iterate over each component in the row.
-      def each(&block)
-        @components.each(&block)
+      def each(&)
+        @components.each(&)
       end
 
       # Get all buttons in this row
@@ -106,13 +106,13 @@ module Discordrb
       end
 
       # Await a button click
-      def await_click(key, **attributes, &block)
-        @bot.add_await(key, Discordrb::Events::ButtonEvent, {custom_id: @custom_id}.merge(attributes), &block)
+      def await_click(key, **attributes, &)
+        @bot.add_await(key, Discordrb::Events::ButtonEvent, {custom_id: @custom_id}.merge(attributes), &)
       end
 
       # Await a button click, blocking.
-      def await_click!(**attributes, &block)
-        @bot.add_await!(Discordrb::Events::ButtonEvent, {custom_id: @custom_id}.merge(attributes), &block)
+      def await_click!(**attributes, &)
+        @bot.add_await!(Discordrb::Events::ButtonEvent, {custom_id: @custom_id}.merge(attributes), &)
       end
     end
 

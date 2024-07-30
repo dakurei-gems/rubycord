@@ -227,27 +227,27 @@ module Discordrb
     # Add an {Await} for a message with the same user and channel.
     # @see Bot#add_await
     # @deprecated Will be changed to blocking behavior in v4.0. Use {#await!} instead.
-    def await(key, attributes = {}, &block)
-      @bot.add_await(key, Discordrb::Events::MessageEvent, {from: @author.id, in: @channel.id}.merge(attributes), &block)
+    def await(key, attributes = {}, &)
+      @bot.add_await(key, Discordrb::Events::MessageEvent, {from: @author.id, in: @channel.id}.merge(attributes), &)
     end
 
     # Add a blocking {Await} for a message with the same user and channel.
     # @see Bot#add_await!
-    def await!(attributes = {}, &block)
-      @bot.add_await!(Discordrb::Events::MessageEvent, {from: @author.id, in: @channel.id}.merge(attributes), &block)
+    def await!(attributes = {}, &)
+      @bot.add_await!(Discordrb::Events::MessageEvent, {from: @author.id, in: @channel.id}.merge(attributes), &)
     end
 
     # Add an {Await} for a reaction to be added on this message.
     # @see Bot#add_await
     # @deprecated Will be changed to blocking behavior in v4.0. Use {#await_reaction!} instead.
-    def await_reaction(key, attributes = {}, &block)
-      @bot.add_await(key, Discordrb::Events::ReactionAddEvent, {message: @id}.merge(attributes), &block)
+    def await_reaction(key, attributes = {}, &)
+      @bot.add_await(key, Discordrb::Events::ReactionAddEvent, {message: @id}.merge(attributes), &)
     end
 
     # Add a blocking {Await} for a reaction to be added on this message.
     # @see Bot#add_await!
-    def await_reaction!(attributes = {}, &block)
-      @bot.add_await!(Discordrb::Events::ReactionAddEvent, {message: @id}.merge(attributes), &block)
+    def await_reaction!(attributes = {}, &)
+      @bot.add_await!(Discordrb::Events::ReactionAddEvent, {message: @id}.merge(attributes), &)
     end
 
     # @return [true, false] whether this message was sent by the current {Bot}.

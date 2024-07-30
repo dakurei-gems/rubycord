@@ -30,14 +30,14 @@ module Discordrb::Events
   #   to_check.
   # @yieldreturn [true, false] Whether or not the attribute a matches the given comparison value e.
   # @return [true, false] whether the attributes match the comparison value in at least one way.
-  def self.matches_all(attributes, to_check, &block)
+  def self.matches_all(attributes, to_check, &)
     # "Zeroth" case: attributes is nil
     return true if attributes.nil?
 
     # First case: there's a single negated attribute
     if attributes.is_a? Negated
       # The contained object might also be an array, so recursively call matches_all (and negate the result)
-      return !matches_all(attributes.object, to_check, &block)
+      return !matches_all(attributes.object, to_check, &)
     end
 
     # Second case: there's a single, not-negated attribute
@@ -103,8 +103,8 @@ module Discordrb::Events
     end
 
     # @see Discordrb::Events::matches_all
-    def matches_all(attributes, to_check, &block)
-      Discordrb::Events.matches_all(attributes, to_check, &block)
+    def matches_all(attributes, to_check, &)
+      Discordrb::Events.matches_all(attributes, to_check, &)
     end
   end
 
