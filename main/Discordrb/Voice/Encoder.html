@@ -132,7 +132,7 @@ useful for most users, but I guess it can be useful sometimes.</p>
 
 </div>
         </dt>
-        <dd><pre class="code"><span class='lbracket'>[</span><span class='int'>0xF8</span><span class='comma'>,</span> <span class='int'>0xFF</span><span class='comma'>,</span> <span class='int'>0xFE</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_pack'>pack</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>C*</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+        <dd><pre class="code"><span class='lbracket'>[</span><span class='int'>0xF8</span><span class='comma'>,</span> <span class='int'>0xFF</span><span class='comma'>,</span> <span class='int'>0xFE</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_pack'>pack</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>C*</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
     </dl>
   
@@ -280,7 +280,7 @@ useful for most users, but I guess it can be useful sometimes.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#encode_file-instance_method" title="#encode_file (instance method)">#<strong>encode_file</strong>(file, options = &#39;&#39;)  &#x21d2; IO </a>
+      <a href="#encode_file-instance_method" title="#encode_file (instance method)">#<strong>encode_file</strong>(file, options = &quot;&quot;)  &#x21d2; IO </a>
     
 
     
@@ -303,7 +303,7 @@ useful for most users, but I guess it can be useful sometimes.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#encode_io-instance_method" title="#encode_io (instance method)">#<strong>encode_io</strong>(io, options = &#39;&#39;)  &#x21d2; IO </a>
+      <a href="#encode_io-instance_method" title="#encode_io (instance method)">#<strong>encode_io</strong>(io, options = &quot;&quot;)  &#x21d2; IO </a>
     
 
     
@@ -412,7 +412,7 @@ useful for most users, but I guess it can be useful sometimes.</p>
   <span class='id identifier rubyid_channels'>channels</span> <span class='op'>=</span> <span class='int'>2</span>
   <span class='ivar'>@filter_volume</span> <span class='op'>=</span> <span class='int'>1</span>
 
-  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>LoadError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Opus unavailable - voice not supported! Please install opus for voice support to work.</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>unless</span> <span class='const'>OPUS_AVAILABLE</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>LoadError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Opus unavailable - voice not supported! Please install opus for voice support to work.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='const'>OPUS_AVAILABLE</span>
 
   <span class='ivar'>@opus</span> <span class='op'>=</span> <span class='const'>Opus</span><span class='op'>::</span><span class='const'>Encoder</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_sample_rate'>sample_rate</span><span class='comma'>,</span> <span class='id identifier rubyid_frame_size'>frame_size</span><span class='comma'>,</span> <span class='id identifier rubyid_channels'>channels</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
@@ -659,7 +659,7 @@ as it is better supported.</p>
 </span>  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id identifier rubyid_buf'>buf</span>
 
   <span class='comment'># buf is s16le so use &#39;s&lt;&#39; for signed, 16 bit, LE
-</span>  <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='id identifier rubyid_buf'>buf</span><span class='period'>.</span><span class='id identifier rubyid_unpack'>unpack</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>s&lt;*</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_sample'>sample</span><span class='op'>|</span>
+</span>  <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='id identifier rubyid_buf'>buf</span><span class='period'>.</span><span class='id identifier rubyid_unpack'>unpack</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>s&lt;*</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_sample'>sample</span><span class='op'>|</span>
     <span class='id identifier rubyid_sample'>sample</span> <span class='op'>*=</span> <span class='id identifier rubyid_mult'>mult</span>
 
     <span class='comment'># clamp to s16 range
@@ -667,7 +667,7 @@ as it is better supported.</p>
   <span class='kw'>end</span>
 
   <span class='comment'># After modification, make it s16le again
-</span>  <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_pack'>pack</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>s&lt;*</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+</span>  <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_pack'>pack</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>s&lt;*</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -812,7 +812,7 @@ as it is better supported.</p>
       <div class="method_details ">
   <h3 class="signature " id="encode_file-instance_method">
   
-    #<strong>encode_file</strong>(file, options = &#39;&#39;)  &#x21d2; <tt>IO</tt> 
+    #<strong>encode_file</strong>(file, options = &quot;&quot;)  &#x21d2; <tt>IO</tt> 
   
 
   
@@ -854,7 +854,7 @@ URLs, though encoding them is pretty slow - I recommend to make a stream of it a
         <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>&#39;&#39;</tt>)</em>
+        <em class="default">(defaults to: <tt>&quot;&quot;</tt>)</em>
       
       
         &mdash;
@@ -897,7 +897,7 @@ URLs, though encoding them is pretty slow - I recommend to make a stream of it a
     <td>
       <pre class="code"><span class="info file"># File 'lib/discordrb/voice/encoder.rb', line 79</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_encode_file'>encode_file</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_encode_file'>encode_file</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_command'>command</span> <span class='op'>=</span> <span class='id identifier rubyid_ffmpeg_command'>ffmpeg_command</span><span class='lparen'>(</span><span class='label'>input:</span> <span class='id identifier rubyid_file'>file</span><span class='comma'>,</span> <span class='label'>options:</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
   <span class='const'>IO</span><span class='period'>.</span><span class='id identifier rubyid_popen'>popen</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
@@ -909,7 +909,7 @@ URLs, though encoding them is pretty slow - I recommend to make a stream of it a
       <div class="method_details ">
   <h3 class="signature " id="encode_io-instance_method">
   
-    #<strong>encode_io</strong>(io, options = &#39;&#39;)  &#x21d2; <tt>IO</tt> 
+    #<strong>encode_io</strong>(io, options = &quot;&quot;)  &#x21d2; <tt>IO</tt> 
   
 
   
@@ -950,7 +950,7 @@ tracks. For a list of supported audio formats, see <a href="https://ffmpeg.org/g
         <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>&#39;&#39;</tt>)</em>
+        <em class="default">(defaults to: <tt>&quot;&quot;</tt>)</em>
       
       
         &mdash;
@@ -993,7 +993,7 @@ tracks. For a list of supported audio formats, see <a href="https://ffmpeg.org/g
     <td>
       <pre class="code"><span class="info file"># File 'lib/discordrb/voice/encoder.rb', line 89</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_encode_io'>encode_io</span><span class='lparen'>(</span><span class='id identifier rubyid_io'>io</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_encode_io'>encode_io</span><span class='lparen'>(</span><span class='id identifier rubyid_io'>io</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_command'>command</span> <span class='op'>=</span> <span class='id identifier rubyid_ffmpeg_command'>ffmpeg_command</span><span class='lparen'>(</span><span class='label'>options:</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
   <span class='const'>IO</span><span class='period'>.</span><span class='id identifier rubyid_popen'>popen</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span><span class='comma'>,</span> <span class='label'>in:</span> <span class='id identifier rubyid_io'>io</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
@@ -1007,7 +1007,7 @@ tracks. For a list of supported audio formats, see <a href="https://ffmpeg.org/g
 </div>
 
       <div id="footer">
-  Generated on Tue Jul 30 12:46:06 2024 by
+  Generated on Tue Jul 30 14:49:51 2024 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.36 (ruby-3.1.6).
 </div>

@@ -316,7 +316,7 @@ user account token.</p>
 </span>    <span class='id identifier rubyid_token'>token</span> <span class='op'>=</span> <span class='id identifier rubyid_token'>token</span><span class='period'>.</span><span class='id identifier rubyid_token'>token</span>
   <span class='kw'>end</span>
 
-  <span class='kw'>unless</span> <span class='id identifier rubyid_token'>token</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>.</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>unless</span> <span class='id identifier rubyid_token'>token</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span>
     <span class='comment'># Discord user/bot tokens always contain two dots, so if there&#39;s none we can assume it&#39;s an OAuth token.
 </span>    <span class='id identifier rubyid_token'>token</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Bearer </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_token'>token</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='comment'># OAuth tokens have to be prefixed with &#39;Bearer&#39; for Discord to be able to use them
 </span>  <span class='kw'>end</span>
@@ -577,7 +577,7 @@ user account token.</p>
 </div>
 
       <div id="footer">
-  Generated on Tue Jul 30 12:46:07 2024 by
+  Generated on Tue Jul 30 14:49:52 2024 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.36 (ruby-3.1.6).
 </div>

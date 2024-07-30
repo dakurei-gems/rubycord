@@ -993,7 +993,7 @@ before it), or if none have been received yet, with 0.</p>
     <span class='kw'>unless</span> <span class='ivar'>@last_heartbeat_acked</span>
       <span class='comment'># We&#39;re in a bad situation - apparently the last heartbeat wasn&#39;t ACK&#39;d, which means the connection is likely
 </span>      <span class='comment'># a zombie. Reconnect
-</span>      <span class='const'><span class='object_link'><a href="../Discordrb.html#LOGGER-constant" title="Discordrb::LOGGER (constant)">LOGGER</a></span></span><span class='period'>.</span><span class='id identifier rubyid_warn'>warn</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Last heartbeat was not acked, so this is a zombie connection! Reconnecting</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+</span>      <span class='const'><span class='object_link'><a href="../Discordrb.html#LOGGER-constant" title="Discordrb::LOGGER (constant)">LOGGER</a></span></span><span class='period'>.</span><span class='id identifier rubyid_warn'>warn</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Last heartbeat was not acked, so this is a zombie connection! Reconnecting</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
 
       <span class='comment'># We can&#39;t send anything on zombie connections
 </span>      <span class='ivar'>@pipe_broken</span> <span class='op'>=</span> <span class='kw'>true</span>
@@ -1060,12 +1060,12 @@ before it), or if none have been received yet, with 0.</p>
 <span class='kw'>def</span> <span class='id identifier rubyid_identify'>identify</span>
   <span class='id identifier rubyid_compress'>compress</span> <span class='op'>=</span> <span class='ivar'>@compress_mode</span> <span class='op'>==</span> <span class='symbol'>:large</span>
   <span class='id identifier rubyid_send_identify'>send_identify</span><span class='lparen'>(</span><span class='ivar'>@token</span><span class='comma'>,</span> <span class='lbrace'>{</span>
-                  <span class='label'>os:</span> <span class='const'>RUBY_PLATFORM</span><span class='comma'>,</span>
-                  <span class='label'>browser:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>discordrb</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
-                  <span class='label'>device:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>discordrb</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
-                  <span class='label'>referrer:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
-                  <span class='label'>referring_domain:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span>
-                <span class='rbrace'>}</span><span class='comma'>,</span> <span class='id identifier rubyid_compress'>compress</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="#LARGE_THRESHOLD-constant" title="Discordrb::Gateway::LARGE_THRESHOLD (constant)">LARGE_THRESHOLD</a></span></span><span class='comma'>,</span> <span class='ivar'>@shard_key</span><span class='comma'>,</span> <span class='ivar'>@intents</span><span class='rparen'>)</span>
+    <span class='label'>os:</span> <span class='const'>RUBY_PLATFORM</span><span class='comma'>,</span>
+    <span class='label'>browser:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>discordrb</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='label'>device:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>discordrb</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='label'>referrer:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='label'>referring_domain:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span>
+  <span class='rbrace'>}</span><span class='comma'>,</span> <span class='id identifier rubyid_compress'>compress</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="#LARGE_THRESHOLD-constant" title="Discordrb::Gateway::LARGE_THRESHOLD (constant)">LARGE_THRESHOLD</a></span></span><span class='comma'>,</span> <span class='ivar'>@shard_key</span><span class='comma'>,</span> <span class='ivar'>@intents</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1194,7 +1194,7 @@ outside of testing and implementing highly custom reconnect logic.</p>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_inject_reconnect'>inject_reconnect</span><span class='lparen'>(</span><span class='id identifier rubyid_url'>url</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='comment'># When no URL is specified, the data should be nil, as is the case with Discord-sent packets.
-</span>  <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='id identifier rubyid_url'>url</span> <span class='op'>?</span> <span class='lbrace'>{</span> <span class='label'>url:</span> <span class='id identifier rubyid_url'>url</span> <span class='rbrace'>}</span> <span class='op'>:</span> <span class='kw'>nil</span>
+</span>  <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='id identifier rubyid_url'>url</span> <span class='op'>?</span> <span class='lbrace'>{</span><span class='label'>url:</span> <span class='id identifier rubyid_url'>url</span><span class='rbrace'>}</span> <span class='op'>:</span> <span class='kw'>nil</span>
 
   <span class='id identifier rubyid_handle_message'>handle_message</span><span class='lparen'>(</span><span class='lbrace'>{</span>
     <span class='label'>op:</span> <span class='const'><span class='object_link'><a href="Opcodes.html" title="Discordrb::Opcodes (module)">Opcodes</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Opcodes.html#RECONNECT-constant" title="Discordrb::Opcodes::RECONNECT (constant)">RECONNECT</a></span></span><span class='comma'>,</span>
@@ -1572,22 +1572,22 @@ or with doing processing and then syncing)</p>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_run_async'>run_async</span>
   <span class='ivar'>@ws_thread</span> <span class='op'>=</span> <span class='const'>Thread</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='kw'>do</span>
-    <span class='const'>Thread</span><span class='period'>.</span><span class='id identifier rubyid_current'>current</span><span class='lbracket'>[</span><span class='symbol'>:discordrb_name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>websocket</span><span class='tstring_end'>&#39;</span></span>
+    <span class='const'>Thread</span><span class='period'>.</span><span class='id identifier rubyid_current'>current</span><span class='lbracket'>[</span><span class='symbol'>:discordrb_name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>websocket</span><span class='tstring_end'>&quot;</span></span>
     <span class='id identifier rubyid_connect_loop'>connect_loop</span>
-    <span class='const'><span class='object_link'><a href="../Discordrb.html#LOGGER-constant" title="Discordrb::LOGGER (constant)">LOGGER</a></span></span><span class='period'>.</span><span class='id identifier rubyid_warn'>warn</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>The WS loop exited! Not sure if this is a good thing</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+    <span class='const'><span class='object_link'><a href="../Discordrb.html#LOGGER-constant" title="Discordrb::LOGGER (constant)">LOGGER</a></span></span><span class='period'>.</span><span class='id identifier rubyid_warn'>warn</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The WS loop exited! Not sure if this is a good thing</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
   <span class='kw'>end</span>
 
-  <span class='const'><span class='object_link'><a href="../Discordrb.html#LOGGER-constant" title="Discordrb::LOGGER (constant)">LOGGER</a></span></span><span class='period'>.</span><span class='id identifier rubyid_debug'>debug</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>WS thread created! Now waiting for confirmation that everything worked</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="../Discordrb.html#LOGGER-constant" title="Discordrb::LOGGER (constant)">LOGGER</a></span></span><span class='period'>.</span><span class='id identifier rubyid_debug'>debug</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>WS thread created! Now waiting for confirmation that everything worked</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_loop'>loop</span> <span class='kw'>do</span>
     <span class='id identifier rubyid_sleep'>sleep</span><span class='lparen'>(</span><span class='float'>0.5</span><span class='rparen'>)</span>
 
     <span class='kw'>if</span> <span class='ivar'>@ws_success</span>
-      <span class='const'><span class='object_link'><a href="../Discordrb.html#LOGGER-constant" title="Discordrb::LOGGER (constant)">LOGGER</a></span></span><span class='period'>.</span><span class='id identifier rubyid_debug'>debug</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Confirmation received! Exiting run.</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+      <span class='const'><span class='object_link'><a href="../Discordrb.html#LOGGER-constant" title="Discordrb::LOGGER (constant)">LOGGER</a></span></span><span class='period'>.</span><span class='id identifier rubyid_debug'>debug</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Confirmation received! Exiting run.</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
       <span class='kw'>break</span>
     <span class='kw'>end</span>
 
     <span class='kw'>if</span> <span class='ivar'>@should_reconnect</span> <span class='op'>==</span> <span class='kw'>false</span>
-      <span class='const'><span class='object_link'><a href="../Discordrb.html#LOGGER-constant" title="Discordrb::LOGGER (constant)">LOGGER</a></span></span><span class='period'>.</span><span class='id identifier rubyid_debug'>debug</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Reconnection flag was unset. Exiting run.</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+      <span class='const'><span class='object_link'><a href="../Discordrb.html#LOGGER-constant" title="Discordrb::LOGGER (constant)">LOGGER</a></span></span><span class='period'>.</span><span class='id identifier rubyid_debug'>debug</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Reconnection flag was unset. Exiting run.</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
       <span class='kw'>break</span>
     <span class='kw'>end</span>
   <span class='kw'>end</span>
@@ -2526,7 +2526,7 @@ Discord is immediately aware of the closed connection and makes the bot appear o
 </div>
 
       <div id="footer">
-  Generated on Tue Jul 30 12:46:04 2024 by
+  Generated on Tue Jul 30 14:49:49 2024 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.36 (ruby-3.1.6).
 </div>

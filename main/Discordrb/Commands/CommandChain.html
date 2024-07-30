@@ -399,7 +399,7 @@
 
 <span class='kw'>def</span> <span class='id identifier rubyid_execute'>execute</span><span class='lparen'>(</span><span class='id identifier rubyid_event'>event</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_old_chain'>old_chain</span> <span class='op'>=</span> <span class='ivar'>@chain</span>
-  <span class='ivar'>@bot</span><span class='period'>.</span><span class='id identifier rubyid_debug'>debug</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Executing bare chain</span><span class='tstring_end'>&#39;</span></span>
+  <span class='ivar'>@bot</span><span class='period'>.</span><span class='id identifier rubyid_debug'>debug</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Executing bare chain</span><span class='tstring_end'>&quot;</span></span>
   <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='id identifier rubyid_execute_bare'>execute_bare</span><span class='lparen'>(</span><span class='id identifier rubyid_event'>event</span><span class='rparen'>)</span>
 
   <span class='ivar'>@chain_args</span> <span class='op'>||=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -408,8 +408,8 @@
 
   <span class='ivar'>@chain_args</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_arg'>arg</span><span class='op'>|</span>
     <span class='kw'>case</span> <span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span>
-    <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>repeat</span><span class='tstring_end'>&#39;</span></span>
-      <span class='id identifier rubyid_new_result'>new_result</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span>
+    <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>repeat</span><span class='tstring_end'>&quot;</span></span>
+      <span class='id identifier rubyid_new_result'>new_result</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span>
       <span class='id identifier rubyid_executed_chain'>executed_chain</span> <span class='op'>=</span> <span class='id identifier rubyid_divide_chain'>divide_chain</span><span class='lparen'>(</span><span class='id identifier rubyid_old_chain'>old_chain</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span>
 
       <span class='id identifier rubyid_arg'>arg</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span><span class='period'>.</span><span class='id identifier rubyid_times'>times</span> <span class='kw'>do</span>
@@ -618,14 +618,14 @@ its chain arguments.</p>
 <span class='kw'>def</span> <span class='id identifier rubyid_execute_bare'>execute_bare</span><span class='lparen'>(</span><span class='id identifier rubyid_event'>event</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_b_start'>b_start</span> <span class='op'>=</span> <span class='op'>-</span><span class='int'>1</span>
   <span class='id identifier rubyid_b_level'>b_level</span> <span class='op'>=</span> <span class='int'>0</span>
-  <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span>
+  <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span>
   <span class='id identifier rubyid_quoted'>quoted</span> <span class='op'>=</span> <span class='kw'>false</span>
   <span class='id identifier rubyid_escaped'>escaped</span> <span class='op'>=</span> <span class='kw'>false</span>
-  <span class='id identifier rubyid_hacky_delim'>hacky_delim</span><span class='comma'>,</span> <span class='id identifier rubyid_hacky_space'>hacky_space</span><span class='comma'>,</span> <span class='id identifier rubyid_hacky_prev'>hacky_prev</span><span class='comma'>,</span> <span class='id identifier rubyid_hacky_newline'>hacky_newline</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='int'>0xe001</span><span class='comma'>,</span> <span class='int'>0xe002</span><span class='comma'>,</span> <span class='int'>0xe003</span><span class='comma'>,</span> <span class='int'>0xe004</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_pack'>pack</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>U*</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_chars'>chars</span>
+  <span class='id identifier rubyid_hacky_delim'>hacky_delim</span><span class='comma'>,</span> <span class='id identifier rubyid_hacky_space'>hacky_space</span><span class='comma'>,</span> <span class='id identifier rubyid_hacky_prev'>hacky_prev</span><span class='comma'>,</span> <span class='id identifier rubyid_hacky_newline'>hacky_newline</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='int'>0xe001</span><span class='comma'>,</span> <span class='int'>0xe002</span><span class='comma'>,</span> <span class='int'>0xe003</span><span class='comma'>,</span> <span class='int'>0xe004</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_pack'>pack</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>U*</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_chars'>chars</span>
 
   <span class='ivar'>@chain</span><span class='period'>.</span><span class='id identifier rubyid_each_char'>each_char</span><span class='period'>.</span><span class='id identifier rubyid_with_index'>with_index</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_char'>char</span><span class='comma'>,</span> <span class='id identifier rubyid_index'>index</span><span class='op'>|</span>
     <span class='comment'># Escape character
-</span>    <span class='kw'>if</span> <span class='id identifier rubyid_char'>char</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>\\</span><span class='tstring_end'>&#39;</span></span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id identifier rubyid_escaped'>escaped</span>
+</span>    <span class='kw'>if</span> <span class='id identifier rubyid_char'>char</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\\</span><span class='tstring_end'>&quot;</span></span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id identifier rubyid_escaped'>escaped</span>
       <span class='id identifier rubyid_escaped'>escaped</span> <span class='op'>=</span> <span class='kw'>true</span>
       <span class='kw'>next</span>
     <span class='kw'>elsif</span> <span class='id identifier rubyid_escaped'>escaped</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_b_level'>b_level</span> <span class='op'>&lt;=</span> <span class='int'>0</span>
@@ -649,7 +649,7 @@ its chain arguments.</p>
         <span class='kw'>when</span> <span class='ivar'>@attributes</span><span class='lbracket'>[</span><span class='symbol'>:previous</span><span class='rbracket'>]</span>
           <span class='id identifier rubyid_result'>result</span> <span class='op'>+=</span> <span class='id identifier rubyid_hacky_prev'>hacky_prev</span>
           <span class='kw'>next</span>
-        <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'> </span><span class='tstring_end'>&#39;</span></span>
+        <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> </span><span class='tstring_end'>&quot;</span></span>
           <span class='id identifier rubyid_result'>result</span> <span class='op'>+=</span> <span class='id identifier rubyid_hacky_space'>hacky_space</span>
           <span class='kw'>next</span>
         <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span>
@@ -686,7 +686,7 @@ its chain arguments.</p>
 
   <span class='ivar'>@chain_args</span><span class='comma'>,</span> <span class='ivar'>@chain</span> <span class='op'>=</span> <span class='id identifier rubyid_divide_chain'>divide_chain</span><span class='lparen'>(</span><span class='ivar'>@chain</span><span class='rparen'>)</span>
 
-  <span class='id identifier rubyid_prev'>prev</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span>
+  <span class='id identifier rubyid_prev'>prev</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span>
 
   <span class='id identifier rubyid_chain_to_split'>chain_to_split</span> <span class='op'>=</span> <span class='ivar'>@chain</span>
 
@@ -695,10 +695,10 @@ its chain arguments.</p>
 
   <span class='id identifier rubyid_first'>first</span> <span class='op'>=</span> <span class='kw'>true</span>
   <span class='id identifier rubyid_split_chain'>split_chain</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ivar'>@attributes</span><span class='lbracket'>[</span><span class='symbol'>:chain_delimiter</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
-                  <span class='lbracket'>[</span><span class='id identifier rubyid_chain_to_split'>chain_to_split</span><span class='rbracket'>]</span>
-                <span class='kw'>else</span>
-                  <span class='id identifier rubyid_chain_to_split'>chain_to_split</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='ivar'>@attributes</span><span class='lbracket'>[</span><span class='symbol'>:chain_delimiter</span><span class='rbracket'>]</span><span class='rparen'>)</span>
-                <span class='kw'>end</span>
+    <span class='lbracket'>[</span><span class='id identifier rubyid_chain_to_split'>chain_to_split</span><span class='rbracket'>]</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_chain_to_split'>chain_to_split</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='ivar'>@attributes</span><span class='lbracket'>[</span><span class='symbol'>:chain_delimiter</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
   <span class='id identifier rubyid_split_chain'>split_chain</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_command'>command</span><span class='op'>|</span>
     <span class='id identifier rubyid_command'>command</span> <span class='op'>=</span> <span class='ivar'>@attributes</span><span class='lbracket'>[</span><span class='symbol'>:chain_delimiter</span><span class='rbracket'>]</span> <span class='op'>+</span> <span class='id identifier rubyid_command'>command</span> <span class='kw'>if</span> <span class='id identifier rubyid_first'>first</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@chain</span><span class='period'>.</span><span class='id identifier rubyid_start_with?'>start_with?</span><span class='lparen'>(</span><span class='ivar'>@attributes</span><span class='lbracket'>[</span><span class='symbol'>:chain_delimiter</span><span class='rbracket'>]</span><span class='rparen'>)</span>
     <span class='id identifier rubyid_first'>first</span> <span class='op'>=</span> <span class='kw'>false</span>
@@ -708,9 +708,9 @@ its chain arguments.</p>
     <span class='comment'># Replace the hacky delimiter that was used inside quotes with actual delimiters
 </span>    <span class='id identifier rubyid_command'>command</span> <span class='op'>=</span> <span class='id identifier rubyid_command'>command</span><span class='period'>.</span><span class='id identifier rubyid_gsub'>gsub</span> <span class='id identifier rubyid_hacky_delim'>hacky_delim</span><span class='comma'>,</span> <span class='ivar'>@attributes</span><span class='lbracket'>[</span><span class='symbol'>:chain_delimiter</span><span class='rbracket'>]</span>
 
-    <span class='id identifier rubyid_first_space'>first_space</span> <span class='op'>=</span> <span class='id identifier rubyid_command'>command</span><span class='period'>.</span><span class='id identifier rubyid_index'>index</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'> </span><span class='tstring_end'>&#39;</span></span>
+    <span class='id identifier rubyid_first_space'>first_space</span> <span class='op'>=</span> <span class='id identifier rubyid_command'>command</span><span class='period'>.</span><span class='id identifier rubyid_index'>index</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> </span><span class='tstring_end'>&quot;</span></span>
     <span class='id identifier rubyid_command_name'>command_name</span> <span class='op'>=</span> <span class='id identifier rubyid_first_space'>first_space</span> <span class='op'>?</span> <span class='id identifier rubyid_command'>command</span><span class='lbracket'>[</span><span class='int'>0</span><span class='op'>..</span><span class='id identifier rubyid_first_space'>first_space</span> <span class='op'>-</span> <span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='id identifier rubyid_command'>command</span>
-    <span class='id identifier rubyid_arguments'>arguments</span> <span class='op'>=</span> <span class='id identifier rubyid_first_space'>first_space</span> <span class='op'>?</span> <span class='id identifier rubyid_command'>command</span><span class='lbracket'>[</span><span class='id identifier rubyid_first_space'>first_space</span> <span class='op'>+</span> <span class='int'>1</span><span class='op'>..</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span>
+    <span class='id identifier rubyid_arguments'>arguments</span> <span class='op'>=</span> <span class='id identifier rubyid_first_space'>first_space</span> <span class='op'>?</span> <span class='id identifier rubyid_command'>command</span><span class='lbracket'>[</span><span class='id identifier rubyid_first_space'>first_space</span> <span class='op'>+</span> <span class='int'>1</span><span class='op'>..</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span>
 
     <span class='comment'># Append a previous sign if none is present
 </span>    <span class='id identifier rubyid_arguments'>arguments</span> <span class='op'>+=</span> <span class='ivar'>@attributes</span><span class='lbracket'>[</span><span class='symbol'>:previous</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='id identifier rubyid_arguments'>arguments</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='ivar'>@attributes</span><span class='lbracket'>[</span><span class='symbol'>:previous</span><span class='rbracket'>]</span>
@@ -719,11 +719,11 @@ its chain arguments.</p>
     <span class='comment'># Replace hacky previous signs with actual ones
 </span>    <span class='id identifier rubyid_arguments'>arguments</span> <span class='op'>=</span> <span class='id identifier rubyid_arguments'>arguments</span><span class='period'>.</span><span class='id identifier rubyid_gsub'>gsub</span> <span class='id identifier rubyid_hacky_prev'>hacky_prev</span><span class='comma'>,</span> <span class='ivar'>@attributes</span><span class='lbracket'>[</span><span class='symbol'>:previous</span><span class='rbracket'>]</span>
 
-    <span class='id identifier rubyid_arguments'>arguments</span> <span class='op'>=</span> <span class='id identifier rubyid_arguments'>arguments</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'> </span><span class='tstring_end'>&#39;</span></span>
+    <span class='id identifier rubyid_arguments'>arguments</span> <span class='op'>=</span> <span class='id identifier rubyid_arguments'>arguments</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> </span><span class='tstring_end'>&quot;</span></span>
 
     <span class='comment'># Replace the hacky spaces/newlines with actual ones
 </span>    <span class='id identifier rubyid_arguments'>arguments</span><span class='period'>.</span><span class='id identifier rubyid_map!'>map!</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_elem'>elem</span><span class='op'>|</span>
-      <span class='id identifier rubyid_elem'>elem</span><span class='period'>.</span><span class='id identifier rubyid_gsub'>gsub</span><span class='lparen'>(</span><span class='id identifier rubyid_hacky_space'>hacky_space</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'> </span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_gsub'>gsub</span><span class='lparen'>(</span><span class='id identifier rubyid_hacky_newline'>hacky_newline</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_elem'>elem</span><span class='period'>.</span><span class='id identifier rubyid_gsub'>gsub</span><span class='lparen'>(</span><span class='id identifier rubyid_hacky_space'>hacky_space</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> </span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_gsub'>gsub</span><span class='lparen'>(</span><span class='id identifier rubyid_hacky_newline'>hacky_newline</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
     <span class='kw'>end</span>
 
     <span class='comment'># Finally execute the command
@@ -745,7 +745,7 @@ its chain arguments.</p>
 </div>
 
       <div id="footer">
-  Generated on Tue Jul 30 12:46:07 2024 by
+  Generated on Tue Jul 30 14:49:52 2024 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.36 (ruby-3.1.6).
 </div>

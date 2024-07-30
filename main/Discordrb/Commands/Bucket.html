@@ -303,7 +303,7 @@ exactly the user should be rate limited.</p>
       <pre class="code"><span class="info file"># File 'lib/discordrb/commands/rate_limiter.rb', line 11</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_limit'>limit</span><span class='comma'>,</span> <span class='id identifier rubyid_time_span'>time_span</span><span class='comma'>,</span> <span class='id identifier rubyid_delay'>delay</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>`limit` and `time_span` have to either both be set or both be nil!</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_limit'>limit</span> <span class='op'>!=</span> <span class='op'>!</span><span class='id identifier rubyid_time_span'>time_span</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>`limit` and `time_span` have to either both be set or both be nil!</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_limit'>limit</span> <span class='op'>!=</span> <span class='op'>!</span><span class='id identifier rubyid_time_span'>time_span</span>
 
   <span class='ivar'>@limit</span> <span class='op'>=</span> <span class='id identifier rubyid_limit'>limit</span>
   <span class='ivar'>@time_span</span> <span class='op'>=</span> <span class='id identifier rubyid_time_span'>time_span</span>
@@ -589,7 +589,7 @@ exactly the user should be rate limited.</p>
 </div>
 
       <div id="footer">
-  Generated on Tue Jul 30 12:46:09 2024 by
+  Generated on Tue Jul 30 14:49:54 2024 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.36 (ruby-3.1.6).
 </div>

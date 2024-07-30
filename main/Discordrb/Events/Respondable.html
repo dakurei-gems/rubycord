@@ -218,7 +218,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#send_embed-instance_method" title="#send_embed (instance method)">#<strong>send_embed</strong>(message = &#39;&#39;, embed = nil, attachments = nil, tts = false, allowed_mentions = nil, message_reference = nil, components = nil) {|embed| ... } &#x21d2; Message </a>
+      <a href="#send_embed-instance_method" title="#send_embed (instance method)">#<strong>send_embed</strong>(message = &quot;&quot;, embed = nil, attachments = nil, tts = false, allowed_mentions = nil, message_reference = nil, components = nil) {|embed| ... } &#x21d2; Message </a>
     
 
     
@@ -468,7 +468,7 @@ thrown away and nothing being sent to the channel (unless there is something sav
       <pre class="code"><span class="info file"># File 'lib/discordrb/events/message.rb', line 67</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_drain'>drain</span>
-  <span class='ivar'>@saved_message</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span>
+  <span class='ivar'>@saved_message</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>nil</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -552,7 +552,7 @@ message and returns the concatenation.</p>
 <span class='kw'>def</span> <span class='id identifier rubyid_drain_into'>drain_into</span><span class='lparen'>(</span><span class='id identifier rubyid_result'>result</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='kw'>if</span> <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../../Discordrb.html" title="Discordrb (module)">Discordrb</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Message.html" title="Discordrb::Message (class)">Message</a></span></span><span class='rparen'>)</span>
 
-  <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='ivar'>@saved_message</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span> <span class='op'>:</span> <span class='ivar'>@saved_message</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='lparen'>(</span><span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span> <span class='op'>:</span> <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='ivar'>@saved_message</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span> <span class='op'>:</span> <span class='ivar'>@saved_message</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='lparen'>(</span><span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span> <span class='op'>:</span> <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_drain'>drain</span>
   <span class='id identifier rubyid_result'>result</span>
 <span class='kw'>end</span></pre>
@@ -564,7 +564,7 @@ message and returns the concatenation.</p>
       <div class="method_details ">
   <h3 class="signature " id="send_embed-instance_method">
   
-    #<strong>send_embed</strong>(message = &#39;&#39;, embed = nil, attachments = nil, tts = false, allowed_mentions = nil, message_reference = nil, components = nil) {|embed| ... } &#x21d2; <tt><span class='object_link'><a href="../Message.html" title="Discordrb::Message (class)">Message</a></span></tt> 
+    #<strong>send_embed</strong>(message = &quot;&quot;, embed = nil, attachments = nil, tts = false, allowed_mentions = nil, message_reference = nil, components = nil) {|embed| ... } &#x21d2; <tt><span class='object_link'><a href="../Message.html" title="Discordrb::Message (class)">Message</a></span></tt> 
   
 
   
@@ -589,7 +589,7 @@ message and returns the concatenation.</p>
         <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>&#39;&#39;</tt>)</em>
+        <em class="default">(defaults to: <tt>&quot;&quot;</tt>)</em>
       
       
         &mdash;
@@ -776,8 +776,8 @@ message and returns the concatenation.</p>
     <td>
       <pre class="code"><span class="info file"># File 'lib/discordrb/events/message.rb', line 38</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_send_embed'>send_embed</span><span class='lparen'>(</span><span class='id identifier rubyid_message'>message</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_embed'>embed</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_attachments'>attachments</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_tts'>tts</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='id identifier rubyid_allowed_mentions'>allowed_mentions</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_message_reference'>message_reference</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_components'>components</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_channel'>channel</span><span class='period'>.</span><span class='id identifier rubyid_send_embed'>send_embed</span><span class='lparen'>(</span><span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='id identifier rubyid_embed'>embed</span><span class='comma'>,</span> <span class='id identifier rubyid_attachments'>attachments</span><span class='comma'>,</span> <span class='id identifier rubyid_tts'>tts</span><span class='comma'>,</span> <span class='id identifier rubyid_allowed_mentions'>allowed_mentions</span><span class='comma'>,</span> <span class='id identifier rubyid_message_reference'>message_reference</span><span class='comma'>,</span> <span class='id identifier rubyid_components'>components</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_send_embed'>send_embed</span><span class='lparen'>(</span><span class='id identifier rubyid_message'>message</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_embed'>embed</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_attachments'>attachments</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_tts'>tts</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='id identifier rubyid_allowed_mentions'>allowed_mentions</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_message_reference'>message_reference</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_components'>components</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_channel'>channel</span><span class='period'>.</span><span class='id identifier rubyid_send_embed'>send_embed</span><span class='lparen'>(</span><span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='id identifier rubyid_embed'>embed</span><span class='comma'>,</span> <span class='id identifier rubyid_attachments'>attachments</span><span class='comma'>,</span> <span class='id identifier rubyid_tts'>tts</span><span class='comma'>,</span> <span class='id identifier rubyid_allowed_mentions'>allowed_mentions</span><span class='comma'>,</span> <span class='id identifier rubyid_message_reference'>message_reference</span><span class='comma'>,</span> <span class='id identifier rubyid_components'>components</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1135,7 +1135,7 @@ because it avoids rate limiting problems</p>
 </div>
 
       <div id="footer">
-  Generated on Tue Jul 30 12:46:03 2024 by
+  Generated on Tue Jul 30 14:49:48 2024 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.36 (ruby-3.1.6).
 </div>

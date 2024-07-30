@@ -1391,9 +1391,9 @@
 <span class='kw'>def</span> <span class='id identifier rubyid_button'>button</span>
   <span class='kw'>return</span> <span class='kw'>unless</span> <span class='ivar'>@type</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="#TYPES-constant" title="Discordrb::Interaction::TYPES (constant)">TYPES</a></span></span><span class='lbracket'>[</span><span class='symbol'>:component</span><span class='rbracket'>]</span>
 
-  <span class='ivar'>@message</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>components</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_row'>row</span><span class='op'>|</span>
+  <span class='ivar'>@message</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>components</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_row'>row</span><span class='op'>|</span>
     <span class='const'><span class='object_link'><a href="Components.html" title="Discordrb::Components (module)">Components</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Components/ActionRow.html" title="Discordrb::Components::ActionRow (class)">ActionRow</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_row'>row</span><span class='comma'>,</span> <span class='ivar'>@bot</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_buttons'><span class='object_link'><a href="Components/ActionRow.html#buttons-instance_method" title="Discordrb::Components::ActionRow#buttons (method)">buttons</a></span></span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_button'>button</span><span class='op'>|</span>
-      <span class='kw'>return</span> <span class='id identifier rubyid_button'>button</span> <span class='kw'>if</span> <span class='id identifier rubyid_button'>button</span><span class='period'>.</span><span class='id identifier rubyid_custom_id'>custom_id</span> <span class='op'>==</span> <span class='ivar'>@data</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>custom_id</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+      <span class='kw'>return</span> <span class='id identifier rubyid_button'>button</span> <span class='kw'>if</span> <span class='id identifier rubyid_button'>button</span><span class='period'>.</span><span class='id identifier rubyid_custom_id'>custom_id</span> <span class='op'>==</span> <span class='ivar'>@data</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>custom_id</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
     <span class='kw'>end</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
@@ -2995,7 +2995,7 @@ Further messages can be sent with <span class='object_link'><a href="#send_messa
 </div>
 
       <div id="footer">
-  Generated on Tue Jul 30 12:46:08 2024 by
+  Generated on Tue Jul 30 14:49:53 2024 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.36 (ruby-3.1.6).
 </div>

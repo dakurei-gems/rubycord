@@ -274,8 +274,8 @@
   <span class='comment'># The role should already be deleted from the server&#39;s list
 </span>  <span class='comment'># by the time we create this event, so we&#39;ll create a temporary
 </span>  <span class='comment'># role object for event consumers to use.
-</span>  <span class='ivar'>@id</span> <span class='op'>=</span> <span class='id identifier rubyid_data'>data</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>role_id</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
-  <span class='id identifier rubyid_server_id'>server_id</span> <span class='op'>=</span> <span class='id identifier rubyid_data'>data</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>guild_id</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+</span>  <span class='ivar'>@id</span> <span class='op'>=</span> <span class='id identifier rubyid_data'>data</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>role_id</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+  <span class='id identifier rubyid_server_id'>server_id</span> <span class='op'>=</span> <span class='id identifier rubyid_data'>data</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>guild_id</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
   <span class='ivar'>@server</span> <span class='op'>=</span> <span class='id identifier rubyid_bot'>bot</span><span class='period'>.</span><span class='id identifier rubyid_server'>server</span><span class='lparen'>(</span><span class='id identifier rubyid_server_id'>server_id</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -412,7 +412,7 @@
 </div>
 
       <div id="footer">
-  Generated on Tue Jul 30 12:46:05 2024 by
+  Generated on Tue Jul 30 14:49:50 2024 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.36 (ruby-3.1.6).
 </div>

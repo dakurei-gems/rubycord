@@ -241,7 +241,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#await-instance_method" title="#await (instance method)">#<strong>await</strong>(key, attributes = {}, &amp;block)  &#x21d2; Object </a>
+      <a href="#await-instance_method" title="#await (instance method)">#<strong>await</strong>(key, attributes = {})  &#x21d2; Object </a>
     
 
     
@@ -264,7 +264,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#await!-instance_method" title="#await! (instance method)">#<strong>await!</strong>(attributes = {}, &amp;block)  &#x21d2; Object </a>
+      <a href="#await!-instance_method" title="#await! (instance method)">#<strong>await!</strong>(attributes = {})  &#x21d2; Object </a>
     
 
     
@@ -780,7 +780,7 @@ on various device types (<code>:desktop</code>, <code>:mobile</code>, or <code>:
       <div class="method_details first">
   <h3 class="signature first" id="await-instance_method">
   
-    #<strong>await</strong>(key, attributes = {}, &amp;block)  &#x21d2; <tt>Object</tt> 
+    #<strong>await</strong>(key, attributes = {})  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -817,8 +817,8 @@ user&#39;s ID as a :from attribute.</p>
     <td>
       <pre class="code"><span class="info file"># File 'lib/discordrb/data/user.rb', line 197</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_await'>await</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_attributes'>attributes</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
-  <span class='ivar'>@bot</span><span class='period'>.</span><span class='id identifier rubyid_add_await'>add_await</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../Discordrb.html" title="Discordrb (module)">Discordrb</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Events.html" title="Discordrb::Events (module)">Events</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Events/MessageEvent.html" title="Discordrb::Events::MessageEvent (class)">MessageEvent</a></span></span><span class='comma'>,</span> <span class='lbrace'>{</span> <span class='label'>from:</span> <span class='ivar'>@id</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_attributes'>attributes</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_await'>await</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_attributes'>attributes</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='rparen'>)</span>
+  <span class='ivar'>@bot</span><span class='period'>.</span><span class='id identifier rubyid_add_await'>add_await</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../Discordrb.html" title="Discordrb (module)">Discordrb</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Events.html" title="Discordrb::Events (module)">Events</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Events/MessageEvent.html" title="Discordrb::Events::MessageEvent (class)">MessageEvent</a></span></span><span class='comma'>,</span> <span class='lbrace'>{</span><span class='label'>from:</span> <span class='ivar'>@id</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_attributes'>attributes</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -828,7 +828,7 @@ user&#39;s ID as a :from attribute.</p>
       <div class="method_details ">
   <h3 class="signature " id="await!-instance_method">
   
-    #<strong>await!</strong>(attributes = {}, &amp;block)  &#x21d2; <tt>Object</tt> 
+    #<strong>await!</strong>(attributes = {})  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -865,8 +865,8 @@ user&#39;s ID as a :from attribute.</p>
     <td>
       <pre class="code"><span class="info file"># File 'lib/discordrb/data/user.rb', line 204</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_await!'>await!</span><span class='lparen'>(</span><span class='id identifier rubyid_attributes'>attributes</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
-  <span class='ivar'>@bot</span><span class='period'>.</span><span class='id identifier rubyid_add_await!'>add_await!</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Discordrb.html" title="Discordrb (module)">Discordrb</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Events.html" title="Discordrb::Events (module)">Events</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Events/MessageEvent.html" title="Discordrb::Events::MessageEvent (class)">MessageEvent</a></span></span><span class='comma'>,</span> <span class='lbrace'>{</span> <span class='label'>from:</span> <span class='ivar'>@id</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_attributes'>attributes</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_await!'>await!</span><span class='lparen'>(</span><span class='id identifier rubyid_attributes'>attributes</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='rparen'>)</span>
+  <span class='ivar'>@bot</span><span class='period'>.</span><span class='id identifier rubyid_add_await!'>add_await!</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Discordrb.html" title="Discordrb (module)">Discordrb</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Events.html" title="Discordrb::Events (module)">Events</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Events/MessageEvent.html" title="Discordrb::Events::MessageEvent (class)">MessageEvent</a></span></span><span class='comma'>,</span> <span class='lbrace'>{</span><span class='label'>from:</span> <span class='ivar'>@id</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_attributes'>attributes</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1764,7 +1764,7 @@ user&#39;s ID as a :from attribute.</p>
 </div>
 
       <div id="footer">
-  Generated on Tue Jul 30 12:46:04 2024 by
+  Generated on Tue Jul 30 14:49:49 2024 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.36 (ruby-3.1.6).
 </div>
