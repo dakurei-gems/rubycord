@@ -4,8 +4,8 @@ require "discordrb"
 require "securerandom"
 
 CHANNEL_EDIT = ENV.fetch("CHANNEL_EDIT")
-ROLE_1       = ENV.fetch("ROLE_1")
-ROLE_2       = ENV.fetch("ROLE_2")
+ROLE_1 = ENV.fetch("ROLE_1")
+ROLE_2 = ENV.fetch("ROLE_2")
 
 bot = Discordrb::Bot.new(token: ENV.fetch("DISCORDRB_TOKEN"))
 
