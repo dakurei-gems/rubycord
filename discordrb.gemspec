@@ -1,45 +1,42 @@
-# frozen_string_literal: true
-
-lib = File.expand_path("lib", __dir__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "discordrb/version"
+load "lib/discordrb/version.rb"
 
 Gem::Specification.new do |spec|
   spec.name = "discordrb"
   spec.version = Discordrb::VERSION
-  spec.authors = %w[meew0 swarley Dakurei]
-  spec.email = [""]
+  spec.authors = ["meew0", "swarley", "Dakurei"]
+  spec.email = ["maxime.palanchini@gmail.com"]
 
   spec.summary = "Discord API for Ruby"
   spec.description = "A Ruby implementation of the Discord (https://discord.com) API."
   spec.homepage = "https://github.com/dakurei-gems/discordrb"
+  spec.required_ruby_version = ">= 3.1.3"
   spec.license = "MIT"
 
-  spec.files = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features|examples|lib/discordrb/webhooks)/}) }
+  # spec.metadata["allowed_push_host"] = "TODO: Set to your gem server 'https://example.com'"
+
+  spec.metadata["homepage_uri"] = spec.homepage
+  spec.metadata["source_code_uri"] = spec.homepage
+  spec.metadata["changelog_uri"] = "https://github.com/dakurei-gems/discordrb/blob/main/CHANGELOG.md"
+
+  # Specify which files should be added to the gem when it is released.
+  # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
+  gemspec = File.basename(__FILE__)
+  spec.files = IO.popen(%w[git ls-files -z], chdir: __dir__, err: IO::NULL) do |ls|
+    ls.readlines("\x0", chomp: true).reject do |f|
+      (f == gemspec) ||
+        f.start_with?(*%w[bin/ test/ spec/ features/ .git .github appveyor Gemfile])
+    end
+  end
   spec.bindir = "exe"
-  spec.executables = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
-  spec.metadata = {
-    "changelog_uri" => "https://github.com/dakurei-gems/discordrb/blob/main/CHANGELOG.md",
-    "rubygems_mfa_required" => "true"
-  }
+  spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
+  spec.add_dependency "base64", ">= 0.2.0"
+  spec.add_dependency "bigdecimal", ">= 3.1.8"
   spec.add_dependency "ffi", ">= 1.9.24"
   spec.add_dependency "opus-ruby", ">= 1.0.1"
   spec.add_dependency "rest-client", ">= 2.0.0"
   spec.add_dependency "websocket-client-simple", ">= 0.3.0"
-  spec.add_dependency "base64", ">= 0.2.0"
-  spec.add_dependency "bigdecimal", ">= 3.1.8"
 
   spec.add_dependency "discordrb-webhooks", "~> 3.5.0"
-
-  spec.required_ruby_version = ">= 3.1.3"
-
-  spec.add_development_dependency "bundler", ">= 1.10", "< 3"
-  spec.add_development_dependency "rake", "~> 13.0"
-  spec.add_development_dependency "redcarpet", "~> 3.6.0" # YARD markdown formatting
-  spec.add_development_dependency "rspec", "~> 3.13.0"
-  spec.add_development_dependency "standard", "~> 1.39.2"
-  spec.add_development_dependency "simplecov", "~> 0.22.0"
-  spec.add_development_dependency "yard", "~> 0.9.9"
 end
