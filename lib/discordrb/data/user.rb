@@ -3,6 +3,7 @@
 module Discordrb
   # Mixin for the attributes users should have
   module UserAttributes
+    # Types of user's account flags mapped to their API value.
     FLAGS = {
       staff: 1 << 0,
       partner: 1 << 1,
