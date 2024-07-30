@@ -108,7 +108,17 @@
     <dl class="constants">
       
         <dt id="FLAGS-constant" class="">FLAGS =
-          
+          <div class="docstring">
+  <div class="discussion">
+    <p>Types of user&#39;s account flags mapped to their API value.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
         </dt>
         <dd><pre class="code"><span class='lbrace'>{</span>
   <span class='label'>staff:</span> <span class='int'>1</span> <span class='op'>&lt;&lt;</span> <span class='int'>0</span><span class='comma'>,</span>
@@ -502,12 +512,12 @@
       <pre class="lines">
 
 
-48
 49
-50</pre>
+50
+51</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/discordrb/data/user.rb', line 48</span>
+      <pre class="code"><span class="info file"># File 'lib/discordrb/data/user.rb', line 49</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_avatar_id'>avatar_id</span>
   <span class='ivar'>@avatar_id</span>
@@ -565,12 +575,12 @@
       <pre class="lines">
 
 
-38
 39
-40</pre>
+40
+41</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/discordrb/data/user.rb', line 38</span>
+      <pre class="code"><span class="info file"># File 'lib/discordrb/data/user.rb', line 39</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_bot_account'>bot_account</span>
   <span class='ivar'>@bot_account</span>
@@ -628,12 +638,12 @@
       <pre class="lines">
 
 
-32
 33
-34</pre>
+34
+35</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/discordrb/data/user.rb', line 32</span>
+      <pre class="code"><span class="info file"># File 'lib/discordrb/data/user.rb', line 33</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_discriminator'>discriminator</span>
   <span class='ivar'>@discriminator</span>
@@ -687,12 +697,12 @@
       <pre class="lines">
 
 
-29
 30
-31</pre>
+31
+32</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/discordrb/data/user.rb', line 29</span>
+      <pre class="code"><span class="info file"># File 'lib/discordrb/data/user.rb', line 30</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_global_name'>global_name</span>
   <span class='ivar'>@global_name</span>
@@ -746,12 +756,12 @@
       <pre class="lines">
 
 
-88
 89
-90</pre>
+90
+91</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/discordrb/data/user.rb', line 88</span>
+      <pre class="code"><span class="info file"># File 'lib/discordrb/data/user.rb', line 89</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_public_flags'>public_flags</span>
   <span class='ivar'>@public_flags</span>
@@ -809,12 +819,12 @@
       <pre class="lines">
 
 
-25
 26
-27</pre>
+27
+28</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/discordrb/data/user.rb', line 25</span>
+      <pre class="code"><span class="info file"># File 'lib/discordrb/data/user.rb', line 26</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_username'>username</span>
   <span class='ivar'>@username</span>
@@ -872,12 +882,12 @@
       <pre class="lines">
 
 
-42
 43
-44</pre>
+44
+45</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/discordrb/data/user.rb', line 42</span>
+      <pre class="code"><span class="info file"># File 'lib/discordrb/data/user.rb', line 43</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_webhook_account'>webhook_account</span>
   <span class='ivar'>@webhook_account</span>
@@ -958,7 +968,6 @@ TODO: Maybe change this method again after discriminator removal ?</p>
       <pre class="lines">
 
 
-77
 78
 79
 80
@@ -966,10 +975,11 @@ TODO: Maybe change this method again after discriminator removal ?</p>
 82
 83
 84
-85</pre>
+85
+86</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/discordrb/data/user.rb', line 77</span>
+      <pre class="code"><span class="info file"># File 'lib/discordrb/data/user.rb', line 78</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_avatar_url'>avatar_url</span><span class='lparen'>(</span><span class='id identifier rubyid_format'>format</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='kw'>unless</span> <span class='ivar'>@avatar_id</span>
@@ -1027,12 +1037,12 @@ TODO: Maybe change this method again after discriminator removal ?</p>
       <pre class="lines">
 
 
-52
 53
-54</pre>
+54
+55</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/discordrb/data/user.rb', line 52</span>
+      <pre class="code"><span class="info file"># File 'lib/discordrb/data/user.rb', line 53</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_display_name'>display_name</span>
   <span class='id identifier rubyid_global_name'>global_name</span> <span class='op'>||</span> <span class='id identifier rubyid_username'>username</span>
@@ -1085,16 +1095,16 @@ TODO: Maybe change this method again after discriminator removal ?</p>
       <pre class="lines">
 
 
-65
 66
 67
 68
 69
 70
-71</pre>
+71
+72</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/discordrb/data/user.rb', line 65</span>
+      <pre class="code"><span class="info file"># File 'lib/discordrb/data/user.rb', line 66</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_distinct'>distinct</span>
   <span class='kw'>if</span> <span class='ivar'>@discriminator</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@discriminator</span> <span class='op'>!=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>0</span><span class='tstring_end'>&quot;</span></span>
@@ -1150,12 +1160,12 @@ TODO: Maybe change this method again after discriminator removal ?</p>
       <pre class="lines">
 
 
-58
 59
-60</pre>
+60
+61</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/discordrb/data/user.rb', line 58</span>
+      <pre class="code"><span class="info file"># File 'lib/discordrb/data/user.rb', line 59</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_mention'>mention</span>
   <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>&lt;@</span><span class='embexpr_beg'>#{</span><span class='ivar'>@id</span><span class='embexpr_end'>}</span><span class='tstring_content'>&gt;</span><span class='tstring_end'>&quot;</span></span>
@@ -1170,7 +1180,7 @@ TODO: Maybe change this method again after discriminator removal ?</p>
 </div>
 
       <div id="footer">
-  Generated on Tue Jul 30 18:22:05 2024 by
+  Generated on Tue Jul 30 18:33:40 2024 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.36 (ruby-3.1.6).
 </div>
