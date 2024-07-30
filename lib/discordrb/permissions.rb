@@ -2,49 +2,58 @@ module Discordrb
   # List of permissions Discord uses
   class Permissions
     # This hash maps bit positions to logical permissions.
+    #   see https://discord.com/developers/docs/topics/permissions#permissions-bitwise-permission-flags
     FLAGS = {
       # Bit => Permission # Value
-      0 => :create_instant_invite,     # 1
-      1 => :kick_members,              # 2
-      2 => :ban_members,               # 4
-      3 => :administrator,             # 8
-      4 => :manage_channels,           # 16
-      5 => :manage_server,             # 32
-      6 => :add_reactions,             # 64
-      7 => :view_audit_log,            # 128
-      8 => :priority_speaker,          # 256
-      9 => :stream,                    # 512
-      10 => :read_messages,            # 1024
-      11 => :send_messages,            # 2048
-      12 => :send_tts_messages,        # 4096
-      13 => :manage_messages,          # 8192
-      14 => :embed_links,              # 16384
-      15 => :attach_files,             # 32768
-      16 => :read_message_history,     # 65536
-      17 => :mention_everyone,         # 131072
-      18 => :use_external_emoji,       # 262144
-      19 => :view_server_insights,     # 524288
-      20 => :connect,                  # 1048576
-      21 => :speak,                    # 2097152
-      22 => :mute_members,             # 4194304
-      23 => :deafen_members,           # 8388608
-      24 => :move_members,             # 16777216
-      25 => :use_voice_activity,       # 33554432
-      26 => :change_nickname,          # 67108864
-      27 => :manage_nicknames,         # 134217728
-      28 => :manage_roles,             # 268435456, also Manage Permissions
-      29 => :manage_webhooks,          # 536870912
-      30 => :manage_emojis,            # 1073741824, also Manage Stickers
-      31 => :use_slash_commands,       # 2147483648
-      32 => :request_to_speak,         # 4294967296
-      33 => :manage_events,            # 8589934592
-      34 => :manage_threads,           # 17179869184
-      35 => :use_public_threads,       # 34359738368
-      36 => :use_private_threads,      # 68719476736
-      37 => :use_external_stickers,    # 137438953472
-      38 => :send_messages_in_threads, # 274877906944
-      39 => :use_embedded_activities,  # 549755813888
-      40 => :moderate_members          # 1099511627776
+      0 => :create_instant_invite,                # 1
+      1 => :kick_members,                         # 2
+      2 => :ban_members,                          # 4
+      3 => :administrator,                        # 8
+      4 => :manage_channels,                      # 16
+      5 => :manage_server,                        # 32
+      6 => :add_reactions,                        # 64
+      7 => :view_audit_log,                       # 128
+      8 => :priority_speaker,                     # 256
+      9 => :stream,                               # 512
+      10 => :view_channel,                        # 1024 (which includes reading messages in text channels and joining voice channels)
+      11 => :send_messages,                       # 2048
+      12 => :send_tts_messages,                   # 4096
+      13 => :manage_messages,                     # 8192
+      14 => :embed_links,                         # 16384
+      15 => :attach_files,                        # 32768
+      16 => :read_message_history,                # 65536
+      17 => :mention_everyone,                    # 131072
+      18 => :use_external_emojis,                 # 262144
+      19 => :view_server_insights,                # 524288
+      20 => :connect,                             # 1048576
+      21 => :speak,                               # 2097152
+      22 => :mute_members,                        # 4194304
+      23 => :deafen_members,                      # 8388608
+      24 => :move_members,                        # 16777216
+      25 => :use_vad,                             # 33554432 (voice-activity-detection in a voice channel)
+      26 => :change_nickname,                     # 67108864
+      27 => :manage_nicknames,                    # 134217728
+      28 => :manage_roles,                        # 268435456 (roles & roles permissions)
+      29 => :manage_webhooks,                     # 536870912
+      30 => :manage_server_expressions,           # 1073741824 (emojis, stickers, and soundboard)
+      31 => :use_application_commands,            # 2147483648 (to use application commands, including slash commands and context menu commands)
+      32 => :request_to_speak,                    # 4294967296
+      33 => :manage_events,                       # 8589934592
+      34 => :manage_threads,                      # 17179869184
+      35 => :create_public_threads,               # 34359738368 (for creating public and announcement threads)
+      36 => :create_private_threads,              # 68719476736
+      37 => :use_external_stickers,               # 137438953472
+      38 => :send_messages_in_threads,            # 274877906944
+      39 => :use_embedded_activities,             # 549755813888
+      40 => :moderate_members,                    # 1099511627776
+      41 => :view_creator_monetization_analytics, # 2199023255552
+      42 => :use_soundboard,                      # 4398046511104
+      43 => :create_server_expressions,           # 8796093022208 (for creating emojis, stickers, and soundboard sounds, and editing and deleting)
+      44 => :create_events,                       # 17592186044416 (for creating scheduled events, and editing and deleting those created by the current user)
+      45 => :use_external_sounds,                 # 35184372088832
+      46 => :send_voice_messages,                 # 70368744177664
+      49 => :send_polls,                          # 562949953421312
+      50 => :use_external_apps                    # 1125899906842624
     }.freeze
 
     FLAGS.each do |position, flag|
@@ -87,7 +96,7 @@ module Discordrb
     # This is a class method that can be used to calculate bits instead
     # of instancing a new Permissions object.
     # @example Get the bits for permissions that could allow/deny read messages, connect, and speak
-    #   Permissions.bits [:read_messages, :connect, :speak] #=> 3146752
+    #   Permissions.bits [:view_channel, :connect, :speak] #=> 3146752
     # @param list [Array<Symbol>]
     # @return [Integer] the computed permissions integer
     def self.bits(list)
@@ -104,11 +113,11 @@ module Discordrb
     #   {Channel#define_overwrite}) or from existing bit data to read out.
     # @example Create a permissions object that could allow/deny read messages, connect, and speak by setting flags
     #   permission = Permissions.new
-    #   permission.can_read_messages = true
+    #   permission.can_view_channel = true
     #   permission.can_connect = true
     #   permission.can_speak = true
     # @example Create a permissions object that could allow/deny read messages, connect, and speak by an array of symbols
-    #   Permissions.new [:read_messages, :connect, :speak]
+    #   Permissions.new [:view_channel, :connect, :speak]
     # @param bits [String, Integer, Array<Symbol>] The permission bits that should be set from the beginning, or an array of permission flag symbols
     # @param writer [RoleWriter] The writer that should be used to update data when a permission is set.
     def initialize(bits = 0, writer = nil)

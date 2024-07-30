@@ -91,9 +91,9 @@ module Discordrb
       bot_member = member(@bot.profile)
       text_channels.sort_by { |e| [e.position, e.id] }.find do |e|
         if send_messages
-          bot_member.can_read_messages?(e) && bot_member.can_send_messages?(e)
+          bot_member.can_view_channel?(e) && bot_member.can_send_messages?(e)
         else
-          bot_member.can_read_messages?(e)
+          bot_member.can_view_channel?(e)
         end
       end
     end

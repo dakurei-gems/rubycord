@@ -16,7 +16,7 @@ describe Discordrb::Permissions do
       writer = double
       expect(writer).to receive(:write)
 
-      Discordrb::Permissions.new(0, writer).can_read_messages = true
+      Discordrb::Permissions.new(0, writer).can_view_channel = true
     end
   end
 

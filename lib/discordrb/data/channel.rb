@@ -608,7 +608,7 @@ module Discordrb
     # @return [Array<Member>] the users in this channel
     def users
       if text?
-        server.online_members(include_idle: true).select { |u| u.can_read_messages? self }
+        server.online_members(include_idle: true).select { |u| u.can_view_channel? self }
       elsif voice?
         server.voice_states.filter_map { |id, voice_state| server.member(id) if !voice_state.voice_channel.nil? && voice_state.voice_channel.id == @id }
       end
