@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  rubocop:
+  standard:
     name: Standard
     runs-on: ubuntu-latest
     env:
