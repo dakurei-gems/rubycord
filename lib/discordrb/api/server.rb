@@ -6,7 +6,7 @@ module Discordrb::API::Server
 
   # Create a server
   # https://discord.com/developers/docs/resources/guild#create-guild
-  def create(token, name, region = :'eu-central')
+  def create(token, name, region = :"eu-central")
     Discordrb::API.request(
       :guilds,
       nil,
@@ -41,7 +41,7 @@ module Discordrb::API::Server
       {name: name, region: region, icon: icon, afk_channel_id: afk_channel_id, afk_timeout: afk_timeout, splash: splash, default_message_notifications: default_message_notifications, verification_level: verification_level, explicit_content_filter: explicit_content_filter, system_channel_id: system_channel_id}.to_json,
       Authorization: token,
       content_type: :json,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 
@@ -56,7 +56,7 @@ module Discordrb::API::Server
       {owner_id: user_id}.to_json,
       Authorization: token,
       content_type: :json,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 
@@ -95,7 +95,7 @@ module Discordrb::API::Server
       {name: name, type: type, topic: topic, bitrate: bitrate, user_limit: user_limit, permission_overwrites: permission_overwrites, parent_id: parent_id, nsfw: nsfw, rate_limit_per_user: rate_limit_per_user, position: position}.to_json,
       Authorization: token,
       content_type: :json,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 
@@ -156,7 +156,7 @@ module Discordrb::API::Server
       }.reject { |_, v| v == :undef }.to_json,
       Authorization: token,
       content_type: :json,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 
@@ -170,7 +170,7 @@ module Discordrb::API::Server
       "#{Discordrb::API.api_base}/guilds/#{server_id}/members/#{user_id}",
       Authorization: token,
       content_type: :json,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 
@@ -210,7 +210,7 @@ module Discordrb::API::Server
       :delete,
       "#{Discordrb::API.api_base}/guilds/#{server_id}/bans/#{user_id}",
       Authorization: token,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 
@@ -240,7 +240,7 @@ module Discordrb::API::Server
       {color: colour, name: name, hoist: hoist, mentionable: mentionable, permissions: packed_permissions}.to_json,
       Authorization: token,
       content_type: :json,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 
@@ -273,7 +273,7 @@ module Discordrb::API::Server
       data.to_json,
       Authorization: token,
       content_type: :json,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 
@@ -300,7 +300,7 @@ module Discordrb::API::Server
       :delete,
       "#{Discordrb::API.api_base}/guilds/#{server_id}/roles/#{role_id}",
       Authorization: token,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 
@@ -314,7 +314,7 @@ module Discordrb::API::Server
       "#{Discordrb::API.api_base}/guilds/#{server_id}/members/#{user_id}/roles/#{role_id}",
       nil,
       Authorization: token,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 
@@ -327,7 +327,7 @@ module Discordrb::API::Server
       :delete,
       "#{Discordrb::API.api_base}/guilds/#{server_id}/members/#{user_id}/roles/#{role_id}",
       Authorization: token,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 
@@ -353,7 +353,7 @@ module Discordrb::API::Server
       "#{Discordrb::API.api_base}/guilds/#{server_id}/prune",
       {days: days},
       Authorization: token,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 
@@ -403,7 +403,7 @@ module Discordrb::API::Server
       "#{Discordrb::API.api_base}/guilds/#{server_id}/integrations",
       {type: type, id: id},
       Authorization: token,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 
@@ -430,7 +430,7 @@ module Discordrb::API::Server
       :delete,
       "#{Discordrb::API.api_base}/guilds/#{server_id}/integrations/#{integration_id}",
       Authorization: token,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 
@@ -470,7 +470,7 @@ module Discordrb::API::Server
       "#{Discordrb::API.api_base}/guilds/#{server_id}/widget",
       {enabled: enabled, channel_id: channel_id}.to_json,
       Authorization: token,
-      'X-Audit-Log-Reason': reason,
+      "X-Audit-Log-Reason": reason,
       content_type: :json
     )
   end
@@ -487,7 +487,7 @@ module Discordrb::API::Server
       {image: image, name: name, roles: roles}.to_json,
       Authorization: token,
       content_type: :json,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 
@@ -502,7 +502,7 @@ module Discordrb::API::Server
       {name: name, roles: roles}.to_json,
       Authorization: token,
       content_type: :json,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 
@@ -515,7 +515,7 @@ module Discordrb::API::Server
       :delete,
       "#{Discordrb::API.api_base}/guilds/#{server_id}/emojis/#{emoji_id}",
       Authorization: token,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 

@@ -70,7 +70,7 @@ module Discordrb::Webhooks
     # @return [RestClient::Response] the response returned by Discord.
     # @note This is permanent and cannot be undone.
     def delete(reason: nil)
-      RestClient.delete(@url, 'X-Audit-Log-Reason': reason)
+      RestClient.delete(@url, "X-Audit-Log-Reason": reason)
     end
 
     # Edit a message from this webhook.

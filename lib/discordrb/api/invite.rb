@@ -25,7 +25,7 @@ module Discordrb::API::Invite
       :delete,
       "#{Discordrb::API.api_base}/invites/#{code}",
       Authorization: token,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 

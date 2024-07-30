@@ -68,7 +68,7 @@ bot.application_command(:example).group(:fun) do |group|
     event.respond(content: result)
   end
 
-  group.subcommand(:'button-test') do |event|
+  group.subcommand(:"button-test") do |event|
     event.respond(content: "Button test") do |_, view|
       view.row do |r|
         r.button(label: "Test!", style: :primary, emoji: 577663465322315786, custom_id: "test_button:1")

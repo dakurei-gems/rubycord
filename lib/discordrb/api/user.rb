@@ -39,7 +39,7 @@ module Discordrb::API::User
       {nick: nick}.to_json,
       Authorization: token,
       content_type: :json,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 

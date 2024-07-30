@@ -29,7 +29,7 @@ module Discordrb::API::Channel
       data.to_json,
       Authorization: token,
       content_type: :json,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 
@@ -42,7 +42,7 @@ module Discordrb::API::Channel
       :delete,
       "#{Discordrb::API.api_base}/channels/#{channel_id}",
       Authorization: token,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 
@@ -138,7 +138,7 @@ module Discordrb::API::Channel
       :delete,
       "#{Discordrb::API.api_base}/channels/#{channel_id}/messages/#{message_id}",
       Authorization: token,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 
@@ -153,7 +153,7 @@ module Discordrb::API::Channel
       {messages: messages}.to_json,
       Authorization: token,
       content_type: :json,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 
@@ -249,7 +249,7 @@ module Discordrb::API::Channel
       {type: type, id: overwrite_id, allow: allow, deny: deny}.to_json,
       Authorization: token,
       content_type: :json,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 
@@ -276,7 +276,7 @@ module Discordrb::API::Channel
       {max_age: max_age, max_uses: max_uses, temporary: temporary, unique: unique}.to_json,
       Authorization: token,
       content_type: :json,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 
@@ -289,7 +289,7 @@ module Discordrb::API::Channel
       :delete,
       "#{Discordrb::API.api_base}/channels/#{channel_id}/permissions/#{overwrite_id}",
       Authorization: token,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 
@@ -328,7 +328,7 @@ module Discordrb::API::Channel
       "#{Discordrb::API.api_base}/channels/#{channel_id}/pins/#{message_id}",
       nil,
       Authorization: token,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 
@@ -341,7 +341,7 @@ module Discordrb::API::Channel
       :delete,
       "#{Discordrb::API.api_base}/channels/#{channel_id}/pins/#{message_id}",
       Authorization: token,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 
@@ -435,7 +435,7 @@ module Discordrb::API::Channel
       {name: name, avatar: avatar}.to_json,
       Authorization: token,
       content_type: :json,
-      'X-Audit-Log-Reason': reason
+      "X-Audit-Log-Reason": reason
     )
   end
 

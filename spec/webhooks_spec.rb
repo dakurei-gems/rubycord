@@ -171,7 +171,7 @@ describe Discordrb::Webhooks do
 
         subject.delete(reason: reason)
 
-        expect(RestClient).to have_received(:delete).with(provided_url, 'X-Audit-Log-Reason': reason)
+        expect(RestClient).to have_received(:delete).with(provided_url, "X-Audit-Log-Reason": reason)
       end
     end
 
