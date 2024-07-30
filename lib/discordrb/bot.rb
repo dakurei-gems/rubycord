@@ -138,15 +138,15 @@ module Discordrb
       raise "Token string is empty or nil" if token.nil? || token.empty?
 
       @intents = case intents
-                 when :all
-                   ALL_INTENTS
-                 when :unprivileged
-                   UNPRIVILEGED_INTENTS
-                 when :none
-                   NO_INTENTS
-                 else
-                   calculate_intents(intents)
-                 end
+      when :all
+        ALL_INTENTS
+      when :unprivileged
+        UNPRIVILEGED_INTENTS
+      when :none
+        NO_INTENTS
+      else
+        calculate_intents(intents)
+      end
 
       @token = process_token(@type, token)
       @gateway = Gateway.new(self, @token, @shard_key, @compress_mode, @intents)
@@ -560,7 +560,7 @@ module Discordrb
         {"name" => activity, "type" => type, "state" => activity}
       else
         activity || url ? {"name" => activity, "url" => url, "type" => type} : nil
-                     end
+      end
       @gateway.send_status_update(status, since, activity_obj, afk)
 
       # Update the status in the cache
@@ -811,7 +811,7 @@ module Discordrb
         API::Application.get_guild_commands(@token, profile.id, server_id)
       else
         API::Application.get_global_commands(@token, profile.id)
-             end
+      end
 
       JSON.parse(resp).map do |command_data|
         ApplicationCommand.new(command_data, self, server_id)
@@ -826,7 +826,7 @@ module Discordrb
         API::Application.get_guild_command(@token, profile.id, server_id, command_id)
       else
         API::Application.get_global_command(@token, profile.id, command_id)
-             end
+      end
       ApplicationCommand.new(JSON.parse(resp), self, server_id)
     end
 
@@ -855,7 +855,7 @@ module Discordrb
         API::Application.create_guild_command(@token, profile.id, server_id, name, description, builder.to_a, default_permission, type)
       else
         API::Application.create_global_command(@token, profile.id, name, description, builder.to_a, default_permission, type)
-             end
+      end
       cmd = ApplicationCommand.new(JSON.parse(resp), self, server_id)
 
       if permission_builder.to_a.any?
@@ -881,7 +881,7 @@ module Discordrb
         API::Application.edit_guild_command(@token, profile.id, server_id, command_id, name, description, builder.to_a, default_permission, type)
       else
         API::Application.edit_guild_command(@token, profile.id, command_id, name, description, builder.to_a, default_permission.type)
-             end
+      end
       cmd = ApplicationCommand.new(JSON.parse(resp), self, server_id)
 
       if permission_builder.to_a.any?

@@ -73,7 +73,7 @@ module Discordrb
         Discordrb::Member.new(data["member"], bot.servers[@server_id], bot)
       else
         bot.ensure_user(data["user"])
-              end
+      end
       @token = data["token"]
       @version = data["version"]
       @components = @data["components"]&.filter_map { |component| Components.from_data(component, @bot) } || []

@@ -47,14 +47,14 @@ module Discordrb::Events
             e.name
           else
             e
-               end
+          end
         end,
         matches_all(@attributes[:name], event.name) do |a, e|
           a == if a.is_a? String
             e.to_s
           else
             e
-               end
+          end
         end
       ].reduce(true, &:&)
     end
@@ -109,14 +109,14 @@ module Discordrb::Events
             e.name
           else
             e
-               end
+          end
         end,
         matches_all(@attributes[:name], event.name) do |a, e|
           a == if a.is_a? String
             e.to_s
           else
             e
-               end
+          end
         end
       ].reduce(true, &:&)
     end
@@ -162,7 +162,7 @@ module Discordrb::Events
             e.to_s
           else
             e
-               end
+          end
         end
       ]
     end

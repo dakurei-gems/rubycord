@@ -366,7 +366,7 @@ module Discordrb::Commands
         user.roles.reduce(0) do |memo, role|
           [@permissions[:roles][role.id] || 0, memo].max
         end
-                         end
+      end
 
       [@permissions[:users][user.id] || 0, determined_level].max >= level
     end

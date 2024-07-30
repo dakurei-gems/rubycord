@@ -30,7 +30,7 @@ module Discordrb::Events
         @server.member(@user_id)
       else
         @bot.user(@user_id)
-                end
+      end
     end
 
     # @return [Message] the message that was reacted to.

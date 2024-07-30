@@ -31,7 +31,7 @@ module Discordrb::Events
         bot.user(@user_id)
       else
         bot.member(@channel.server.id, @user_id)
-              end
+      end
 
       @timestamp = Time.at(data["timestamp"].to_i)
     end
@@ -56,13 +56,13 @@ module Discordrb::Events
         end,
         matches_all(@attributes[:from], event.user) do |a, e|
           a == case a
-               when String
-                 e.name
-               when Integer
-                 e.id
-               else
-                 e
-               end
+          when String
+            e.name
+          when Integer
+            e.id
+          else
+            e
+          end
         end,
         matches_all(@attributes[:after], event.timestamp) { |a, e| a > e },
         matches_all(@attributes[:before], event.timestamp) { |a, e| a < e }

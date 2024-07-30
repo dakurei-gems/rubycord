@@ -139,7 +139,7 @@ module Discordrb::API::User
       discrim_id.to_i % 5
     else
       (discrim_id.to_i >> 22) % 5
-            end
+    end
     "#{Discordrb::API.cdn_url}/embed/avatars/#{index}.png"
   end
 
@@ -149,7 +149,7 @@ module Discordrb::API::User
       "gif"
     else
       "webp"
-               end
+    end
     "#{Discordrb::API.cdn_url}/avatars/#{user_id}/#{avatar_id}.#{format}"
   end
 end

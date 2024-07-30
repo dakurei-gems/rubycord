@@ -29,13 +29,13 @@ module Discordrb::Events
       [
         matches_all(@attributes[:server], event.server) do |a, e|
           a == case a
-               when String
-                 e.name
-               when Integer
-                 e.id
-               else
-                 e
-               end
+          when String
+            e.name
+          when Integer
+            e.id
+          else
+            e
+          end
         end,
         matches_all(@attributes[:channel], event.channel) do |a, e|
           case a
@@ -50,13 +50,13 @@ module Discordrb::Events
         end,
         matches_all(@attributes[:webhook], event) do |a, e|
           a == case a
-               when String
-                 e.name
-               when Integer
-                 e.id
-               else
-                 e
-               end
+          when String
+            e.name
+          when Integer
+            e.id
+          else
+            e
+          end
         end
       ].reduce(true, &:&)
     end

@@ -91,13 +91,13 @@ module Discordrb
         bot.channel(data["channel_id"])
       else
         InviteChannel.new(data["channel"], bot)
-                 end
+      end
 
       @server = if data["guild_id"]
         bot.server(data["guild_id"])
       else
         InviteServer.new(data["guild"], bot)
-                end
+      end
 
       @uses = data["uses"]
       @inviter = data["inviter"] ? bot.ensure_user(data["inviter"]) : nil

@@ -96,7 +96,7 @@ module Discordrb
         message.to_s.gsub(@token, "REDACTED_TOKEN")
       else
         message.to_s
-            end
+      end
 
       @streams.each do |stream|
         if @fancy && !stream.is_a?(File)

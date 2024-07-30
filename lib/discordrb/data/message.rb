@@ -114,12 +114,12 @@ module Discordrb
               Member.new(member_data, @server, bot)
             else
               @bot.ensure_user(data["author"])
-                     end
+            end
           end
 
           member
         end
-                end
+      end
 
       @timestamp = Time.parse(data["timestamp"]) if data["timestamp"]
       @edited_timestamp = data["edited_timestamp"].nil? ? nil : Time.parse(data["edited_timestamp"])

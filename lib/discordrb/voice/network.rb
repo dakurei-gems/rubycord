@@ -11,7 +11,7 @@ begin
     false
   else
     require "discordrb/voice/sodium"
-                        end
+  end
 rescue LoadError
   puts "libsodium not available! You can continue to use discordrb as normal but voice support won't work.
         Read https://github.com/dakurei-gems/discordrb/wiki/Installing-libsodium for more details."

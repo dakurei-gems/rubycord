@@ -82,7 +82,7 @@ module Discordrb::API::Channel
       {**files, payload_json: body.to_json}
     else
       body.to_json
-           end
+    end
 
     headers = {Authorization: token}
     headers[:content_type] = :json unless attachments

@@ -547,7 +547,7 @@ module Discordrb
         "?encoding=json&v=#{GATEWAY_VERSION}&compress=zlib-stream"
       else
         "?encoding=json&v=#{GATEWAY_VERSION}"
-              end
+      end
 
       raw_url + query
     end

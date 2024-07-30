@@ -120,7 +120,7 @@ module Discordrb
         self.class.bits(bits)
       else
         bits.to_i
-              end
+      end
 
       init_vars
     end

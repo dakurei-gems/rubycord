@@ -38,20 +38,20 @@ module Discordrb::Events
       [
         matches_all(@attributes[:from], event.user) do |a, e|
           a == case a
-               when String
-                 e.name
-               when Integer
-                 e.id
-               else
-                 e
-               end
+          when String
+            e.name
+          when Integer
+            e.id
+          else
+            e
+          end
         end,
         matches_all(@attributes[:status], event.status) do |a, e|
           a == if a.is_a? String
             e.to_s
           else
             e
-               end
+          end
         end
       ].reduce(true, &:&)
     end
@@ -106,13 +106,13 @@ module Discordrb::Events
       [
         matches_all(@attributes[:from], event.user) do |a, e|
           a == case a
-               when String
-                 e.name
-               when Integer
-                 e.id
-               else
-                 e
-               end
+          when String
+            e.name
+          when Integer
+            e.id
+          else
+            e
+          end
         end,
         matches_all(@attributes[:game], event.game) do |a, e|
           a == e

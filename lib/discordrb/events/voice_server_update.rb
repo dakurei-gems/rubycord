@@ -39,7 +39,7 @@ module Discordrb::Events
             e.name
           else
             e
-               end
+          end
         end
       ]
     end

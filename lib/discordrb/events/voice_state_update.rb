@@ -39,65 +39,65 @@ module Discordrb::Events
       [
         matches_all(@attributes[:from], event.user) do |a, e|
           a == case a
-               when String
-                 e.name
-               when Integer
-                 e.id
-               else
-                 e
-               end
+          when String
+            e.name
+          when Integer
+            e.id
+          else
+            e
+          end
         end,
         matches_all(@attributes[:mute], event.mute) do |a, e|
           a == if a.is_a? String
             e.to_s
           else
             e
-               end
+          end
         end,
         matches_all(@attributes[:deaf], event.deaf) do |a, e|
           a == if a.is_a? String
             e.to_s
           else
             e
-               end
+          end
         end,
         matches_all(@attributes[:self_mute], event.self_mute) do |a, e|
           a == if a.is_a? String
             e.to_s
           else
             e
-               end
+          end
         end,
         matches_all(@attributes[:self_deaf], event.self_deaf) do |a, e|
           a == if a.is_a? String
             e.to_s
           else
             e
-               end
+          end
         end,
         matches_all(@attributes[:channel], event.channel) do |a, e|
           next unless e # Don't bother if the channel is nil
 
           a == case a
-               when String
-                 e.name
-               when Integer
-                 e.id
-               else
-                 e
-               end
+          when String
+            e.name
+          when Integer
+            e.id
+          else
+            e
+          end
         end,
         matches_all(@attributes[:old_channel], event.old_channel) do |a, e|
           next unless e # Don't bother if the channel is nil
 
           a == case a
-               when String
-                 e.name
-               when Integer
-                 e.id
-               else
-                 e
-               end
+          when String
+            e.name
+          when Integer
+            e.id
+          else
+            e
+          end
         end
       ].reduce(true, &:&)
     end

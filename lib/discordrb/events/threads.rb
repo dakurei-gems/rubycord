@@ -26,7 +26,7 @@ module Discordrb::Events
             e.to_s
           else
             e
-               end
+          end
         end,
         matches_all(@attributes[:server], event.server) do |a, e|
           a.resolve_id == e.resolve_id

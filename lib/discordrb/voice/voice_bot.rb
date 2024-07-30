@@ -360,7 +360,7 @@ module Discordrb::Voice
               (IDEAL_LENGTH - ms_diff + @length) / 2.0
             else
               IDEAL_LENGTH - ms_diff
-                      end
+            end
 
             # Track the time it took to encode
             encode_ms = (@intermediate_adjust - @length_adjust) / 1_000_000.0

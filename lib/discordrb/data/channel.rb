@@ -277,7 +277,7 @@ module Discordrb
           # `other`'s parent is the category this channel will be
           # moved into (if it exists)
           other.parent
-                 end
+        end
       end
 
       # Collect and sort the IDs within the context (category or not) that we
@@ -286,7 +286,7 @@ module Discordrb
         parent.children
       else
         server.channels.reject(&:parent_id).select { |c| c.type == @type }
-            end.sort_by(&:position).map(&:id)
+      end.sort_by(&:position).map(&:id)
 
       # Move our channel ID after the target ID by deleting it,
       # getting the index of `other`, and inserting it after.
@@ -851,7 +851,7 @@ module Discordrb
         API::Channel.start_thread_with_message(@bot.token, @id, message_id, name, auto_archive_duration)
       else
         API::Channel.start_thread_without_message(@bot.token, @id, name, auto_archive_duration, type)
-             end
+      end
 
       Channel.new(JSON.parse(data), @bot, @server)
     end
@@ -969,7 +969,7 @@ module Discordrb
         new_data[:permission_overwrites]&.map { |_, v| v&.to_hash }
       else
         new_data[:permission_overwrites]&.map(&:to_hash)
-                   end
+      end
 
       response = JSON.parse(API::Channel.update(@bot.token, @id,
                                                 new_data[:name] || @name,

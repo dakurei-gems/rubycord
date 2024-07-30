@@ -56,7 +56,7 @@ module Discordrb::Events
             e.to_s
           else
             e
-               end
+          end
         end
       ].reduce(true, &:&)
     end

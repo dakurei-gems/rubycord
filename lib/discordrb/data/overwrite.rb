@@ -51,13 +51,13 @@ module Discordrb
       @id = object.respond_to?(:id) ? object.id : object
 
       @type = case object
-              when User, Member, Recipient, Profile
-                :member
-              when Role
-                :role
-              else
-                type
-              end
+      when User, Member, Recipient, Profile
+        :member
+      when Role
+        :role
+      else
+        type
+      end
 
       @allow = allow.is_a?(Permissions) ? allow : Permissions.new(allow)
       @deny = deny.is_a?(Permissions) ? deny : Permissions.new(deny)
