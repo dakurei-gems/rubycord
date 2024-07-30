@@ -184,7 +184,7 @@ describe Discordrb::Channel do
       end
       context "when we don't have new data" do
         it "should keep the cached value" do
-          new_data = double("new data", :[] => double("property"), key?: double)
+          new_data = double("new data", :[] => double("property"), :key? => double)
           allow(new_data).to receive(:[]).with(property_name).and_return(nil)
           allow(new_data).to receive(:[]).with(property_name.to_s).and_return(nil)
           allow(channel).to receive(:process_permission_overwrites)
