@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Lot of changes and cleaning, here are the most notable ones:
 
+- Add ability to apply a custom status to the bot (_[Doc](https://dakurei-gems.github.io/discordrb/v3.5.1/Discordrb/Bot.html#custom_status=-instance_method), [more infos](https://discord.com/developers/docs/change-log#aug-8-2023)_)
 - Migrating from CircleCI to GitHub Actions
 - Drop support to Ruby version prior to 3.1.3
 - Add dependencies & development dependencies
