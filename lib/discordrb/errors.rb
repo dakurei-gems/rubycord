@@ -731,7 +731,7 @@ module Discordrb
     # Cannot use an emoji included with the poll
     PollCannotUseEmojiIncluded = Code(520_004)
 
-    # 520006 Cannot expire a non-poll message
+    # Cannot expire a non-poll message
     CannotExpireNonPollMessage = Code(520_006)
   end
 end
