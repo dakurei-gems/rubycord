@@ -18,8 +18,8 @@ module Discordrb
   INTENTS = {
     servers: 1 << 0,
     server_members: 1 << 1,
-    server_bans: 1 << 2,
-    server_emojis: 1 << 3,
+    server_moderation: 1 << 2,
+    server_emojis_and_stickers: 1 << 3,
     server_integrations: 1 << 4,
     server_webhooks: 1 << 5,
     server_invites: 1 << 6,
