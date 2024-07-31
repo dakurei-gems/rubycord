@@ -3,8 +3,6 @@ source "https://rubygems.org"
 gemspec name: "discordrb"
 gemspec name: "discordrb-webhooks", development_group: "webhooks"
 
-gem "websocket-client-simple", github: "ruby-jp/websocket-client-simple", tag: "v0.8.0"
-
 group :development do
   gem "rake", "~> 13.0"
   gem "rspec", "~> 3.13"
