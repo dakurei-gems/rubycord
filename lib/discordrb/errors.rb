@@ -128,8 +128,8 @@ module Discordrb
     # Unknown Message
     UnknownMessage = Code(10_008)
 
-    # Unknown Overwrite
-    UnknownOverwrite = Code(10_009)
+    # Unknown Permission Overwrite
+    UnknownPermissionOverwrite = Code(10_009)
 
     # Unknown Provider
     UnknownProvider = Code(10_010)
@@ -287,6 +287,7 @@ module Discordrb
     # Maximum number of emojis reached
     EmojiLimitReached = Code(30_008)
 
+    # Maximum number of reactions reached (20)
     ReactionLimitReached = Code(30_010)
 
     # Maximum number of group DMs reached (10)
@@ -364,6 +365,7 @@ module Discordrb
     # The channels for this guild are too large
     ServerChannelTooLarge = Code(30_061)
 
+    # Unauthorized. Provide a valid token and try again
     Unauthorized = Unauthorised = Code(40_001)
 
     # You need to verify your account in order to perform this action
@@ -432,8 +434,8 @@ module Discordrb
     # Cannot execute action on a DM channel
     InvalidActionForDM = Code(50_003)
 
-    # Embed Disabled
-    EmbedDisabled = Code(50_004)
+    # Server widget disabled
+    ServerWidgetDisabled = Code(50_004)
 
     # Cannot edit a message authored by another user
     MessageAuthoredByOtherUser = Code(50_005)
@@ -459,8 +461,8 @@ module Discordrb
     # Invalid OAuth State
     InvalidOAuthState = Code(50_012)
 
-    # Missing Permissions
-    MissingPermissions = Code(50_013)
+    # You lack permissions to perform that action
+    LackPermissions = Code(50_013)
 
     # Invalid authentication token
     InvalidAuthToken = Code(50_014)
@@ -468,7 +470,7 @@ module Discordrb
     # Note is too long
     NoteTooLong = Code(50_015)
 
-    # Provided too few or too many messages to delete. Must provide at least 2 and fewer than 100 messages to delete.
+    # Provided too few or too many messages to delete. Must provide at least 2 and fewer than 100 messages to delete
     InvalidBulkDeleteCount = Code(50_016)
 
     # Invalid MFA Level
@@ -504,7 +506,7 @@ module Discordrb
     # A message provided was too old to bulk delete
     MessageTooOld = Code(50_034)
 
-    # Invalid Form Body
+    # Invalid form body (returned for both application/json and multipart/form-data bodies), or invalid Content-Type provided
     InvalidFormBody = Code(50_035)
 
     # An invite was accepted to a guild the application's bot is not in
