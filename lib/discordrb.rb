@@ -44,7 +44,7 @@ module Discordrb
 
   # All unprivileged intents
   # @see https://discord.com/developers/docs/topics/gateway#privileged-intents
-  UNPRIVILEGED_INTENTS = ALL_INTENTS & ~(INTENTS[:server_members] | INTENTS[:server_presences])
+  UNPRIVILEGED_INTENTS = ALL_INTENTS & ~(INTENTS[:server_members] | INTENTS[:server_presences] | INTENTS[:message_content])
 
   # No intents
   NO_INTENTS = 0
