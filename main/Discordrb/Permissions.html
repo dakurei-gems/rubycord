@@ -77,7 +77,8 @@
           <dt id="FLAGS-constant" class="">FLAGS =
             <div class="docstring">
               <div class="discussion">
-                <p>This hash maps bit positions to logical permissions.</p>
+                <p>This hash maps bit positions to logical permissions.
+                  see <a href="https://discord.com/developers/docs/topics/permissions#permissions-bitwise-permission-flags">https://discord.com/developers/docs/topics/permissions#permissions-bitwise-permission-flags</a></p>
               </div>
             </div>
             <div class="tags">
@@ -86,47 +87,55 @@
           <dd>
             <pre class="code"><span class='lbrace'>{</span>
   <span class='comment'># Bit =&gt; Permission # Value
-</span>  <span class='int'>0</span> <span class='op'>=&gt;</span> <span class='symbol'>:create_instant_invite</span><span class='comma'>,</span>     <span class='comment'># 1
-</span>  <span class='int'>1</span> <span class='op'>=&gt;</span> <span class='symbol'>:kick_members</span><span class='comma'>,</span>              <span class='comment'># 2
-</span>  <span class='int'>2</span> <span class='op'>=&gt;</span> <span class='symbol'>:ban_members</span><span class='comma'>,</span>               <span class='comment'># 4
-</span>  <span class='int'>3</span> <span class='op'>=&gt;</span> <span class='symbol'>:administrator</span><span class='comma'>,</span>             <span class='comment'># 8
-</span>  <span class='int'>4</span> <span class='op'>=&gt;</span> <span class='symbol'>:manage_channels</span><span class='comma'>,</span>           <span class='comment'># 16
-</span>  <span class='int'>5</span> <span class='op'>=&gt;</span> <span class='symbol'>:manage_server</span><span class='comma'>,</span>             <span class='comment'># 32
-</span>  <span class='int'>6</span> <span class='op'>=&gt;</span> <span class='symbol'>:add_reactions</span><span class='comma'>,</span>             <span class='comment'># 64
-</span>  <span class='int'>7</span> <span class='op'>=&gt;</span> <span class='symbol'>:view_audit_log</span><span class='comma'>,</span>            <span class='comment'># 128
-</span>  <span class='int'>8</span> <span class='op'>=&gt;</span> <span class='symbol'>:priority_speaker</span><span class='comma'>,</span>          <span class='comment'># 256
-</span>  <span class='int'>9</span> <span class='op'>=&gt;</span> <span class='symbol'>:stream</span><span class='comma'>,</span>                    <span class='comment'># 512
-</span>  <span class='int'>10</span> <span class='op'>=&gt;</span> <span class='symbol'>:read_messages</span><span class='comma'>,</span>            <span class='comment'># 1024
-</span>  <span class='int'>11</span> <span class='op'>=&gt;</span> <span class='symbol'>:send_messages</span><span class='comma'>,</span>            <span class='comment'># 2048
-</span>  <span class='int'>12</span> <span class='op'>=&gt;</span> <span class='symbol'>:send_tts_messages</span><span class='comma'>,</span>        <span class='comment'># 4096
-</span>  <span class='int'>13</span> <span class='op'>=&gt;</span> <span class='symbol'>:manage_messages</span><span class='comma'>,</span>          <span class='comment'># 8192
-</span>  <span class='int'>14</span> <span class='op'>=&gt;</span> <span class='symbol'>:embed_links</span><span class='comma'>,</span>              <span class='comment'># 16384
-</span>  <span class='int'>15</span> <span class='op'>=&gt;</span> <span class='symbol'>:attach_files</span><span class='comma'>,</span>             <span class='comment'># 32768
-</span>  <span class='int'>16</span> <span class='op'>=&gt;</span> <span class='symbol'>:read_message_history</span><span class='comma'>,</span>     <span class='comment'># 65536
-</span>  <span class='int'>17</span> <span class='op'>=&gt;</span> <span class='symbol'>:mention_everyone</span><span class='comma'>,</span>         <span class='comment'># 131072
-</span>  <span class='int'>18</span> <span class='op'>=&gt;</span> <span class='symbol'>:use_external_emoji</span><span class='comma'>,</span>       <span class='comment'># 262144
-</span>  <span class='int'>19</span> <span class='op'>=&gt;</span> <span class='symbol'>:view_server_insights</span><span class='comma'>,</span>     <span class='comment'># 524288
-</span>  <span class='int'>20</span> <span class='op'>=&gt;</span> <span class='symbol'>:connect</span><span class='comma'>,</span>                  <span class='comment'># 1048576
-</span>  <span class='int'>21</span> <span class='op'>=&gt;</span> <span class='symbol'>:speak</span><span class='comma'>,</span>                    <span class='comment'># 2097152
-</span>  <span class='int'>22</span> <span class='op'>=&gt;</span> <span class='symbol'>:mute_members</span><span class='comma'>,</span>             <span class='comment'># 4194304
-</span>  <span class='int'>23</span> <span class='op'>=&gt;</span> <span class='symbol'>:deafen_members</span><span class='comma'>,</span>           <span class='comment'># 8388608
-</span>  <span class='int'>24</span> <span class='op'>=&gt;</span> <span class='symbol'>:move_members</span><span class='comma'>,</span>             <span class='comment'># 16777216
-</span>  <span class='int'>25</span> <span class='op'>=&gt;</span> <span class='symbol'>:use_voice_activity</span><span class='comma'>,</span>       <span class='comment'># 33554432
-</span>  <span class='int'>26</span> <span class='op'>=&gt;</span> <span class='symbol'>:change_nickname</span><span class='comma'>,</span>          <span class='comment'># 67108864
-</span>  <span class='int'>27</span> <span class='op'>=&gt;</span> <span class='symbol'>:manage_nicknames</span><span class='comma'>,</span>         <span class='comment'># 134217728
-</span>  <span class='int'>28</span> <span class='op'>=&gt;</span> <span class='symbol'>:manage_roles</span><span class='comma'>,</span>             <span class='comment'># 268435456, also Manage Permissions
-</span>  <span class='int'>29</span> <span class='op'>=&gt;</span> <span class='symbol'>:manage_webhooks</span><span class='comma'>,</span>          <span class='comment'># 536870912
-</span>  <span class='int'>30</span> <span class='op'>=&gt;</span> <span class='symbol'>:manage_emojis</span><span class='comma'>,</span>            <span class='comment'># 1073741824, also Manage Stickers
-</span>  <span class='int'>31</span> <span class='op'>=&gt;</span> <span class='symbol'>:use_slash_commands</span><span class='comma'>,</span>       <span class='comment'># 2147483648
-</span>  <span class='int'>32</span> <span class='op'>=&gt;</span> <span class='symbol'>:request_to_speak</span><span class='comma'>,</span>         <span class='comment'># 4294967296
-</span>  <span class='int'>33</span> <span class='op'>=&gt;</span> <span class='symbol'>:manage_events</span><span class='comma'>,</span>            <span class='comment'># 8589934592
-</span>  <span class='int'>34</span> <span class='op'>=&gt;</span> <span class='symbol'>:manage_threads</span><span class='comma'>,</span>           <span class='comment'># 17179869184
-</span>  <span class='int'>35</span> <span class='op'>=&gt;</span> <span class='symbol'>:use_public_threads</span><span class='comma'>,</span>       <span class='comment'># 34359738368
-</span>  <span class='int'>36</span> <span class='op'>=&gt;</span> <span class='symbol'>:use_private_threads</span><span class='comma'>,</span>      <span class='comment'># 68719476736
-</span>  <span class='int'>37</span> <span class='op'>=&gt;</span> <span class='symbol'>:use_external_stickers</span><span class='comma'>,</span>    <span class='comment'># 137438953472
-</span>  <span class='int'>38</span> <span class='op'>=&gt;</span> <span class='symbol'>:send_messages_in_threads</span><span class='comma'>,</span> <span class='comment'># 274877906944
-</span>  <span class='int'>39</span> <span class='op'>=&gt;</span> <span class='symbol'>:use_embedded_activities</span><span class='comma'>,</span>  <span class='comment'># 549755813888
-</span>  <span class='int'>40</span> <span class='op'>=&gt;</span> <span class='symbol'>:moderate_members</span>          <span class='comment'># 1099511627776
+</span>  <span class='int'>0</span> <span class='op'>=&gt;</span> <span class='symbol'>:create_instant_invite</span><span class='comma'>,</span>                <span class='comment'># 1
+</span>  <span class='int'>1</span> <span class='op'>=&gt;</span> <span class='symbol'>:kick_members</span><span class='comma'>,</span>                         <span class='comment'># 2
+</span>  <span class='int'>2</span> <span class='op'>=&gt;</span> <span class='symbol'>:ban_members</span><span class='comma'>,</span>                          <span class='comment'># 4
+</span>  <span class='int'>3</span> <span class='op'>=&gt;</span> <span class='symbol'>:administrator</span><span class='comma'>,</span>                        <span class='comment'># 8
+</span>  <span class='int'>4</span> <span class='op'>=&gt;</span> <span class='symbol'>:manage_channels</span><span class='comma'>,</span>                      <span class='comment'># 16
+</span>  <span class='int'>5</span> <span class='op'>=&gt;</span> <span class='symbol'>:manage_server</span><span class='comma'>,</span>                        <span class='comment'># 32
+</span>  <span class='int'>6</span> <span class='op'>=&gt;</span> <span class='symbol'>:add_reactions</span><span class='comma'>,</span>                        <span class='comment'># 64
+</span>  <span class='int'>7</span> <span class='op'>=&gt;</span> <span class='symbol'>:view_audit_log</span><span class='comma'>,</span>                       <span class='comment'># 128
+</span>  <span class='int'>8</span> <span class='op'>=&gt;</span> <span class='symbol'>:priority_speaker</span><span class='comma'>,</span>                     <span class='comment'># 256
+</span>  <span class='int'>9</span> <span class='op'>=&gt;</span> <span class='symbol'>:stream</span><span class='comma'>,</span>                               <span class='comment'># 512
+</span>  <span class='int'>10</span> <span class='op'>=&gt;</span> <span class='symbol'>:view_channel</span><span class='comma'>,</span>                        <span class='comment'># 1024 (which includes reading messages in text channels and joining voice channels)
+</span>  <span class='int'>11</span> <span class='op'>=&gt;</span> <span class='symbol'>:send_messages</span><span class='comma'>,</span>                       <span class='comment'># 2048
+</span>  <span class='int'>12</span> <span class='op'>=&gt;</span> <span class='symbol'>:send_tts_messages</span><span class='comma'>,</span>                   <span class='comment'># 4096
+</span>  <span class='int'>13</span> <span class='op'>=&gt;</span> <span class='symbol'>:manage_messages</span><span class='comma'>,</span>                     <span class='comment'># 8192
+</span>  <span class='int'>14</span> <span class='op'>=&gt;</span> <span class='symbol'>:embed_links</span><span class='comma'>,</span>                         <span class='comment'># 16384
+</span>  <span class='int'>15</span> <span class='op'>=&gt;</span> <span class='symbol'>:attach_files</span><span class='comma'>,</span>                        <span class='comment'># 32768
+</span>  <span class='int'>16</span> <span class='op'>=&gt;</span> <span class='symbol'>:read_message_history</span><span class='comma'>,</span>                <span class='comment'># 65536
+</span>  <span class='int'>17</span> <span class='op'>=&gt;</span> <span class='symbol'>:mention_everyone</span><span class='comma'>,</span>                    <span class='comment'># 131072
+</span>  <span class='int'>18</span> <span class='op'>=&gt;</span> <span class='symbol'>:use_external_emojis</span><span class='comma'>,</span>                 <span class='comment'># 262144
+</span>  <span class='int'>19</span> <span class='op'>=&gt;</span> <span class='symbol'>:view_server_insights</span><span class='comma'>,</span>                <span class='comment'># 524288
+</span>  <span class='int'>20</span> <span class='op'>=&gt;</span> <span class='symbol'>:connect</span><span class='comma'>,</span>                             <span class='comment'># 1048576
+</span>  <span class='int'>21</span> <span class='op'>=&gt;</span> <span class='symbol'>:speak</span><span class='comma'>,</span>                               <span class='comment'># 2097152
+</span>  <span class='int'>22</span> <span class='op'>=&gt;</span> <span class='symbol'>:mute_members</span><span class='comma'>,</span>                        <span class='comment'># 4194304
+</span>  <span class='int'>23</span> <span class='op'>=&gt;</span> <span class='symbol'>:deafen_members</span><span class='comma'>,</span>                      <span class='comment'># 8388608
+</span>  <span class='int'>24</span> <span class='op'>=&gt;</span> <span class='symbol'>:move_members</span><span class='comma'>,</span>                        <span class='comment'># 16777216
+</span>  <span class='int'>25</span> <span class='op'>=&gt;</span> <span class='symbol'>:use_vad</span><span class='comma'>,</span>                             <span class='comment'># 33554432 (voice-activity-detection in a voice channel)
+</span>  <span class='int'>26</span> <span class='op'>=&gt;</span> <span class='symbol'>:change_nickname</span><span class='comma'>,</span>                     <span class='comment'># 67108864
+</span>  <span class='int'>27</span> <span class='op'>=&gt;</span> <span class='symbol'>:manage_nicknames</span><span class='comma'>,</span>                    <span class='comment'># 134217728
+</span>  <span class='int'>28</span> <span class='op'>=&gt;</span> <span class='symbol'>:manage_roles</span><span class='comma'>,</span>                        <span class='comment'># 268435456 (roles &amp; roles permissions)
+</span>  <span class='int'>29</span> <span class='op'>=&gt;</span> <span class='symbol'>:manage_webhooks</span><span class='comma'>,</span>                     <span class='comment'># 536870912
+</span>  <span class='int'>30</span> <span class='op'>=&gt;</span> <span class='symbol'>:manage_server_expressions</span><span class='comma'>,</span>           <span class='comment'># 1073741824 (emojis, stickers, and soundboard)
+</span>  <span class='int'>31</span> <span class='op'>=&gt;</span> <span class='symbol'>:use_application_commands</span><span class='comma'>,</span>            <span class='comment'># 2147483648 (to use application commands, including slash commands and context menu commands)
+</span>  <span class='int'>32</span> <span class='op'>=&gt;</span> <span class='symbol'>:request_to_speak</span><span class='comma'>,</span>                    <span class='comment'># 4294967296
+</span>  <span class='int'>33</span> <span class='op'>=&gt;</span> <span class='symbol'>:manage_events</span><span class='comma'>,</span>                       <span class='comment'># 8589934592
+</span>  <span class='int'>34</span> <span class='op'>=&gt;</span> <span class='symbol'>:manage_threads</span><span class='comma'>,</span>                      <span class='comment'># 17179869184
+</span>  <span class='int'>35</span> <span class='op'>=&gt;</span> <span class='symbol'>:create_public_threads</span><span class='comma'>,</span>               <span class='comment'># 34359738368 (for creating public and announcement threads)
+</span>  <span class='int'>36</span> <span class='op'>=&gt;</span> <span class='symbol'>:create_private_threads</span><span class='comma'>,</span>              <span class='comment'># 68719476736
+</span>  <span class='int'>37</span> <span class='op'>=&gt;</span> <span class='symbol'>:use_external_stickers</span><span class='comma'>,</span>               <span class='comment'># 137438953472
+</span>  <span class='int'>38</span> <span class='op'>=&gt;</span> <span class='symbol'>:send_messages_in_threads</span><span class='comma'>,</span>            <span class='comment'># 274877906944
+</span>  <span class='int'>39</span> <span class='op'>=&gt;</span> <span class='symbol'>:use_embedded_activities</span><span class='comma'>,</span>             <span class='comment'># 549755813888
+</span>  <span class='int'>40</span> <span class='op'>=&gt;</span> <span class='symbol'>:moderate_members</span><span class='comma'>,</span>                    <span class='comment'># 1099511627776
+</span>  <span class='int'>41</span> <span class='op'>=&gt;</span> <span class='symbol'>:view_creator_monetization_analytics</span><span class='comma'>,</span> <span class='comment'># 2199023255552
+</span>  <span class='int'>42</span> <span class='op'>=&gt;</span> <span class='symbol'>:use_soundboard</span><span class='comma'>,</span>                      <span class='comment'># 4398046511104
+</span>  <span class='int'>43</span> <span class='op'>=&gt;</span> <span class='symbol'>:create_server_expressions</span><span class='comma'>,</span>           <span class='comment'># 8796093022208 (for creating emojis, stickers, and soundboard sounds, and editing and deleting)
+</span>  <span class='int'>44</span> <span class='op'>=&gt;</span> <span class='symbol'>:create_events</span><span class='comma'>,</span>                       <span class='comment'># 17592186044416 (for creating scheduled events, and editing and deleting those created by the current user)
+</span>  <span class='int'>45</span> <span class='op'>=&gt;</span> <span class='symbol'>:use_external_sounds</span><span class='comma'>,</span>                 <span class='comment'># 35184372088832
+</span>  <span class='int'>46</span> <span class='op'>=&gt;</span> <span class='symbol'>:send_voice_messages</span><span class='comma'>,</span>                 <span class='comment'># 70368744177664
+</span>  <span class='int'>49</span> <span class='op'>=&gt;</span> <span class='symbol'>:send_polls</span><span class='comma'>,</span>                          <span class='comment'># 562949953421312
+</span>  <span class='int'>50</span> <span class='op'>=&gt;</span> <span class='symbol'>:use_external_apps</span>                    <span class='comment'># 1125899906842624
 </span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre>
           </dd>
         </dl>
@@ -227,7 +236,7 @@
                   </div>
                 </p>
                 <pre class="example code"><code><span class='id identifier rubyid_permission'>permission</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="" title="Discordrb::Permissions (class)">Permissions</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
-<span class='id identifier rubyid_permission'>permission</span><span class='period'>.</span><span class='id identifier rubyid_can_read_messages'>can_read_messages</span> <span class='op'>=</span> <span class='kw'>true</span>
+<span class='id identifier rubyid_permission'>permission</span><span class='period'>.</span><span class='id identifier rubyid_can_view_channel'>can_view_channel</span> <span class='op'>=</span> <span class='kw'>true</span>
 <span class='id identifier rubyid_permission'>permission</span><span class='period'>.</span><span class='id identifier rubyid_can_connect'>can_connect</span> <span class='op'>=</span> <span class='kw'>true</span>
 <span class='id identifier rubyid_permission'>permission</span><span class='period'>.</span><span class='id identifier rubyid_can_speak'>can_speak</span> <span class='op'>=</span> <span class='kw'>true</span></code></pre>
                 <p class="example_title">
@@ -235,7 +244,7 @@
                     <p>Create a permissions object that could allow/deny read messages, connect, and speak by an array of symbols</p>
                   </div>
                 </p>
-                <pre class="example code"><code><span class='const'><span class='object_link'><a href="" title="Discordrb::Permissions (class)">Permissions</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='lbracket'>[</span><span class='symbol'>:read_messages</span><span class='comma'>,</span> <span class='symbol'>:connect</span><span class='comma'>,</span> <span class='symbol'>:speak</span><span class='rbracket'>]</span></code></pre>
+                <pre class="example code"><code><span class='const'><span class='object_link'><a href="" title="Discordrb::Permissions (class)">Permissions</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='lbracket'>[</span><span class='symbol'>:view_channel</span><span class='comma'>,</span> <span class='symbol'>:connect</span><span class='comma'>,</span> <span class='symbol'>:speak</span><span class='rbracket'>]</span></code></pre>
               </div>
               <p class="tag_title">Parameters:</p>
               <ul class="param">
@@ -265,20 +274,20 @@
                   <pre class="lines">
 
 
-114
-115
-116
-117
-118
-119
-120
-121
-122
 123
-124</pre>
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133</pre>
                 </td>
                 <td>
-                  <pre class="code"><span class="info file"># File 'lib/discordrb/permissions.rb', line 114</span>
+                  <pre class="code"><span class="info file"># File 'lib/discordrb/permissions.rb', line 123</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_bits'>bits</span> <span class='op'>=</span> <span class='int'>0</span><span class='comma'>,</span> <span class='id identifier rubyid_writer'>writer</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='ivar'>@writer</span> <span class='op'>=</span> <span class='id identifier rubyid_writer'>writer</span>
@@ -316,12 +325,12 @@
                   <pre class="lines">
 
 
-69
-70
-71</pre>
+78
+79
+80</pre>
                 </td>
                 <td>
-                  <pre class="code"><span class="info file"># File 'lib/discordrb/permissions.rb', line 69</span>
+                  <pre class="code"><span class="info file"># File 'lib/discordrb/permissions.rb', line 78</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_bits'>bits</span>
   <span class='ivar'>@bits</span>
@@ -352,7 +361,7 @@
                     <p>Get the bits for permissions that could allow/deny read messages, connect, and speak</p>
                   </div>
                 </p>
-                <pre class="example code"><code><span class='const'><span class='object_link'><a href="" title="Discordrb::Permissions (class)">Permissions</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bits'>bits</span> <span class='lbracket'>[</span><span class='symbol'>:read_messages</span><span class='comma'>,</span> <span class='symbol'>:connect</span><span class='comma'>,</span> <span class='symbol'>:speak</span><span class='rbracket'>]</span> <span class='comment'>#=&gt; 3146752</span></code></pre>
+                <pre class="example code"><code><span class='const'><span class='object_link'><a href="" title="Discordrb::Permissions (class)">Permissions</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bits'>bits</span> <span class='lbracket'>[</span><span class='symbol'>:view_channel</span><span class='comma'>,</span> <span class='symbol'>:connect</span><span class='comma'>,</span> <span class='symbol'>:speak</span><span class='rbracket'>]</span> <span class='comment'>#=&gt; 3146752</span></code></pre>
               </div>
               <p class="tag_title">Parameters:</p>
               <ul class="param">
@@ -378,18 +387,18 @@
                   <pre class="lines">
 
 
-93
-94
-95
-96
-97
-98
-99
-100
-101</pre>
+102
+103
+104
+105
+106
+107
+108
+109
+110</pre>
                 </td>
                 <td>
-                  <pre class="code"><span class="info file"># File 'lib/discordrb/permissions.rb', line 93</span>
+                  <pre class="code"><span class="info file"># File 'lib/discordrb/permissions.rb', line 102</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_bits'>bits</span><span class='lparen'>(</span><span class='id identifier rubyid_list'>list</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='int'>0</span>
@@ -424,13 +433,13 @@
                   <pre class="lines">
 
 
-136
-137
-138
-139</pre>
+145
+146
+147
+148</pre>
                 </td>
                 <td>
-                  <pre class="code"><span class="info file"># File 'lib/discordrb/permissions.rb', line 136</span>
+                  <pre class="code"><span class="info file"># File 'lib/discordrb/permissions.rb', line 145</span>
 
 <span class='kw'>def</span> <span class='op'>==</span><span class='lparen'>(</span><span class='id identifier rubyid_other'>other</span><span class='rparen'>)</span>
   <span class='kw'>false</span> <span class='kw'>unless</span> <span class='id identifier rubyid_other'>other</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'><span class='object_link'><a href="../Discordrb.html" title="Discordrb (module)">Discordrb</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Discordrb::Permissions (class)">Permissions</a></span></span>
@@ -477,12 +486,12 @@
                   <pre class="lines">
 
 
-131
-132
-133</pre>
+140
+141
+142</pre>
                 </td>
                 <td>
-                  <pre class="code"><span class="info file"># File 'lib/discordrb/permissions.rb', line 131</span>
+                  <pre class="code"><span class="info file"># File 'lib/discordrb/permissions.rb', line 140</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_defined_permissions'>defined_permissions</span>
   <span class='const'><span class='object_link'><a href="#FLAGS-constant" title="Discordrb::Permissions::FLAGS (constant)">FLAGS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_filter_map'>filter_map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='id identifier rubyid_name'>name</span><span class='op'>|</span> <span class='lparen'>(</span><span class='ivar'>@bits</span> <span class='op'>&amp;</span> <span class='lparen'>(</span><span class='int'>1</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_positive?'>positive?</span> <span class='op'>?</span> <span class='id identifier rubyid_name'>name</span> <span class='op'>:</span> <span class='kw'>nil</span> <span class='rbrace'>}</span>
@@ -508,15 +517,15 @@
                   <pre class="lines">
 
 
-79
-80
-81
-82
-83
-84</pre>
+88
+89
+90
+91
+92
+93</pre>
                 </td>
                 <td>
-                  <pre class="code"><span class="info file"># File 'lib/discordrb/permissions.rb', line 79</span>
+                  <pre class="code"><span class="info file"># File 'lib/discordrb/permissions.rb', line 88</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_init_vars'>init_vars</span>
   <span class='const'><span class='object_link'><a href="#FLAGS-constant" title="Discordrb::Permissions::FLAGS (constant)">FLAGS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_position'>position</span><span class='comma'>,</span> <span class='id identifier rubyid_flag'>flag</span><span class='op'>|</span>
@@ -531,7 +540,7 @@
         </div>
       </div>
       <div id="footer">
-        Generated on Wed Jul 31 17:42:42 2024 by
+        Generated on Wed Jul 31 20:40:15 2024 by
         <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
         0.9.36 (ruby-3.1.6).
       </div>
