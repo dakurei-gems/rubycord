@@ -10,7 +10,7 @@ module Rubycord::API::User
       nil,
       :get,
       "#{Rubycord::API.api_base}/users/#{user_id}",
-      Authorization: token
+      authorization: token
     )
   end
 
@@ -22,7 +22,7 @@ module Rubycord::API::User
       nil,
       :get,
       "#{Rubycord::API.api_base}/users/@me",
-      Authorization: token
+      authorization: token
     )
   end
 
@@ -35,9 +35,9 @@ module Rubycord::API::User
       :patch,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/members/@me/nick",
       {nick: nick}.to_json,
-      Authorization: token,
-      content_type: :json,
-      "X-Audit-Log-Reason": reason
+      authorization: token,
+      content_type: "application/json",
+      x_audit_log_reason: reason
     )
   end
 
@@ -50,8 +50,8 @@ module Rubycord::API::User
       :patch,
       "#{Rubycord::API.api_base}/users/@me",
       {avatar: avatar, email: email, new_password: new_password, password: password, username: new_username}.to_json,
-      Authorization: token,
-      content_type: :json
+      authorization: token,
+      content_type: "application/json"
     )
   end
 
@@ -63,7 +63,7 @@ module Rubycord::API::User
       nil,
       :get,
       "#{Rubycord::API.api_base}/users/@me/guilds",
-      Authorization: token
+      authorization: token
     )
   end
 
@@ -75,7 +75,7 @@ module Rubycord::API::User
       nil,
       :delete,
       "#{Rubycord::API.api_base}/users/@me/guilds/#{server_id}",
-      Authorization: token
+      authorization: token
     )
   end
 
@@ -87,7 +87,7 @@ module Rubycord::API::User
       nil,
       :get,
       "#{Rubycord::API.api_base}/users/@me/channels",
-      Authorization: token
+      authorization: token
     )
   end
 
@@ -100,8 +100,8 @@ module Rubycord::API::User
       :post,
       "#{Rubycord::API.api_base}/users/@me/channels",
       {recipient_id: recipient_id}.to_json,
-      Authorization: token,
-      content_type: :json
+      authorization: token,
+      content_type: "application/json"
     )
   end
 
@@ -113,7 +113,7 @@ module Rubycord::API::User
       nil,
       :get,
       "#{Rubycord::API.api_base}/users/@me/connections",
-      Authorization: token
+      authorization: token
     )
   end
 
@@ -125,8 +125,8 @@ module Rubycord::API::User
       :patch,
       "#{Rubycord::API.api_base}/users/@me/settings",
       {status: status}.to_json,
-      Authorization: token,
-      content_type: :json
+      authorization: token,
+      content_type: "application/json"
     )
   end
 

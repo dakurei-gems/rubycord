@@ -249,7 +249,7 @@ module Rubycord::API
       :post,
       "#{api_base}/auth/logout",
       nil,
-      Authorization: token
+      authorization: token
     )
   end
 
@@ -261,8 +261,8 @@ module Rubycord::API
       :post,
       "#{api_base}/oauth2/applications",
       {name: name, redirect_uris: redirect_uris}.to_json,
-      Authorization: token,
-      content_type: :json
+      authorization: token,
+      content_type: "application/json"
     )
   end
 
@@ -274,8 +274,8 @@ module Rubycord::API
       :put,
       "#{api_base}/oauth2/applications",
       {name: name, redirect_uris: redirect_uris, description: description, icon: icon}.to_json,
-      Authorization: token,
-      content_type: :json
+      authorization: token,
+      content_type: "application/json"
     )
   end
 
@@ -286,7 +286,7 @@ module Rubycord::API
       nil,
       :get,
       "#{api_base}/oauth2/applications/@me",
-      Authorization: token
+      authorization: token
     )
   end
 
@@ -300,7 +300,7 @@ module Rubycord::API
       :post,
       "#{api_base}/channels/#{channel_id}/messages/#{message_id}/ack",
       nil,
-      Authorization: token
+      authorization: token
     )
   end
 
@@ -311,7 +311,7 @@ module Rubycord::API
       nil,
       :get,
       "#{api_base}/gateway",
-      Authorization: token
+      authorization: token
     )
   end
 
@@ -323,7 +323,7 @@ module Rubycord::API
       nil,
       :get,
       "#{api_base}/gateway/bot",
-      Authorization: token
+      authorization: token
     )
   end
 
@@ -335,8 +335,8 @@ module Rubycord::API
       :post,
       "#{api_base}/auth/login",
       {}.to_json,
-      Authorization: token,
-      content_type: :json
+      authorization: token,
+      content_type: "application/json"
     )
   end
 
@@ -347,8 +347,8 @@ module Rubycord::API
       nil,
       :get,
       "#{api_base}/voice/regions",
-      Authorization: token,
-      content_type: :json
+      authorization: token,
+      content_type: "application/json"
     )
   end
 end

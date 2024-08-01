@@ -10,7 +10,7 @@ module Rubycord::API::Application
       nil,
       :get,
       "#{Rubycord::API.api_base}/applications/#{application_id}/commands",
-      Authorization: token
+      authorization: token
     )
   end
 
@@ -22,7 +22,7 @@ module Rubycord::API::Application
       nil,
       :get,
       "#{Rubycord::API.api_base}/applications/#{application_id}/commands/#{command_id}",
-      Authorization: token
+      authorization: token
     )
   end
 
@@ -35,8 +35,8 @@ module Rubycord::API::Application
       :post,
       "#{Rubycord::API.api_base}/applications/#{application_id}/commands",
       {name: name, description: description, options: options, default_permission: default_permission, type: type}.to_json,
-      Authorization: token,
-      content_type: :json
+      authorization: token,
+      content_type: "application/json"
     )
   end
 
@@ -49,8 +49,8 @@ module Rubycord::API::Application
       :patch,
       "#{Rubycord::API.api_base}/applications/#{application_id}/commands/#{command_id}",
       {name: name, description: description, options: options, default_permission: default_permission, type: type}.compact.to_json,
-      Authorization: token,
-      content_type: :json
+      authorization: token,
+      content_type: "application/json"
     )
   end
 
@@ -62,7 +62,7 @@ module Rubycord::API::Application
       nil,
       :delete,
       "#{Rubycord::API.api_base}/applications/#{application_id}/commands/#{command_id}",
-      Authorization: token
+      authorization: token
     )
   end
 
@@ -75,8 +75,8 @@ module Rubycord::API::Application
       :put,
       "#{Rubycord::API.api_base}/applications/#{application_id}/commands",
       commands.to_json,
-      Authorization: token,
-      content_type: :json
+      authorization: token,
+      content_type: "application/json"
     )
   end
 
@@ -88,7 +88,7 @@ module Rubycord::API::Application
       guild_id,
       :get,
       "#{Rubycord::API.api_base}/applications/#{application_id}/guilds/#{guild_id}/commands",
-      Authorization: token
+      authorization: token
     )
   end
 
@@ -100,7 +100,7 @@ module Rubycord::API::Application
       guild_id,
       :get,
       "#{Rubycord::API.api_base}/applications/#{application_id}/guilds/#{guild_id}/commands/#{command_id}",
-      Authorization: token
+      authorization: token
     )
   end
 
@@ -113,8 +113,8 @@ module Rubycord::API::Application
       :post,
       "#{Rubycord::API.api_base}/applications/#{application_id}/guilds/#{guild_id}/commands",
       {name: name, description: description, options: options, default_permission: default_permission, type: type}.to_json,
-      Authorization: token,
-      content_type: :json
+      authorization: token,
+      content_type: "application/json"
     )
   end
 
@@ -127,8 +127,8 @@ module Rubycord::API::Application
       :patch,
       "#{Rubycord::API.api_base}/applications/#{application_id}/guilds/#{guild_id}/commands/#{command_id}",
       {name: name, description: description, options: options, default_permission: default_permission, type: type}.compact.to_json,
-      Authorization: token,
-      content_type: :json
+      authorization: token,
+      content_type: "application/json"
     )
   end
 
@@ -140,7 +140,7 @@ module Rubycord::API::Application
       guild_id,
       :delete,
       "#{Rubycord::API.api_base}/applications/#{application_id}/guilds/#{guild_id}/commands/#{command_id}",
-      Authorization: token
+      authorization: token
     )
   end
 
@@ -153,8 +153,8 @@ module Rubycord::API::Application
       :put,
       "#{Rubycord::API.api_base}/applications/#{application_id}/guilds/#{guild_id}/commands",
       commands.to_json,
-      Authorization: token,
-      content_type: :json
+      authorization: token,
+      content_type: "application/json"
     )
   end
 
@@ -166,7 +166,7 @@ module Rubycord::API::Application
       guild_id,
       :get,
       "#{Rubycord::API.api_base}/applications/#{application_id}/guilds/#{guild_id}/commands/permissions",
-      Authorization: token
+      authorization: token
     )
   end
 
@@ -179,8 +179,8 @@ module Rubycord::API::Application
       :put,
       "#{Rubycord::API.api_base}/applications/#{application_id}/guilds/#{guild_id}/commands/#{command_id}/permissions",
       {permissions: permissions}.to_json,
-      Authorization: token,
-      content_type: :json
+      authorization: token,
+      content_type: "application/json"
     )
   end
 
@@ -193,8 +193,8 @@ module Rubycord::API::Application
       :put,
       "#{Rubycord::API.api_base}/applications/#{application_id}/guilds/#{guild_id}/commands/permissions",
       permissions.to_json,
-      Authorization: token,
-      content_type: :json
+      authorization: token,
+      content_type: "application/json"
     )
   end
 end

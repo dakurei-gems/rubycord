@@ -11,8 +11,8 @@ module Rubycord::API::Server
       :post,
       "#{Rubycord::API.api_base}/guilds",
       {name: name, region: region.to_s}.to_json,
-      Authorization: token,
-      content_type: :json
+      authorization: token,
+      content_type: "application/json"
     )
   end
 
@@ -24,7 +24,7 @@ module Rubycord::API::Server
       server_id,
       :get,
       "#{Rubycord::API.api_base}/guilds/#{server_id}#{"?with_counts=true" if with_counts}",
-      Authorization: token
+      authorization: token
     )
   end
 
@@ -37,9 +37,9 @@ module Rubycord::API::Server
       :patch,
       "#{Rubycord::API.api_base}/guilds/#{server_id}",
       {name: name, region: region, icon: icon, afk_channel_id: afk_channel_id, afk_timeout: afk_timeout, splash: splash, default_message_notifications: default_message_notifications, verification_level: verification_level, explicit_content_filter: explicit_content_filter, system_channel_id: system_channel_id}.to_json,
-      Authorization: token,
-      content_type: :json,
-      "X-Audit-Log-Reason": reason
+      authorization: token,
+      content_type: "application/json",
+      x_audit_log_reason: reason
     )
   end
 
@@ -52,9 +52,9 @@ module Rubycord::API::Server
       :patch,
       "#{Rubycord::API.api_base}/guilds/#{server_id}",
       {owner_id: user_id}.to_json,
-      Authorization: token,
-      content_type: :json,
-      "X-Audit-Log-Reason": reason
+      authorization: token,
+      content_type: "application/json",
+      x_audit_log_reason: reason
     )
   end
 
@@ -66,7 +66,7 @@ module Rubycord::API::Server
       server_id,
       :delete,
       "#{Rubycord::API.api_base}/guilds/#{server_id}",
-      Authorization: token
+      authorization: token
     )
   end
 
@@ -78,7 +78,7 @@ module Rubycord::API::Server
       server_id,
       :get,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/channels",
-      Authorization: token
+      authorization: token
     )
   end
 
@@ -91,9 +91,9 @@ module Rubycord::API::Server
       :post,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/channels",
       {name: name, type: type, topic: topic, bitrate: bitrate, user_limit: user_limit, permission_overwrites: permission_overwrites, parent_id: parent_id, nsfw: nsfw, rate_limit_per_user: rate_limit_per_user, position: position}.to_json,
-      Authorization: token,
-      content_type: :json,
-      "X-Audit-Log-Reason": reason
+      authorization: token,
+      content_type: "application/json",
+      x_audit_log_reason: reason
     )
   end
 
@@ -106,8 +106,8 @@ module Rubycord::API::Server
       :patch,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/channels",
       positions.to_json,
-      Authorization: token,
-      content_type: :json
+      authorization: token,
+      content_type: "application/json"
     )
   end
 
@@ -119,7 +119,7 @@ module Rubycord::API::Server
       server_id,
       :get,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/members/#{user_id}",
-      Authorization: token
+      authorization: token
     )
   end
 
@@ -132,7 +132,7 @@ module Rubycord::API::Server
       server_id,
       :get,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/members?#{query_string}",
-      Authorization: token
+      authorization: token
     )
   end
 
@@ -144,7 +144,8 @@ module Rubycord::API::Server
       :guilds_sid_members_uid,
       server_id,
       :patch,
-      "#{Rubycord::API.api_base}/guilds/#{server_id}/members/#{user_id}", {
+      "#{Rubycord::API.api_base}/guilds/#{server_id}/members/#{user_id}",
+      {
         roles: roles,
         nick: nick,
         mute: mute,
@@ -152,9 +153,9 @@ module Rubycord::API::Server
         channel_id: channel_id,
         communication_disabled_until: communication_disabled_until
       }.reject { |_, v| v == :undef }.to_json,
-      Authorization: token,
-      content_type: :json,
-      "X-Audit-Log-Reason": reason
+      authorization: token,
+      content_type: "application/json",
+      x_audit_log_reason: reason
     )
   end
 
@@ -166,9 +167,9 @@ module Rubycord::API::Server
       server_id,
       :delete,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/members/#{user_id}",
-      Authorization: token,
-      content_type: :json,
-      "X-Audit-Log-Reason": reason
+      authorization: token,
+      content_type: "application/json",
+      x_audit_log_reason: reason
     )
   end
 
@@ -181,7 +182,7 @@ module Rubycord::API::Server
       server_id,
       :get,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/bans?#{query_string}",
-      Authorization: token
+      authorization: token
     )
   end
 
@@ -195,7 +196,7 @@ module Rubycord::API::Server
       :put,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/bans/#{user_id}?delete_message_days=#{message_days}&reason=#{reason}",
       nil,
-      Authorization: token
+      authorization: token
     )
   end
 
@@ -207,8 +208,8 @@ module Rubycord::API::Server
       server_id,
       :delete,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/bans/#{user_id}",
-      Authorization: token,
-      "X-Audit-Log-Reason": reason
+      authorization: token,
+      x_audit_log_reason: reason
     )
   end
 
@@ -220,7 +221,7 @@ module Rubycord::API::Server
       server_id,
       :get,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/roles",
-      Authorization: token
+      authorization: token
     )
   end
 
@@ -236,9 +237,9 @@ module Rubycord::API::Server
       :post,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/roles",
       {color: colour, name: name, hoist: hoist, mentionable: mentionable, permissions: packed_permissions}.to_json,
-      Authorization: token,
-      content_type: :json,
-      "X-Audit-Log-Reason": reason
+      authorization: token,
+      content_type: "application/json",
+      x_audit_log_reason: reason
     )
   end
 
@@ -269,9 +270,9 @@ module Rubycord::API::Server
       :patch,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/roles/#{role_id}",
       data.to_json,
-      Authorization: token,
-      content_type: :json,
-      "X-Audit-Log-Reason": reason
+      authorization: token,
+      content_type: "application/json",
+      x_audit_log_reason: reason
     )
   end
 
@@ -284,8 +285,8 @@ module Rubycord::API::Server
       :patch,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/roles",
       roles.to_json,
-      Authorization: token,
-      content_type: :json
+      authorization: token,
+      content_type: "application/json"
     )
   end
 
@@ -297,8 +298,8 @@ module Rubycord::API::Server
       server_id,
       :delete,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/roles/#{role_id}",
-      Authorization: token,
-      "X-Audit-Log-Reason": reason
+      authorization: token,
+      x_audit_log_reason: reason
     )
   end
 
@@ -311,8 +312,8 @@ module Rubycord::API::Server
       :put,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/members/#{user_id}/roles/#{role_id}",
       nil,
-      Authorization: token,
-      "X-Audit-Log-Reason": reason
+      authorization: token,
+      x_audit_log_reason: reason
     )
   end
 
@@ -324,8 +325,8 @@ module Rubycord::API::Server
       server_id,
       :delete,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/members/#{user_id}/roles/#{role_id}",
-      Authorization: token,
-      "X-Audit-Log-Reason": reason
+      authorization: token,
+      x_audit_log_reason: reason
     )
   end
 
@@ -337,7 +338,7 @@ module Rubycord::API::Server
       server_id,
       :get,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/prune?days=#{days}",
-      Authorization: token
+      authorization: token
     )
   end
 
@@ -350,8 +351,8 @@ module Rubycord::API::Server
       :post,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/prune",
       {days: days},
-      Authorization: token,
-      "X-Audit-Log-Reason": reason
+      authorization: token,
+      x_audit_log_reason: reason
     )
   end
 
@@ -363,7 +364,7 @@ module Rubycord::API::Server
       server_id,
       :get,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/invites",
-      Authorization: token
+      authorization: token
     )
   end
 
@@ -375,7 +376,7 @@ module Rubycord::API::Server
       server_id,
       :get,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/audit-logs?limit=#{limit}#{"&user_id=#{user_id}" if user_id}#{"&action_type=#{action_type}" if action_type}#{"&before=#{before}" if before}",
-      Authorization: token
+      authorization: token
     )
   end
 
@@ -387,7 +388,7 @@ module Rubycord::API::Server
       server_id,
       :get,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/integrations",
-      Authorization: token
+      authorization: token
     )
   end
 
@@ -400,8 +401,8 @@ module Rubycord::API::Server
       :post,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/integrations",
       {type: type, id: id},
-      Authorization: token,
-      "X-Audit-Log-Reason": reason
+      authorization: token,
+      x_audit_log_reason: reason
     )
   end
 
@@ -414,8 +415,8 @@ module Rubycord::API::Server
       :patch,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/integrations/#{integration_id}",
       {expire_behavior: expire_behavior, expire_grace_period: expire_grace_period, enable_emoticons: enable_emoticons}.to_json,
-      Authorization: token,
-      content_type: :json
+      authorization: token,
+      content_type: "application/json"
     )
   end
 
@@ -427,8 +428,8 @@ module Rubycord::API::Server
       server_id,
       :delete,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/integrations/#{integration_id}",
-      Authorization: token,
-      "X-Audit-Log-Reason": reason
+      authorization: token,
+      x_audit_log_reason: reason
     )
   end
 
@@ -441,7 +442,7 @@ module Rubycord::API::Server
       :post,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/integrations/#{integration_id}/sync",
       nil,
-      Authorization: token
+      authorization: token
     )
   end
 
@@ -453,7 +454,7 @@ module Rubycord::API::Server
       server_id,
       :get,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/widget",
-      Authorization: token
+      authorization: token
     )
   end
   alias_method :embed, :widget
@@ -467,9 +468,9 @@ module Rubycord::API::Server
       :patch,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/widget",
       {enabled: enabled, channel_id: channel_id}.to_json,
-      Authorization: token,
-      "X-Audit-Log-Reason": reason,
-      content_type: :json
+      authorization: token,
+      content_type: "application/json",
+      x_audit_log_reason: reason
     )
   end
   alias_method :modify_embed, :modify_widget
@@ -483,9 +484,9 @@ module Rubycord::API::Server
       :post,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/emojis",
       {image: image, name: name, roles: roles}.to_json,
-      Authorization: token,
-      content_type: :json,
-      "X-Audit-Log-Reason": reason
+      authorization: token,
+      content_type: "application/json",
+      x_audit_log_reason: reason
     )
   end
 
@@ -498,9 +499,9 @@ module Rubycord::API::Server
       :patch,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/emojis/#{emoji_id}",
       {name: name, roles: roles}.to_json,
-      Authorization: token,
-      content_type: :json,
-      "X-Audit-Log-Reason": reason
+      authorization: token,
+      content_type: "application/json",
+      x_audit_log_reason: reason
     )
   end
 
@@ -512,8 +513,8 @@ module Rubycord::API::Server
       server_id,
       :delete,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/emojis/#{emoji_id}",
-      Authorization: token,
-      "X-Audit-Log-Reason": reason
+      authorization: token,
+      x_audit_log_reason: reason
     )
   end
 
@@ -525,7 +526,7 @@ module Rubycord::API::Server
       server_id,
       :get,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/regions",
-      Authorization: token
+      authorization: token
     )
   end
 
@@ -537,7 +538,7 @@ module Rubycord::API::Server
       server_id,
       :get,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/webhooks",
-      Authorization: token
+      authorization: token
     )
   end
 
@@ -550,8 +551,8 @@ module Rubycord::API::Server
       :put,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/members/#{user_id}",
       {access_token: access_token, nick: nick, roles: roles, mute: mute, deaf: deaf}.to_json,
-      content_type: :json,
-      Authorization: token
+      authorization: token,
+      content_type: "application/json"
     )
   end
 end

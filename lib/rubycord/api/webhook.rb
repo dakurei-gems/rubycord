@@ -10,7 +10,7 @@ module Rubycord::API::Webhook
       nil,
       :get,
       "#{Rubycord::API.api_base}/webhooks/#{webhook_id}",
-      Authorization: token
+      authorization: token
     )
   end
 
@@ -35,7 +35,7 @@ module Rubycord::API::Webhook
       body.to_json
     end
 
-    headers = {content_type: :json} unless file
+    headers = {content_type: "application/json"} unless file
 
     Rubycord::API.request(
       :webhooks_wid,
@@ -43,7 +43,7 @@ module Rubycord::API::Webhook
       :post,
       "#{Rubycord::API.api_base}/webhooks/#{webhook_id}/#{webhook_token}?wait=#{wait}",
       body,
-      headers
+      **headers
     )
   end
 
@@ -56,9 +56,9 @@ module Rubycord::API::Webhook
       :patch,
       "#{Rubycord::API.api_base}/webhooks/#{webhook_id}",
       data.to_json,
-      Authorization: token,
-      content_type: :json,
-      "X-Audit-Log-Reason": reason
+      authorization: token,
+      content_type: "application/json",
+      x_audit_log_reason: reason
     )
   end
 
@@ -71,8 +71,8 @@ module Rubycord::API::Webhook
       :patch,
       "#{Rubycord::API.api_base}/webhooks/#{webhook_id}/#{webhook_token}",
       data.to_json,
-      content_type: :json,
-      "X-Audit-Log-Reason": reason
+      content_type: "application/json",
+      x_audit_log_reason: reason
     )
   end
 
@@ -84,8 +84,8 @@ module Rubycord::API::Webhook
       webhook_id,
       :delete,
       "#{Rubycord::API.api_base}/webhooks/#{webhook_id}",
-      Authorization: token,
-      "X-Audit-Log-Reason": reason
+      authorization: token,
+      x_audit_log_reason: reason
     )
   end
 
@@ -97,7 +97,7 @@ module Rubycord::API::Webhook
       webhook_id,
       :delete,
       "#{Rubycord::API.api_base}/webhooks/#{webhook_id}/#{webhook_token}",
-      "X-Audit-Log-Reason": reason
+      x_audit_log_reason: reason
     )
   end
 
@@ -121,7 +121,7 @@ module Rubycord::API::Webhook
       :patch,
       "#{Rubycord::API.api_base}/webhooks/#{webhook_id}/#{webhook_token}/messages/#{message_id}",
       {content: content, embeds: embeds, allowed_mentions: allowed_mentions, components: components}.to_json,
-      content_type: :json
+      content_type: "application/json"
     )
   end
 
