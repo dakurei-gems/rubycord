@@ -34,7 +34,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "bigdecimal", ">= 3.1.8"
   spec.add_dependency "ffi", ">= 1.9.24"
   spec.add_dependency "opus-ruby", ">= 1.0.1"
-  spec.add_dependency "rest-client", ">= 2.0.0"
   spec.add_dependency "faraday", ">= 2.10.1"
   spec.add_dependency "websocket-client-simple", ">= 0.3.0"
 
