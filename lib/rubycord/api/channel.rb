@@ -93,7 +93,7 @@ module Rubycord::API::Channel
       body,
       **headers
     )
-  rescue RestClient::BadRequest => e
+  rescue Faraday::BadRequestError => e
     parsed = JSON.parse(e.response.body)
     raise Rubycord::Errors::MessageTooLong, "Message over the character limit (#{message.length} > 2000)" if parsed["content"].is_a?(Array) && parsed["content"].first == "Must be 2000 or fewer in length."
 
@@ -362,7 +362,7 @@ module Rubycord::API::Channel
   # @deprecated Discord no longer supports bots in group DMs, this endpoint was repurposed and no longer works as implemented here.
   # https://discord.com/developers/docs/resources/channel#group-dm-add-recipient
   def create_group(token, pm_channel_id, user_id)
-    Rubycord::API.request(
+    response = Rubycord::API.request(
       :channels_cid_recipients_uid,
       nil,
       :put,
@@ -371,11 +371,10 @@ module Rubycord::API::Channel
       Authorization: token,
       content_type: :json
     )
-  rescue RestClient::InternalServerError
+    raise("Attempted to create a group channel with the PM channel recipient!") if response.status == 204
+  rescue Faraday::ServerError
     raise "Attempted to add self as a new group channel recipient!"
-  rescue RestClient::NoContent
-    raise "Attempted to create a group channel with the PM channel recipient!"
-  rescue RestClient::Forbidden
+  rescue Faraday::ForbiddenError
     raise "Attempted to add a user to group channel without permission!"
   end
 

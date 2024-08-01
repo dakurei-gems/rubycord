@@ -73,18 +73,18 @@ module Rubycord::API
     mutex.unlock
   end
 
-  # Performs a RestClient request.
+  # Performs a Faraday request.
   # @param type [Symbol] The type of HTTP request to use.
   # @param attributes [Array] The attributes for the request.
   def raw_request(type, attributes)
-    RestClient.send(type, *attributes)
-  rescue RestClient::Forbidden => e
-    # HACK: for #request, dynamically inject restclient's response into NoPermission - this allows us to rate limit
+    Faraday.send(type, *attributes)
+  rescue Faraday::ForbiddenError => e
+    # HACK: for #request, dynamically inject faraday's response into NoPermission - this allows us to rate limit
     noprm = Rubycord::Errors::NoPermission.new
     noprm.define_singleton_method(:_rc_response) { e.response }
     raise noprm, "The bot doesn't have the required permission to do this!"
-  rescue RestClient::BadGateway
-    Rubycord::LOGGER.warn("Got a 502 while sending a request! Not a big deal, retrying the request")
+  rescue Faraday::ServerError
+    Rubycord::LOGGER.warn("Got a 5xx while sending a request! Not a big deal, retrying the request")
     retry
   end
 
@@ -109,10 +109,10 @@ module Rubycord::API
       response = nil
       begin
         response = raw_request(type, attributes)
-      rescue RestClient::Exception => e
+      rescue Faraday::Error => e
         response = e.response
 
-        if response.body && !e.is_a?(RestClient::TooManyRequests)
+        if response.body && !e.is_a?(Faraday::TooManyRequestsError)
           data = JSON.parse(response.body)
           err_klass = Rubycord::Errors.error_class_for(data["code"] || 0)
           e = err_klass.new(data["message"], data["errors"])
@@ -136,7 +136,7 @@ module Rubycord::API
           Rubycord::LOGGER.ratelimit("Response was nil before trying to preemptively rate limit!")
         end
       end
-    rescue RestClient::TooManyRequests => e
+    rescue Faraday::TooManyRequestsError => e
       # If the 429 is from the global RL, then we have to use the global mutex instead.
       mutex = @global_mutex if e.response.headers[:x_ratelimit_global] == "true"
 

@@ -37,7 +37,7 @@ module Rubycord::Webhooks
     #       embed.image = Rubycord::Webhooks::EmbedImage.new(url: 'https://i.imgur.com/PcMltU7.jpg')
     #     end
     #   end
-    # @return [RestClient::Response] the response returned by Discord.
+    # @return [Faraday::Response] the response returned by Discord.
     def execute(builder = nil, wait = false, components = nil)
       raise TypeError, "builder needs to be nil or like a Rubycord::Webhooks::Builder!" if
         !(builder.respond_to?(:file) && builder.respond_to?(:to_multipart_hash)) && !builder.respond_to?(:to_json_hash) && !builder.nil?
@@ -60,17 +60,17 @@ module Rubycord::Webhooks
     # @param name [String, nil] The default name.
     # @param avatar [String, #read, nil] The new avatar, in base64-encoded JPG format.
     # @param channel_id [String, Integer, nil] The channel to move the webhook to.
-    # @return [RestClient::Response] the response returned by Discord.
+    # @return [Faraday::Response] the response returned by Discord.
     def modify(name: nil, avatar: nil, channel_id: nil)
-      RestClient.patch(@url, {name: name, avatar: avatarise(avatar), channel_id: channel_id}.compact.to_json, content_type: :json)
+      Faraday.patch(@url, {name: name, avatar: avatarise(avatar), channel_id: channel_id}.compact.to_json, content_type: :json)
     end
 
     # Delete this webhook.
     # @param reason [String, nil] The reason this webhook was deleted.
-    # @return [RestClient::Response] the response returned by Discord.
+    # @return [Faraday::Response] the response returned by Discord.
     # @note This is permanent and cannot be undone.
     def delete(reason: nil)
-      RestClient.delete(@url, "X-Audit-Log-Reason": reason)
+      Faraday.delete(@url, "X-Audit-Log-Reason": reason)
     end
 
     # Edit a message from this webhook.
@@ -79,7 +79,7 @@ module Rubycord::Webhooks
     # @param content [String] The message content.
     # @param embeds [Array<Embed, Hash>]
     # @param allowed_mentions [Hash]
-    # @return [RestClient::Response] the response returned by Discord.
+    # @return [Faraday::Response] the response returned by Discord.
     # @example Edit message content
     #   client.edit_message(message_id, content: 'goodbye world!')
     # @example Edit a message via builder
@@ -95,14 +95,14 @@ module Rubycord::Webhooks
       yield builder if block_given?
 
       data = builder.to_json_hash.merge({content: content, embeds: embeds, allowed_mentions: allowed_mentions}.compact)
-      RestClient.patch("#{@url}/messages/#{message_id}", data.compact.to_json, content_type: :json)
+      Faraday.patch("#{@url}/messages/#{message_id}", data.compact.to_json, content_type: :json)
     end
 
     # Delete a message created by this webhook.
     # @param message_id [String, Integer] The ID of the message to delete.
-    # @return [RestClient::Response] the response returned by Discord.
+    # @return [Faraday::Response] the response returned by Discord.
     def delete_message(message_id)
-      RestClient.delete("#{@url}/messages/#{message_id}")
+      Faraday.delete("#{@url}/messages/#{message_id}")
     end
 
     private
@@ -119,12 +119,12 @@ module Rubycord::Webhooks
 
     def post_json(builder, components, wait)
       data = builder.to_json_hash.merge({components: components.to_a})
-      RestClient.post(@url + (wait ? "?wait=true" : ""), data.to_json, content_type: :json)
+      Faraday.post(@url + (wait ? "?wait=true" : ""), data.to_json, content_type: :json)
     end
 
     def post_multipart(builder, components, wait)
       data = builder.to_multipart_hash.merge({components: components.to_a})
-      RestClient.post(@url + (wait ? "?wait=true" : ""), data)
+      Faraday.post(@url + (wait ? "?wait=true" : ""), data)
     end
 
     def generate_url(id, token)
