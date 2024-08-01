@@ -149,19 +149,19 @@ describe Rubycord::Webhooks do
       let(:name) { instance_double(String) }
 
       before do
-        allow(RestClient).to receive(:patch).with(any_args)
+        allow(Faraday).to receive(:patch).with(any_args)
       end
 
       it "sends a PATCH request to the URL" do
         subject.modify
 
-        expect(RestClient).to have_received(:patch).with(provided_url, anything, content_type: :json)
+        expect(Faraday).to have_received(:patch).with(provided_url, anything, content_type: :json)
       end
     end
 
     describe "#delete" do
       before do
-        allow(RestClient).to receive(:delete).with(any_args)
+        allow(Faraday).to receive(:delete).with(any_args)
       end
 
       it "sends a DELETE request to the URL" do
@@ -169,7 +169,7 @@ describe Rubycord::Webhooks do
 
         subject.delete(reason: reason)
 
-        expect(RestClient).to have_received(:delete).with(provided_url, "X-Audit-Log-Reason": reason)
+        expect(Faraday).to have_received(:delete).with(provided_url, "X-Audit-Log-Reason": reason)
       end
     end
 
@@ -179,7 +179,7 @@ describe Rubycord::Webhooks do
       let(:default_builder) { instance_double(Rubycord::Webhooks::Builder, to_json_hash: json_hash) }
 
       before do
-        allow(RestClient).to receive(:patch).with(any_args)
+        allow(Faraday).to receive(:patch).with(any_args)
       end
 
       it "creates a new builder if one is not provided" do
@@ -195,7 +195,7 @@ describe Rubycord::Webhooks do
 
         subject.edit_message(message_id)
 
-        expect(RestClient).to have_received(:patch).with("#{url}/messages/#{message_id}", instance_of(String), content_type: :json)
+        expect(Faraday).to have_received(:patch).with("#{url}/messages/#{message_id}", instance_of(String), content_type: :json)
       end
     end
 
@@ -206,13 +206,13 @@ describe Rubycord::Webhooks do
       subject { described_class.new(url: base_url) }
 
       before do
-        allow(RestClient).to receive(:delete).with(any_args)
+        allow(Faraday).to receive(:delete).with(any_args)
       end
 
       it "sends a DELETE request to the message URL" do
         subject.delete_message(message_id)
 
-        expect(RestClient).to have_received(:delete).with("#{base_url}/messages/#{message_id}")
+        expect(Faraday).to have_received(:delete).with("#{base_url}/messages/#{message_id}")
       end
     end
 
@@ -220,14 +220,14 @@ describe Rubycord::Webhooks do
       let(:builder) { Rubycord::Webhooks::Builder.new(content: "value") }
 
       before do
-        allow(RestClient).to receive(:post).with(any_args)
+        allow(Faraday).to receive(:post).with(any_args)
         allow(provided_url).to receive(:+).with(anything).and_return(provided_url)
       end
 
       it "makes a POST request with JSON data" do
         subject.__send__(:post_json, builder, [], false)
 
-        expect(RestClient).to have_received(:post).with(provided_url, builder.to_json_hash.merge({components: []}).to_json, content_type: :json)
+        expect(Faraday).to have_received(:post).with(provided_url, builder.to_json_hash.merge({components: []}).to_json, content_type: :json)
       end
 
       it "waits when wait=true" do
@@ -243,7 +243,7 @@ describe Rubycord::Webhooks do
       let(:builder) { instance_double(Rubycord::Webhooks::Builder, to_multipart_hash: multipart_hash) }
 
       before do
-        allow(RestClient).to receive(:post).with(any_args)
+        allow(Faraday).to receive(:post).with(any_args)
         allow(provided_url).to receive(:+).with(anything).and_return(provided_url)
         allow(multipart_hash).to receive(:merge).with(instance_of(Hash)).and_return(post_data)
       end
@@ -251,7 +251,7 @@ describe Rubycord::Webhooks do
       it "makes a POST request with multipart data" do
         subject.__send__(:post_multipart, builder, [], false)
 
-        expect(RestClient).to have_received(:post).with(provided_url, post_data)
+        expect(Faraday).to have_received(:post).with(provided_url, post_data)
       end
 
       it "waits for a response when wait=true" do
