@@ -1,6 +1,7 @@
 require "rest-client"
 require "faraday"
 require "json"
+require "base64"
 
 require "rubycord/webhooks/builder"
 
