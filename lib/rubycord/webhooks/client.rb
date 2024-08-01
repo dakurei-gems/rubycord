@@ -1,4 +1,5 @@
 require "rest-client"
+require "faraday"
 require "json"
 
 require "rubycord/webhooks/builder"

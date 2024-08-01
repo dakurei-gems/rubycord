@@ -1,4 +1,5 @@
 require "rest-client"
+require "faraday"
 require "zlib"
 
 require "rubycord/events/message"
