@@ -1,3 +1,5 @@
+require "debug" if ENV.key?("RUBY_DEBUG_OPEN")
+
 require "rubycord/version"
 require "rubycord/bot"
 require "rubycord/commands/command_bot"
