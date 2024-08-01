@@ -4,6 +4,19 @@ require "time"
 
 require "rubycord/errors"
 
+# Faraday namespace.
+module Faraday
+  # Response represents an HTTP response from making an HTTP request.
+  class Response
+    # Mimics RestClient's behavior via a monkey patch
+    # @return [String]
+    def to_s
+      body
+    end
+    alias_method :to_str, :to_s
+  end
+end
+
 # List of methods representing endpoints in Discord's API
 module Rubycord::API
   # The base URL of the Discord REST API.
