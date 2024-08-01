@@ -1,4 +1,3 @@
-require "rest-client"
 require "faraday"
 require "json"
 require "base64"
