@@ -1,3 +1,5 @@
+require "delegate"
+
 module Rubycord
   # Recipients are members on private channels - they exist for completeness purposes, but all
   # the attributes will be empty.

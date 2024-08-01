@@ -1,3 +1,5 @@
+require "delegate"
+
 module Rubycord
   # Mixin for the attributes members and private members should have
   module MemberAttributes
