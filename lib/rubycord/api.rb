@@ -230,6 +230,7 @@ module Rubycord::API
   end
 
   # Login to the server
+  # @deprecated Not available anymore
   def login(email, password)
     request(
       :auth_login,
@@ -242,6 +243,7 @@ module Rubycord::API
   end
 
   # Logout from the server
+  # @deprecated Not available anymore
   def logout(token)
     request(
       :auth_logout,
@@ -286,6 +288,7 @@ module Rubycord::API
       nil,
       :get,
       "#{api_base}/oauth2/applications/@me",
+      nil,
       authorization: token
     )
   end
@@ -311,6 +314,7 @@ module Rubycord::API
       nil,
       :get,
       "#{api_base}/gateway",
+      nil,
       authorization: token
     )
   end
@@ -323,6 +327,7 @@ module Rubycord::API
       nil,
       :get,
       "#{api_base}/gateway/bot",
+      nil,
       authorization: token
     )
   end
@@ -347,6 +352,7 @@ module Rubycord::API
       nil,
       :get,
       "#{api_base}/voice/regions",
+      nil,
       authorization: token,
       content_type: "application/json"
     )

@@ -10,6 +10,7 @@ module Rubycord::API::User
       nil,
       :get,
       "#{Rubycord::API.api_base}/users/#{user_id}",
+      nil,
       authorization: token
     )
   end
@@ -22,6 +23,7 @@ module Rubycord::API::User
       nil,
       :get,
       "#{Rubycord::API.api_base}/users/@me",
+      nil,
       authorization: token
     )
   end
@@ -63,6 +65,7 @@ module Rubycord::API::User
       nil,
       :get,
       "#{Rubycord::API.api_base}/users/@me/guilds",
+      nil,
       authorization: token
     )
   end
@@ -75,6 +78,7 @@ module Rubycord::API::User
       nil,
       :delete,
       "#{Rubycord::API.api_base}/users/@me/guilds/#{server_id}",
+      nil,
       authorization: token
     )
   end
@@ -87,6 +91,7 @@ module Rubycord::API::User
       nil,
       :get,
       "#{Rubycord::API.api_base}/users/@me/channels",
+      nil,
       authorization: token
     )
   end
@@ -113,6 +118,7 @@ module Rubycord::API::User
       nil,
       :get,
       "#{Rubycord::API.api_base}/users/@me/connections",
+      nil,
       authorization: token
     )
   end

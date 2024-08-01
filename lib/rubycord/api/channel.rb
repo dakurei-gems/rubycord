@@ -10,6 +10,7 @@ module Rubycord::API::Channel
       channel_id,
       :get,
       "#{Rubycord::API.api_base}/channels/#{channel_id}",
+      nil,
       authorization: token
     )
   end
@@ -39,6 +40,7 @@ module Rubycord::API::Channel
       channel_id,
       :delete,
       "#{Rubycord::API.api_base}/channels/#{channel_id}",
+      nil,
       authorization: token,
       x_audit_log_reason: reason
     )
@@ -53,6 +55,7 @@ module Rubycord::API::Channel
       channel_id,
       :get,
       "#{Rubycord::API.api_base}/channels/#{channel_id}/messages?#{query_string}",
+      nil,
       authorization: token
     )
   end
@@ -65,6 +68,7 @@ module Rubycord::API::Channel
       channel_id,
       :get,
       "#{Rubycord::API.api_base}/channels/#{channel_id}/messages/#{message_id}",
+      nil,
       authorization: token
     )
   end
@@ -135,6 +139,7 @@ module Rubycord::API::Channel
       channel_id,
       :delete,
       "#{Rubycord::API.api_base}/channels/#{channel_id}/messages/#{message_id}",
+      nil,
       authorization: token,
       x_audit_log_reason: reason
     )
@@ -179,6 +184,7 @@ module Rubycord::API::Channel
       channel_id,
       :delete,
       "#{Rubycord::API.api_base}/channels/#{channel_id}/messages/#{message_id}/reactions/#{emoji}/@me",
+      nil,
       authorization: token
     )
   end
@@ -192,6 +198,7 @@ module Rubycord::API::Channel
       channel_id,
       :delete,
       "#{Rubycord::API.api_base}/channels/#{channel_id}/messages/#{message_id}/reactions/#{emoji}/#{user_id}",
+      nil,
       authorization: token
     )
   end
@@ -206,6 +213,7 @@ module Rubycord::API::Channel
       channel_id,
       :get,
       "#{Rubycord::API.api_base}/channels/#{channel_id}/messages/#{message_id}/reactions/#{emoji}?#{query_string}",
+      nil,
       authorization: token
     )
   end
@@ -218,6 +226,7 @@ module Rubycord::API::Channel
       channel_id,
       :delete,
       "#{Rubycord::API.api_base}/channels/#{channel_id}/messages/#{message_id}/reactions",
+      nil,
       authorization: token
     )
   end
@@ -232,6 +241,7 @@ module Rubycord::API::Channel
       channel_id,
       :delete,
       "#{Rubycord::API.api_base}/channels/#{channel_id}/messages/#{message_id}/reactions/#{emoji}",
+      nil,
       authorization: token
     )
   end
@@ -259,6 +269,7 @@ module Rubycord::API::Channel
       channel_id,
       :get,
       "#{Rubycord::API.api_base}/channels/#{channel_id}/invites",
+      nil,
       authorization: token
     )
   end
@@ -286,6 +297,7 @@ module Rubycord::API::Channel
       channel_id,
       :delete,
       "#{Rubycord::API.api_base}/channels/#{channel_id}/permissions/#{overwrite_id}",
+      nil,
       authorization: token,
       x_audit_log_reason: reason
     )
@@ -312,6 +324,7 @@ module Rubycord::API::Channel
       channel_id,
       :get,
       "#{Rubycord::API.api_base}/channels/#{channel_id}/pins",
+      nil,
       authorization: token
     )
   end
@@ -338,6 +351,7 @@ module Rubycord::API::Channel
       channel_id,
       :delete,
       "#{Rubycord::API.api_base}/channels/#{channel_id}/pins/#{message_id}",
+      nil,
       authorization: token,
       x_audit_log_reason: reason
     )
@@ -402,6 +416,7 @@ module Rubycord::API::Channel
       nil,
       :delete,
       "#{Rubycord::API.api_base}/channels/#{group_channel_id}/recipients/#{user_id}",
+      nil,
       authorization: token,
       content_type: "application/json"
     )
@@ -416,6 +431,7 @@ module Rubycord::API::Channel
       nil,
       :delete,
       "#{Rubycord::API.api_base}/channels/#{group_channel_id}",
+      nil,
       authorization: token,
       content_type: "application/json"
     )
@@ -444,6 +460,7 @@ module Rubycord::API::Channel
       channel_id,
       :get,
       "#{Rubycord::API.api_base}/channels/#{channel_id}/webhooks",
+      nil,
       authorization: token
     )
   end
@@ -470,7 +487,7 @@ module Rubycord::API::Channel
       channel_id,
       :post,
       "#{Rubycord::API.api_base}/channels/#{channel_id}/threads",
-      {name: name, auto_archive_duration: auto_archive_duration, type: type},
+      {name: name, auto_archive_duration: auto_archive_duration, type: type}.to_json,
       authorization: token,
       content_type: "application/json"
     )
@@ -510,6 +527,7 @@ module Rubycord::API::Channel
       channel_id,
       :delete,
       "#{Rubycord::API.api_base}/channels/#{channel_id}/thread-members/#{user_id}",
+      nil,
       authorization: token
     )
   end
@@ -522,6 +540,7 @@ module Rubycord::API::Channel
       channel_id,
       :delete,
       "#{Rubycord::API.api_base}/channels/#{channel_id}/thread-members/#{user_id}",
+      nil,
       authorization: token
     )
   end
@@ -536,6 +555,7 @@ module Rubycord::API::Channel
       channel_id,
       :get,
       "#{Rubycord::API.api_base}/channels/#{channel_id}/thread-members?#{query}",
+      nil,
       authorization: token
     )
   end
@@ -548,6 +568,7 @@ module Rubycord::API::Channel
       channel_id,
       :get,
       "#{Rubycord::API.api_base}/channels/#{channel_id}/threads/active",
+      nil,
       authorization: token
     )
   end
@@ -562,6 +583,7 @@ module Rubycord::API::Channel
       channel_id,
       :get,
       "#{Rubycord::API.api_base}/channels/#{channel_id}/threads/archived/public?#{query}",
+      nil,
       authorization: token
     )
   end
@@ -576,6 +598,7 @@ module Rubycord::API::Channel
       channel_id,
       :get,
       "#{Rubycord::API.api_base}/channels/#{channel_id}/threads/archived/private?#{query}",
+      nil,
       authorization: token
     )
   end
@@ -590,6 +613,7 @@ module Rubycord::API::Channel
       channel_id,
       :get,
       "#{Rubycord::API.api_base}/channels/#{channel_id}/users/@me/threads/archived/private?#{query}",
+      nil,
       authorization: token
     )
   end

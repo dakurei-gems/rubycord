@@ -24,6 +24,7 @@ module Rubycord::API::Server
       server_id,
       :get,
       "#{Rubycord::API.api_base}/guilds/#{server_id}#{"?with_counts=true" if with_counts}",
+      nil,
       authorization: token
     )
   end
@@ -66,6 +67,7 @@ module Rubycord::API::Server
       server_id,
       :delete,
       "#{Rubycord::API.api_base}/guilds/#{server_id}",
+      nil,
       authorization: token
     )
   end
@@ -78,6 +80,7 @@ module Rubycord::API::Server
       server_id,
       :get,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/channels",
+      nil,
       authorization: token
     )
   end
@@ -119,6 +122,7 @@ module Rubycord::API::Server
       server_id,
       :get,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/members/#{user_id}",
+      nil,
       authorization: token
     )
   end
@@ -132,6 +136,7 @@ module Rubycord::API::Server
       server_id,
       :get,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/members?#{query_string}",
+      nil,
       authorization: token
     )
   end
@@ -167,6 +172,7 @@ module Rubycord::API::Server
       server_id,
       :delete,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/members/#{user_id}",
+      nil,
       authorization: token,
       content_type: "application/json",
       x_audit_log_reason: reason
@@ -182,6 +188,7 @@ module Rubycord::API::Server
       server_id,
       :get,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/bans?#{query_string}",
+      nil,
       authorization: token
     )
   end
@@ -208,6 +215,7 @@ module Rubycord::API::Server
       server_id,
       :delete,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/bans/#{user_id}",
+      nil,
       authorization: token,
       x_audit_log_reason: reason
     )
@@ -221,6 +229,7 @@ module Rubycord::API::Server
       server_id,
       :get,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/roles",
+      nil,
       authorization: token
     )
   end
@@ -298,6 +307,7 @@ module Rubycord::API::Server
       server_id,
       :delete,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/roles/#{role_id}",
+      nil,
       authorization: token,
       x_audit_log_reason: reason
     )
@@ -325,6 +335,7 @@ module Rubycord::API::Server
       server_id,
       :delete,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/members/#{user_id}/roles/#{role_id}",
+      nil,
       authorization: token,
       x_audit_log_reason: reason
     )
@@ -338,6 +349,7 @@ module Rubycord::API::Server
       server_id,
       :get,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/prune?days=#{days}",
+      nil,
       authorization: token
     )
   end
@@ -350,8 +362,9 @@ module Rubycord::API::Server
       server_id,
       :post,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/prune",
-      {days: days},
+      {days: days}.to_json,
       authorization: token,
+      content_type: "application/json",
       x_audit_log_reason: reason
     )
   end
@@ -364,6 +377,7 @@ module Rubycord::API::Server
       server_id,
       :get,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/invites",
+      nil,
       authorization: token
     )
   end
@@ -376,6 +390,7 @@ module Rubycord::API::Server
       server_id,
       :get,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/audit-logs?limit=#{limit}#{"&user_id=#{user_id}" if user_id}#{"&action_type=#{action_type}" if action_type}#{"&before=#{before}" if before}",
+      nil,
       authorization: token
     )
   end
@@ -388,6 +403,7 @@ module Rubycord::API::Server
       server_id,
       :get,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/integrations",
+      nil,
       authorization: token
     )
   end
@@ -400,8 +416,9 @@ module Rubycord::API::Server
       server_id,
       :post,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/integrations",
-      {type: type, id: id},
+      {type: type, id: id}.to_json,
       authorization: token,
+      content_type: "application/json",
       x_audit_log_reason: reason
     )
   end
@@ -428,6 +445,7 @@ module Rubycord::API::Server
       server_id,
       :delete,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/integrations/#{integration_id}",
+      nil,
       authorization: token,
       x_audit_log_reason: reason
     )
@@ -454,6 +472,7 @@ module Rubycord::API::Server
       server_id,
       :get,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/widget",
+      nil,
       authorization: token
     )
   end
@@ -513,6 +532,7 @@ module Rubycord::API::Server
       server_id,
       :delete,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/emojis/#{emoji_id}",
+      nil,
       authorization: token,
       x_audit_log_reason: reason
     )
@@ -526,6 +546,7 @@ module Rubycord::API::Server
       server_id,
       :get,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/regions",
+      nil,
       authorization: token
     )
   end
@@ -538,6 +559,7 @@ module Rubycord::API::Server
       server_id,
       :get,
       "#{Rubycord::API.api_base}/guilds/#{server_id}/webhooks",
+      nil,
       authorization: token
     )
   end
