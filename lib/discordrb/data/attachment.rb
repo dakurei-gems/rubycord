@@ -1,13 +1,36 @@
 module Discordrb
+  # Mixin for the attributes attachments should have
+  module AttachmentAttributes
+    # Types of attachment's flags mapped to their API value.
+    #   List of flags available here: https://discord.com/developers/docs/resources/message#attachment-object-attachment-flags
+    FLAGS = {
+      is_remix: 1 << 2,
+      is_spoiler: 1 << 3 # Not officially displayed in the doc, but seems to be the case after several tests.
+    }.freeze
+
+    # @return [Integer] attachment flags combined as a bitfield.
+    attr_reader :flags
+
+    FLAGS.each do |name, value|
+      define_method(:"#{name}?") do
+        (@flags & value).positive?
+      end
+    end
+  end
+
   # An attachment to a message
   class Attachment
     include IDObject
+    include AttachmentAttributes
 
     # @return [Message] the message this attachment belongs to.
     attr_reader :message
 
     # @return [String] the attachment's filename.
     attr_reader :filename
+
+    # @return [String, nil] the attachment's title.
+    attr_reader :title
 
     # @return [String, nil] the attachment's description.
     attr_reader :description
@@ -31,6 +54,12 @@ module Discordrb
     # @return [Integer, nil] the width of an image file, in pixels, or `nil` if the file is not an image.
     attr_reader :width
 
+    # @return [Float, nil] the duration of the audio file (currently for voice messages).
+    attr_reader :duration_secs
+
+    # @return [String, nil] base64 encoded bytearray representing a sampled waveform (currently for voice messages).
+    attr_reader :waveform
+
     # @return [true, false] whether this attachment is ephemeral.
     attr_reader :ephemeral
     alias_method :ephemeral?, :ephemeral
@@ -43,6 +72,7 @@ module Discordrb
       @id = data["id"].resolve_id
 
       @filename = data["filename"]
+      @title = data["title"]
       @description = data["description"]
 
       @content_type = data["content_type"]
@@ -53,7 +83,10 @@ module Discordrb
 
       @height = data["height"]
       @width = data["width"]
+      @duration_secs = data["duration_secs"]
+      @waveform = data["waveform"]
 
+      @flags = data["flags"].to_i
       @ephemeral = data["ephemeral"]
     end
 
@@ -62,9 +95,9 @@ module Discordrb
       !(@width.nil? || @height.nil?)
     end
 
-    # @return [true, false] whether this file is tagged as a spoiler.
-    def spoiler?
-      @filename.start_with? "SPOILER_"
+    # @return [true, false] whether this file is an audio file.
+    def audio?
+      !@duration_secs.nil?
     end
   end
 end
