@@ -6,6 +6,18 @@ module Discordrb
     # @return [Message] the message this attachment belongs to.
     attr_reader :message
 
+    # @return [String] the attachment's filename.
+    attr_reader :filename
+
+    # @return [String, nil] the attachment's description.
+    attr_reader :description
+
+    # @return [String, nil] the attachment's media type.
+    attr_reader :content_type
+
+    # @return [Integer] the attachment's file size in bytes.
+    attr_reader :size
+
     # @return [String] the CDN URL this attachment can be downloaded at.
     attr_reader :url
 
@@ -13,23 +25,11 @@ module Discordrb
     #   do with CDNs.
     attr_reader :proxy_url
 
-    # @return [String] the attachment's filename.
-    attr_reader :filename
-
-    # @return [Integer] the attachment's file size in bytes.
-    attr_reader :size
-
-    # @return [Integer, nil] the width of an image file, in pixels, or `nil` if the file is not an image.
-    attr_reader :width
-
     # @return [Integer, nil] the height of an image file, in pixels, or `nil` if the file is not an image.
     attr_reader :height
 
-    # @return [String, nil] the attachment's description.
-    attr_reader :description
-
-    # @return [String, nil] the attachment's media type.
-    attr_reader :content_type
+    # @return [Integer, nil] the width of an image file, in pixels, or `nil` if the file is not an image.
+    attr_reader :width
 
     # @return [true, false] whether this attachment is ephemeral.
     attr_reader :ephemeral
@@ -40,18 +40,19 @@ module Discordrb
       @bot = bot
       @message = message
 
-      @id = data["id"].to_i
-      @url = data["url"]
-      @proxy_url = data["proxy_url"]
-      @filename = data["filename"]
+      @id = data["id"].resolve_id
 
+      @filename = data["filename"]
+      @description = data["description"]
+
+      @content_type = data["content_type"]
       @size = data["size"]
 
-      @width = data["width"]
-      @height = data["height"]
+      @url = data["url"]
+      @proxy_url = data["proxy_url"]
 
-      @description = data["description"]
-      @content_type = data["content_type"]
+      @height = data["height"]
+      @width = data["width"]
 
       @ephemeral = data["ephemeral"]
     end
