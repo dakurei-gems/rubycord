@@ -1,7 +1,35 @@
 module Rubycord
+  # Mixin for the attributes messages should have
+  module MessageAttributes
+    # Types of message's flags mapped to their API value.
+    FLAGS = {
+      crossposted: 1 << 0,             # this message has been published to subscribed channels (via Channel Following)
+      is_crosspost: 1 << 1,            # this message originated from a message in another channel (via Channel Following)
+      suppress_embeds: 1 << 2,         # do not include any embeds when serializing this message
+      source_message_deleted: 1 << 3,  # the source message for this crosspost has been deleted (via Channel Following)
+      urgent: 1 << 4,                  # this message came from the urgent message system
+      has_thread: 1 << 5,              # this message has an associated thread, with the same id as the message
+      ephemeral: 1 << 6,               # this message is only visible to the user who invoked the Interaction
+      loading: 1 << 7,                 # this message is an Interaction Response and the bot is "thinking"
+      failed_mention_roles: 1 << 8,    # this message failed to mention some roles and add their members to the thread
+      suppress_notifications: 1 << 12, # this message will not trigger push and desktop notifications
+      is_voice_message: 1 << 13        # this message is a voice message
+    }.freeze
+
+    # @return [Integer] message flags combined as a bitfield.
+    attr_reader :flags
+
+    FLAGS.each do |name, value|
+      define_method(:"#{name}?") do
+        (@flags & value).positive?
+      end
+    end
+  end
+
   # A message on Discord that was sent to a text channel
   class Message
     include IDObject
+    include MessageAttributes
 
     # @return [String] the content of this message.
     attr_reader :content
@@ -155,6 +183,8 @@ module Rubycord
 
       @components = []
       @components = data["components"].map { |component_data| Components.from_data(component_data, @bot) } if data["components"]
+
+      @flags = data["flags"].to_i
     end
 
     # Replies to this message with the specified content.
