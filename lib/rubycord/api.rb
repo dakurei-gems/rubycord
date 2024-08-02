@@ -27,6 +27,13 @@ module Rubycord::API
 
   module_function
 
+  # @return [Faraday::Connection] to make HTTP requests with configured Faraday
+  def client
+    @client ||= Faraday.new do |faraday|
+      faraday.response :raise_error
+    end
+  end
+
   # @return [String] the currently used API base URL.
   def api_base
     @api_base || APIBASE
@@ -89,7 +96,7 @@ module Rubycord::API
   # @param type [Symbol] The type of HTTP request to use.
   # @param attributes [Array] The attributes for the request.
   def raw_request(type, attributes)
-    Faraday.send(type, *attributes)
+    client.send(type, *attributes)
   rescue Faraday::ForbiddenError => e
     # HACK: for #request, dynamically inject faraday's response into NoPermission - this allows us to rate limit
     noprm = Rubycord::Errors::NoPermission.new
