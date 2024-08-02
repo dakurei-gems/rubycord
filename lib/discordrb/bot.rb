@@ -912,6 +912,11 @@ module Discordrb
       API::Application.edit_guild_command_permissions(@token, profile.id, server_id, command_id, permissions)
     end
 
+    # The inspect method is overwritten to reduce superfluous data
+    def inspect
+      "#<Bot @name=#{@name.inspect} @intents=#{@intents.inspect} @shard_key=#{@shard_key.inspect}>"
+    end
+
     private
 
     # Throws a useful exception if there's currently no gateway connection.
