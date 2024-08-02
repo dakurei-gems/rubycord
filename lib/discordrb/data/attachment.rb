@@ -4,13 +4,18 @@ module Discordrb
     # Types of attachment's flags mapped to their API value.
     #   List of flags available here: https://discord.com/developers/docs/resources/message#attachment-object-attachment-flags
     FLAGS = {
-      is_remix: 1 << 2,
-      is_spoiler: 1 << 3 # Not officially displayed in the doc, but seems to be the case after several tests.
+      remix: 1 << 2,  # IS_REMIX : this attachment has been edited using the remix feature on mobile
+      spoiler: 1 << 3 #          : this attachment has been set to spoiler mode (not officially listed in doc, but seems to be the case after several tests)
     }.freeze
 
     # @return [Integer] attachment flags combined as a bitfield.
     attr_reader :flags
 
+    # @!method remix?
+    #   @return [true, false] whether this file has flag IS_REMIX.
+    # @!method spoiler?
+    #   @note Unofficial flag
+    #   @return [true, false] whether this file has flag IS_SPOILER.
     FLAGS.each do |name, value|
       define_method(:"#{name}?") do
         (@flags & value).positive?
