@@ -155,7 +155,7 @@ describe Rubycord::Webhooks do
       it "sends a PATCH request to the URL" do
         subject.modify
 
-        expect(Faraday).to have_received(:patch).with(provided_url, anything, content_type: :json)
+        expect(Faraday).to have_received(:patch).with(provided_url, anything, {content_type: "application/json"})
       end
     end
 
@@ -169,7 +169,7 @@ describe Rubycord::Webhooks do
 
         subject.delete(reason: reason)
 
-        expect(Faraday).to have_received(:delete).with(provided_url, "X-Audit-Log-Reason": reason)
+        expect(Faraday).to have_received(:delete).with(provided_url, nil, {x_audit_log_reason: reason})
       end
     end
 
@@ -195,7 +195,7 @@ describe Rubycord::Webhooks do
 
         subject.edit_message(message_id)
 
-        expect(Faraday).to have_received(:patch).with("#{url}/messages/#{message_id}", instance_of(String), content_type: :json)
+        expect(Faraday).to have_received(:patch).with("#{url}/messages/#{message_id}", instance_of(String), {content_type: "application/json"})
       end
     end
 
@@ -227,7 +227,7 @@ describe Rubycord::Webhooks do
       it "makes a POST request with JSON data" do
         subject.__send__(:post_json, builder, [], false)
 
-        expect(Faraday).to have_received(:post).with(provided_url, builder.to_json_hash.merge({components: []}).to_json, content_type: :json)
+        expect(Faraday).to have_received(:post).with(provided_url, builder.to_json_hash.merge({components: []}).to_json, {content_type: "application/json"})
       end
 
       it "waits when wait=true" do

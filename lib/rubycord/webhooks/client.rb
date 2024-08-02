@@ -61,7 +61,11 @@ module Rubycord::Webhooks
     # @param channel_id [String, Integer, nil] The channel to move the webhook to.
     # @return [Faraday::Response] the response returned by Discord.
     def modify(name: nil, avatar: nil, channel_id: nil)
-      Faraday.patch(@url, {name: name, avatar: avatarise(avatar), channel_id: channel_id}.compact.to_json, content_type: :json)
+      Faraday.patch(
+        @url,
+        {name: name, avatar: avatarise(avatar), channel_id: channel_id}.compact.to_json,
+        {content_type: "application/json"}
+      )
     end
 
     # Delete this webhook.
@@ -69,7 +73,11 @@ module Rubycord::Webhooks
     # @return [Faraday::Response] the response returned by Discord.
     # @note This is permanent and cannot be undone.
     def delete(reason: nil)
-      Faraday.delete(@url, "X-Audit-Log-Reason": reason)
+      Faraday.delete(
+        @url,
+        nil,
+        {x_audit_log_reason: reason}
+      )
     end
 
     # Edit a message from this webhook.
@@ -94,7 +102,11 @@ module Rubycord::Webhooks
       yield builder if block_given?
 
       data = builder.to_json_hash.merge({content: content, embeds: embeds, allowed_mentions: allowed_mentions}.compact)
-      Faraday.patch("#{@url}/messages/#{message_id}", data.compact.to_json, content_type: :json)
+      Faraday.patch(
+        "#{@url}/messages/#{message_id}",
+        data.compact.to_json,
+        {content_type: "application/json"}
+      )
     end
 
     # Delete a message created by this webhook.
@@ -118,12 +130,19 @@ module Rubycord::Webhooks
 
     def post_json(builder, components, wait)
       data = builder.to_json_hash.merge({components: components.to_a})
-      Faraday.post(@url + (wait ? "?wait=true" : ""), data.to_json, content_type: :json)
+      Faraday.post(
+        @url + (wait ? "?wait=true" : ""),
+        data.to_json,
+        {content_type: "application/json"}
+      )
     end
 
     def post_multipart(builder, components, wait)
       data = builder.to_multipart_hash.merge({components: components.to_a})
-      Faraday.post(@url + (wait ? "?wait=true" : ""), data)
+      Faraday.post(
+        @url + (wait ? "?wait=true" : ""),
+        data
+      )
     end
 
     def generate_url(id, token)
