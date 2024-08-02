@@ -131,8 +131,8 @@ module Rubycord::API
       rescue Faraday::Error => e
         response = e.response
 
-        if response.body && !e.is_a?(Faraday::TooManyRequestsError)
-          data = JSON.parse(response.body)
+        if response[:body] && !e.is_a?(Faraday::TooManyRequestsError)
+          data = JSON.parse(response[:body])
           err_klass = Rubycord::Errors.error_class_for(data["code"] || 0)
           e = err_klass.new(data["message"], data["errors"])
 
@@ -150,18 +150,18 @@ module Rubycord::API
         raise e
       ensure
         if response
-          handle_preemptive_rl(response.headers, mutex, key) if response.headers[:x_ratelimit_remaining] == "0" && !mutex.locked?
+          handle_preemptive_rl(response.to_hash[:headers], mutex, key) if response.to_hash.dig(:headers, :x_ratelimit_remaining) == "0" && !mutex.locked?
         else
           Rubycord::LOGGER.ratelimit("Response was nil before trying to preemptively rate limit!")
         end
       end
     rescue Faraday::TooManyRequestsError => e
       # If the 429 is from the global RL, then we have to use the global mutex instead.
-      mutex = @global_mutex if e.response.headers[:x_ratelimit_global] == "true"
+      mutex = @global_mutex if e.response.dig(:headers, :x_ratelimit_global) == "true"
 
       unless mutex.locked?
         response = JSON.parse(e.response)
-        wait_seconds = response["retry_after"] ? response["retry_after"].to_f : e.response.headers[:retry_after].to_i
+        wait_seconds = response["retry_after"] ? response["retry_after"].to_f : e.response.dig(:headers, :retry_after).to_i
         Rubycord::LOGGER.ratelimit("Locking RL mutex (key: #{key}) for #{wait_seconds} seconds due to Discord rate limiting")
         trace("429 #{key.join(" ")}")
 
