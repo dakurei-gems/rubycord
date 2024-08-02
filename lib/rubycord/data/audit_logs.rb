@@ -31,21 +31,50 @@ module Rubycord
       60 => :emoji_create,
       61 => :emoji_update,
       62 => :emoji_delete,
-      # 70
-      # 71
       72 => :message_delete,
       73 => :message_bulk_delete,
       74 => :message_pin,
       75 => :message_unpin,
       80 => :integration_create,
       81 => :integration_update,
-      82 => :integration_delete
+      82 => :integration_delete,
+      83 => :stage_instance_create,
+      84 => :stage_instance_update,
+      85 => :stage_instance_delete,
+      90 => :sticker_create,
+      91 => :sticker_update,
+      92 => :sticker_delete,
+      100 => :server_scheduled_event_create,
+      101 => :server_scheduled_event_update,
+      102 => :server_scheduled_event_delete,
+      110 => :thread_create,
+      111 => :thread_update,
+      112 => :thread_delete,
+      121 => :application_command_permission_update,
+      140 => :auto_moderation_rule_create,
+      141 => :auto_moderation_rule_update,
+      142 => :auto_moderation_rule_delete,
+      143 => :auto_moderation_block_message,
+      144 => :auto_moderation_flag_to_channel,
+      145 => :auto_moderation_user_communication_disabled,
+      150 => :creator_monetization_request_created,
+      151 => :creator_monetization_terms_accepted,
+      163 => :onboarding_prompt_create,
+      164 => :onboarding_prompt_update,
+      165 => :onboarding_prompt_delete,
+      166 => :onboarding_create,
+      167 => :onboarding_update,
+      190 => :home_settings_create,
+      191 => :home_settings_update
     }.freeze
 
     # @!visibility private
     CREATE_ACTIONS = %i[
       channel_create channel_overwrite_create member_ban_add role_create
       invite_create webhook_create emoji_create integration_create
+      stage_instance_create sticker_create server_scheduled_event_create
+      thread_create auto_moderation_rule_create onboarding_prompt_create
+      onboarding_create home_settings_create
     ].freeze
 
     # @!visibility private
@@ -53,13 +82,18 @@ module Rubycord
       channel_delete channel_overwrite_delete member_kick member_prune
       member_ban_remove role_delete invite_delete webhook_delete
       emoji_delete message_delete message_bulk_delete integration_delete
+      stage_instance_delete sticker_delete server_scheduled_event_delete
+      thread_delete auto_moderation_rule_delete onboarding_prompt_delete
     ].freeze
 
     # @!visibility private
     UPDATE_ACTIONS = %i[
       server_update channel_update channel_overwrite_update member_update
       member_role_update role_update invite_update webhook_update
-      emoji_update integration_update
+      emoji_update integration_update stage_instance_update sticker_update
+      server_scheduled_event_update thread_update application_command_permission_update
+      auto_moderation_rule_update onboarding_prompt_update onboarding_update
+      home_settings_update
     ].freeze
 
     # @return [Hash<Integer => User>] the users included in the audit logs.
@@ -67,6 +101,25 @@ module Rubycord
 
     # @return [Hash<Integer => Webhook>] the webhooks included in the audit logs.
     attr_reader :webhooks
+
+    # @todo (not filled at this moment)
+    # @return [Hash] empty Hash
+    attr_reader :integrations
+
+    # @todo (not filled at this moment)
+    # @return [Hash] empty Hash
+    attr_reader :server_scheduled_events
+
+    # @return [Hash<Integer => Channel>] the threads included in the audit logs.
+    attr_reader :threads
+
+    # @todo (not filled at this moment)
+    # @return [Hash] empty Hash
+    attr_reader :application_commands
+
+    # @todo (not filled at this moment)
+    # @return [Hash] empty Hash
+    attr_reader :auto_moderation_rules
 
     # @return [Array<Entry>] the entries listed in the audit logs.
     attr_reader :entries
@@ -77,6 +130,11 @@ module Rubycord
       @server = server
       @users = {}
       @webhooks = {}
+      @integrations = {}
+      @server_scheduled_events = {}
+      @threads = {}
+      @application_commands = {}
+      @auto_moderation_rules = {}
       @entries = data["audit_log_entries"].map { |entry| Entry.new(self, @server, @bot, entry) }
 
       process_users(data["users"])
@@ -315,15 +373,24 @@ module Rubycord
     # @!visibility private
     def self.target_type_for(action)
       case action
-      when 1..9 then :server
-      when 10..19 then :channel
-      when 20..29 then :user
-      when 30..39 then :role
-      when 40..49 then :invite
-      when 50..59 then :webhook
-      when 60..69 then :emoji
-      when 70..79 then :message
-      when 80..89 then :integration
+      when 1 then :server
+      when 10..15 then :channel
+      when 20..28 then :user
+      when 30..32 then :role
+      when 40..42 then :invite
+      when 50..52 then :webhook
+      when 60..62 then :emoji
+      when 72..75 then :message
+      when 80..82 then :integration
+      # when 83..85 then :stage_instance
+      # when 90..92 then :sticker
+      # when 100..102 then :server_scheduled_event
+      when 110..112 then :channel
+      # when 121 then :application_command_permission
+      # when 140..145 then :auto_moderation
+      # when 150..151 then :creator_monetization
+      # when 163..167 then :onboarding
+      # when 190..191 then :home_settings
       else :unknown
       end
     end
