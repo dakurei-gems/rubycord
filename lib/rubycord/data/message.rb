@@ -24,6 +24,55 @@ module Rubycord
         (@flags & value).positive?
       end
     end
+
+    # Types of message's types mapped to their API value.
+    TYPES = {
+      default: 0,
+      recipient_add: 1,
+      recipient_remove: 2,
+      call: 3,
+      channel_name_change: 4,
+      channel_icon_change: 5,
+      channel_pinned_message: 6,
+      user_join: 7,
+      server_boost: 8,
+      server_boost_tier_1: 9,
+      server_boost_tier_2: 10,
+      server_boost_tier_3: 11,
+      channel_follow_add: 12,
+      server_discovery_disqualified: 14,
+      server_discovery_requalified: 15,
+      server_discovery_grace_period_initial_warning: 16,
+      server_discovery_grace_period_final_warning: 17,
+      thread_created: 18,
+      reply: 19,
+      chat_input_command: 20,
+      thread_starter_message: 21,
+      server_invite_reminder: 22,
+      context_menu_command: 23,
+      auto_moderation_action: 24,
+      role_subscription_purchase: 25,
+      interaction_premium_upsell: 26,
+      stage_start: 27,
+      stage_end: 28,
+      stage_speaker: 29,
+      stage_topic: 31,
+      server_application_premium_subscription: 32,
+      server_incident_alert_mode_enabled: 36,
+      server_incident_alert_mode_disabled: 37,
+      server_incident_report_raid: 38,
+      server_incident_report_false_alarm: 39,
+      purchase_notification: 44
+    }
+
+    # @return [Integer] type of message
+    attr_reader :type
+
+    TYPES.each do |name, value|
+      define_method(:"is_#{name}?") do
+        @type == value
+      end
+    end
   end
 
   # A message on Discord that was sent to a text channel
@@ -86,9 +135,6 @@ module Rubycord
     # @return [true, false] whether the message is pinned or not.
     attr_reader :pinned
     alias_method :pinned?, :pinned
-
-    # @return [Integer] what the type of the message is
-    attr_reader :type
 
     # @return [Server, nil] the server in which this message was sent.
     attr_reader :server
@@ -395,18 +441,6 @@ module Rubycord
     end
 
     alias_method :jump_link, :link
-
-    # Whether or not this message was sent in reply to another message
-    # @return [true, false]
-    def reply?
-      !@referenced_message.nil?
-    end
-
-    # Whether or not this message was of type "CHAT_INPUT_COMMAND"
-    # @return [true, false]
-    def chat_input_command?
-      @type == 20
-    end
 
     # @return [Message, nil] the Message this Message was sent in reply to.
     def referenced_message
