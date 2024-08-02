@@ -49,13 +49,12 @@ module Rubycord::API::Channel
   # Get a list of messages from a channel's history
   # https://discord.com/developers/docs/resources/channel#get-channel-messages
   def messages(token, channel_id, amount, before = nil, after = nil, around = nil)
-    query_string = URI.encode_www_form({limit: amount, before: before, after: after, around: around}.compact)
     Rubycord::API.request(
       :channels_cid_messages,
       channel_id,
       :get,
-      "#{Rubycord::API.api_base}/channels/#{channel_id}/messages?#{query_string}",
-      nil,
+      "#{Rubycord::API.api_base}/channels/#{channel_id}/messages",
+      {limit: amount, before: before, after: after, around: around}.compact,
       authorization: token
     )
   end
@@ -207,13 +206,12 @@ module Rubycord::API::Channel
   # https://discord.com/developers/docs/resources/channel#get-reactions
   def get_reactions(token, channel_id, message_id, emoji, before_id, after_id, limit = 100)
     emoji = URI.encode_www_form_component(emoji) unless emoji.ascii_only?
-    query_string = URI.encode_www_form({limit: limit || 100, before: before_id, after: after_id}.compact)
     Rubycord::API.request(
       :channels_cid_messages_mid_reactions_emoji,
       channel_id,
       :get,
-      "#{Rubycord::API.api_base}/channels/#{channel_id}/messages/#{message_id}/reactions/#{emoji}?#{query_string}",
-      nil,
+      "#{Rubycord::API.api_base}/channels/#{channel_id}/messages/#{message_id}/reactions/#{emoji}",
+      {limit: limit || 100, before: before_id, after: after_id}.compact,
       authorization: token
     )
   end
@@ -548,14 +546,12 @@ module Rubycord::API::Channel
   # Get the members of a thread.
   # https://discord.com/developers/docs/resources/channel#list-thread-members
   def list_thread_members(token, channel_id, before, limit)
-    query = URI.encode_www_form({before: before, limit: limit}.compact)
-
     Rubycord::API.request(
       :channels_cid_thread_members,
       channel_id,
       :get,
-      "#{Rubycord::API.api_base}/channels/#{channel_id}/thread-members?#{query}",
-      nil,
+      "#{Rubycord::API.api_base}/channels/#{channel_id}/thread-members",
+      {before: before, limit: limit}.compact,
       authorization: token
     )
   end
@@ -576,14 +572,12 @@ module Rubycord::API::Channel
   # List public archived threads.
   # https://discord.com/developers/docs/resources/channel#list-public-archived-threads
   def list_public_archived_threads(token, channel_id, before = nil, limit = nil)
-    query = URI.encode_www_form({before: before, limit: limit}.compact)
-
     Rubycord::API.request(
       :channels_cid_threads_archived_public,
       channel_id,
       :get,
-      "#{Rubycord::API.api_base}/channels/#{channel_id}/threads/archived/public?#{query}",
-      nil,
+      "#{Rubycord::API.api_base}/channels/#{channel_id}/threads/archived/public",
+      {before: before, limit: limit}.compact,
       authorization: token
     )
   end
@@ -591,14 +585,12 @@ module Rubycord::API::Channel
   # List private archived threads.
   # https://discord.com/developers/docs/resources/channel#list-private-archived-threads
   def list_private_archived_threads(token, channel_id, before = nil, limit = nil)
-    query = URI.encode_www_form({before: before, limit: limit}.compact)
-
     Rubycord::API.request(
       :channels_cid_threads_archived_private,
       channel_id,
       :get,
-      "#{Rubycord::API.api_base}/channels/#{channel_id}/threads/archived/private?#{query}",
-      nil,
+      "#{Rubycord::API.api_base}/channels/#{channel_id}/threads/archived/private",
+      {before: before, limit: limit}.compact,
       authorization: token
     )
   end
@@ -606,14 +598,12 @@ module Rubycord::API::Channel
   # List joined private archived threads.
   # https://discord.com/developers/docs/resources/channel#list-joined-private-archived-threads
   def list_joined_private_archived_threads(token, channel_id, before = nil, limit = nil)
-    query = URI.encode_www_form({before: before, limit: limit}.compact)
-
     Rubycord::API.request(
       :channels_cid_users_me_threads_archived_private,
       channel_id,
       :get,
-      "#{Rubycord::API.api_base}/channels/#{channel_id}/users/@me/threads/archived/private?#{query}",
-      nil,
+      "#{Rubycord::API.api_base}/channels/#{channel_id}/users/@me/threads/archived/private",
+      {before: before, limit: limit}.compact,
       authorization: token
     )
   end

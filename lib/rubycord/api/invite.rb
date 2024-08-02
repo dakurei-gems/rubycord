@@ -9,8 +9,8 @@ module Rubycord::API::Invite
       :invite_code,
       nil,
       :get,
-      "#{Rubycord::API.api_base}/invites/#{invite_code}#{counts ? "?with_counts=true" : ""}",
-      nil,
+      "#{Rubycord::API.api_base}/invites/#{invite_code}",
+      {with_counts: counts.is_a?(TrueClass) ? true : nil}.compact,
       authorization: token
     )
   end
