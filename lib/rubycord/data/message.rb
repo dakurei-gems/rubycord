@@ -2,6 +2,7 @@ module Rubycord
   # Mixin for the attributes messages should have
   module MessageAttributes
     # Types of message's flags mapped to their API value.
+    #   List of flags available here: https://discord.com/developers/docs/resources/message#message-object-message-flags
     FLAGS = {
       crossposted: 1 << 0,             # this message has been published to subscribed channels (via Channel Following)
       is_crosspost: 1 << 1,            # this message originated from a message in another channel (via Channel Following)
@@ -19,6 +20,28 @@ module Rubycord
     # @return [Integer] message flags combined as a bitfield.
     attr_reader :flags
 
+    # @!method crossposted?
+    #   @return [true, false] whether this message has flag CROSSPOSTED.
+    # @!method is_crosspost?
+    #   @return [true, false] whether this message has flag IS_CROSSPOST.
+    # @!method suppress_embeds?
+    #   @return [true, false] whether this message has flag SUPPRESS_EMBEDS.
+    # @!method source_message_deleted?
+    #   @return [true, false] whether this message has flag SOURCE_MESSAGE_DELETED.
+    # @!method urgent?
+    #   @return [true, false] whether this message has flag URGENT.
+    # @!method has_thread?
+    #   @return [true, false] whether this message has flag HAS_THREAD.
+    # @!method ephemeral?
+    #   @return [true, false] whether this message has flag EPHEMERAL.
+    # @!method loading?
+    #   @return [true, false] whether this message has flag LOADING.
+    # @!method failed_mention_roles?
+    #   @return [true, false] whether this message has flag FAILED_TO_MENTION_SOME_ROLES_IN_THREAD.
+    # @!method suppress_notifications?
+    #   @return [true, false] whether this message has flag SUPPRESS_NOTIFICATIONS.
+    # @!method is_voice_message?
+    #   @return [true, false] whether this message has flag IS_VOICE_MESSAGE.
     FLAGS.each do |name, value|
       define_method(:"#{name}?") do
         (@flags & value).positive?
@@ -26,48 +49,121 @@ module Rubycord
     end
 
     # Types of message's types mapped to their API value.
+    #   List of types available here: https://discord.com/developers/docs/resources/message#message-object-message-types
     TYPES = {
-      default: 0,
-      recipient_add: 1,
-      recipient_remove: 2,
-      call: 3,
-      channel_name_change: 4,
-      channel_icon_change: 5,
-      channel_pinned_message: 6,
-      user_join: 7,
-      server_boost: 8,
-      server_boost_tier_1: 9,
-      server_boost_tier_2: 10,
-      server_boost_tier_3: 11,
-      channel_follow_add: 12,
-      server_discovery_disqualified: 14,
-      server_discovery_requalified: 15,
-      server_discovery_grace_period_initial_warning: 16,
-      server_discovery_grace_period_final_warning: 17,
-      thread_created: 18,
-      reply: 19,
-      chat_input_command: 20,
-      thread_starter_message: 21,
-      server_invite_reminder: 22,
-      context_menu_command: 23,
-      auto_moderation_action: 24,
-      role_subscription_purchase: 25,
-      interaction_premium_upsell: 26,
-      stage_start: 27,
-      stage_end: 28,
-      stage_speaker: 29,
-      stage_topic: 31,
-      server_application_premium_subscription: 32,
-      server_incident_alert_mode_enabled: 36,
-      server_incident_alert_mode_disabled: 37,
-      server_incident_report_raid: 38,
-      server_incident_report_false_alarm: 39,
-      purchase_notification: 44
+      default: 0,                                        # Deletable
+      recipient_add: 1,                                  # Not Deletable
+      recipient_remove: 2,                               # Not Deletable
+      call: 3,                                           # Not Deletable
+      channel_name_change: 4,                            # Not Deletable
+      channel_icon_change: 5,                            # Not Deletable
+      channel_pinned_message: 6,                         # Deletable
+      user_join: 7,                                      # Deletable
+      server_boost: 8,                                   # Deletable
+      server_boost_tier_1: 9,                            # Deletable
+      server_boost_tier_2: 10,                           # Deletable
+      server_boost_tier_3: 11,                           # Deletable
+      channel_follow_add: 12,                            # Deletable
+      server_discovery_disqualified: 14,                 # Deletable
+      server_discovery_requalified: 15,                  # Deletable
+      server_discovery_grace_period_initial_warning: 16, # Deletable
+      server_discovery_grace_period_final_warning: 17,   # Deletable
+      thread_created: 18,                                # Deletable
+      reply: 19,                                         # Deletable
+      chat_input_command: 20,                            # Deletable
+      thread_starter_message: 21,                        # Not Deletable
+      server_invite_reminder: 22,                        # Deletable
+      context_menu_command: 23,                          # Deletable
+      auto_moderation_action: 24,                        # Deletable (Only with MANAGE_MESSAGES permission)
+      role_subscription_purchase: 25,                    # Deletable
+      interaction_premium_upsell: 26,                    # Deletable
+      stage_start: 27,                                   # Deletable
+      stage_end: 28,                                     # Deletable
+      stage_speaker: 29,                                 # Deletable
+      stage_topic: 31,                                   # Deletable
+      server_application_premium_subscription: 32,       # Deletable
+      server_incident_alert_mode_enabled: 36,            # Deletable
+      server_incident_alert_mode_disabled: 37,           # Deletable
+      server_incident_report_raid: 38,                   # Deletable
+      server_incident_report_false_alarm: 39,            # Deletable
+      purchase_notification: 44                          # Deletable
     }
 
     # @return [Integer] type of message
     attr_reader :type
 
+    # @!method is_default?
+    #   @return [true, false] whether this message is a DEFAULT type.
+    # @!method is_recipient_add?
+    #   @return [true, false] whether this message is a RECIPIENT_ADD type.
+    # @!method is_recipient_remove?
+    #   @return [true, false] whether this message is a RECIPIENT_REMOVE type.
+    # @!method is_call?
+    #   @return [true, false] whether this message is a CALL type.
+    # @!method is_channel_name_change?
+    #   @return [true, false] whether this message is a CHANNEL_NAME_CHANGE type.
+    # @!method is_channel_icon_change?
+    #   @return [true, false] whether this message is a CHANNEL_ICON_CHANGE type.
+    # @!method is_channel_pinned_message?
+    #   @return [true, false] whether this message is a CHANNEL_PINNED_MESSAGE type.
+    # @!method is_user_join?
+    #   @return [true, false] whether this message is a USER_JOIN type.
+    # @!method is_server_boost?
+    #   @return [true, false] whether this message is a GUILD_BOOST type.
+    # @!method is_server_boost_tier_1?
+    #   @return [true, false] whether this message is a GUILD_BOOST_TIER_1 type.
+    # @!method is_server_boost_tier_2?
+    #   @return [true, false] whether this message is a GUILD_BOOST_TIER_2 type.
+    # @!method is_server_boost_tier_3?
+    #   @return [true, false] whether this message is a GUILD_BOOST_TIER_3 type.
+    # @!method is_channel_follow_add?
+    #   @return [true, false] whether this message is a CHANNEL_FOLLOW_ADD type.
+    # @!method is_server_discovery_disqualified?
+    #   @return [true, false] whether this message is a GUILD_DISCOVERY_DISQUALIFIED type.
+    # @!method is_server_discovery_requalified?
+    #   @return [true, false] whether this message is a GUILD_DISCOVERY_REQUALIFIED type.
+    # @!method is_server_discovery_grace_period_initial_warning?
+    #   @return [true, false] whether this message is a GUILD_DISCOVERY_GRACE_PERIOD_INITIAL_WARNING type.
+    # @!method is_server_discovery_grace_period_final_warning?
+    #   @return [true, false] whether this message is a GUILD_DISCOVERY_GRACE_PERIOD_FINAL_WARNING type.
+    # @!method is_thread_created?
+    #   @return [true, false] whether this message is a THREAD_CREATED type.
+    # @!method is_reply?
+    #   @return [true, false] whether this message is a REPLY type.
+    # @!method is_chat_input_command?
+    #   @return [true, false] whether this message is a CHAT_INPUT_COMMAND type.
+    # @!method is_thread_starter_message?
+    #   @return [true, false] whether this message is a THREAD_STARTER_MESSAGE type.
+    # @!method is_server_invite_reminder?
+    #   @return [true, false] whether this message is a GUILD_INVITE_REMINDER type.
+    # @!method is_context_menu_command?
+    #   @return [true, false] whether this message is a CONTEXT_MENU_COMMAND type.
+    # @!method is_auto_moderation_action?
+    #   @return [true, false] whether this message is a AUTO_MODERATION_ACTION type.
+    # @!method is_role_subscription_purchase?
+    #   @return [true, false] whether this message is a ROLE_SUBSCRIPTION_PURCHASE type.
+    # @!method is_interaction_premium_upsell?
+    #   @return [true, false] whether this message is a INTERACTION_PREMIUM_UPSELL type.
+    # @!method is_stage_start?
+    #   @return [true, false] whether this message is a STAGE_START type.
+    # @!method is_stage_end?
+    #   @return [true, false] whether this message is a STAGE_END type.
+    # @!method is_stage_speaker?
+    #   @return [true, false] whether this message is a STAGE_SPEAKER type.
+    # @!method is_stage_topic?
+    #   @return [true, false] whether this message is a STAGE_TOPIC type.
+    # @!method is_server_application_premium_subscription?
+    #   @return [true, false] whether this message is a GUILD_APPLICATION_PREMIUM_SUBSCRIPTION type.
+    # @!method is_server_incident_alert_mode_enabled?
+    #   @return [true, false] whether this message is a GUILD_INCIDENT_ALERT_MODE_ENABLED type.
+    # @!method is_server_incident_alert_mode_disabled?
+    #   @return [true, false] whether this message is a GUILD_INCIDENT_ALERT_MODE_DISABLED type.
+    # @!method is_server_incident_report_raid?
+    #   @return [true, false] whether this message is a GUILD_INCIDENT_REPORT_RAID type.
+    # @!method is_server_incident_report_false_alarm?
+    #   @return [true, false] whether this message is a GUILD_INCIDENT_REPORT_FALSE_ALARM type.
+    # @!method is_purchase_notification?
+    #   @return [true, false] whether this message is a PURCHASE_NOTIFICATION type.
     TYPES.each do |name, value|
       define_method(:"is_#{name}?") do
         @type == value
