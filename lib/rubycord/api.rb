@@ -27,7 +27,7 @@ module Rubycord::API
 
   module_function
 
-  # @return [Faraday::Connection] to make HTTP requests with configured Faraday
+  # @return [Faraday::Connection] the Faraday connection to make HTTP requests with configured Faraday
   def client
     @client ||= Faraday.new do |faraday|
       faraday.response :raise_error
@@ -95,6 +95,8 @@ module Rubycord::API
   # Performs a Faraday request.
   # @param type [Symbol] The type of HTTP request to use.
   # @param attributes [Array] The attributes for the request.
+  #   GET, HEAD, DELETE, TRACE: (url, params = nil, headers = nil)
+  #   POST, PUT, PATCH: (url, body = nil, headers = nil)
   def raw_request(type, attributes)
     client.send(type, *attributes)
   rescue Faraday::ForbiddenError => e
