@@ -100,7 +100,7 @@ module Rubycord::API
   rescue Faraday::ForbiddenError => e
     # HACK: for #request, dynamically inject faraday's response into NoPermission - this allows us to rate limit
     noprm = Rubycord::Errors::NoPermission.new
-    noprm.define_singleton_method(:_rc_response) { e.response }
+    noprm.define_singleton_method(:_frd_response) { e.response }
     raise noprm, "The bot doesn't have the required permission to do this!"
   rescue Faraday::ServerError
     Rubycord::LOGGER.warn("Got a 5xx while sending a request! Not a big deal, retrying the request")
@@ -141,10 +141,10 @@ module Rubycord::API
 
         raise e
       rescue Rubycord::Errors::NoPermission => e
-        if e.respond_to?(:_rc_response)
-          response = e._rc_response
+        if e.respond_to?(:_frd_response)
+          response = e._frd_response
         else
-          Rubycord::LOGGER.warn("NoPermission doesn't respond_to? _rc_response!")
+          Rubycord::LOGGER.warn("NoPermission doesn't respond_to? _frd_response!")
         end
 
         raise e
