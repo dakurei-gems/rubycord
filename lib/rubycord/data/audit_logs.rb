@@ -139,6 +139,7 @@ module Rubycord
 
       process_users(data["users"])
       process_webhooks(data["webhooks"])
+      process_threads(data["threads"])
     end
 
     # An entry in a server's audit logs.
@@ -365,6 +366,16 @@ module Rubycord
       webhooks.each do |element|
         webhook = Webhook.new(element, @bot)
         @webhooks[webhook.id] = webhook
+      end
+    end
+
+    # Process thread objects given by the request
+    # @note For internal use only
+    # @!visibility private
+    def process_threads(threads)
+      threads.each do |element|
+        thread = Channel.new(element, @bot)
+        @threads[thread.id] = thread
       end
     end
 
