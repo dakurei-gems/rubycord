@@ -65,10 +65,6 @@ module Discordrb
     # @return [String, nil] base64 encoded bytearray representing a sampled waveform (currently for voice messages).
     attr_reader :waveform
 
-    # @return [true, false] whether this attachment is ephemeral.
-    attr_reader :ephemeral
-    alias_method :ephemeral?, :ephemeral
-
     # @!visibility private
     def initialize(data, message, bot)
       @bot = bot
@@ -103,6 +99,11 @@ module Discordrb
     # @return [true, false] whether this file is an audio file.
     def audio?
       !@duration_secs.nil?
+    end
+
+    # @return [true, false] whether this attachment is ephemeral.
+    def ephemeral?
+      @ephemeral
     end
   end
 end
