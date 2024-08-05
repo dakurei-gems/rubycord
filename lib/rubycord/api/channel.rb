@@ -105,13 +105,26 @@ module Rubycord::API::Channel
 
   # Send a file as a message to a channel
   # https://discord.com/developers/docs/resources/channel#upload-file
-  def upload_file(token, channel_id, file, caption: nil, tts: false)
+  def upload_file(token, channel_id, file, caption: nil, tts: false, filename: nil)
+    payload = {
+      files: [
+        Faraday::Multipart::FilePart.new(file, "application/octet-stream", filename)
+      ]
+    }
+
+    if caption || tts
+      payload[:payload_json] = Faraday::Multipart::ParamPart.new(
+        {content: caption, tts: tts}.to_json,
+        "application/json"
+      )
+    end
+
     Rubycord::API.request(
       :channels_cid_messages_mid,
       channel_id,
       :post,
       "#{Rubycord::API.api_base}/channels/#{channel_id}/messages",
-      {file: file, content: caption, tts: tts},
+      payload,
       authorization: token
     )
   end

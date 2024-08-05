@@ -454,7 +454,7 @@ module Rubycord
       end
 
       channel = channel.resolve_id
-      response = API::Channel.upload_file(token, channel, file, caption: caption, tts: tts)
+      response = API::Channel.upload_file(token, channel, file, caption: caption, tts: tts, filename: filename)
       Message.new(JSON.parse(response), self)
     end
 
