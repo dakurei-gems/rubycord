@@ -221,10 +221,13 @@ module Rubycord
     # @return [Array<Component>]
     attr_reader :components
 
+    # @return [Integer, nil] the approximate position of the message in a thread, or `nil` if it wasn't sent in a thread.
+    attr_reader :position
+
     # Missings fields:
     # activity, application, application_id, message_snapshots, interaction_metadata,
-    # interaction, thread, sticker_items, stickers, position, role_subscription_data,
-    # resolved, poll, call
+    # interaction, thread, sticker_items, stickers, role_subscription_data, resolved,
+    # poll, call
 
     # @return [Server, nil] the server in which this message was sent.
     attr_reader :server
@@ -293,6 +296,8 @@ module Rubycord
       @referenced_message = data["referenced_message"] ? Message.new(data["referenced_message"], @bot) : nil
 
       @components = (data["components"] || [])&.inject([]) { |a, e| a << Components.from_data(e, @bot) }
+
+      @position = data["position"]
 
       # Dynamics
       @server = @channel.server
