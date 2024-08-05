@@ -18,6 +18,10 @@ describe Rubycord::Message do
     allow(server_id).to receive(:to_s).and_return("server_id")
     allow(channel_id).to receive(:to_s).and_return("channel_id")
 
+    allow(server_id).to receive(:resolve_id).and_return(server_id)
+    allow(channel_id).to receive(:resolve_id).and_return(channel_id)
+    allow(message_id).to receive(:resolve_id).and_return(message_id)
+
     allow(server).to receive(:id).and_return(server_id)
     allow(channel).to receive(:id).and_return(channel_id)
     allow(bot).to receive(:server).with(server_id).and_return(server)
