@@ -200,6 +200,9 @@ module Rubycord
     # @return [Array<Role>] the roles that were mentioned in this message.
     attr_reader :mention_roles
 
+    # @return [Array<Channel>] the channels that were mentioned in this message.
+    attr_reader :mention_channels
+
     # @return [Array<Attachment>] the files attached to this message.
     attr_reader :attachments
 
@@ -219,9 +222,9 @@ module Rubycord
     attr_reader :components
 
     # Missings fields:
-    # mention_channels, activity, application, application_id, message_reference
-    # message_snapshots, interaction_metadata, interaction, thread, sticker_items
-    # stickers, position, role_subscription_data, resolved, poll, call
+    # activity, application, application_id, message_snapshots, interaction_metadata,
+    # interaction, thread, sticker_items, stickers, position, role_subscription_data,
+    # resolved, poll, call
 
     # @return [Server, nil] the server in which this message was sent.
     attr_reader :server
@@ -273,6 +276,7 @@ module Rubycord
 
       @mentions = (data["mentions"] || [])&.inject([]) { |a, e| a << @bot.ensure_user(e) }
       @mention_roles = (data["mention_roles"] || [])&.inject([]) { |a, e| a << @channel&.server&.role(e.resolve_id) }&.compact
+      @mention_channels = (data["mention_channels"] || [])&.inject([]) { |a, e| a << Channel.new(e, @bot) }&.compact
 
       @attachments = (data["attachments"] || [])&.inject([]) { |a, e| a << Attachment.new(e, self, @bot) }
       @embeds = (data["embeds"] || [])&.inject([]) { |a, e| a << Embed.new(e, self) }
