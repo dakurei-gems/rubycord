@@ -179,15 +179,13 @@ module Rubycord
     # @return [Channel] the channel in which this message was sent.
     attr_reader :channel
 
-    # @return [Member, User] the user that sent this message. (Will be a {Member} most of the time, it should only be a
-    #   {User} for old messages when the author has left the server since then)
+    # @return [Member, User, Recipient] the user that sent this message. (Will be a {Member} most of the time, it should only be a
+    #   {User} for old messages when the author has left the server since then, also can be a {Recipient} in private channel)
     attr_reader :author
     alias_method :user, :author
-    alias_method :writer, :author
 
     # @return [String] the content of this message.
     attr_reader :content
-    alias_method :text, :content
     alias_method :to_s, :content
 
     # @return [Time] the timestamp at which this message was sent.
@@ -195,22 +193,12 @@ module Rubycord
 
     # @return [Time] the timestamp at which this message was edited. `nil` if the message was never edited.
     attr_reader :edited_timestamp
-    alias_method :edit_timestamp, :edited_timestamp
-
-    # @return [true, false] whether the message used Text-To-Speech (TTS) or not.
-    attr_reader :tts
-    alias_method :tts?, :tts
-
-    # @return [true, false] whether the message mentioned everyone or not.
-    attr_reader :mention_everyone
-    alias_method :mention_everyone?, :mention_everyone
-    alias_method :mentions_everyone?, :mention_everyone
 
     # @return [Array<User>] the users that were mentioned in this message.
     attr_reader :mentions
 
     # @return [Array<Role>] the roles that were mentioned in this message.
-    attr_reader :role_mentions
+    attr_reader :mention_roles
 
     # @return [Array<Attachment>] the files attached to this message.
     attr_reader :attachments
@@ -223,10 +211,6 @@ module Rubycord
 
     # @return [String] used for validating a message was sent.
     attr_reader :nonce
-
-    # @return [true, false] whether the message is pinned or not.
-    attr_reader :pinned
-    alias_method :pinned?, :pinned
 
     # @return [Integer, nil] the webhook ID that sent this message, or `nil` if it wasn't sent through a webhook.
     attr_reader :webhook_id
@@ -288,7 +272,7 @@ module Rubycord
       @mention_everyone = data["mention_everyone"]
 
       @mentions = (data["mentions"] || [])&.inject([]) { |a, e| a << @bot.ensure_user(e) }
-      @role_mentions = (data["mention_roles"] || [])&.inject([]) { |a, e| a << @channel&.server&.role(e.resolve_id) }&.compact
+      @mention_roles = (data["mention_roles"] || [])&.inject([]) { |a, e| a << @channel&.server&.role(e.resolve_id) }&.compact
 
       @attachments = (data["attachments"] || [])&.inject([]) { |a, e| a << Attachment.new(e, self, @bot) }
       @embeds = (data["embeds"] || [])&.inject([]) { |a, e| a << Embed.new(e, self) }
@@ -410,6 +394,21 @@ module Rubycord
     # @return [true, false] whether the message was edited or not.
     def edited?
       !@edited_timestamp.nil?
+    end
+
+    # @return [true, false] whether the message used Text-To-Speech (TTS) or not.
+    def tts?
+      @tts
+    end
+
+    # @return [true, false] whether the message mentioned everyone or not.
+    def mention_everyone?
+      @mention_everyone
+    end
+
+    # @return [true, false] whether the message is pinned or not.
+    def pinned?
+      @pinned
     end
 
     # @return [true, false] whether this message has been sent over a webhook.
