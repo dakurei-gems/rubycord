@@ -176,10 +176,8 @@ module Rubycord
     include IDObject
     include MessageAttributes
 
-    # @return [String] the content of this message.
-    attr_reader :content
-    alias_method :text, :content
-    alias_method :to_s, :content
+    # @return [Channel] the channel in which this message was sent.
+    attr_reader :channel
 
     # @return [Member, User] the user that sent this message. (Will be a {Member} most of the time, it should only be a
     #   {User} for old messages when the author has left the server since then)
@@ -187,8 +185,10 @@ module Rubycord
     alias_method :user, :author
     alias_method :writer, :author
 
-    # @return [Channel] the channel in which this message was sent.
-    attr_reader :channel
+    # @return [String] the content of this message.
+    attr_reader :content
+    alias_method :text, :content
+    alias_method :to_s, :content
 
     # @return [Time] the timestamp at which this message was sent.
     attr_reader :timestamp
@@ -196,6 +196,15 @@ module Rubycord
     # @return [Time] the timestamp at which this message was edited. `nil` if the message was never edited.
     attr_reader :edited_timestamp
     alias_method :edit_timestamp, :edited_timestamp
+
+    # @return [true, false] whether the message used Text-To-Speech (TTS) or not.
+    attr_reader :tts
+    alias_method :tts?, :tts
+
+    # @return [true, false] whether the message mentioned everyone or not.
+    attr_reader :mention_everyone
+    alias_method :mention_everyone?, :mention_everyone
+    alias_method :mentions_everyone?, :mention_everyone
 
     # @return [Array<User>] the users that were mentioned in this message.
     attr_reader :mentions
@@ -212,28 +221,12 @@ module Rubycord
     # @return [Array<Reaction>] the reaction objects contained in this message.
     attr_reader :reactions
 
-    # @return [true, false] whether the message used Text-To-Speech (TTS) or not.
-    attr_reader :tts
-    alias_method :tts?, :tts
-
     # @return [String] used for validating a message was sent.
     attr_reader :nonce
-
-    # @return [true, false] whether the message was edited or not.
-    attr_reader :edited
-    alias_method :edited?, :edited
-
-    # @return [true, false] whether the message mentioned everyone or not.
-    attr_reader :mention_everyone
-    alias_method :mention_everyone?, :mention_everyone
-    alias_method :mentions_everyone?, :mention_everyone
 
     # @return [true, false] whether the message is pinned or not.
     attr_reader :pinned
     alias_method :pinned?, :pinned
-
-    # @return [Server, nil] the server in which this message was sent.
-    attr_reader :server
 
     # @return [Integer, nil] the webhook ID that sent this message, or `nil` if it wasn't sent through a webhook.
     attr_reader :webhook_id
@@ -241,26 +234,23 @@ module Rubycord
     # @return [Array<Component>]
     attr_reader :components
 
+    # Missings fields:
+    # mention_channels, activity, application, application_id, message_reference
+    # message_snapshots, interaction_metadata, interaction, thread, sticker_items
+    # stickers, position, role_subscription_data, resolved, poll, call
+
+    # @return [Server, nil] the server in which this message was sent.
+    attr_reader :server
+
     # @!visibility private
     def initialize(data, bot)
       @bot = bot
-      @content = data["content"]
-      @channel = bot.channel(data["channel_id"].to_i)
-      @pinned = data["pinned"]
-      @type = data["type"]
-      @tts = data["tts"]
-      @nonce = data["nonce"]
-      @mention_everyone = data["mention_everyone"]
 
-      @referenced_message = Message.new(data["referenced_message"], bot) if data["referenced_message"]
-      @message_reference = data["message_reference"]
+      @id = data["id"].resolve_id
 
-      @server = @channel.server
-
-      @webhook_id = data["webhook_id"]&.to_i
-
+      @channel = @bot.channel(data["channel_id"].resolve_id)
       @author = if data["author"]
-        if @webhook_id
+        if data["webhook_id"]
           # This is a webhook user! It would be pointless to try to resolve a member here, so we just create
           # a User and return that instead.
           Rubycord::LOGGER.debug("Webhook user: #{data["author"]["id"]}")
@@ -268,9 +258,9 @@ module Rubycord
         elsif @channel.private?
           # Turn the message user into a recipient - we can't use the channel recipient
           # directly because the bot may also send messages to the channel
-          Recipient.new(bot.user(data["author"]["id"].to_i), @channel, bot)
+          Recipient.new(@bot.user(data["author"]["id"].resolve_id), @channel, @bot)
         else
-          member = @channel.server.member(data["author"]["id"].to_i)
+          member = @channel.server.member(data["author"]["id"].resolve_id)
 
           if member
             member.update_data(data["member"]) if data["member"]
@@ -279,7 +269,7 @@ module Rubycord
             Rubycord::LOGGER.debug("Member with ID #{data["author"]["id"]} not cached (possibly left the server).")
             member = if data["member"]
               member_data = data["author"].merge(data["member"])
-              Member.new(member_data, @server, bot)
+              Member.new(member_data, @channel.server, @bot)
             else
               @bot.ensure_user(data["author"])
             end
@@ -289,44 +279,36 @@ module Rubycord
         end
       end
 
+      @content = data["content"]
+
       @timestamp = Time.parse(data["timestamp"]) if data["timestamp"]
       @edited_timestamp = data["edited_timestamp"].nil? ? nil : Time.parse(data["edited_timestamp"])
-      @edited = !@edited_timestamp.nil?
-      @id = data["id"].to_i
 
-      @emoji = []
+      @tts = data["tts"]
+      @mention_everyone = data["mention_everyone"]
 
-      @reactions = []
+      @mentions = (data["mentions"] || [])&.inject([]) { |a, e| a << @bot.ensure_user(e) }
+      @role_mentions = (data["mention_roles"] || [])&.inject([]) { |a, e| a << @channel&.server&.role(e.resolve_id) }&.compact
 
-      data["reactions"]&.each do |element|
-        @reactions << Reaction.new(element)
-      end
+      @attachments = (data["attachments"] || [])&.inject([]) { |a, e| a << Attachment.new(e, self, @bot) }
+      @embeds = (data["embeds"] || [])&.inject([]) { |a, e| a << Embed.new(e, self) }
 
-      @mentions = []
+      @reactions = (data["reactions"] || [])&.inject([]) { |a, e| a << Reaction.new(e) }
 
-      data["mentions"]&.each do |element|
-        @mentions << bot.ensure_user(element)
-      end
-
-      @role_mentions = []
-
-      # Role mentions can only happen on public servers so make sure we only parse them there
-      if @channel.text?
-        data["mention_roles"]&.each do |element|
-          @role_mentions << @channel.server.role(element.to_i)
-        end
-      end
-
-      @attachments = []
-      @attachments = data["attachments"].map { |e| Attachment.new(e, self, @bot) } if data["attachments"]
-
-      @embeds = []
-      @embeds = data["embeds"].map { |e| Embed.new(e, self) } if data["embeds"]
-
-      @components = []
-      @components = data["components"].map { |component_data| Components.from_data(component_data, @bot) } if data["components"]
-
+      @nonce = data["nonce"]
+      @pinned = data["pinned"]
+      @webhook_id = data["webhook_id"]&.resolve_id
+      @type = data["type"]
       @flags = data["flags"].to_i
+
+      @message_reference = data["message_reference"]
+      @referenced_message = data["referenced_message"] ? Message.new(data["referenced_message"], @bot) : nil
+
+      @components = (data["components"] || [])&.inject([]) { |a, e| a << Components.from_data(e, @bot) }
+
+      # Dynamics
+      @server = @channel.server
+      @emoji = []
     end
 
     # Replies to this message with the specified content.
@@ -423,6 +405,11 @@ module Rubycord
     # @return [true, false] whether this message was sent by the current {Bot}.
     def from_bot?
       @author&.current_bot?
+    end
+
+    # @return [true, false] whether the message was edited or not.
+    def edited?
+      !@edited_timestamp.nil?
     end
 
     # @return [true, false] whether this message has been sent over a webhook.
