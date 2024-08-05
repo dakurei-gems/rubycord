@@ -32,6 +32,7 @@ module Rubycord::API
   def client
     @client ||= Faraday.new do |faraday|
       faraday.response :raise_error
+      faraday.request :multipart
     end
   end
 
