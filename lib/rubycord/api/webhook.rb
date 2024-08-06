@@ -29,21 +29,34 @@ module Rubycord::API::Webhook
   # Execute a webhook via token.
   # https://discord.com/developers/docs/resources/webhook#execute-webhook
   def token_execute_webhook(webhook_token, webhook_id, wait = false, content = nil, username = nil, avatar_url = nil, tts = nil, file = nil, embeds = nil, allowed_mentions = nil, flags = nil, components = nil)
-    body = {content: content, username: username, avatar_url: avatar_url, tts: tts, embeds: embeds&.map(&:to_hash), allowed_mentions: allowed_mentions, flags: flags, components: components}
-    body = if file
-      {file: file, payload_json: body.to_json}
-    else
-      body.to_json
-    end
+    headers = {}
 
-    headers = {content_type: "application/json"} unless file
+    payload_json = {
+      content: content, username: username, avatar_url: avatar_url, tts: tts,
+      embeds: embeds&.map(&:to_hash), allowed_mentions: allowed_mentions, flags: flags,
+      components: components
+    }.to_json
+
+    payload = if file
+      multipart_payload = {}
+
+      multipart_payload[0] = Faraday::Multipart::FilePart.new(file, "application/octet-stream")
+
+      multipart_payload[:payload_json] = Faraday::Multipart::ParamPart.new(payload_json, "application/json")
+
+      multipart_payload
+    else
+      headers[:content_type] = "application/json"
+
+      payload_json
+    end
 
     Rubycord::API.request(
       :webhooks_wid,
       webhook_id,
       :post,
       "#{Rubycord::API.api_base}/webhooks/#{webhook_id}/#{webhook_token}?wait=#{wait}",
-      body,
+      payload,
       **headers
     )
   end
