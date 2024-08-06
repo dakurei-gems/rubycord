@@ -77,23 +77,35 @@ module Rubycord::API::Channel
   # @param attachments [Array<File>, nil] Attachments to use with `attachment://` in embeds. See
   #   https://discord.com/developers/docs/resources/channel#create-message-using-attachments-within-embeds
   def create_message(token, channel_id, message, tts = false, embeds = nil, nonce = nil, attachments = nil, allowed_mentions = nil, message_reference = nil, components = nil)
-    body = {content: message, tts: tts, embeds: embeds, nonce: nonce, allowed_mentions: allowed_mentions, message_reference: message_reference, components: components&.to_a}
-    body = if attachments
-      files = [*0...attachments.size].zip(attachments).to_h
-      {**files, payload_json: body.to_json}
-    else
-      body.to_json
-    end
+    files = [attachments].flatten.compact
 
     headers = {authorization: token}
-    headers[:content_type] = "application/json" unless attachments
+
+    payload_json = {
+      content: message, tts: tts, embeds: embeds, nonce: nonce, allowed_mentions: allowed_mentions,
+      message_reference: message_reference, components: components&.to_a
+    }.to_json
+
+    payload = if files.size > 0
+      multipart_payload = {}
+
+      files.each.with_index { |e, i| multipart_payload[i.to_s] = Faraday::Multipart::FilePart.new(e, "application/octet-stream") }
+
+      multipart_payload[:payload_json] = Faraday::Multipart::ParamPart.new(payload_json, "application/json")
+
+      multipart_payload
+    else
+      headers[:content_type] = "application/json"
+
+      payload_json
+    end
 
     Rubycord::API.request(
       :channels_cid_messages_mid,
       channel_id,
       :post,
       "#{Rubycord::API.api_base}/channels/#{channel_id}/messages",
-      body,
+      payload,
       **headers
     )
   rescue Faraday::BadRequestError => e
