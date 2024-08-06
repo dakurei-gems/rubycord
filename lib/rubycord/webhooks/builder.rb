@@ -3,12 +3,13 @@ require "rubycord/webhooks/embeds"
 module Rubycord::Webhooks
   # A class that acts as a builder for a webhook message object.
   class Builder
-    def initialize(content: "", username: nil, avatar_url: nil, tts: false, file: nil, embeds: [], allowed_mentions: nil)
+    def initialize(content: "", username: nil, avatar_url: nil, tts: false, file: nil, attachments: nil, embeds: [], allowed_mentions: nil)
       @content = content
       @username = username
       @avatar_url = avatar_url
       @tts = tts
       @file = file
+      @attachments = attachments
       @embeds = [embeds].flatten.compact
       @allowed_mentions = allowed_mentions
     end
@@ -35,6 +36,11 @@ module Rubycord::Webhooks
     # either a file to be sent or an embed.
     # @param file [File, Array<File>, nil] Files to be sent.
     attr_writer :file
+
+    # Virtual attribute to permit deletion of uploaded files on edit_message.
+    # @param attachments [Array, nil] `nil` to preserve attachments, empty array `[]` to delete attachments.
+    # @note Virtual attribute
+    attr_writer :attachments
 
     # Sets embeds to this message.
     # @param embeds [Embed, Array<Embed>] embeds to add.
@@ -79,9 +85,9 @@ module Rubycord::Webhooks
 
       payload_json = {
         content: @content, username: @username, avatar_url: @avatar_url, tts: @tts,
-        embeds: @embeds.map(&:to_hash), allowed_mentions: @allowed_mentions&.to_hash,
-        components: @components.to_a
-      }.to_json
+        attachments: @attachments, embeds: @embeds.map(&:to_hash),
+        allowed_mentions: @allowed_mentions&.to_hash, components: @components.to_a
+      }.compact.to_json
 
       if files.size > 0
         multipart_payload = {}
@@ -100,9 +106,9 @@ module Rubycord::Webhooks
     def to_json_hash
       {
         content: @content, username: @username, avatar_url: @avatar_url, tts: @tts,
-        embeds: @embeds.map(&:to_hash), allowed_mentions: @allowed_mentions&.to_hash,
-        components: @components.to_a
-      }
+        attachments: @attachments, embeds: @embeds.map(&:to_hash),
+        allowed_mentions: @allowed_mentions&.to_hash, components: @components.to_a
+      }.compact
     end
   end
 end

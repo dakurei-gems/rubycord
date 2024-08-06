@@ -97,9 +97,10 @@ module Rubycord::Webhooks
     # Edit a message from this webhook.
     # @param message_id [String, Integer] The ID of the message to edit.
     # @param builder [Builder, nil] The builder to start out with, or nil if one should be created anew.
-    # @param content [String] The message content.
-    # @param embeds [Array<Embed, Hash>]
-    # @param allowed_mentions [Hash]
+    # @param content [String, nil] The message content.
+    # @param attachments [Array, nil]
+    # @param embeds [Array<Embed, Hash>, nil]
+    # @param allowed_mentions [Hash, nil]
     # @return [Faraday::Response] the response returned by Discord.
     # @example Edit message content
     #   client.edit_message(message_id, content: 'goodbye world!')
@@ -110,12 +111,13 @@ module Rubycord::Webhooks
     #     end
     #   end
     # @note Not all builder options are available when editing.
-    def edit_message(message_id, builder: nil, content: nil, embeds: nil, allowed_mentions: nil)
+    def edit_message(message_id, builder: nil, content: nil, attachments: nil, embeds: nil, allowed_mentions: nil)
       builder ||= Builder.new
 
       yield builder if block_given?
 
       builder.content = content if content
+      builder.attachments = attachments if attachments
       builder.embeds = embeds if embeds
       builder.allowed_mentions = allowed_mentions if allowed_mentions
 
