@@ -34,9 +34,7 @@ module Rubycord::Webhooks
     # Sets a file to be sent together with the message. Mutually exclusive with embeds; a webhook message can contain
     # either a file to be sent or an embed.
     # @param file [File] A file to be sent.
-    def file=(file)
-      @file = file
-    end
+    attr_writer :file
 
     # Adds an embed to this message.
     # @param embed [Embed] The embed to add.
@@ -69,6 +67,24 @@ module Rubycord::Webhooks
     # @see https://discord.com/developers/docs/resources/channel#allowed-mentions-object
     attr_accessor :allowed_mentions
 
+    # @return [String, Hash] a string or hash to provide to API to create a message.
+    def to_payload
+      payload_json = {
+        content: @content, username: @username, avatar_url: @avatar_url, tts: @tts,
+        embeds: @embeds.map(&:to_hash), allowed_mentions: @allowed_mentions&.to_hash,
+        components: @components.to_a
+      }.to_json
+
+      if @file
+        {
+          0 => Faraday::Multipart::FilePart.new(file, "application/octet-stream"),
+          :payload_json => Faraday::Multipart::ParamPart.new(payload_json, "application/json")
+        }
+      else
+        payload_json
+      end
+    end
+
     # @return [Hash] a hash representation of the created message, for JSON format.
     def to_json_hash
       {
@@ -77,18 +93,6 @@ module Rubycord::Webhooks
         avatar_url: @avatar_url,
         tts: @tts,
         embeds: @embeds.map(&:to_hash),
-        allowed_mentions: @allowed_mentions&.to_hash
-      }
-    end
-
-    # @return [Hash] a hash representation of the created message, for multipart format.
-    def to_multipart_hash
-      {
-        content: @content,
-        username: @username,
-        avatar_url: @avatar_url,
-        tts: @tts,
-        file: @file,
         allowed_mentions: @allowed_mentions&.to_hash
       }
     end

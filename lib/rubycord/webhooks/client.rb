@@ -18,6 +18,13 @@ module Rubycord::Webhooks
       @url = url || generate_url(id, token)
     end
 
+    # @return [Faraday::Connection] the Faraday connection to make HTTP requests with configured Faraday
+    def client
+      @client ||= Faraday.new do |faraday|
+        faraday.request :multipart
+      end
+    end
+
     # Executes the webhook this client points to with the given data.
     # @param builder [Builder, nil] The builder to start out with, or nil if one should be created anew.
     # @param wait [true, false] Whether Discord should wait for the message to be successfully received by clients, or
@@ -40,7 +47,7 @@ module Rubycord::Webhooks
     # @return [Faraday::Response] the response returned by Discord.
     def execute(builder = nil, wait = false, components = nil)
       raise TypeError, "builder needs to be nil or like a Rubycord::Webhooks::Builder!" if
-        !(builder.respond_to?(:file) && builder.respond_to?(:to_multipart_hash)) && !builder.respond_to?(:to_json_hash) && !builder.nil?
+        !(builder.respond_to?(:file) && builder.respond_to?(:to_payload)) && !builder.respond_to?(:to_json_hash) && !builder.nil?
 
       builder ||= Builder.new
       view = View.new
@@ -49,11 +56,15 @@ module Rubycord::Webhooks
 
       components ||= view
 
-      if builder.file
-        post_multipart(builder, components, wait)
-      else
-        post_json(builder, components, wait)
-      end
+      headers = {}
+      headers[:content_type] = "application/json" unless builder.file
+
+      client.send(
+        :post,
+        "#{@url}#{wait ? "?wait=true" : ""}",
+        builder.to_payload,
+        **headers
+      )
     end
 
     # Modify this webhook's properties.
@@ -62,10 +73,11 @@ module Rubycord::Webhooks
     # @param channel_id [String, Integer, nil] The channel to move the webhook to.
     # @return [Faraday::Response] the response returned by Discord.
     def modify(name: nil, avatar: nil, channel_id: nil)
-      Faraday.patch(
+      client.send(
+        :patch,
         @url,
         {name: name, avatar: avatarise(avatar), channel_id: channel_id}.compact.to_json,
-        {content_type: "application/json"}
+        content_type: "application/json"
       )
     end
 
@@ -74,10 +86,11 @@ module Rubycord::Webhooks
     # @return [Faraday::Response] the response returned by Discord.
     # @note This is permanent and cannot be undone.
     def delete(reason: nil)
-      Faraday.delete(
+      client.send(
+        :delete,
         @url,
         nil,
-        {x_audit_log_reason: reason}
+        x_audit_log_reason: reason
       )
     end
 
@@ -102,11 +115,18 @@ module Rubycord::Webhooks
 
       yield builder if block_given?
 
-      data = builder.to_json_hash.merge({content: content, embeds: embeds, allowed_mentions: allowed_mentions}.compact)
-      Faraday.patch(
+      builder.content = content if content
+      builder.embeds = embeds if embeds
+      builder.allowed_mentions = allowed_mentions if allowed_mentions
+
+      headers = {}
+      headers[:content_type] = "application/json" unless builder.file
+
+      client.send(
+        :patch,
         "#{@url}/messages/#{message_id}",
-        data.compact.to_json,
-        {content_type: "application/json"}
+        builder.to_payload,
+        **headers
       )
     end
 
@@ -114,7 +134,10 @@ module Rubycord::Webhooks
     # @param message_id [String, Integer] The ID of the message to delete.
     # @return [Faraday::Response] the response returned by Discord.
     def delete_message(message_id)
-      Faraday.delete("#{@url}/messages/#{message_id}")
+      client.send(
+        :delete,
+        "#{@url}/messages/#{message_id}"
+      )
     end
 
     private
@@ -127,23 +150,6 @@ module Rubycord::Webhooks
       else
         avatar
       end
-    end
-
-    def post_json(builder, components, wait)
-      data = builder.to_json_hash.merge({components: components.to_a})
-      Faraday.post(
-        @url + (wait ? "?wait=true" : ""),
-        data.to_json,
-        {content_type: "application/json"}
-      )
-    end
-
-    def post_multipart(builder, components, wait)
-      data = builder.to_multipart_hash.merge({components: components.to_a})
-      Faraday.post(
-        @url + (wait ? "?wait=true" : ""),
-        data
-      )
     end
 
     def generate_url(id, token)
