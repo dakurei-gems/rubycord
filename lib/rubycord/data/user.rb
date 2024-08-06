@@ -153,16 +153,16 @@ module Rubycord
     alias_method :dm, :pm
 
     # Send files to the user.
-    # @param file [File, Array<File>] The files to send to the user
-    # @param caption [String, nil] The caption of the file being sent
+    # @param files [File, Array<File>] The files to send to the user.
+    # @param caption [String, nil] The caption of the file being sent.
     # @param tts [true, false] Whether or not this file's caption should be sent using Discord text-to-speech.
-    # @param filename [String, nil] Overrides the filename of the uploaded file
-    # @param spoiler [true, false] Whether or not this file should appear as a spoiler.
+    # @param filenames [String, Array<String>, nil] Overrides the filenames of the uploaded files.
+    # @param spoilers [true, false, Array<true, false>] Whether or not the files should appears as spoilers.
     # @return [Message] the message sent to this user.
     # @example Send a file from disk
     #   user.send_file(File.open('rubytaco.png', 'r'))
-    def send_file(file, caption: nil, tts: false, filename: nil, spoiler: nil)
-      pm.send_file(file, caption: caption, tts: tts, filename: filename, spoiler: spoiler)
+    def send_file(files, caption: nil, tts: false, filenames: nil, spoilers: nil)
+      pm.send_file(files, caption: caption, tts: tts, filenames: filenames, spoilers: spoilers)
     end
 
     # Set the user's username

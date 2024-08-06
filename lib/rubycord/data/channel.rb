@@ -485,15 +485,15 @@ module Rubycord
     end
 
     # Sends files to this channel. If it contains images, it will be embedded.
-    # @param file [File, Array<File>] The files to send.
+    # @param files [File, Array<File>] The files to send.
     # @param caption [String, nil] The caption for the file.
     # @param tts [true, false] Whether or not this file's caption should be sent using Discord text-to-speech.
-    # @param filename [String, nil] Overrides the filename of the uploaded file
-    # @param spoiler [true, false] Whether or not this file should appear as a spoiler.
+    # @param filenames [String, Array<String>, nil] Overrides the filenames of the uploaded files
+    # @param spoilers [true, false, Array<true, false>] Whether or not the files should appears as spoilers.
     # @example Send a file from disk
     #   channel.send_file(File.open('rubytaco.png', 'r'))
-    def send_file(file, caption: nil, tts: false, filename: nil, spoiler: nil)
-      @bot.send_file(@id, file, caption: caption, tts: tts, filename: filename, spoiler: spoiler)
+    def send_file(files, caption: nil, tts: false, filenames: nil, spoilers: nil)
+      @bot.send_file(@id, files, caption: caption, tts: tts, filenames: filenames, spoilers: spoilers)
     end
 
     # Deletes a message on this channel. Mostly useful in case a message needs to be deleted when only the ID is known

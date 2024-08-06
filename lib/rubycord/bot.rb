@@ -439,23 +439,27 @@ module Rubycord
     # Sends files to a channel. If it contains images, it will automatically be embedded.
     # @note This executes in a blocking way, so if you're sending long files, be wary of delays.
     # @param channel [Channel, String, Integer] The channel, or its ID, to send something to.
-    # @param file [File, Array<File>] The files that should be sent.
+    # @param files [File, Array<File>] The files that should be sent.
     # @param caption [String, nil] The caption for the file.
     # @param tts [true, false] Whether or not this file's caption should be sent using Discord text-to-speech.
-    # @param filename [String, nil] Overrides the filename of the uploaded file
-    # @param spoiler [true, false] Whether or not this file should appear as a spoiler.
+    # @param filenames [String, Array<String>, nil] Overrides the filenames of the uploaded files.
+    # @param spoilers [true, false, Array<true, false>] Whether or not the files should appears as spoilers.
     # @example Send a file from disk
     #   bot.send_file(83281822225530880, File.open('rubytaco.png', 'r'))
-    def send_file(channel, file, caption: nil, tts: false, filename: nil, spoiler: nil)
-      if file.respond_to?(:read)
-        if spoiler
-          filename ||= File.basename(file.path)
-          filename = "SPOILER_#{filename}" unless filename.start_with? "SPOILER_"
+    def send_file(channel, files, caption: nil, tts: false, filenames: nil, spoilers: false)
+      spoilers = [spoilers].flatten
+
+      files.each.with_index do |file, i|
+        if file.respond_to?(:read)
+          if spoilers[i]
+            filenames[i] ||= File.basename(file)
+            filenames[i] = "SPOILER_#{filenames[i]}" unless filenames[i].start_with?("SPOILER_")
+          end
         end
       end
 
       channel = channel.resolve_id
-      response = API::Channel.upload_file(token, channel, file, caption: caption, tts: tts, filename: filename)
+      response = API::Channel.upload_files(token, channel, files, caption: caption, tts: tts, filenames: filenames)
       Message.new(JSON.parse(response), self)
     end
 

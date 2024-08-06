@@ -117,10 +117,13 @@ module Rubycord::API::Channel
 
   # Send files as a message to a channel
   # https://discord.com/developers/docs/resources/channel#upload-file
-  def upload_file(token, channel_id, file, caption: nil, tts: false, filename: nil)
-    payload = {
-      0 => Faraday::Multipart::FilePart.new(file, "application/octet-stream", filename)
-    }
+  def upload_files(token, channel_id, files, caption: nil, tts: false, filenames: nil)
+    files = [files].flatten.compact
+    filenames = [filenames].flatten # Permit to override name individually with Array<String>
+
+    payload = {}
+
+    files.each.with_index { |e, i| payload[i.to_s] = Faraday::Multipart::FilePart.new(e, "application/octet-stream", filenames[i]) }
 
     if caption || tts
       payload[:payload_json] = Faraday::Multipart::ParamPart.new({content: caption, tts: tts}.to_json, "application/json")
