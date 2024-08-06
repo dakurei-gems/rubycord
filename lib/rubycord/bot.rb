@@ -436,13 +436,13 @@ module Rubycord
       nil
     end
 
-    # Sends a file to a channel. If it is an image, it will automatically be embedded.
+    # Sends files to a channel. If it contains images, it will automatically be embedded.
     # @note This executes in a blocking way, so if you're sending long files, be wary of delays.
     # @param channel [Channel, String, Integer] The channel, or its ID, to send something to.
-    # @param file [File] The file that should be sent.
-    # @param caption [string] The caption for the file.
+    # @param file [File, Array<File>] The files that should be sent.
+    # @param caption [String, nil] The caption for the file.
     # @param tts [true, false] Whether or not this file's caption should be sent using Discord text-to-speech.
-    # @param filename [String] Overrides the filename of the uploaded file
+    # @param filename [String, nil] Overrides the filename of the uploaded file
     # @param spoiler [true, false] Whether or not this file should appear as a spoiler.
     # @example Send a file from disk
     #   bot.send_file(83281822225530880, File.open('rubytaco.png', 'r'))

@@ -115,7 +115,7 @@ module Rubycord::API::Channel
     raise
   end
 
-  # Send a file as a message to a channel
+  # Send files as a message to a channel
   # https://discord.com/developers/docs/resources/channel#upload-file
   def upload_file(token, channel_id, file, caption: nil, tts: false, filename: nil)
     payload = {

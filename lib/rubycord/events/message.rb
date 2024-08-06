@@ -132,18 +132,19 @@ module Rubycord::Events
       @file_spoiler = nil
     end
 
-    # Sends file with a caption to the channel this message was sent in, right now.
+    # Sends files with a caption to the channel this message was sent in, right now.
     # It is usually preferable to use {#<<} and {#attach_file} instead
     # because it avoids rate limiting problems
-    # @param file [File] The file to send to the channel
-    # @param caption [String] The caption attached to the file
-    # @param filename [String] Overrides the filename of the uploaded file
+    # @param file [File, Array<File>] The files to send to the channel
+    # @param caption [String, nil] The caption attached to the file
+    # @param tts [true, false] Whether or not this file's caption should be sent using Discord text-to-speech.
+    # @param filename [String, nil] Overrides the filename of the uploaded file
     # @param spoiler [true, false] Whether or not this file should appear as a spoiler.
     # @return [Rubycord::Message] the message that was sent
     # @example Send a file from disk
     #   event.send_file(File.open('rubytaco.png', 'r'))
-    def send_file(file, caption: nil, filename: nil, spoiler: nil)
-      @message.channel.send_file(file, caption: caption, filename: filename, spoiler: spoiler)
+    def send_file(file, caption: nil, tts: false, filename: nil, spoiler: nil)
+      @message.channel.send_file(file, caption: caption, tts: tts, filename: filename, spoiler: spoiler)
     end
 
     # Attaches a file to the message event and converts the message into
