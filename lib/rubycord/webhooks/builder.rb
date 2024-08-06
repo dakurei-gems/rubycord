@@ -9,7 +9,7 @@ module Rubycord::Webhooks
       @avatar_url = avatar_url
       @tts = tts
       @file = file
-      @embeds = embeds
+      @embeds = [embeds].flatten.compact
       @allowed_mentions = allowed_mentions
     end
 
@@ -19,12 +19,12 @@ module Rubycord::Webhooks
 
     # The username the webhook will display as. If this is not set, the default username set in the webhook's settings
     # will be used instead.
-    # @return [String] the username.
+    # @return [String, nil] the username.
     attr_accessor :username
 
     # The URL of an image file to be used as an avatar. If this is not set, the default avatar from the webhook's
     # settings will be used instead.
-    # @return [String] the avatar URL.
+    # @return [String, nil] the avatar URL.
     attr_accessor :avatar_url
 
     # Whether this message should use TTS or not. By default, it doesn't.
@@ -33,8 +33,14 @@ module Rubycord::Webhooks
 
     # Sets a file to be sent together with the message. Mutually exclusive with embeds; a webhook message can contain
     # either a file to be sent or an embed.
-    # @param file [File] A file to be sent.
+    # @param file [File, Array<File>, nil] Files to be sent.
     attr_writer :file
+
+    # Sets embeds to this message.
+    # @param embeds [Embed, Array<Embed>] embeds to add.
+    def embeds=(embeds)
+      [@embeds].flatten.compact
+    end
 
     # Adds an embed to this message.
     # @param embed [Embed] The embed to add.
@@ -57,7 +63,7 @@ module Rubycord::Webhooks
       embed
     end
 
-    # @return [File, nil] the file attached to this message.
+    # @return [File, Array<File>, nil] files attached to this message.
     attr_reader :file
 
     # @return [Array<Embed>] the embeds attached to this message.
@@ -69,17 +75,22 @@ module Rubycord::Webhooks
 
     # @return [String, Hash] a string or hash to provide to API to create a message.
     def to_payload
+      files = [@file].flatten.compact
+
       payload_json = {
         content: @content, username: @username, avatar_url: @avatar_url, tts: @tts,
         embeds: @embeds.map(&:to_hash), allowed_mentions: @allowed_mentions&.to_hash,
         components: @components.to_a
       }.to_json
 
-      if @file
-        {
-          0 => Faraday::Multipart::FilePart.new(file, "application/octet-stream"),
-          :payload_json => Faraday::Multipart::ParamPart.new(payload_json, "application/json")
-        }
+      if files.size > 0
+        multipart_payload = {}
+
+        files.each.with_index { |e, i| multipart_payload[i.to_s] = Faraday::Multipart::FilePart.new(e, "application/octet-stream") }
+
+        multipart_payload[:payload_json] = Faraday::Multipart::ParamPart.new(payload_json, "application/json")
+
+        multipart_payload
       else
         payload_json
       end
@@ -88,12 +99,9 @@ module Rubycord::Webhooks
     # @return [Hash] a hash representation of the created message, for JSON format.
     def to_json_hash
       {
-        content: @content,
-        username: @username,
-        avatar_url: @avatar_url,
-        tts: @tts,
-        embeds: @embeds.map(&:to_hash),
-        allowed_mentions: @allowed_mentions&.to_hash
+        content: @content, username: @username, avatar_url: @avatar_url, tts: @tts,
+        embeds: @embeds.map(&:to_hash), allowed_mentions: @allowed_mentions&.to_hash,
+        components: @components.to_a
       }
     end
   end
