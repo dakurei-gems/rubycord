@@ -396,10 +396,11 @@ module Rubycord
     # @param channel [Channel, String, Integer] The channel, or its ID, to send something to.
     # @param content [String] The text that should be sent as a message. It is limited to 2000 characters (Discord imposed).
     # @param tts [true, false] Whether or not this message should be sent using Discord text-to-speech.
-    # @param embeds [Hash, Rubycord::Webhooks::Embed, Array<Hash>, Array<Rubycord::Webhooks::Embed> nil] The rich embed(s) to append to this message.
+    # @param embeds [Hash, Rubycord::Webhooks::Embed, Array<Hash>, Array<Rubycord::Webhooks::Embed>, nil] The rich embed(s) to append to this message.
+    # @param attachments [File, Array<File>, nil] Files that can be referenced in embeds via `attachment://file.png`
     # @param allowed_mentions [Hash, Rubycord::AllowedMentions, false, nil] Mentions that are allowed to ping on this message. `false` disables all pings
     # @param message_reference [Message, String, Integer, nil] The message, or message ID, to reply to if any.
-    # @param components [View, Array<Hash>] Interaction components to associate with this message.
+    # @param components [View, Array<Hash>, nil] Interaction components to associate with this message.
     # @return [Message] The message that was sent.
     def send_message(channel, content, tts = false, embeds = nil, attachments = nil, allowed_mentions = nil, message_reference = nil, components = nil)
       channel = channel.resolve_id
@@ -418,11 +419,11 @@ module Rubycord
     # @param content [String] The text that should be sent as a message. It is limited to 2000 characters (Discord imposed).
     # @param timeout [Float] The amount of time in seconds after which the message sent will be deleted.
     # @param tts [true, false] Whether or not this message should be sent using Discord text-to-speech.
-    # @param embeds [Hash, Rubycord::Webhooks::Embed, Array<Hash>, Array<Rubycord::Webhooks::Embed> nil] The rich embed(s) to append to this message.
-    # @param attachments [Array<File>] Files that can be referenced in embeds via `attachment://file.png`
+    # @param embeds [Hash, Rubycord::Webhooks::Embed, Array<Hash>, Array<Rubycord::Webhooks::Embed>, nil] The rich embed(s) to append to this message.
+    # @param attachments [File, Array<File>, nil] Files that can be referenced in embeds via `attachment://file.png`
     # @param allowed_mentions [Hash, Rubycord::AllowedMentions, false, nil] Mentions that are allowed to ping on this message. `false` disables all pings
     # @param message_reference [Message, String, Integer, nil] The message, or message ID, to reply to if any.
-    # @param components [View, Array<Hash>] Interaction components to associate with this message.
+    # @param components [View, Array<Hash>, nil] Interaction components to associate with this message.
     def send_temporary_message(channel, content, timeout, tts = false, embeds = nil, attachments = nil, allowed_mentions = nil, message_reference = nil, components = nil)
       Thread.new do
         Thread.current[:rubycord_name] = "#{@current_thread}-temp-msg"

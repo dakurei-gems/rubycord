@@ -74,7 +74,7 @@ module Rubycord::API::Channel
 
   # Send a message to a channel
   # https://discord.com/developers/docs/resources/channel#create-message
-  # @param attachments [Array<File>, nil] Attachments to use with `attachment://` in embeds. See
+  # @param attachments [File, Array<File>, nil] Attachments to use with `attachment://` in embeds. See
   #   https://discord.com/developers/docs/resources/channel#create-message-using-attachments-within-embeds
   def create_message(token, channel_id, message, tts = false, embeds = nil, nonce = nil, attachments = nil, allowed_mentions = nil, message_reference = nil, components = nil)
     files = [attachments].flatten.compact
