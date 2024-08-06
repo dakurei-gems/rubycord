@@ -119,16 +119,11 @@ module Rubycord::API::Channel
   # https://discord.com/developers/docs/resources/channel#upload-file
   def upload_file(token, channel_id, file, caption: nil, tts: false, filename: nil)
     payload = {
-      files: [
-        Faraday::Multipart::FilePart.new(file, "application/octet-stream", filename)
-      ]
+      0 => Faraday::Multipart::FilePart.new(file, "application/octet-stream", filename)
     }
 
     if caption || tts
-      payload[:payload_json] = Faraday::Multipart::ParamPart.new(
-        {content: caption, tts: tts}.to_json,
-        "application/json"
-      )
+      payload[:payload_json] = Faraday::Multipart::ParamPart.new({content: caption, tts: tts}.to_json, "application/json")
     end
 
     Rubycord::API.request(
