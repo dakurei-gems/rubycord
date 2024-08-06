@@ -120,14 +120,14 @@ describe Rubycord::Events do
         Rubycord::Events::MessageEventHandler.new(double, double("proc"))
       end
 
-      it "calls send_file with attached file, filename, and spoiler" do
-        file = double(:file)
-        filename = double(:filename)
-        spoiler = double(:spoiler)
-        allow(file).to receive(:is_a?).with(File).and_return(true)
+      it "calls send_file with attached files, filename, and spoiler" do
+        files = double(:files)
+        filenames = double(:filenames)
+        spoilers = double(:spoilers)
+        allow(files).to receive(:is_a?).with(File).and_return(true)
 
-        expect(event).to receive(:send_file).with(file, caption: "", filename: filename, spoiler: spoiler)
-        event.attach_file(file, filename: filename, spoiler: spoiler)
+        expect(event).to receive(:send_file).with(files, caption: "", filenames: filenames, spoilers: spoilers)
+        event.attach_file(files, filename: filenames, spoiler: spoilers)
         handler.after_call(event)
       end
     end
