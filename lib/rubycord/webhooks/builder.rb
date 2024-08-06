@@ -3,7 +3,7 @@ require "rubycord/webhooks/embeds"
 module Rubycord::Webhooks
   # A class that acts as a builder for a webhook message object.
   class Builder
-    def initialize(content: "", username: nil, avatar_url: nil, tts: false, file: nil, attachments: nil, embeds: [], allowed_mentions: nil)
+    def initialize(content: "", username: nil, avatar_url: nil, tts: false, file: nil, attachments: nil, embeds: [], allowed_mentions: nil, components: nil)
       @content = content
       @username = username
       @avatar_url = avatar_url
@@ -12,6 +12,7 @@ module Rubycord::Webhooks
       @attachments = attachments
       @embeds = [embeds].flatten.compact
       @allowed_mentions = allowed_mentions
+      @components = components
     end
 
     # The content of the message. May be 2000 characters long at most.
@@ -32,13 +33,12 @@ module Rubycord::Webhooks
     # @return [true, false] the TTS status.
     attr_accessor :tts
 
-    # Sets a file to be sent together with the message. Mutually exclusive with embeds; a webhook message can contain
-    # either a file to be sent or an embed.
-    # @param file [File, Array<File>, nil] Files to be sent.
-    attr_writer :file
+    # The files to be attached to this message.
+    # @return [File, Array<File>, nil] files attached to this message.
+    attr_accessor :file
 
     # Virtual attribute to permit deletion of uploaded files on edit_message.
-    # @param attachments [Array, nil] `nil` to preserve attachments, empty array `[]` to delete attachments.
+    # @param value [Array, nil] `nil` to preserve attachments, empty array `[]` to delete attachments.
     # @note Virtual attribute
     attr_writer :attachments
 
@@ -69,15 +69,16 @@ module Rubycord::Webhooks
       embed
     end
 
-    # @return [File, Array<File>, nil] files attached to this message.
-    attr_reader :file
-
     # @return [Array<Embed>] the embeds attached to this message.
     attr_reader :embeds
 
-    # @return [Rubycord::AllowedMentions, Hash] Mentions that are allowed to ping in this message.
+    # @return [Rubycord::AllowedMentions, Hash, nil] Mentions that are allowed to ping in this message.
     # @see https://discord.com/developers/docs/resources/channel#allowed-mentions-object
     attr_accessor :allowed_mentions
+
+    # @return [View, Array<Hash>, nil] Interaction components to associate with this message.
+    # @note Only work with webhook owned by your application, otherwise not used on Discord side.
+    attr_accessor :components
 
     # @return [String, Hash] a string or hash to provide to API to create a message.
     def to_payload

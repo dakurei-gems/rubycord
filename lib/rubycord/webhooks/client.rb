@@ -29,19 +29,26 @@ module Rubycord::Webhooks
     # @param builder [Builder, nil] The builder to start out with, or nil if one should be created anew.
     # @param wait [true, false] Whether Discord should wait for the message to be successfully received by clients, or
     #   whether it should return immediately after sending the message.
+    # @param components [View, Array<Hash>, nil] The view or hash to create components on message, if defined replace
+    #   the yield param view.
     # @yield [builder] Gives the builder to the block to add additional steps, or to do the entire building process.
     # @yieldparam builder [Builder] The builder given as a parameter which is used as the initial step to start from.
+    # @yield [view] Gives the view to the block to do the entire view process.
+    # @yieldparam view [View] The view given as a parameter which is used as the initial step to start from.
     # @example Execute the webhook with an already existing builder
     #   builder = Rubycord::Webhooks::Builder.new # ...
     #   client.execute(builder)
     # @example Execute the webhook by building a new message
-    #   client.execute do |builder|
+    #   client.execute do |builder, view|
     #     builder.content = 'Testing'
     #     builder.username = 'rubycord'
     #     builder.add_embed do |embed|
     #       embed.timestamp = Time.now
     #       embed.title = 'Testing'
     #       embed.image = Rubycord::Webhooks::EmbedImage.new(url: 'https://i.imgur.com/PcMltU7.jpg')
+    #     end
+    #     view.row do |row|
+    #       row.button(style: :success, label: "Hello", custom_id: "hello")
     #     end
     #   end
     # @return [Faraday::Response] the response returned by Discord.
@@ -54,7 +61,7 @@ module Rubycord::Webhooks
 
       yield(builder, view) if block_given?
 
-      components ||= view
+      builder.components = components || view
 
       headers = {}
       headers[:content_type] = "application/json" unless builder.file
