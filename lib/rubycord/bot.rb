@@ -447,6 +447,7 @@ module Rubycord
     # @example Send a file from disk
     #   bot.send_file(83281822225530880, File.open('rubytaco.png', 'r'))
     def send_file(channel, files, caption: nil, tts: false, filenames: nil, spoilers: false)
+      files = [files].flatten.compact
       spoilers = [spoilers].flatten
 
       files.each.with_index do |file, i|
