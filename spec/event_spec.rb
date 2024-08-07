@@ -126,8 +126,8 @@ describe Rubycord::Events do
         spoilers = double(:spoilers)
         allow(files).to receive(:is_a?).with(File).and_return(true)
 
-        expect(event).to receive(:send_file).with(files, caption: "", filenames: filenames, spoilers: spoilers)
-        event.attach_file(files, filename: filenames, spoiler: spoilers)
+        expect(event).to receive(:send_file).with([files], caption: "", filenames: [filenames], spoilers: [spoilers])
+        event.attach_files(files, filenames: filenames, spoilers: spoilers)
         handler.after_call(event)
       end
     end
