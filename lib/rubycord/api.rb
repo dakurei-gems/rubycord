@@ -164,7 +164,7 @@ module Rubycord::API
       mutex = @global_mutex if e.response.dig(:headers, :x_ratelimit_global) == "true"
 
       unless mutex.locked?
-        response = JSON.parse(e.response)
+        response = JSON.parse(e.response[:body])
         wait_seconds = response["retry_after"] ? response["retry_after"].to_f : e.response.dig(:headers, :retry_after).to_i
         Rubycord::LOGGER.ratelimit("Locking RL mutex (key: #{key}) for #{wait_seconds} seconds due to Discord rate limiting")
         trace("429 #{key.join(" ")}")
