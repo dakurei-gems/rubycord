@@ -8,7 +8,7 @@ module Rubycord::Events
     attr_reader :channel
 
     # Sends a message to the channel this message was sent in, right now. It is usually preferable to use {#<<} instead
-    # because it avoids rate limiting problems
+    #   because it avoids rate limiting problems
     # @param content [String] The message to send to the channel
     # @param tts [true, false] Whether or not this message should be sent using Discord text-to-speech.
     # @param embed [Hash, Rubycord::Webhooks::Embed, nil] The rich embed to append to this message.
@@ -50,8 +50,8 @@ module Rubycord::Events
     end
 
     # Adds a string to be sent after the event has finished execution. Avoids problems with rate limiting because only
-    # one message is ever sent. If it is used multiple times, the strings will bunch up into one message (separated by
-    # newlines)
+    #   one message is ever sent. If it is used multiple times, the strings will bunch up into one message (separated by
+    #   newlines)
     # @param message [String] The message to send to the channel
     def <<(message)
       addition = "#{message}\n"
@@ -60,7 +60,7 @@ module Rubycord::Events
     end
 
     # Drains the currently saved message, which clears it out, resulting in everything being saved before being
-    # thrown away and nothing being sent to the channel (unless there is something saved after this).
+    #   thrown away and nothing being sent to the channel (unless there is something saved after this).
     # @see #<<
     def drain
       @saved_message = ""
@@ -68,7 +68,7 @@ module Rubycord::Events
     end
 
     # Drains the currently saved message into a result string. This prepends it before that string, clears the saved
-    # message and returns the concatenation.
+    #   message and returns the concatenation.
     # @param result [String] The result string to drain into.
     # @return [String] a string formed by concatenating the saved message and the argument.
     def drain_into(result)
@@ -94,14 +94,14 @@ module Rubycord::Events
     # @return [String] the message that has been saved by calls to {#<<} and will be sent to Discord upon completion.
     attr_reader :saved_message
 
-    # @return [File] the file that has been saved by a call to {#attach_file} and will be sent to Discord upon completion.
-    attr_reader :file
+    # @return [File, Array<File>, nil] the files that has been saved by a call to {#attach_files} and will be sent to Discord upon completion.
+    attr_reader :files
 
-    # @return [String] the filename set in {#attach_file} that will override the original filename when sent.
-    attr_reader :filename
+    # @return [String, Array<String>, nil] the filenames set in {#attach_files} that will override the originals filenames when sent.
+    attr_reader :filenames
 
-    # @return [true, false] Whether or not this file should appear as a spoiler. Set by {#attach_file}
-    attr_reader :file_spoiler
+    # @return [true, false, Array<true, false>, nil] Whether or not this files should appears as spoilers. Set by {#attach_files}
+    attr_reader :files_spoilers
 
     # @!attribute [r] author
     #   @return [Member, User] who sent this message.
@@ -133,8 +133,8 @@ module Rubycord::Events
     end
 
     # Sends files with a caption to the channel this message was sent in, right now.
-    # It is usually preferable to use {#<<} and {#attach_file} instead
-    # because it avoids rate limiting problems
+    #   It is usually preferable to use {#<<} and {#attach_files} instead
+    #   because it avoids rate limiting problems
     # @param files [File, Array<File>] The files to send to the channel.
     # @param caption [String, nil] The caption attached to the file.
     # @param tts [true, false] Whether or not this file's caption should be sent using Discord text-to-speech.
@@ -147,25 +147,24 @@ module Rubycord::Events
       @message.channel.send_file(files, caption: caption, tts: tts, filenames: filenames, spoilers: spoilers)
     end
 
-    # Attaches a file to the message event and converts the message into
-    # a caption.
-    # @param file [File] The file to be attached
-    # @param filename [String] Overrides the filename of the uploaded file
-    # @param spoiler [true, false] Whether or not this file should appear as a spoiler.
-    def attach_file(file, filename: nil, spoiler: nil)
-      raise ArgumentError, "Argument is not a file!" unless file.is_a?(File)
+    # Attaches files to the message event and converts the message into a caption.
+    # @param files [File, Array<File>] The files to be attached.
+    # @param filenames [String, Array<String>, nil] Overrides filenames of the uploaded files.
+    # @param spoilers [true, false] Whether or not this files should appears as a spoilers.
+    def attach_files(files, filenames: nil, spoilers: nil)
+      raise ArgumentError, "Argument is not a file or array of files !" if !files.is_a?(File) && !(files.is_a?(Array) && files.all? { |e| e.is_a?(File) })
 
-      @file = file
-      @filename = filename
-      @file_spoiler = spoiler
+      @files = [files].flatten.compact
+      @filenames = [filenames].flatten
+      @files_spoilers = [spoilers].flatten
       nil
     end
 
-    # Detaches a file from the message event.
-    def detach_file
-      @file = nil
-      @filename = nil
-      @file_spoiler = nil
+    # Detaches files from the message event.
+    def detach_files
+      @files = nil
+      @filenames = nil
+      @files_spoilers = nil
     end
 
     # @return [true, false] whether or not this message was sent by the bot itself
@@ -254,10 +253,10 @@ module Rubycord::Events
 
     # @see EventHandler#after_call
     def after_call(event)
-      if event.file.nil?
+      if event.files.nil? || event.files&.empty?
         event.send_message(event.saved_message) unless event.saved_message.empty?
       else
-        event.send_file(event.file, caption: event.saved_message, filenames: event.filename, spoilers: event.file_spoiler)
+        event.send_file(event.files, caption: event.saved_message, filenames: event.filenames, spoilers: event.files_spoilers)
       end
     end
   end
