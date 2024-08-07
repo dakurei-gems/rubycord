@@ -2,6 +2,7 @@ require "faraday"
 require "faraday/multipart"
 require "json"
 require "time"
+require "bigdecimal/util"
 
 require "rubycord/errors"
 
@@ -165,8 +166,8 @@ module Rubycord::API
 
       unless mutex.locked?
         response = JSON.parse(e.response[:body])
-        wait_seconds = response["retry_after"] ? response["retry_after"].to_f : e.response.dig(:headers, :retry_after).to_i
-        Rubycord::LOGGER.ratelimit("Locking RL mutex (key: #{key}) for #{wait_seconds} seconds due to Discord rate limiting")
+        wait_seconds = response["retry_after"] ? response["retry_after"].to_d : e.response.dig(:headers, :retry_after).to_d
+        Rubycord::LOGGER.ratelimit("Locking RL mutex (key: #{key}) for #{"%.3f" % wait_seconds} seconds due to Discord rate limiting")
         trace("429 #{key.join(" ")}")
 
         # Wait the required time synchronized by the mutex (so other incoming requests have to wait) but only do it if
@@ -181,11 +182,14 @@ module Rubycord::API
   end
 
   # Handles pre-emptive rate limiting by waiting the given mutex by the difference of the Date header to the
-  # X-Ratelimit-Reset header, thus making sure we don't get 429'd in any subsequent requests.
+  #   X-Ratelimit-Reset header, thus making sure we don't get 429'd in any subsequent requests.
   def handle_preemptive_rl(headers, mutex, key)
-    Rubycord::LOGGER.ratelimit "RL bucket depletion detected! Date: #{headers[:date]} Reset: #{headers[:x_ratelimit_reset]}"
-    delta = headers[:x_ratelimit_reset_after].to_f
-    Rubycord::LOGGER.warn("Locking RL mutex (key: #{key}) for #{delta} seconds pre-emptively")
+    Rubycord::LOGGER.ratelimit "RL bucket depletion detected ! (Date: #{headers[:date]}, Reset: #{headers[:x_ratelimit_reset]})"
+    delta = [
+      (headers[:x_ratelimit_reset].to_d - BigDecimal(Time.parse(headers[:date]).to_r, 32)),
+      headers[:x_ratelimit_reset_after].to_d
+    ].max
+    Rubycord::LOGGER.ratelimit("Locking RL mutex (key: #{key}) for #{"%.3f" % delta} seconds pre-emptively")
     sync_wait(delta, mutex)
   end
 
