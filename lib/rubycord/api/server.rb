@@ -191,17 +191,19 @@ module Rubycord::API::Server
     )
   end
 
-  # Ban a user from a server and delete their messages from the last message_days days
+  # Ban a user from a server and delete their messages from the last message_seconds seconds
   # https://discord.com/developers/docs/resources/guild#create-guild-ban
-  def ban_user(token, server_id, user_id, message_days, reason = nil)
+  def ban_user(token, server_id, user_id, message_seconds = 0, reason = nil)
     reason = URI.encode_www_form_component(reason) if reason
     Rubycord::API.request(
       :guilds_sid_bans_uid,
       server_id,
       :put,
-      "#{Rubycord::API.api_base}/guilds/#{server_id}/bans/#{user_id}?delete_message_days=#{message_days}&reason=#{reason}",
-      nil,
-      authorization: token
+      "#{Rubycord::API.api_base}/guilds/#{server_id}/bans/#{user_id}",
+      {delete_message_seconds: message_seconds}.to_json,
+      authorization: token,
+      content_type: "application/json",
+      x_audit_log_reason: reason
     )
   end
 

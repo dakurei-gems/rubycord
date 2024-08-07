@@ -597,10 +597,10 @@ module Rubycord
 
     # Bans a user from this server.
     # @param user [User, String, Integer] The user to ban.
-    # @param message_days [Integer] How many days worth of messages sent by the user should be deleted.
+    # @param message_seconds [Integer] How many seconds worth of messages sent by the user should be deleted (between 0 and 604800).
     # @param reason [String] The reason the user is being banned.
-    def ban(user, message_days = 0, reason: nil)
-      API::Server.ban_user(@bot.token, @id, user.resolve_id, message_days, reason)
+    def ban(user, message_seconds = 0, reason: nil)
+      API::Server.ban_user(@bot.token, @id, user.resolve_id, message_seconds, reason)
     end
 
     # Unbans a previously banned user from this server.
