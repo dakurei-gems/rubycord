@@ -253,12 +253,9 @@ module Rubycord::API::Server
   end
 
   # Update a role
-  # Permissions are the Discord defaults; allowed: invite creation, reading/sending messages,
-  # sending TTS messages, embedding links, sending files, reading the history, mentioning everybody,
-  # connecting to voice, speaking and voice activity (push-to-talk isn't mandatory)
-  # https://discord.com/developers/docs/resources/guild#batch-modify-guild-role
+  #   https://discord.com/developers/docs/resources/guild#modify-guild-role
   # @param icon [:undef, File]
-  def update_role(token, server_id, role_id, name, colour, hoist = false, mentionable = false, packed_permissions = 104_324_161, reason = nil, icon = :undef)
+  def update_role(token, server_id, role_id, name, colour, hoist = false, mentionable = false, packed_permissions = 0, reason = nil, icon = :undef)
     data = {color: colour, name: name, hoist: hoist, mentionable: mentionable, permissions: packed_permissions}
 
     if icon != :undef && icon

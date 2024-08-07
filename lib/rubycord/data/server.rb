@@ -512,7 +512,7 @@ module Rubycord
     # @param permissions [Integer, Array<Symbol>, Permissions, #bits] The permissions to write to the new role.
     # @param reason [String] The reason the for the creation of this role.
     # @return [Role] the created role.
-    def create_role(name: "new role", colour: 0, hoist: false, mentionable: false, permissions: 104_324_161, reason: nil)
+    def create_role(name: "new role", colour: 0, hoist: false, mentionable: false, permissions: 0, reason: nil)
       colour = colour.combined if colour.respond_to?(:combined)
 
       permissions = if permissions.is_a?(Array)
