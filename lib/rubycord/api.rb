@@ -49,7 +49,7 @@ module Rubycord::API
   # Generate a user agent identifying this requester as rubycord.
   def user_agent
     # This particular string is required by the Discord devs.
-    required = "DiscordBot (https://github.com/dakurei-gems/discordrb, v#{Rubycord::VERSION})"
+    required = "DiscordBot (https://github.com/dakurei-gems/rubycord, v#{Rubycord::VERSION})"
     @bot_name ||= ""
 
     "#{required} rest-client/#{RestClient::VERSION} #{RUBY_ENGINE}/#{RUBY_VERSION}p#{RUBY_PATCHLEVEL} rubycord/#{Rubycord::VERSION} #{@bot_name}"

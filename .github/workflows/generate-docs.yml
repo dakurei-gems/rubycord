@@ -14,7 +14,7 @@ on:
 jobs:
   pages:
     name: Generate Docs
-    if: github.repository == 'dakurei-gems/discordrb'
+    if: github.repository == 'dakurei-gems/rubycord'
     runs-on: ubuntu-latest
     env:
       api-dir: ./

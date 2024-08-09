@@ -8,14 +8,14 @@ Gem::Specification.new do |spec|
 
   spec.summary = "Discord API for Ruby"
   spec.description = "A Ruby implementation of the Discord (https://discord.com) API."
-  spec.homepage = "https://github.com/dakurei-gems/discordrb"
+  spec.homepage = "https://github.com/dakurei-gems/rubycord"
   spec.required_ruby_version = ">= 3.1.3"
   spec.license = "MIT"
 
   spec.metadata["allowed_push_host"] = "https://rubygems.org"
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["source_code_uri"] = spec.homepage
-  spec.metadata["changelog_uri"] = "https://github.com/dakurei-gems/discordrb/blob/main/CHANGELOG.md"
+  spec.metadata["changelog_uri"] = "https://github.com/dakurei-gems/rubycord/blob/main/CHANGELOG.md"
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.

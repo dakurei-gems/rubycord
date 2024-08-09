@@ -8,7 +8,7 @@ require "rubycord"
 # If you don't yet have a token to put in here, you will need to create a bot account here:
 #   https://discord.com/developers/applications
 # If you're wondering about what redirect URIs and RPC origins, you can ignore those for now. If that doesn't satisfy
-# you, look here: https://github.com/dakurei-gems/discordrb/wiki/Redirect-URIs-and-RPC-origins
+# you, look here: https://github.com/dakurei-gems/rubycord/wiki/Redirect-URIs-and-RPC-origins
 # After creating the bot, simply copy the token (*not* the OAuth2 secret) and put it into the
 # respective place.
 bot = Rubycord::Bot.new token: "B0T.T0KEN.here"
