@@ -1,13 +1,10 @@
+[![Gem](https://img.shields.io/gem/v/rubycord.svg)](https://rubygems.org/gems/rubycord)
+[![Gem](https://img.shields.io/gem/dt/rubycord.svg)](https://rubygems.org/gems/rubycord)
+[![Gem](https://img.shields.io/badge/docs-v3.5.1-979797.svg)](https://dakurei-gems.github.io/rubycord/v3.5.1/)
 [![Github Actions Rspec](https://github.com/dakurei-gems/rubycord/actions/workflows/rspec.yml/badge.svg?branch=main&event=push)](https://github.com/dakurei-gems/rubycord/actions/workflows/rspec.yml)
 [![Github Actions Standard](https://github.com/dakurei-gems/rubycord/actions/workflows/standard.yml/badge.svg?branch=main&event=push)](https://github.com/dakurei-gems/rubycord/actions/workflows/standard.yml)
 [![Github Actions CodeQL](https://github.com/dakurei-gems/rubycord/actions/workflows/codeql.yml/badge.svg?branch=main&event=push)](https://github.com/dakurei-gems/rubycord/actions/workflows/codeql.yml)
-
-[![Release](https://img.shields.io/badge/gem-v3.5.1-007ec6.svg)](https://github.com/dakurei-gems/rubycord/releases/tag/v3.5.1)
-[![Release](https://img.shields.io/badge/docs-v3.5.1-979797.svg)](https://dakurei-gems.github.io/rubycord/v3.5.1/)
-[![Stable](https://img.shields.io/badge/gem-stable-007ec6.svg)](https://github.com/dakurei-gems/rubycord/tree/stable)
-[![Stable](https://img.shields.io/badge/docs-stable-979797.svg)](https://dakurei-gems.github.io/rubycord/stable/)
-[![Main (Unreleased)](https://img.shields.io/badge/gem-main-007ec6.svg)](https://github.com/dakurei-gems/rubycord/tree/main)
-[![Main (Unreleased)](https://img.shields.io/badge/docs-main-979797.svg)](https://dakurei-gems.github.io/rubycord/main/)
+[![Inline docs](https://img.shields.io/badge/docs-main-979797.svg)](https://dakurei-gems.github.io/rubycord/main/)
 
 # rubycord
 
@@ -67,22 +64,17 @@ This section only applies to you if you want to use voice functionality.
 Using [Bundler](https://bundler.io/#getting-started), you can add rubycord to your Gemfile:
 
 ```ruby
-gem "rubycord", github: "dakurei-gems/rubycord", branch: "stable"
+gem "rubycord"
 ```
 
 And then install via `bundle install`.
-
-_If you want to run a specific release, use this gem line:_
-```ruby
-gem "rubycord", github: "dakurei-gems/rubycord", tag: "v3.5.1"
-```
 
 _If you want to run the latest code instead, use this gem line instead:_
 ```ruby
 gem "rubycord", github: "dakurei-gems/rubycord", branch: "main"
 ```
 
-⚠️ **Note that `main` may contain breaking changes or other unstable code !**
+⚠️ **Note that main may contain breaking changes or other unstable code !**
 
 Run the [ping example](https://github.com/dakurei-gems/rubycord/blob/main/examples/ping.rb) to verify that the installation works (make sure to replace the token and client ID in there with your bots'!):
 
@@ -92,17 +84,45 @@ To run the bot while using bundler:
 bundle exec ruby ping.rb
 ```
 
+### With Gem
+
+Alternatively, while Bundler is the recommended option, you can also install rubycord without it.
+
+#### Linux / macOS
+
+```sh
+gem install rubycord
+```
+
+#### Windows
+
+> **Make sure you have the DevKit installed! See the [Dependencies](https://github.com/dakurei-gems/rubycord#dependencies) section)**
+
+```sh
+gem install rubycord --platform=ruby
+```
+
+To run the bot:
+
+```sh
+ruby ping.rb
+```
+
+### Installation Troubleshooting
+
+See <https://github.com/dakurei-gems/rubycord/wiki/FAQ#installation> for a list of common problems and solutions when installing `rubycord`.
+
 ## Usage
 
 You can make a simple bot like this:
 
 ```ruby
-require 'rubycord'
+require "rubycord"
 
 bot = Rubycord::Bot.new token: '<token here>'
 
-bot.message(with_text: 'Ping!') do |event|
-  event.respond 'Pong!'
+bot.message(with_text: "Ping!") do |event|
+  event.respond "Pong!"
 end
 
 bot.run
@@ -127,16 +147,16 @@ Also included is a webhooks client, which can be used as a separate gem `rubycor
 ### Usage
 
 ```ruby
-require 'rubycord/webhooks'
+require "rubycord/webhooks"
 
-WEBHOOK_URL = 'https://discord.com/api/webhooks/424070213278105610/yByxDncRvHi02mhKQheviQI2erKkfRRwFcEp0MMBfib1ds6ZHN13xhPZNS2-fJo_ApSw'.freeze
+WEBHOOK_URL = "<webhook url here>".freeze
 
 client = Rubycord::Webhooks::Client.new(url: WEBHOOK_URL)
 client.execute do |builder|
-  builder.content = 'Hello world!'
+  builder.content = "Hello world!"
   builder.add_embed do |embed|
-    embed.title = 'Embed title'
-    embed.description = 'Embed description'
+    embed.title = "Embed title"
+    embed.description = "Embed description"
     embed.timestamp = Time.now
   end
 end
@@ -163,7 +183,7 @@ Be sure to use the search function in our documentation or on GitHub, to see if 
 
 After checking out the repo, run `bin/setup` to install dependencies. You can then run tests via `bundle exec rspec spec`. Make sure to run standard also: `bundle exec standardrb`. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
-To install this gem onto your local machine, run `bundle exec rake install`.
+To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
 ## License
 
