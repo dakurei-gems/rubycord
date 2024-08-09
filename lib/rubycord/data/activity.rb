@@ -21,7 +21,7 @@ module Rubycord
     # @return [String, nil] stream URL, when the activity type is {STREAMING}
     attr_reader :url
 
-    # @return [String, nil] the application ID for the game
+    # @return [Integer, nil] the application ID for the game
     attr_reader :application_id
 
     # @return [String, nil] details about what the player is currently doing
@@ -73,7 +73,7 @@ module Rubycord
       @name = data["name"]
       @type = data["type"]
       @url = data["url"]
-      @application_id = data["application_id"]
+      @application_id = data["application_id"]&.resolve_id
       @details = data["details"]
       @state = data["state"]
       @instance = data["instance"]

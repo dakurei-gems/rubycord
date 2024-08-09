@@ -156,7 +156,7 @@ module Rubycord::Events
 
       command_data = data["data"]
 
-      @command_id = command_data["id"]
+      @command_id = command_data["id"].resolve_id
       @command_name = command_data["name"].to_sym
 
       @target_id = command_data["target_id"]&.resolve_id

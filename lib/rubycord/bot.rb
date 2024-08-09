@@ -485,10 +485,10 @@ module Rubycord
     # Discord. For information how to use this, see the docs: https://discord.com/developers/docs/topics/oauth2
     # @param name [String] What your application should be called.
     # @param redirect_uris [Array<String>] URIs that Discord should redirect your users to after authorizing.
-    # @return [Array(String, String)] your applications' client ID and client secret to be used in OAuth authorization.
+    # @return [Array(Integer, String)] your applications' client ID and client secret to be used in OAuth authorization.
     def create_oauth_application(name, redirect_uris)
       response = JSON.parse(API.create_oauth_application(@token, name, redirect_uris))
-      [response["id"], response["secret"]]
+      [response["id"].resolve_id, response["secret"]]
     end
 
     # Changes information about your OAuth application
@@ -1383,7 +1383,7 @@ module Rubycord
           # Form a data hash for a single ID so the methods get what they want
           single_data = {
             "id" => single_id,
-            "channel_id" => data["channel_id"]
+            "channel_id" => data["channel_id"].resolve_id
           }
 
           # Raise as normal

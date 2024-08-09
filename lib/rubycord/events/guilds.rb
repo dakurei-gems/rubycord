@@ -88,7 +88,7 @@ module Rubycord::Events
     # @!visibility private
     def process_emoji(data)
       @emoji = data["emojis"].map do |e|
-        @server.emoji[e["id"]]
+        @server.emoji[e["id"].resolve_id]
       end
     end
   end

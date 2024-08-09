@@ -14,7 +14,7 @@ module Rubycord::Light
     # @return [String] the name of the connected account
     attr_reader :name
 
-    # @return [String] the ID of the connected account
+    # @return [Integer] the ID of the connected account
     attr_reader :id
 
     # @return [Array<Integration>] the integrations associated with this connection
@@ -27,7 +27,7 @@ module Rubycord::Light
       @revoked = data["revoked"]
       @type = data["type"].to_sym
       @name = data["name"]
-      @id = data["id"]
+      @id = data["id"].resolve_id
 
       @integrations = data["integrations"].map { |e| Integration.new(e, self, bot) }
     end
@@ -61,7 +61,7 @@ module Rubycord::Light
       restructured = {}
 
       restructured["type"] = data["type"]
-      restructured["id"] = data["account"]["id"]
+      restructured["id"] = data["account"]["id"].resolve_id
       restructured["name"] = data["account"]["name"]
       restructured["integrations"] = []
 

@@ -185,7 +185,7 @@ module Rubycord
     def cache_widget_data
       data = JSON.parse(API::Server.widget(@bot.token, @id))
       @widget_enabled = data["enabled"]
-      @widget_channel_id = data["channel_id"]
+      @widget_channel_id = data["channel_id"].resolve_id
     end
 
     # @return [true, false] whether or not the server has widget enabled
@@ -243,7 +243,7 @@ module Rubycord
       channel_id = channel ? channel.resolve_id : @widget_channel_id
       response = JSON.parse(API::Server.modify_widget(@bot.token, @id, enabled, channel_id, reason))
       @widget_enabled = response["enabled"]
-      @widget_channel_id = response["channel_id"]
+      @widget_channel_id = response["channel_id"].resolve_id
     end
     alias_method :modify_embed, :modify_widget
 
