@@ -55,6 +55,9 @@ module Rubycord
     # @return [String] The bot's name.
     attr_accessor :name
 
+    # @return [Symbol] The account's type.
+    attr_reader :type
+
     # @return [Array(Integer, Integer)] the current shard key
     attr_reader :shard_key
 
