@@ -1,4 +1,4 @@
-require "discordrb"
+require "rubycord"
 require "mock/api_mock"
 
 using APIMock

@@ -1,4 +1,4 @@
-require "discordrb"
+require "rubycord"
 
 # This data is shared across examples, so it needs to be defined here
 # TODO: Refactor, potentially use `shared_context`
@@ -8,21 +8,21 @@ EVENT_EMOJI1_ID = 10
 EVENT_EMOJI1_NAME = "emoji_name_1"
 EVENT_EMOJI2_NAME = "emoji_name_2"
 
-describe Discordrb::Events do
-  describe Discordrb::Events::Negated do
+describe Rubycord::Events do
+  describe Rubycord::Events::Negated do
     it "should initialize without errors" do
-      Discordrb::Events::Negated.new(:test)
+      Rubycord::Events::Negated.new(:test)
     end
 
     it "should contain the passed object" do
-      negated = Discordrb::Events::Negated.new(:test)
+      negated = Rubycord::Events::Negated.new(:test)
       expect(negated.object).to eq :test
     end
   end
 
   describe "not!" do
     it "should return a Negated object" do
-      expect(not!(:test)).to be_a(Discordrb::Events::Negated)
+      expect(not!(:test)).to be_a(Rubycord::Events::Negated)
     end
 
     it "should contain the correct value" do
@@ -32,81 +32,81 @@ describe Discordrb::Events do
 
   describe "matches_all" do
     it "should return true for a nil attribute" do
-      expect(Discordrb::Events.matches_all(nil, nil)).to eq true
+      expect(Rubycord::Events.matches_all(nil, nil)).to eq true
     end
 
     it "should be truthy if the block is truthy" do
-      expect(Discordrb::Events.matches_all(:a, :e) { true }).to be_truthy
-      expect(Discordrb::Events.matches_all(:a, :e) { 1 }).to be_truthy
-      expect(Discordrb::Events.matches_all(:a, :e) { 0 }).to be_truthy
-      expect(Discordrb::Events.matches_all(:a, :e) { "string" }).to be_truthy
-      expect(Discordrb::Events.matches_all(:a, :e) { false }).to_not be_truthy
+      expect(Rubycord::Events.matches_all(:a, :e) { true }).to be_truthy
+      expect(Rubycord::Events.matches_all(:a, :e) { 1 }).to be_truthy
+      expect(Rubycord::Events.matches_all(:a, :e) { 0 }).to be_truthy
+      expect(Rubycord::Events.matches_all(:a, :e) { "string" }).to be_truthy
+      expect(Rubycord::Events.matches_all(:a, :e) { false }).to_not be_truthy
     end
 
     it "should be falsey if the block is falsey" do
-      expect(Discordrb::Events.matches_all(:a, :e) { nil }).to be_falsy
-      expect(Discordrb::Events.matches_all(:a, :e) { false }).to be_falsy
-      expect(Discordrb::Events.matches_all(:a, :e) { 0 }).to_not be_falsy
+      expect(Rubycord::Events.matches_all(:a, :e) { nil }).to be_falsy
+      expect(Rubycord::Events.matches_all(:a, :e) { false }).to be_falsy
+      expect(Rubycord::Events.matches_all(:a, :e) { 0 }).to_not be_falsy
     end
 
     it "should correctly pass the arguments given" do
-      Discordrb::Events.matches_all(:one, :two) do |a, e|
+      Rubycord::Events.matches_all(:one, :two) do |a, e|
         expect(a).to eq(:one)
         expect(e).to eq(:two)
       end
     end
 
     it "should correctly compare arguments for comparison blocks" do
-      expect(Discordrb::Events.matches_all(1, 1) { |a, e| a == e }).to be_truthy
-      expect(Discordrb::Events.matches_all(1, 0) { |a, e| a == e }).to be_falsy
-      expect(Discordrb::Events.matches_all(0, 1) { |a, e| a == e }).to be_falsy
-      expect(Discordrb::Events.matches_all(0, 0) { |a, e| a == e }).to be_truthy
-      expect(Discordrb::Events.matches_all(1, 1) { |a, e| a != e }).to be_falsy
-      expect(Discordrb::Events.matches_all(1, 0) { |a, e| a != e }).to be_truthy
-      expect(Discordrb::Events.matches_all(0, 1) { |a, e| a != e }).to be_truthy
-      expect(Discordrb::Events.matches_all(0, 0) { |a, e| a != e }).to be_falsy
+      expect(Rubycord::Events.matches_all(1, 1) { |a, e| a == e }).to be_truthy
+      expect(Rubycord::Events.matches_all(1, 0) { |a, e| a == e }).to be_falsy
+      expect(Rubycord::Events.matches_all(0, 1) { |a, e| a == e }).to be_falsy
+      expect(Rubycord::Events.matches_all(0, 0) { |a, e| a == e }).to be_truthy
+      expect(Rubycord::Events.matches_all(1, 1) { |a, e| a != e }).to be_falsy
+      expect(Rubycord::Events.matches_all(1, 0) { |a, e| a != e }).to be_truthy
+      expect(Rubycord::Events.matches_all(0, 1) { |a, e| a != e }).to be_truthy
+      expect(Rubycord::Events.matches_all(0, 0) { |a, e| a != e }).to be_falsy
     end
 
     it "should return the opposite results for negated arguments" do
-      expect(Discordrb::Events.matches_all(not!(:a), :e) { true }).to be_falsy
-      expect(Discordrb::Events.matches_all(not!(:a), :e) { 1 }).to be_falsy
-      expect(Discordrb::Events.matches_all(not!(:a), :e) { 0 }).to be_falsy
-      expect(Discordrb::Events.matches_all(not!(:a), :e) { "string" }).to be_falsy
-      expect(Discordrb::Events.matches_all(not!(:a), :e) { false }).to_not be_falsy
-      expect(Discordrb::Events.matches_all(not!(:a), :e) { nil }).to be_truthy
-      expect(Discordrb::Events.matches_all(not!(:a), :e) { false }).to be_truthy
-      expect(Discordrb::Events.matches_all(not!(:a), :e) { 0 }).to_not be_truthy
-      expect(Discordrb::Events.matches_all(not!(1), 1) { |a, e| a == e }).to be_falsy
-      expect(Discordrb::Events.matches_all(not!(1), 0) { |a, e| a == e }).to be_truthy
-      expect(Discordrb::Events.matches_all(not!(0), 1) { |a, e| a == e }).to be_truthy
-      expect(Discordrb::Events.matches_all(not!(0), 0) { |a, e| a == e }).to be_falsy
-      expect(Discordrb::Events.matches_all(not!(1), 1) { |a, e| a != e }).to be_truthy
-      expect(Discordrb::Events.matches_all(not!(1), 0) { |a, e| a != e }).to be_falsy
-      expect(Discordrb::Events.matches_all(not!(0), 1) { |a, e| a != e }).to be_falsy
-      expect(Discordrb::Events.matches_all(not!(0), 0) { |a, e| a != e }).to be_truthy
+      expect(Rubycord::Events.matches_all(not!(:a), :e) { true }).to be_falsy
+      expect(Rubycord::Events.matches_all(not!(:a), :e) { 1 }).to be_falsy
+      expect(Rubycord::Events.matches_all(not!(:a), :e) { 0 }).to be_falsy
+      expect(Rubycord::Events.matches_all(not!(:a), :e) { "string" }).to be_falsy
+      expect(Rubycord::Events.matches_all(not!(:a), :e) { false }).to_not be_falsy
+      expect(Rubycord::Events.matches_all(not!(:a), :e) { nil }).to be_truthy
+      expect(Rubycord::Events.matches_all(not!(:a), :e) { false }).to be_truthy
+      expect(Rubycord::Events.matches_all(not!(:a), :e) { 0 }).to_not be_truthy
+      expect(Rubycord::Events.matches_all(not!(1), 1) { |a, e| a == e }).to be_falsy
+      expect(Rubycord::Events.matches_all(not!(1), 0) { |a, e| a == e }).to be_truthy
+      expect(Rubycord::Events.matches_all(not!(0), 1) { |a, e| a == e }).to be_truthy
+      expect(Rubycord::Events.matches_all(not!(0), 0) { |a, e| a == e }).to be_falsy
+      expect(Rubycord::Events.matches_all(not!(1), 1) { |a, e| a != e }).to be_truthy
+      expect(Rubycord::Events.matches_all(not!(1), 0) { |a, e| a != e }).to be_falsy
+      expect(Rubycord::Events.matches_all(not!(0), 1) { |a, e| a != e }).to be_falsy
+      expect(Rubycord::Events.matches_all(not!(0), 0) { |a, e| a != e }).to be_truthy
     end
 
     it "should find one correct element inside arrays" do
-      expect(Discordrb::Events.matches_all([1, 2, 3], 1) { |a, e| a == e }).to be_truthy
-      expect(Discordrb::Events.matches_all([1, 2, 3], 2) { |a, e| a == e }).to be_truthy
-      expect(Discordrb::Events.matches_all([1, 2, 3], 3) { |a, e| a == e }).to be_truthy
-      expect(Discordrb::Events.matches_all([1, 2, 3], 4) { |a, e| a != e }).to be_truthy
+      expect(Rubycord::Events.matches_all([1, 2, 3], 1) { |a, e| a == e }).to be_truthy
+      expect(Rubycord::Events.matches_all([1, 2, 3], 2) { |a, e| a == e }).to be_truthy
+      expect(Rubycord::Events.matches_all([1, 2, 3], 3) { |a, e| a == e }).to be_truthy
+      expect(Rubycord::Events.matches_all([1, 2, 3], 4) { |a, e| a != e }).to be_truthy
     end
 
     it "should return false when nothing matches inside arrays" do
-      expect(Discordrb::Events.matches_all([1, 2, 3], 4) { |a, e| a == e }).to be_falsy
+      expect(Rubycord::Events.matches_all([1, 2, 3], 4) { |a, e| a == e }).to be_falsy
     end
 
     it "should return the respective opposite results for negated arrays" do
-      expect(Discordrb::Events.matches_all(not!([1, 2, 3]), 1) { |a, e| a == e }).to be_falsy
-      expect(Discordrb::Events.matches_all(not!([1, 2, 3]), 2) { |a, e| a == e }).to be_falsy
-      expect(Discordrb::Events.matches_all(not!([1, 2, 3]), 3) { |a, e| a == e }).to be_falsy
-      expect(Discordrb::Events.matches_all(not!([1, 2, 3]), 4) { |a, e| a != e }).to be_falsy
-      expect(Discordrb::Events.matches_all(not!([1, 2, 3]), 4) { |a, e| a == e }).to be_truthy
+      expect(Rubycord::Events.matches_all(not!([1, 2, 3]), 1) { |a, e| a == e }).to be_falsy
+      expect(Rubycord::Events.matches_all(not!([1, 2, 3]), 2) { |a, e| a == e }).to be_falsy
+      expect(Rubycord::Events.matches_all(not!([1, 2, 3]), 3) { |a, e| a == e }).to be_falsy
+      expect(Rubycord::Events.matches_all(not!([1, 2, 3]), 4) { |a, e| a != e }).to be_falsy
+      expect(Rubycord::Events.matches_all(not!([1, 2, 3]), 4) { |a, e| a == e }).to be_truthy
     end
   end
 
-  describe Discordrb::Events::MessageEvent do
+  describe Rubycord::Events::MessageEvent do
     let(:bot) { double }
     let(:channel) { double }
     let(:message) { double("message", channel: channel) }
@@ -117,7 +117,7 @@ describe Discordrb::Events do
 
     describe "after_call" do
       subject :handler do
-        Discordrb::Events::MessageEventHandler.new(double, double("proc"))
+        Rubycord::Events::MessageEventHandler.new(double, double("proc"))
       end
 
       it "calls send_file with attached file, filename, and spoiler" do
@@ -133,40 +133,40 @@ describe Discordrb::Events do
     end
   end
 
-  describe Discordrb::Events::EventHandler do
+  describe Rubycord::Events::EventHandler do
     describe "matches?" do
       it "should raise an error" do
-        expect { Discordrb::Events::EventHandler.new({}, nil).matches?(nil) }.to raise_error(RuntimeError)
+        expect { Rubycord::Events::EventHandler.new({}, nil).matches?(nil) }.to raise_error(RuntimeError)
       end
     end
   end
 
-  describe Discordrb::Events::TrueEventHandler do
+  describe Rubycord::Events::TrueEventHandler do
     describe "matches?" do
       it "should return true" do
-        expect(Discordrb::Events::TrueEventHandler.new({}, nil).matches?(nil)).to eq true
+        expect(Rubycord::Events::TrueEventHandler.new({}, nil).matches?(nil)).to eq true
       end
 
       it "should always call the block given" do
         count = 0
-        Discordrb::Events::TrueEventHandler.new({}, proc { count += 1 }).match(nil)
-        Discordrb::Events::TrueEventHandler.new({}, proc { count += 2 }).match(1)
-        Discordrb::Events::TrueEventHandler.new({}, proc do |e|
+        Rubycord::Events::TrueEventHandler.new({}, proc { count += 1 }).match(nil)
+        Rubycord::Events::TrueEventHandler.new({}, proc { count += 2 }).match(1)
+        Rubycord::Events::TrueEventHandler.new({}, proc do |e|
           expect(e).to eq(1)
           count += 4
         end).match(1)
-        Discordrb::Events::TrueEventHandler.new({a: :b}, proc { count += 8 }).match(1)
-        Discordrb::Events::TrueEventHandler.new(nil, proc { count += 16 }).match(1)
+        Rubycord::Events::TrueEventHandler.new({a: :b}, proc { count += 8 }).match(1)
+        Rubycord::Events::TrueEventHandler.new(nil, proc { count += 16 }).match(1)
       end
     end
   end
 
-  describe Discordrb::Events::MessageEventHandler do
+  describe Rubycord::Events::MessageEventHandler do
     describe "matches?" do
       it "should call with empty attributes" do
         t = track("empty attributes")
-        event = double("Discordrb::Events::MessageEvent")
-        Discordrb::Events::MessageEventHandler.new({}, proc { t.track(1) }).match(event)
+        event = double("Rubycord::Events::MessageEvent")
+        Rubycord::Events::MessageEventHandler.new({}, proc { t.track(1) }).match(event)
         # t.summary
       end
     end
@@ -174,16 +174,16 @@ describe Discordrb::Events do
     shared_examples "end_with attributes" do |expr, matching, non_matching|
       describe "end_with attribute" do
         it "matches #{matching}" do
-          handler = Discordrb::Events::MessageEventHandler.new({end_with: expr}, double("proc"))
+          handler = Rubycord::Events::MessageEventHandler.new({end_with: expr}, double("proc"))
           event = double("event", channel: double("channel", private?: false), author: double("author"), timestamp: double("timestamp"), content: matching)
-          allow(event).to receive(:is_a?).with(Discordrb::Events::MessageEvent).and_return(true)
+          allow(event).to receive(:is_a?).with(Rubycord::Events::MessageEvent).and_return(true)
           expect(handler.matches?(event)).to be_truthy
         end
 
         it "doesn't match #{non_matching}" do
-          handler = Discordrb::Events::MessageEventHandler.new({end_with: expr}, double("proc"))
+          handler = Rubycord::Events::MessageEventHandler.new({end_with: expr}, double("proc"))
           event = double("event", channel: double("channel", private?: false), author: double("author"), timestamp: double("timestamp"), content: non_matching)
-          allow(event).to receive(:is_a?).with(Discordrb::Events::MessageEvent).and_return(true)
+          allow(event).to receive(:is_a?).with(Rubycord::Events::MessageEvent).and_return(true)
           expect(handler.matches?(event)).to be_falsy
         end
       end
@@ -254,7 +254,7 @@ describe Discordrb::Events do
     end
   end
 
-  describe Discordrb::Events::ServerEvent do
+  describe Rubycord::Events::ServerEvent do
     let(:bot) { double("bot", server: server) }
     let(:server) { double }
 
@@ -265,7 +265,7 @@ describe Discordrb::Events do
     it_behaves_like "ServerEvent"
   end
 
-  describe Discordrb::Events::ServerEmojiCDEvent do
+  describe Rubycord::Events::ServerEmojiCDEvent do
     let(:bot) { double }
     let(:server) { double }
     let(:emoji) { double }
@@ -283,7 +283,7 @@ describe Discordrb::Events do
     end
   end
 
-  describe Discordrb::Events::ServerEmojiChangeEvent do
+  describe Rubycord::Events::ServerEmojiChangeEvent do
     fixture :dispatch, %i[emoji dispatch]
 
     fixture_property :emoji_1_id, :dispatch, ["emojis", 0, "id"], :to_i
@@ -305,7 +305,7 @@ describe Discordrb::Events do
     end
   end
 
-  describe Discordrb::Events::ServerEmojiUpdateEvent do
+  describe Rubycord::Events::ServerEmojiUpdateEvent do
     let(:bot) { double }
     let(:server) { double }
     let(:old_emoji) { double }
@@ -327,7 +327,7 @@ describe Discordrb::Events do
     end
   end
 
-  describe Discordrb::Events::ServerEventHandler do
+  describe Rubycord::Events::ServerEventHandler do
     let(:event) { double("event", is_a?: true, emoji: emoji, server: server) }
     let(:server) { double("server", name: EVENT_SERVER_NAME, id: EVENT_SERVER_ID) }
     let(:emoji) { double("emoji", id: EVENT_EMOJI1_ID, name: EVENT_EMOJI1_NAME) }
@@ -335,7 +335,7 @@ describe Discordrb::Events do
     it_behaves_like "ServerEventHandler"
   end
 
-  describe Discordrb::Events::ServerEmojiCDEventHandler do
+  describe Rubycord::Events::ServerEmojiCDEventHandler do
     let(:event) { double("event", is_a?: true, emoji: emoji, server: server) }
     let(:server) { double("server", name: EVENT_SERVER_NAME, id: EVENT_SERVER_ID) }
     let(:emoji) { double("emoji", id: EVENT_EMOJI1_ID, name: EVENT_EMOJI1_NAME) }
@@ -344,7 +344,7 @@ describe Discordrb::Events do
     it_behaves_like "ServerEmojiEventHandler"
   end
 
-  describe Discordrb::Events::ServerEmojiUpdateEventHandler do
+  describe Rubycord::Events::ServerEmojiUpdateEventHandler do
     let(:event) { double("event", is_a?: true, emoji: emoji_new, old_emoji: emoji_old, server: server) }
     let(:server) { double("server", name: EVENT_SERVER_NAME, id: EVENT_SERVER_ID) }
     let(:emoji_old) { double("emoji_old", id: EVENT_EMOJI1_ID, name: EVENT_EMOJI2_NAME) }

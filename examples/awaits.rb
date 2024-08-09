@@ -2,12 +2,12 @@
 # require 'rubygems'
 # require 'bundler/setup'
 
-require "discordrb"
+require "rubycord"
 
 # Create a bot
-bot = Discordrb::Bot.new token: "B0T.T0KEN.here"
+bot = Rubycord::Bot.new token: "B0T.T0KEN.here"
 
-# Discordrb features an Awaits system that allows you to instantiate
+# Rubycord features an Awaits system that allows you to instantiate
 # temporary event handlers. The following example depicts a simple
 # "Guess the number" game using an await set up to listen for a specific
 # user's follow-up messages until a condition is satisfied.
@@ -52,7 +52,7 @@ end
 # Here, we'll write a command that shows the current time and allows
 # the user to delete the message with a reaction.
 # We'll be using Bot#add_await! to do this:
-# https://www.rubydoc.info/gems/discordrb/Discordrb%2FBot:add_await!
+# https://www.rubydoc.info/gems/rubycord/Rubycord%2FBot:add_await!
 
 # the unicode ":x:" emoji
 CROSS_MARK = "\u274c"
@@ -66,7 +66,7 @@ bot.message(content: "!time") do |event|
 
   # Add an await for a ReactionAddEvent, that will only trigger for reactions
   # that match our CROSS_MARK emoji. To prevent the bot from cluttering up threads, we destroy the await after 30 seconds.
-  bot.add_await!(Discordrb::Events::ReactionAddEvent, message: message, emoji: CROSS_MARK, timeout: 30) do |_reaction_event|
+  bot.add_await!(Rubycord::Events::ReactionAddEvent, message: message, emoji: CROSS_MARK, timeout: 30) do |_reaction_event|
     message.delete # Delete the bot message
   end
   # This code executes after our await concludes, or when the timeout runs out.
@@ -78,6 +78,6 @@ end
 bot.run
 
 # For more details about Awaits, see:
-# https://www.rubydoc.info/gems/discordrb/Discordrb/Await
+# https://www.rubydoc.info/gems/rubycord/Rubycord/Await
 # For a list of events you can use to await for, see:
-# https://www.rubydoc.info/gems/discordrb/Discordrb/Events
+# https://www.rubydoc.info/gems/rubycord/Rubycord/Events

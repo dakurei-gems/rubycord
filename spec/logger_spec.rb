@@ -1,9 +1,9 @@
-require "discordrb"
+require "rubycord"
 
-describe Discordrb::Logger do
+describe Rubycord::Logger do
   it "should log messages" do
     stream = spy
-    logger = Discordrb::Logger.new(false, [stream])
+    logger = Rubycord::Logger.new(false, [stream])
 
     logger.error("Testing")
 
@@ -12,7 +12,7 @@ describe Discordrb::Logger do
 
   it "should respect the log mode" do
     stream = spy
-    logger = Discordrb::Logger.new(false, [stream])
+    logger = Rubycord::Logger.new(false, [stream])
     logger.mode = :silent
 
     logger.error("Testing")
@@ -23,7 +23,7 @@ describe Discordrb::Logger do
   context "fancy mode" do
     it "should log messages" do
       stream = spy
-      logger = Discordrb::Logger.new(true, [stream])
+      logger = Rubycord::Logger.new(true, [stream])
 
       logger.error("Testing")
 
@@ -34,7 +34,7 @@ describe Discordrb::Logger do
   context "redacted token" do
     it "should redact the token from messages" do
       stream = spy
-      logger = Discordrb::Logger.new(true, [stream])
+      logger = Rubycord::Logger.new(true, [stream])
       logger.token = "asdfg"
 
       logger.error("this message contains a token that should be redacted: asdfg")

@@ -1,6 +1,6 @@
-require "discordrb"
+require "rubycord"
 
-describe Discordrb::Webhook do
+describe Rubycord::Webhook do
   let(:token) { double("token") }
   let(:reason) { double("reason") }
   let(:server) { double("server", member: double) }
@@ -107,7 +107,7 @@ describe Discordrb::Webhook do
   describe "#delete" do
     context "when webhook is from auth" do
       it "calls the API" do
-        expect(Discordrb::API::Webhook).to receive(:delete_webhook).with(token, webhook_id, reason)
+        expect(Rubycord::API::Webhook).to receive(:delete_webhook).with(token, webhook_id, reason)
         webhook.delete(reason)
       end
     end
@@ -116,7 +116,7 @@ describe Discordrb::Webhook do
       before { webhook.instance_variable_set(:@owner, nil) }
 
       it "calls the token API" do
-        expect(Discordrb::API::Webhook).to receive(:token_delete_webhook).with(webhook_token, webhook_id, reason)
+        expect(Rubycord::API::Webhook).to receive(:token_delete_webhook).with(webhook_token, webhook_id, reason)
         webhook.delete(reason)
       end
     end
@@ -125,7 +125,7 @@ describe Discordrb::Webhook do
   describe "#avatar_url" do
     context "avatar is set" do
       it "calls the correct API helper" do
-        expect(Discordrb::API::User).to receive(:avatar_url).with(webhook_id, webhook_avatar)
+        expect(Rubycord::API::User).to receive(:avatar_url).with(webhook_id, webhook_avatar)
         webhook.avatar_url
       end
     end
@@ -134,7 +134,7 @@ describe Discordrb::Webhook do
       before { webhook.instance_variable_set(:@avatar, nil) }
 
       it "calls the correct API helper" do
-        expect(Discordrb::API::User).to receive(:default_avatar)
+        expect(Rubycord::API::User).to receive(:default_avatar)
         webhook.avatar_url
       end
     end
@@ -205,7 +205,7 @@ describe Discordrb::Webhook do
         webhook
         data = double("data", :[] => double)
         allow(JSON).to receive(:parse).and_return(data)
-        allow(Discordrb::API::Webhook).to receive(:update_webhook)
+        allow(Rubycord::API::Webhook).to receive(:update_webhook)
         expect(webhook).to receive(:update_internal).with(data)
         webhook.send(:update_webhook, double("data", delete: reason))
       end
@@ -216,7 +216,7 @@ describe Discordrb::Webhook do
         webhook
         data = double("data", :[] => nil)
         allow(JSON).to receive(:parse).and_return(data)
-        allow(Discordrb::API::Webhook).to receive(:update_webhook)
+        allow(Rubycord::API::Webhook).to receive(:update_webhook)
         expect(webhook).to_not receive(:update_internal)
         webhook.send(:update_webhook, double("data", delete: reason))
       end
@@ -227,7 +227,7 @@ describe Discordrb::Webhook do
         webhook
         data = double("data", delete: reason)
         allow(JSON).to receive(:parse).and_return(double("received_data", :[] => double))
-        expect(Discordrb::API::Webhook).to receive(:update_webhook).with(token, webhook_id, data, reason)
+        expect(Rubycord::API::Webhook).to receive(:update_webhook).with(token, webhook_id, data, reason)
         webhook.send(:update_webhook, data)
       end
     end
@@ -238,7 +238,7 @@ describe Discordrb::Webhook do
       it "calls token API" do
         data = double("data", delete: reason)
         allow(JSON).to receive(:parse).and_return(double("received_data", :[] => double))
-        expect(Discordrb::API::Webhook).to receive(:token_update_webhook).with(webhook_token, webhook_id, data, reason)
+        expect(Rubycord::API::Webhook).to receive(:token_update_webhook).with(webhook_token, webhook_id, data, reason)
         webhook.send(:update_webhook, data)
       end
     end
@@ -249,7 +249,7 @@ describe Discordrb::Webhook do
     let(:data) { instance_double(Hash) }
 
     before do
-      allow(Discordrb::API::Webhook).to receive(:token_execute_webhook)
+      allow(Rubycord::API::Webhook).to receive(:token_execute_webhook)
     end
 
     context "when there is no token" do
@@ -260,13 +260,13 @@ describe Discordrb::Webhook do
       end
 
       it "raises an UnauthorizedWebhook error" do
-        expect { tokenless_webhook.execute }.to raise_error(Discordrb::Errors::UnauthorizedWebhook)
+        expect { tokenless_webhook.execute }.to raise_error(Rubycord::Errors::UnauthorizedWebhook)
       end
     end
 
     context "when no builder is provided" do
       it "creates a new builder" do
-        expect { |b| webhook.execute(wait: false, &b) }.to yield_with_args(instance_of(Discordrb::Webhooks::Builder), instance_of(Discordrb::Webhooks::View))
+        expect { |b| webhook.execute(wait: false, &b) }.to yield_with_args(instance_of(Rubycord::Webhooks::Builder), instance_of(Rubycord::Webhooks::View))
       end
     end
 
@@ -274,17 +274,17 @@ describe Discordrb::Webhook do
       content = instance_double(String)
       username = instance_double(String)
 
-      builder = Discordrb::Webhooks::Builder.new(content: content)
+      builder = Rubycord::Webhooks::Builder.new(content: content)
 
       webhook.execute(username: username, builder: builder, wait: false)
 
-      expect(Discordrb::API::Webhook).to have_received(:token_execute_webhook).with(anything, anything, false, content, username, any_args)
+      expect(Rubycord::API::Webhook).to have_received(:token_execute_webhook).with(anything, anything, false, content, username, any_args)
     end
 
     context "when wait is true" do
       before do
-        allow(Discordrb::API::Webhook).to receive(:token_execute_webhook).and_return(resp)
-        allow(Discordrb::Message).to receive(:new)
+        allow(Rubycord::API::Webhook).to receive(:token_execute_webhook).and_return(resp)
+        allow(Rubycord::Message).to receive(:new)
         allow(JSON).to receive(:parse).and_call_original
         allow(JSON).to receive(:parse).with(resp).and_return(data)
       end
@@ -292,7 +292,7 @@ describe Discordrb::Webhook do
       it "creates a Message object with the response" do
         webhook.execute(wait: true)
 
-        expect(Discordrb::Message).to have_received(:new).with(data, bot)
+        expect(Rubycord::Message).to have_received(:new).with(data, bot)
       end
     end
   end
@@ -304,10 +304,10 @@ describe Discordrb::Webhook do
     let(:data) { instance_double(Hash) }
 
     before do
-      allow(Discordrb::API::Webhook).to receive(:token_edit_message).with(any_args).and_return(resp)
+      allow(Rubycord::API::Webhook).to receive(:token_edit_message).with(any_args).and_return(resp)
       allow(JSON).to receive(:parse).with(anything).and_call_original
       allow(JSON).to receive(:parse).with(resp).and_return(data)
-      allow(Discordrb::Message).to receive(:new).with(any_args).and_return(nil)
+      allow(Rubycord::Message).to receive(:new).with(any_args).and_return(nil)
     end
 
     context "when there is no token" do
@@ -318,15 +318,15 @@ describe Discordrb::Webhook do
       end
 
       it "raises an UnauthorizedWebhook error" do
-        expect { tokenless_webhook.edit_message(message) }.to raise_error(Discordrb::Errors::UnauthorizedWebhook)
+        expect { tokenless_webhook.edit_message(message) }.to raise_error(Rubycord::Errors::UnauthorizedWebhook)
       end
     end
 
     context "when no builder is provided" do
       it "creates a new builder" do
         expect { |b| webhook.edit_message(message, &b) }.to yield_with_args(
-          instance_of(Discordrb::Webhooks::Builder),
-          instance_of(Discordrb::Webhooks::View)
+          instance_of(Rubycord::Webhooks::Builder),
+          instance_of(Rubycord::Webhooks::View)
         )
       end
     end
@@ -335,27 +335,27 @@ describe Discordrb::Webhook do
       content = instance_double(String)
       embeds = instance_double(Array)
 
-      builder = Discordrb::Webhooks::Builder.new(content: content)
+      builder = Rubycord::Webhooks::Builder.new(content: content)
 
       webhook.edit_message(message, embeds: embeds, builder: builder)
 
-      expect(Discordrb::API::Webhook).to have_received(:token_edit_message).with(webhook.token, webhook.id, message_id, content, embeds, nil, [])
+      expect(Rubycord::API::Webhook).to have_received(:token_edit_message).with(webhook.token, webhook.id, message_id, content, embeds, nil, [])
     end
 
     it "returns an updated Message object" do
-      msg = instance_double(Discordrb::Message)
-      allow(Discordrb::Message).to receive(:new).with(data, bot).and_return(msg)
+      msg = instance_double(Rubycord::Message)
+      allow(Rubycord::Message).to receive(:new).with(data, bot).and_return(msg)
 
       expect(webhook.edit_message(message)).to be msg
     end
   end
 
   describe "#delete_message" do
-    let(:message) { instance_double(Discordrb::Message, resolve_id: message_id) }
+    let(:message) { instance_double(Rubycord::Message, resolve_id: message_id) }
     let(:message_id) { instance_double(Integer) }
 
     before do
-      allow(Discordrb::API::Webhook).to receive(:token_delete_message).with(any_args)
+      allow(Rubycord::API::Webhook).to receive(:token_delete_message).with(any_args)
     end
 
     context "when there is no token" do
@@ -366,14 +366,14 @@ describe Discordrb::Webhook do
       end
 
       it "raises an UnauthorizedWebhook error" do
-        expect { tokenless_webhook.delete_message(message_id) }.to raise_error(Discordrb::Errors::UnauthorizedWebhook)
+        expect { tokenless_webhook.delete_message(message_id) }.to raise_error(Rubycord::Errors::UnauthorizedWebhook)
       end
     end
 
     it "calls token_delete_message" do
       webhook.delete_message(message)
 
-      expect(Discordrb::API::Webhook).to have_received(:token_delete_message).with(webhook.token, webhook.id, message_id)
+      expect(Rubycord::API::Webhook).to have_received(:token_delete_message).with(webhook.token, webhook.id, message_id)
     end
   end
 end

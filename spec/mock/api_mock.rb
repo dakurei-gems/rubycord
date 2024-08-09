@@ -1,8 +1,8 @@
-# Mock for Discordrb::API that allows setting arbitrary results and checking previous requests
+# Mock for Rubycord::API that allows setting arbitrary results and checking previous requests
 require "json"
 
 module APIMock
-  refine Discordrb::API.singleton_class do
+  refine Rubycord::API.singleton_class do
     attr_reader :last_method
     attr_reader :last_url
     attr_reader :last_body

@@ -1,9 +1,9 @@
-require "discordrb"
+require "rubycord"
 require "securerandom"
 
-bot = Discordrb::Bot.new(token: ENV.fetch("DISCORDRB_TOKEN"))
-bot.register_application_command(:modal_test, "Test out a spiffy modal", server_id: ENV.fetch("DISCORDRB_SERVER_ID"))
-bot.register_application_command(:modal_await_test, "Test out the await style", server_id: ENV.fetch("DISCORDRB_SERVER_ID"))
+bot = Rubycord::Bot.new(token: ENV.fetch("RUBYCORD_TOKEN"))
+bot.register_application_command(:modal_test, "Test out a spiffy modal", server_id: ENV.fetch("RUBYCORD_SERVER_ID"))
+bot.register_application_command(:modal_await_test, "Test out the await style", server_id: ENV.fetch("RUBYCORD_SERVER_ID"))
 
 bot.application_command :modal_test do |event|
   event.show_modal(title: "Test modal", custom_id: "test1234") do |modal|
@@ -34,7 +34,7 @@ bot.application_command :modal_await_test do |event|
   end
 
   start_time = Time.now
-  modal_event = bot.add_await!(Discordrb::Events::ModalSubmitEvent, custom_id: id, timeout: (60 * 10))
+  modal_event = bot.add_await!(Rubycord::Events::ModalSubmitEvent, custom_id: id, timeout: (60 * 10))
 
   if event.nil?
     modal_event.respond(content: "Time's up!", ephemeral: true)

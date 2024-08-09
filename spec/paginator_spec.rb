@@ -1,6 +1,6 @@
-require "discordrb"
+require "rubycord"
 
-describe Discordrb::Paginator do
+describe Rubycord::Paginator do
   context "direction down" do
     it "requests all pages until empty" do
       data = [
@@ -11,7 +11,7 @@ describe Discordrb::Paginator do
       ]
 
       index = 0
-      paginator = Discordrb::Paginator.new(nil, :down) do |last_page|
+      paginator = Rubycord::Paginator.new(nil, :down) do |last_page|
         expect(last_page).to eq data[index - 1] if last_page
         next_page = data[index]
         index += 1
@@ -32,7 +32,7 @@ describe Discordrb::Paginator do
       ]
 
       index = 0
-      paginator = Discordrb::Paginator.new(nil, :up) do |last_page|
+      paginator = Rubycord::Paginator.new(nil, :up) do |last_page|
         expect(last_page).to eq data[index - 1] if last_page
         next_page = data[index]
         index += 1
@@ -51,7 +51,7 @@ describe Discordrb::Paginator do
     ]
 
     index = 0
-    paginator = Discordrb::Paginator.new(2, :down) do |_last_page|
+    paginator = Rubycord::Paginator.new(2, :down) do |_last_page|
       next_page = data[index]
       index += 1
       next_page

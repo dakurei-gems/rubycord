@@ -30,6 +30,6 @@ about: Report a bug to help us improve the library
 
 <!--- Paste full output of `ruby -v` here --->
 
-**Discordrb version:**
+**Rubycord version:**
 
-<!--- Paste full output of `bundle list discordrb` here --->
+<!--- Paste full output of `bundle list rubycord` here --->

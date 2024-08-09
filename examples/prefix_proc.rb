@@ -1,4 +1,4 @@
-require "discordrb"
+require "rubycord"
 
 # Here, we'll demonstrate one way to achieve a dynamic command prefix
 # in different contexts for your CommandBot.
@@ -40,7 +40,7 @@ prefix_proc = proc do |message|
 end
 
 # Setup a new bot with our prefix proc
-bot = Discordrb::Commands::CommandBot.new(token: "token", prefix: prefix_proc)
+bot = Rubycord::Commands::CommandBot.new(token: "token", prefix: prefix_proc)
 
 # A simple dice roll command, use it like: '!roll 2d10'
 bot.command(:roll, description: "rolls some dice",

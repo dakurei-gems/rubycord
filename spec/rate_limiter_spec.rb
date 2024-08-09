@@ -1,10 +1,10 @@
-require "discordrb"
+require "rubycord"
 
 # alias so I don't have to type it out every time...
-BUCKET = Discordrb::Commands::Bucket
-RATELIMITER = Discordrb::Commands::RateLimiter
+BUCKET = Rubycord::Commands::Bucket
+RATELIMITER = Rubycord::Commands::RateLimiter
 
-describe Discordrb::Commands::Bucket do
+describe Rubycord::Commands::Bucket do
   describe "rate_limited?" do
     it "should not rate limit one request" do
       expect(BUCKET.new(1, 5, 2).rate_limited?(:a)).to be_falsy

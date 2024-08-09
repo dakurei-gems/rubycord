@@ -1,6 +1,6 @@
-require "discordrb"
+require "rubycord"
 
-describe Discordrb::Role do
+describe Rubycord::Role do
   let(:server) { double("server", id: double) }
   let(:bot) { double("bot", token: double) }
 

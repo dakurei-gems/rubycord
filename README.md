@@ -9,7 +9,7 @@
 [![Main (Unreleased)](https://img.shields.io/badge/gem-main-007ec6.svg)](https://github.com/dakurei-gems/discordrb/tree/main)
 [![Main (Unreleased)](https://img.shields.io/badge/docs-main-979797.svg)](https://dakurei-gems.github.io/discordrb/main/)
 
-# discordrb
+# rubycord
 
 An implementation of the [Discord](https://discord.com/) API using Ruby.
 
@@ -28,7 +28,7 @@ See also: [Documentation](https://dakurei-gems.github.io/discordrb/v3.5.1/), [Tu
 
 ## Introduction
 
-`discordrb` aims to meet the following design goals:
+`rubycord` aims to meet the following design goals:
 
 1. Full coverage of the public bot API.
 2. Expressive, high level abstractions for rapid development of common applications.
@@ -36,7 +36,7 @@ See also: [Documentation](https://dakurei-gems.github.io/discordrb/v3.5.1/), [Tu
 
 If you enjoy using the library, consider getting involved with the community to help us improve and meet these goals!
 
-**You should consider using `discordrb` if:**
+**You should consider using `rubycord` if:**
 
 - You need a bot - and fast - for small or medium sized communities, and don't want to be bogged down with "low level" details. Getting started takes minutes, and utilities like a command parser and tools for modularization make it simple to quickly add or change your bots functionality.
 - You like or want to learn Ruby, or want to contribute to a Ruby project. A lot of our users are new to Ruby, and eventually make their first open source contributions with us. We have an active Discord channel with experienced members who will happily help you get involved, either as a user or contributor.
@@ -64,22 +64,22 @@ This section only applies to you if you want to use voice functionality.
 
 ### With Bundler
 
-Using [Bundler](https://bundler.io/#getting-started), you can add discordrb to your Gemfile:
+Using [Bundler](https://bundler.io/#getting-started), you can add rubycord to your Gemfile:
 
 ```ruby
-gem "discordrb", github: "dakurei-gems/discordrb", branch: "stable"
+gem "rubycord", github: "dakurei-gems/discordrb", branch: "stable"
 ```
 
 And then install via `bundle install`.
 
 _If you want to run a specific release, use this gem line:_
 ```ruby
-gem "discordrb", github: "dakurei-gems/discordrb", tag: "v3.5.1"
+gem "rubycord", github: "dakurei-gems/discordrb", tag: "v3.5.1"
 ```
 
 _If you want to run the latest code instead, use this gem line instead:_
 ```ruby
-gem "discordrb", github: "dakurei-gems/discordrb", branch: "main"
+gem "rubycord", github: "dakurei-gems/discordrb", branch: "main"
 ```
 
 ⚠️ **Note that `main` may contain breaking changes or other unstable code !**
@@ -97,9 +97,9 @@ bundle exec ruby ping.rb
 You can make a simple bot like this:
 
 ```ruby
-require 'discordrb'
+require 'rubycord'
 
-bot = Discordrb::Bot.new token: '<token here>'
+bot = Rubycord::Bot.new token: '<token here>'
 
 bot.message(with_text: 'Ping!') do |event|
   event.respond 'Pong!'
@@ -112,26 +112,26 @@ This bot responds to every "Ping!" with a "Pong!".
 
 See [additional examples here](https://github.com/dakurei-gems/discordrb/tree/main/examples).
 
-You can find examples of projects that use discordrb by [searching for the discordrb topic on GitHub](https://github.com/topics/discordrb).
+You can find examples of projects that use rubycord by [searching for the rubycord topic on GitHub](https://github.com/topics/rubycord).
 
-If you've made an open source project on GitHub that uses discordrb, consider adding the `discordrb` topic to your repo!
+If you've made an open source project on GitHub that uses rubycord, consider adding the `rubycord` topic to your repo!
 
 ## Webhooks Client
 
-Also included is a webhooks client, which can be used as a separate gem `discordrb-webhooks`. This special client can be used to form requests to Discord webhook URLs in a high-level manner.
+Also included is a webhooks client, which can be used as a separate gem `rubycord-webhooks`. This special client can be used to form requests to Discord webhook URLs in a high-level manner.
 
-- [`discordrb-webhooks` documentation](https://dakurei-gems.github.io/discordrb/v3.5.1/Discordrb/Webhooks.html)
+- [`rubycord-webhooks` documentation](https://dakurei-gems.github.io/discordrb/v3.5.1/Rubycord/Webhooks.html)
 - [More information about webhooks](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks)
-- [Embed visualizer tool](https://leovoel.github.io/embed-visualizer/) - Includes a discordrb code generator for forming embeds
+- [Embed visualizer tool](https://leovoel.github.io/embed-visualizer/)
 
 ### Usage
 
 ```ruby
-require 'discordrb/webhooks'
+require 'rubycord/webhooks'
 
 WEBHOOK_URL = 'https://discord.com/api/webhooks/424070213278105610/yByxDncRvHi02mhKQheviQI2erKkfRRwFcEp0MMBfib1ds6ZHN13xhPZNS2-fJo_ApSw'.freeze
 
-client = Discordrb::Webhooks::Client.new(url: WEBHOOK_URL)
+client = Rubycord::Webhooks::Client.new(url: WEBHOOK_URL)
 client.execute do |builder|
   builder.content = 'Hello world!'
   builder.add_embed do |embed|
@@ -142,7 +142,7 @@ client.execute do |builder|
 end
 ```
 
-**Note:** The `discordrb` gem relies on `discordrb-webhooks`. If you already have `discordrb` installed, `require 'discordrb/webhooks'` will include all of the `Webhooks` features as well.
+**Note:** The `rubycord` gem relies on `rubycord-webhooks`. If you already have `rubycord` installed, `require 'rubycord/webhooks'` will include all of the `Webhooks` features as well.
 
 ## Support
 
@@ -159,7 +159,7 @@ Be sure to use the search function in our documentation or on GitHub, to see if 
 
 ## Development setup
 
-**This section is for developing discordrb itself! If you just want to make a bot, see the [Installation](https://github.com/dakurei-gems/discordrb#installation) section.**
+**This section is for developing rubycord itself! If you just want to make a bot, see the [Installation](https://github.com/dakurei-gems/discordrb#installation) section.**
 
 After checking out the repo, run `bin/setup` to install dependencies. You can then run tests via `bundle exec rspec spec`. Make sure to run standard also: `bundle exec standardrb`. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
