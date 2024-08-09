@@ -14,7 +14,6 @@ on:
 jobs:
   pages:
     name: Generate Docs
-    if: github.repository == 'dakurei-gems/rubycord'
     runs-on: ubuntu-latest
     env:
       api-dir: ./
@@ -45,7 +44,7 @@ jobs:
           bundler-cache: true
 
       - name: Checkout repository for Github Pages
-        if: github.event_name == 'push'
+        if: github.repository == 'dakurei-gems/rubycord' && github.event_name == 'push'
         uses: actions/checkout@v4
         with:
           path: rubycord_gh
@@ -69,7 +68,7 @@ jobs:
           DOC_PATH="/tmp/docs" bin/clean_doc
 
       - name: Commit docs
-        if: github.event_name == 'push'
+        if: github.repository == 'dakurei-gems/rubycord' && github.event_name == 'push'
         run: |
           cd rubycord_gh
           mkdir -p $GITHUB_REF_NAME
@@ -79,7 +78,7 @@ jobs:
           git commit --allow-empty -m "[skip ci] Deploy docs"
 
       - name: Push
-        if: github.event_name == 'push'
+        if: github.repository == 'dakurei-gems/rubycord' && github.event_name == 'push'
         run: |
           cd rubycord_gh
           git push
