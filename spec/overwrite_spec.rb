@@ -84,7 +84,7 @@ describe Rubycord::Overwrite do
     let(:type) { Rubycord::Overwrite::TYPES[:role] }
 
     before do
-      allow(id).to receive(:to_i).and_return(id)
+      allow(id).to receive(:resolve_id).and_return(id)
     end
 
     it "converts a hash to an Overwrite" do

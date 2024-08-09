@@ -18,7 +18,7 @@ describe Rubycord::Commands::CommandBot, order: :defined do
   let(:user_id) { 321 }
   let(:user_roles) { [load_data_file(:text_channel), load_data_file(:text_channel)] }
   let(:role1) { user_roles[0].tap { |r| r["id"] = 240_172_879_361_212_417 }["id"] } # So we don't have the same ID in both roles.
-  let(:role2) { user_roles[1]["id"].to_i }
+  let(:role2) { user_roles[1]["id"].resolve_id }
   let(:test_channels) { TEST_CHANNELS }
   let(:first_channel) { test_channels[0] }
   let(:second_channel) { test_channels[1] }

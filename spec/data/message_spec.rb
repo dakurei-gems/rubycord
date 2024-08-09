@@ -14,6 +14,10 @@ describe Rubycord::Message do
     allow(channel_id).to receive(:to_i).and_return(channel_id)
     allow(message_id).to receive(:to_i).and_return(message_id)
 
+    allow(server_id).to receive(:resolve_id).and_return(server_id)
+    allow(channel_id).to receive(:resolve_id).and_return(channel_id)
+    allow(message_id).to receive(:resolve_id).and_return(message_id)
+
     allow(message_id).to receive(:to_s).and_return("message_id")
     allow(server_id).to receive(:to_s).and_return("server_id")
     allow(channel_id).to receive(:to_s).and_return("channel_id")
@@ -121,7 +125,7 @@ describe Rubycord::Message do
         .and_return([user_data].to_json)
 
       allow(Rubycord::API::Channel).to receive(:get_reactions)
-        .with(any_args, user_data["id"].to_i, anything)
+        .with(any_args, user_data["id"].resolve_id, anything)
         .and_return([].to_json)
     end
 
