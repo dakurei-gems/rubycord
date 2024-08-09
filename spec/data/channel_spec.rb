@@ -177,6 +177,7 @@ describe Rubycord::Channel do
           new_data = double("new data", :[] => nil, :key? => true)
           test_data = double("test_data")
           allow(new_data).to receive(:[]).with(property_name).and_return(test_data)
+          allow(test_data).to receive(:resolve_id).and_return(test_data)
           expect { channel.__send__(:update_data, new_data) }.to change { channel.__send__(property_name) }.to test_data
         end
       end
@@ -185,6 +186,7 @@ describe Rubycord::Channel do
           new_data = double("new data", :[] => double("property"), :key? => double)
           allow(new_data).to receive(:[]).with(property_name).and_return(nil)
           allow(new_data).to receive(:[]).with(property_name.to_s).and_return(nil)
+          allow(new_data[]).to receive(:resolve_id).and_return(nil)
           allow(channel).to receive(:process_permission_overwrites)
           expect { channel.__send__(:update_data, new_data) }.not_to(change { channel.__send__(property_name) })
         end
