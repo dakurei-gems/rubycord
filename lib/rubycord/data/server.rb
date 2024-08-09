@@ -62,8 +62,8 @@ module Rubycord
     # @!visibility private
     def initialize(data, bot)
       @bot = bot
-      @owner_id = data["owner_id"].to_i
-      @id = data["id"].to_i
+      @owner_id = data["owner_id"]&.resolve_id
+      @id = data["id"].resolve_id
       @members = {}
       @voice_states = {}
       @emoji = {}
@@ -450,7 +450,7 @@ module Rubycord
     # @note For internal use only
     # @!visibility private
     def update_voice_state(data)
-      user_id = data["user_id"].to_i
+      user_id = data["user_id"].resolve_id
 
       if data["channel_id"]
         unless @voice_states[user_id]
@@ -459,7 +459,7 @@ module Rubycord
         end
 
         # Update the existing voice state (or the one we just created)
-        channel = @channels_by_id[data["channel_id"].to_i]
+        channel = @channels_by_id[data["channel_id"].resolve_id]
         @voice_states[user_id].update(
           channel,
           data["mute"],
@@ -940,7 +940,7 @@ module Rubycord
       presences.each do |element|
         next unless element["user"]
 
-        user_id = element["user"]["id"].to_i
+        user_id = element["user"]["id"].resolve_id
         user = @members[user_id]
         if user
           user.update_presence(element)

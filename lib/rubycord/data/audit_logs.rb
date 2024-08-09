@@ -135,7 +135,7 @@ module Rubycord
 
         # Checks and sets variables for special action options.
         @count = data["options"]["count"].to_i unless data["options"]["count"].nil?
-        @channel_id = data["options"]["channel"].to_i unless data["options"]["channel"].nil?
+        @channel_id = data["options"]["channel"].resolve_id unless data["options"]["channel"].nil?
         @days = data["options"]["delete_member_days"].to_i unless data["options"]["delete_member_days"].nil?
         @members_removed = data["options"]["members_removed"].to_i unless data["options"]["members_removed"].nil?
       end
@@ -147,7 +147,7 @@ module Rubycord
 
       # @return [Member, User] the user that authored this action. Can be a User object if the user no longer exists in the server.
       def user
-        @user ||= @server.member(@data["user_id"].to_i) || @bot.user(@data["user_id"].to_i) || @logs.user(@data["user_id"].to_i)
+        @user ||= @server.member(@data["user_id"].resolve_id) || @bot.user(@data["user_id"].resolve_id) || @logs.user(@data["user_id"].resolve_id)
       end
       alias_method :author, :user
 
@@ -260,7 +260,7 @@ module Rubycord
       # @!visibility private
       def initialize(data, server)
         @type = data["key"].delete("$").to_sym
-        @role_id = data["new_value"][0]["id"].to_i
+        @role_id = data["new_value"][0]["id"].resolve_id
         @server = server
       end
 

@@ -11,7 +11,7 @@ module Rubycord::Light
       @bot = bot
 
       @username = data["username"]
-      @id = data["id"].to_i
+      @id = data["id"].resolve_id
       @discriminator = data["discriminator"]
       @avatar_id = data["avatar"]
 
@@ -33,7 +33,7 @@ module Rubycord::Light
     def initialize(data, bot)
       @bot = bot
 
-      @id = data["id"].to_i
+      @id = data["id"].resolve_id
 
       @name = data["name"]
       @icon_id = data["icon"]

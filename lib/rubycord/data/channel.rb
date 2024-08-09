@@ -112,13 +112,13 @@ module Rubycord
       # data is sometimes a Hash and other times an array of Hashes, you only want the last one if it's an array
       data = data[-1] if data.is_a?(Array)
 
-      @id = data["id"].to_i
+      @id = data["id"].resolve_id
       @type = data["type"] || 0
       @topic = data["topic"]
       @bitrate = data["bitrate"]
       @user_limit = data["user_limit"]
       @position = data["position"]
-      @parent_id = data["parent_id"].to_i if data["parent_id"]
+      @parent_id = data["parent_id"].resolve_id if data["parent_id"]
 
       if private?
         @recipients = []
@@ -134,7 +134,7 @@ module Rubycord
         end
       else
         @name = data["name"]
-        @server_id = server&.id || data["guild_id"].to_i
+        @server_id = server&.id || data["guild_id"].resolve_id
         @server = server
       end
 
@@ -637,7 +637,7 @@ module Rubycord
     # @!visibility private
     def history_ids(amount, before_id = nil, after_id = nil, around_id = nil)
       logs = API::Channel.messages(@bot.token, @id, amount, before_id, after_id, around_id)
-      JSON.parse(logs).map { |message| message["id"].to_i }
+      JSON.parse(logs).map { |message| message["id"].resolve_id }
     end
 
     # Returns a single message from this channel's history by ID.
@@ -988,7 +988,7 @@ module Rubycord
       return unless overwrites
 
       overwrites.each do |element|
-        id = element["id"].to_i
+        id = element["id"].resolve_id
         @permission_overwrites[id] = Overwrite.from_hash(element)
       end
     end

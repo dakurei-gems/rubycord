@@ -8,7 +8,7 @@ module Rubycord::Events
 
     def initialize(data, bot)
       @bot = bot
-      @thread = data.is_a?(Rubycord::Channel) ? data : bot.channel(data["id"].to_i)
+      @thread = data.is_a?(Rubycord::Channel) ? data : bot.channel(data["id"].resolve_id)
     end
   end
 
@@ -73,7 +73,7 @@ module Rubycord::Events
 
     def initialize(data, bot)
       @bot = bot
-      @thread = data.is_a?(Rubycord::Channel) ? data : bot.channel(data["id"].to_i)
+      @thread = data.is_a?(Rubycord::Channel) ? data : bot.channel(data["id"].resolve_id)
       @added_members = data["added_members"]&.map do |member|
         data["guild_id"] ? bot.member(data["guild_id"], member["user_id"]) : bot.user(member["user_id"])
       end || []

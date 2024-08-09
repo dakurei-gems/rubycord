@@ -92,7 +92,7 @@ module Rubycord
       @server = server
       @permissions = Permissions.new(data["permissions"], RoleWriter.new(self, @bot.token))
       @name = data["name"]
-      @id = data["id"].to_i
+      @id = data["id"].resolve_id
 
       @position = data["position"]
 

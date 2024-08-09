@@ -11,8 +11,8 @@ module Rubycord::Events
 
     # @!visibility private
     def initialize(data, bot)
-      @user = bot.user(data["user"]["id"].to_i)
-      @server = bot.server(data["guild_id"].to_i)
+      @user = bot.user(data["user"]["id"].resolve_id)
+      @server = bot.server(data["guild_id"].resolve_id)
       @bot = bot
     end
   end

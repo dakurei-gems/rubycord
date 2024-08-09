@@ -75,7 +75,7 @@ module Rubycord
     def initialize(data, bot)
       @bot = bot
       @content = data["content"]
-      @channel = bot.channel(data["channel_id"].to_i)
+      @channel = bot.channel(data["channel_id"].resolve_id)
       @pinned = data["pinned"]
       @type = data["type"]
       @tts = data["tts"]
@@ -87,7 +87,7 @@ module Rubycord
 
       @server = @channel.server
 
-      @webhook_id = data["webhook_id"]&.to_i
+      @webhook_id = data["webhook_id"]&.resolve_id
 
       @author = if data["author"]
         if @webhook_id
@@ -98,9 +98,9 @@ module Rubycord
         elsif @channel.private?
           # Turn the message user into a recipient - we can't use the channel recipient
           # directly because the bot may also send messages to the channel
-          Recipient.new(bot.user(data["author"]["id"].to_i), @channel, bot)
+          Recipient.new(bot.user(data["author"]["id"].resolve_id), @channel, bot)
         else
-          member = @channel.server.member(data["author"]["id"].to_i)
+          member = @channel.server.member(data["author"]["id"].resolve_id)
 
           if member
             member.update_data(data["member"]) if data["member"]
@@ -122,7 +122,7 @@ module Rubycord
       @timestamp = Time.parse(data["timestamp"]) if data["timestamp"]
       @edited_timestamp = data["edited_timestamp"].nil? ? nil : Time.parse(data["edited_timestamp"])
       @edited = !@edited_timestamp.nil?
-      @id = data["id"].to_i
+      @id = data["id"].resolve_id
 
       @emoji = []
 
@@ -143,7 +143,7 @@ module Rubycord
       # Role mentions can only happen on public servers so make sure we only parse them there
       if @channel.text?
         data["mention_roles"]&.each do |element|
-          @role_mentions << @channel.server.role(element.to_i)
+          @role_mentions << @channel.server.role(element.resolve_id)
         end
       end
 

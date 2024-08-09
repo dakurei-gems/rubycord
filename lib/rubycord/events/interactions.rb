@@ -159,7 +159,7 @@ module Rubycord::Events
       @command_id = command_data["id"]
       @command_name = command_data["name"].to_sym
 
-      @target_id = command_data["target_id"]&.to_i
+      @target_id = command_data["target_id"]&.resolve_id
       @resolved = Resolved.new({}, {}, {}, {}, {}, {})
       process_resolved(command_data["resolved"]) if command_data["resolved"]
 
@@ -196,30 +196,30 @@ module Rubycord::Events
 
     def process_resolved(resolved_data)
       resolved_data["users"]&.each do |id, data|
-        @resolved[:users][id.to_i] = @bot.ensure_user(data)
+        @resolved[:users][id.resolve_id] = @bot.ensure_user(data)
       end
 
       resolved_data["roles"]&.each do |id, data|
-        @resolved[:roles][id.to_i] = Rubycord::Role.new(data, @bot)
+        @resolved[:roles][id.resolve_id] = Rubycord::Role.new(data, @bot)
       end
 
       resolved_data["channels"]&.each do |id, data|
         data["guild_id"] = @interaction.server_id
-        @resolved[:channels][id.to_i] = Rubycord::Channel.new(data, @bot)
+        @resolved[:channels][id.resolve_id] = Rubycord::Channel.new(data, @bot)
       end
 
       resolved_data["members"]&.each do |id, data|
         data["user"] = resolved_data["users"][id]
         data["guild_id"] = @interaction.server_id
-        @resolved[:members][id.to_i] = Rubycord::Member.new(data, nil, @bot)
+        @resolved[:members][id.resolve_id] = Rubycord::Member.new(data, nil, @bot)
       end
 
       resolved_data["messages"]&.each do |id, data|
-        @resolved[:messages][id.to_i] = Rubycord::Message.new(data, @bot)
+        @resolved[:messages][id.resolve_id] = Rubycord::Message.new(data, @bot)
       end
 
       resolved_data["attachments"]&.each do |id, data|
-        @resolved[:attachments][id.to_i] = Rubycord::Attachment.new(data, nil, @bot)
+        @resolved[:attachments][id.resolve_id] = Rubycord::Attachment.new(data, nil, @bot)
       end
     end
 

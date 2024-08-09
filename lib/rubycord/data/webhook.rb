@@ -33,7 +33,7 @@ module Rubycord
       @bot = bot
 
       @name = data["name"]
-      @id = data["id"].to_i
+      @id = data["id"].resolve_id
       @channel = bot.channel(data["channel_id"])
       @server = @channel.server
       @token = data["token"]
@@ -43,7 +43,7 @@ module Rubycord
       # Will not exist if the data was requested through a webhook token
       return unless data["user"]
 
-      @owner = @server.member(data["user"]["id"].to_i)
+      @owner = @server.member(data["user"]["id"].resolve_id)
       return if @owner
 
       Rubycord::LOGGER.debug("Member with ID #{data["user"]["id"]} not cached (possibly left the server).")

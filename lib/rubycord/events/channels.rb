@@ -29,7 +29,7 @@ module Rubycord::Events
 
     def initialize(data, bot)
       @bot = bot
-      @channel = data.is_a?(Rubycord::Channel) ? data : bot.channel(data["id"].to_i)
+      @channel = data.is_a?(Rubycord::Channel) ? data : bot.channel(data["id"].resolve_id)
     end
   end
 
@@ -89,8 +89,8 @@ module Rubycord::Events
       @position = data["position"]
       @name = data["name"]
       @is_private = data["is_private"]
-      @id = data["id"].to_i
-      @server = bot.server(data["guild_id"].to_i) if data["guild_id"]
+      @id = data["id"].resolve_id
+      @server = bot.server(data["guild_id"].resolve_id) if data["guild_id"]
       @owner_id = bot.user(data["owner_id"]) if @type == 3
     end
   end
@@ -135,7 +135,7 @@ module Rubycord::Events
     def initialize(data, bot)
       @bot = bot
 
-      @channel = bot.channel(data["channel_id"].to_i)
+      @channel = bot.channel(data["channel_id"].resolve_id)
       recipient = data["user"]
       recipient_user = bot.ensure_user(recipient)
       @recipient = Rubycord::Recipient.new(recipient_user, @channel, bot)

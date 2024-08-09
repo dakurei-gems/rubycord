@@ -19,12 +19,12 @@ module Rubycord::Events
       @self_deaf = data["self_deaf"]
       @mute = data["mute"]
       @deaf = data["deaf"]
-      @server = bot.server(data["guild_id"].to_i)
+      @server = bot.server(data["guild_id"].resolve_id)
       return unless @server
 
-      @channel = bot.channel(data["channel_id"].to_i) if data["channel_id"]
+      @channel = bot.channel(data["channel_id"].resolve_id) if data["channel_id"]
       @old_channel = bot.channel(old_channel_id) if old_channel_id
-      @user = bot.user(data["user_id"].to_i)
+      @user = bot.user(data["user_id"].resolve_id)
     end
   end
 

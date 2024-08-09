@@ -67,9 +67,9 @@ module Rubycord
       super(@user) # Initialize the delegate class
 
       @server = server
-      @server_id = server&.id || data["guild_id"].to_i
+      @server_id = server&.id || data["guild_id"].resolve_id
 
-      @role_ids = data["roles"]&.map(&:to_i) || []
+      @role_ids = data["roles"]&.map(&:resolve_id) || []
 
       @nick = data["nick"]
       @joined_at = data["joined_at"] ? Time.parse(data["joined_at"]) : nil

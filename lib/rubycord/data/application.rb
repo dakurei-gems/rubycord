@@ -24,7 +24,7 @@ module Rubycord
       @bot = bot
 
       @name = data["name"]
-      @id = data["id"].to_i
+      @id = data["id"].resolve_id
       @description = data["description"]
       @icon_id = data["icon"]
       @rpc_origins = data["rpc_origins"]

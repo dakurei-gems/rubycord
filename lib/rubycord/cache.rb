@@ -136,10 +136,10 @@ module Rubycord
     # @param data [Hash] A data hash representing a user.
     # @return [User] the user represented by the data hash.
     def ensure_user(data)
-      if @users.include?(data["id"].to_i)
-        @users[data["id"].to_i]
+      if @users.include?(data["id"].resolve_id)
+        @users[data["id"].resolve_id]
       else
-        @users[data["id"].to_i] = User.new(data, self)
+        @users[data["id"].resolve_id] = User.new(data, self)
       end
     end
 
@@ -149,12 +149,12 @@ module Rubycord
     #   data if it already exists.
     # @return [Server] the server represented by the data hash.
     def ensure_server(data, force_cache = false)
-      if @servers.include?(data["id"].to_i)
-        server = @servers[data["id"].to_i]
+      if @servers.include?(data["id"].resolve_id)
+        server = @servers[data["id"].resolve_id]
         server.update_data(data) if force_cache
         server
       else
-        @servers[data["id"].to_i] = Server.new(data, self)
+        @servers[data["id"].resolve_id] = Server.new(data, self)
       end
     end
 
@@ -163,18 +163,18 @@ module Rubycord
     # @param server [Server, nil] The server the channel is on, if known.
     # @return [Channel] the channel represented by the data hash.
     def ensure_channel(data, server = nil)
-      if @channels.include?(data["id"].to_i)
-        @channels[data["id"].to_i]
+      if @channels.include?(data["id"].resolve_id)
+        @channels[data["id"].resolve_id]
       else
-        @channels[data["id"].to_i] = Channel.new(data, self, server)
+        @channels[data["id"].resolve_id] = Channel.new(data, self, server)
       end
     end
 
     # Ensures a given thread member object is cached.
     # @param data [Hash] Thread member data.
     def ensure_thread_member(data)
-      thread_id = data["id"].to_i
-      user_id = data["user_id"].to_i
+      thread_id = data["id"].resolve_id
+      user_id = data["user_id"].resolve_id
 
       @thread_members[thread_id] ||= {}
       @thread_members[thread_id][user_id] = data.slice("join_timestamp", "flags")

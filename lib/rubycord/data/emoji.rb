@@ -23,7 +23,7 @@ module Rubycord
 
       @name = data["name"]
       @server = server
-      @id = data["id"]&.to_i
+      @id = data["id"]&.resolve_id
       @animated = data["animated"]
 
       process_roles(data["roles"]) if server

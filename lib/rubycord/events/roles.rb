@@ -18,10 +18,10 @@ module Rubycord::Events
     def initialize(data, bot)
       @bot = bot
 
-      @server = bot.server(data["guild_id"].to_i)
+      @server = bot.server(data["guild_id"].resolve_id)
       return unless @server
 
-      role_id = data["role"]["id"].to_i
+      role_id = data["role"]["id"].resolve_id
       @role = @server.roles.find { |r| r.id == role_id }
     end
   end
@@ -58,8 +58,8 @@ module Rubycord::Events
       # The role should already be deleted from the server's list
       # by the time we create this event, so we'll create a temporary
       # role object for event consumers to use.
-      @id = data["role_id"].to_i
-      server_id = data["guild_id"].to_i
+      @id = data["role_id"].resolve_id
+      server_id = data["guild_id"].resolve_id
       @server = bot.server(server_id)
     end
   end

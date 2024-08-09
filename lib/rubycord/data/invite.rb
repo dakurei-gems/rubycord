@@ -13,7 +13,7 @@ module Rubycord
     def initialize(data, bot)
       @bot = bot
 
-      @id = data["id"].to_i
+      @id = data["id"].resolve_id
       @name = data["name"]
       @type = data["type"]
     end
@@ -34,7 +34,7 @@ module Rubycord
     def initialize(data, bot)
       @bot = bot
 
-      @id = data["id"].to_i
+      @id = data["id"].resolve_id
       @name = data["name"]
       @splash_hash = data["splash_hash"]
     end

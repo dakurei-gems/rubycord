@@ -59,13 +59,13 @@ module Rubycord
     def initialize(data, bot)
       @bot = bot
 
-      @id = data["id"].to_i
-      @application_id = data["application_id"].to_i
+      @id = data["id"].resolve_id
+      @application_id = data["application_id"].resolve_id
       @type = data["type"]
       @message = data["message"]
       @data = data["data"]
-      @server_id = data["guild_id"]&.to_i
-      @channel_id = data["channel_id"]&.to_i
+      @server_id = data["guild_id"]&.resolve_id
+      @channel_id = data["channel_id"]&.resolve_id
       @user = if data["member"]
         data["member"]["guild_id"] = @server_id
         Rubycord::Member.new(data["member"], bot.servers[@server_id], bot)
@@ -340,9 +340,9 @@ module Rubycord
     # @!visibility private
     def initialize(data, bot, server_id = nil)
       @bot = bot
-      @id = data["id"].to_i
-      @application_id = data["application_id"].to_i
-      @server_id = server_id&.to_i
+      @id = data["id"].resolve_id
+      @application_id = data["application_id"].resolve_id
+      @server_id = server_id&.resolve_id
 
       @name = data["name"]
       @description = data["description"]
@@ -708,19 +708,19 @@ module Rubycord
         @bot = bot
         @interaction = interaction
         @content = data["content"]
-        @channel_id = data["channel_id"].to_i
+        @channel_id = data["channel_id"].resolve_id
         @pinned = data["pinned"]
         @tts = data["tts"]
 
         @message_reference = data["message_reference"]
 
-        @server_id = data["guild_id"]&.to_i
+        @server_id = data["guild_id"]&.resolve_id
 
         @timestamp = Time.parse(data["timestamp"]) if data["timestamp"]
         @edited_timestamp = data["edited_timestamp"].nil? ? nil : Time.parse(data["edited_timestamp"])
         @edited = !@edited_timestamp.nil?
 
-        @id = data["id"].to_i
+        @id = data["id"].resolve_id
 
         @author = bot.ensure_user(data["author"] || data["member"]["user"])
 

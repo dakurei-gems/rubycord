@@ -475,7 +475,7 @@ module Rubycord
     # @return [Server] The server that was created.
     def create_server(name, region = :"eu-central")
       response = API::Server.create(token, name, region)
-      id = JSON.parse(response)["id"].to_i
+      id = JSON.parse(response)["id"].resolve_id
       sleep 0.1 until (server = @servers[id])
       debug "Successfully created server #{server.id} with name #{server.name}"
       server
@@ -954,8 +954,8 @@ module Rubycord
       # Friends list presences have no server ID so ignore these to not cause an error
       return unless data["guild_id"]
 
-      user_id = data["user"]["id"].to_i
-      server_id = data["guild_id"].to_i
+      user_id = data["user"]["id"].resolve_id
+      server_id = data["guild_id"].resolve_id
       server = server(server_id)
       return unless server
 
@@ -996,11 +996,11 @@ module Rubycord
     def update_voice_state(data)
       @session_id = data["session_id"]
 
-      server_id = data["guild_id"].to_i
+      server_id = data["guild_id"].resolve_id
       server = server(server_id)
       return unless server
 
-      user_id = data["user_id"].to_i
+      user_id = data["user_id"].resolve_id
       old_voice_state = server.voice_states[user_id]
       old_channel_id = old_voice_state.voice_channel&.id if old_voice_state
 
@@ -1022,7 +1022,7 @@ module Rubycord
 
     # Internal handler for VOICE_SERVER_UPDATE
     def update_voice_server(data)
-      server_id = data["guild_id"].to_i
+      server_id = data["guild_id"].resolve_id
       channel = @should_connect_to_voice[server_id]
 
       debug("Voice server update received! chan: #{channel.inspect}")
@@ -1088,7 +1088,7 @@ module Rubycord
 
     # Internal handler for CHANNEL_RECIPIENT_ADD
     def add_recipient(data)
-      channel_id = data["channel_id"].to_i
+      channel_id = data["channel_id"].resolve_id
       channel = self.channel(channel_id)
 
       recipient_user = ensure_user(data["user"])
@@ -1098,7 +1098,7 @@ module Rubycord
 
     # Internal handler for CHANNEL_RECIPIENT_REMOVE
     def remove_recipient(data)
-      channel_id = data["channel_id"].to_i
+      channel_id = data["channel_id"].resolve_id
       channel = self.channel(channel_id)
 
       recipient_user = ensure_user(data["user"])
@@ -1108,7 +1108,7 @@ module Rubycord
 
     # Internal handler for GUILD_MEMBER_ADD
     def add_guild_member(data)
-      server_id = data["guild_id"].to_i
+      server_id = data["guild_id"].resolve_id
       server = self.server(server_id)
 
       member = Member.new(data, server, self)
@@ -1117,10 +1117,10 @@ module Rubycord
 
     # Internal handler for GUILD_MEMBER_UPDATE
     def update_guild_member(data)
-      server_id = data["guild_id"].to_i
+      server_id = data["guild_id"].resolve_id
       server = self.server(server_id)
 
-      member = server.member(data["user"]["id"].to_i)
+      member = server.member(data["user"]["id"].resolve_id)
       member.update_roles(data["roles"])
       member.update_nick(data["nick"])
       member.update_global_name(data["user"]["global_name"]) if data["user"]["global_name"]
@@ -1130,11 +1130,11 @@ module Rubycord
 
     # Internal handler for GUILD_MEMBER_DELETE
     def delete_guild_member(data)
-      server_id = data["guild_id"].to_i
+      server_id = data["guild_id"].resolve_id
       server = self.server(server_id)
       return unless server
 
-      user_id = data["user"]["id"].to_i
+      user_id = data["user"]["id"].resolve_id
       server.delete_member(user_id)
     rescue Rubycord::Errors::NoPermission
       Rubycord::LOGGER.warn("delete_guild_member attempted to access a server for which the bot doesn't have permission! Not sure what happened here, ignoring")
@@ -1147,22 +1147,22 @@ module Rubycord
 
     # Internal handler for GUILD_UPDATE
     def update_guild(data)
-      @servers[data["id"].to_i].update_data(data)
+      @servers[data["id"].resolve_id].update_data(data)
     end
 
     # Internal handler for GUILD_DELETE
     def delete_guild(data)
-      id = data["id"].to_i
+      id = data["id"].resolve_id
       @servers.delete(id)
     end
 
     # Internal handler for GUILD_ROLE_UPDATE
     def update_guild_role(data)
       role_data = data["role"]
-      server_id = data["guild_id"].to_i
+      server_id = data["guild_id"].resolve_id
       server = @servers[server_id]
       new_role = Role.new(role_data, self, server)
-      role_id = role_data["id"].to_i
+      role_id = role_data["id"].resolve_id
       old_role = server.roles.find { |r| r.id == role_id }
       old_role.update_from(new_role)
     end
@@ -1170,7 +1170,7 @@ module Rubycord
     # Internal handler for GUILD_ROLE_CREATE
     def create_guild_role(data)
       role_data = data["role"]
-      server_id = data["guild_id"].to_i
+      server_id = data["guild_id"].resolve_id
       server = @servers[server_id]
       new_role = Role.new(role_data, self, server)
       existing_role = server.role(new_role.id)
@@ -1183,15 +1183,15 @@ module Rubycord
 
     # Internal handler for GUILD_ROLE_DELETE
     def delete_guild_role(data)
-      role_id = data["role_id"].to_i
-      server_id = data["guild_id"].to_i
+      role_id = data["role_id"].resolve_id
+      server_id = data["guild_id"].resolve_id
       server = @servers[server_id]
       server.delete_role(role_id)
     end
 
     # Internal handler for GUILD_EMOJIS_UPDATE
     def update_guild_emoji(data)
-      server_id = data["guild_id"].to_i
+      server_id = data["guild_id"].resolve_id
       server = @servers[server_id]
       server.update_emoji_data(data)
     end
@@ -1309,7 +1309,7 @@ module Rubycord
         @ready_time = Time.now
         @unavailable_timeout_time = Time.now
       when :GUILD_MEMBERS_CHUNK
-        id = data["guild_id"].to_i
+        id = data["guild_id"].resolve_id
         server = server(id)
         server.process_chunk(data["members"], data["chunk_index"], data["chunk_count"])
       when :INVITE_CREATE
@@ -1404,14 +1404,14 @@ module Rubycord
       when :MESSAGE_REACTION_ADD
         add_message_reaction(data)
 
-        return if profile.id == data["user_id"].to_i && !should_parse_self
+        return if profile.id == data["user_id"].resolve_id && !should_parse_self
 
         event = ReactionAddEvent.new(data, self)
         raise_event(event)
       when :MESSAGE_REACTION_REMOVE
         remove_message_reaction(data)
 
-        return if profile.id == data["user_id"].to_i && !should_parse_self
+        return if profile.id == data["user_id"].resolve_id && !should_parse_self
 
         event = ReactionRemoveEvent.new(data, self)
         raise_event(event)
@@ -1425,7 +1425,7 @@ module Rubycord
         return unless data["guild_id"]
 
         new_activities = (data["activities"] || []).map { |act_data| Activity.new(act_data, self) }
-        presence_user = @users[data["user"]["id"].to_i]
+        presence_user = @users[data["user"]["id"].resolve_id]
         old_activities = presence_user&.activities || []
         update_presence(data)
 
@@ -1553,7 +1553,7 @@ module Rubycord
         event = ServerDeleteEvent.new(data, self)
         raise_event(event)
       when :GUILD_EMOJIS_UPDATE
-        server_id = data["guild_id"].to_i
+        server_id = data["guild_id"].resolve_id
         server = @servers[server_id]
         old_emoji_data = server.emoji.clone
         update_guild_emoji(data)

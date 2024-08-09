@@ -74,7 +74,7 @@ module Rubycord
     # @!visibility private
     def self.from_hash(data)
       new(
-        data["id"].to_i,
+        data["id"].resolve_id,
         type: TYPES.key(data["type"]),
         allow: Permissions.new(data["allow"]),
         deny: Permissions.new(data["deny"])

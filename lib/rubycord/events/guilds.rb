@@ -16,7 +16,7 @@ module Rubycord::Events
     # Initializes this event with server data. Should be overwritten in case the server doesn't exist at the time
     # of event creation (e. g. {ServerDeleteEvent})
     def init_server(data, bot)
-      @server = bot.server(data["id"].to_i)
+      @server = bot.server(data["id"]&.resolve_id)
     end
   end
 
@@ -64,7 +64,7 @@ module Rubycord::Events
 
     # Override init_server to account for the deleted server
     def init_server(data, _bot)
-      @server = data["id"].to_i
+      @server = data["id"].resolve_id
     end
   end
 

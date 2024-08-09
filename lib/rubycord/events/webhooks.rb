@@ -13,8 +13,8 @@ module Rubycord::Events
     def initialize(data, bot)
       @bot = bot
 
-      @server = bot.server(data["guild_id"].to_i)
-      @channel = bot.channel(data["channel_id"].to_i)
+      @server = bot.server(data["guild_id"].resolve_id)
+      @channel = bot.channel(data["channel_id"].resolve_id)
     end
   end
 

@@ -9,7 +9,7 @@ module Rubycord
 
     def initialize(data)
       @name = data["name"]
-      @id = data["id"].to_i
+      @id = data["id"].resolve_id
     end
   end
 
@@ -34,7 +34,7 @@ module Rubycord
     attr_reader :bot
 
     def initialize(data, bot)
-      @id = data["id"].to_i
+      @id = data["id"].resolve_id
       @name = data["name"]
       @icon = data["icon"]
       @description = data["description"]
@@ -96,7 +96,7 @@ module Rubycord
 
       @name = data["name"]
       @server = server
-      @id = data["id"].to_i
+      @id = data["id"].resolve_id
       @enabled = data["enabled"]
       @syncing = data["syncing"]
       @type = data["type"]
@@ -105,7 +105,7 @@ module Rubycord
       @expire_behaviour = %i[remove kick][data["expire_behavior"]]
       @expire_grace_period = data["expire_grace_period"]
       @user = @bot.ensure_user(data["user"])
-      @role_id = data["role_id"]&.to_i
+      @role_id = data["role_id"]&.resolve_id
       @emoticon = data["enable_emoticons"]
       @subscriber_count = data["subscriber_count"]&.to_i
       @revoked = data["revoked"]

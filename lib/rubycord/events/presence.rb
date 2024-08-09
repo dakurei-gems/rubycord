@@ -20,10 +20,10 @@ module Rubycord::Events
     def initialize(data, bot)
       @bot = bot
 
-      @user = bot.user(data["user"]["id"].to_i)
+      @user = bot.user(data["user"]["id"].resolve_id)
       @status = data["status"].to_sym
       @client_status = user.client_status
-      @server = bot.server(data["guild_id"].to_i)
+      @server = bot.server(data["guild_id"].resolve_id)
     end
   end
 
@@ -84,8 +84,8 @@ module Rubycord::Events
       @bot = bot
       @activity = activity
 
-      @server = bot.server(data["guild_id"].to_i)
-      @user = bot.user(data["user"]["id"].to_i)
+      @server = bot.server(data["guild_id"].resolve_id)
+      @user = bot.user(data["user"]["id"].resolve_id)
       @client_status = @user.client_status
     end
 

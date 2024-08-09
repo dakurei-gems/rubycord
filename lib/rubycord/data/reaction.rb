@@ -17,7 +17,7 @@ module Rubycord
     def initialize(data)
       @count = data["count"]
       @me = data["me"]
-      @id = data["emoji"]["id"]&.to_i
+      @id = data["emoji"]["id"]&.resolve_id
       @name = data["emoji"]["name"]
     end
 

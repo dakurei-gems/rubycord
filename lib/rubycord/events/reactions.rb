@@ -16,9 +16,9 @@ module Rubycord::Events
       @bot = bot
 
       @emoji = Rubycord::Emoji.new(data["emoji"], bot, nil)
-      @user_id = data["user_id"].to_i
-      @message_id = data["message_id"].to_i
-      @channel_id = data["channel_id"].to_i
+      @user_id = data["user_id"].resolve_id
+      @message_id = data["message_id"].resolve_id
+      @channel_id = data["channel_id"].resolve_id
     end
 
     # @return [User, Member] the user that reacted to this message, or member if a server exists.
@@ -114,8 +114,8 @@ module Rubycord::Events
     def initialize(data, bot)
       @bot = bot
 
-      @message_id = data["message_id"].to_i
-      @channel_id = data["channel_id"].to_i
+      @message_id = data["message_id"].resolve_id
+      @channel_id = data["channel_id"].resolve_id
     end
 
     # @return [Channel] the channel where the removal occurred.

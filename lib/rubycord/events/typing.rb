@@ -18,9 +18,9 @@ module Rubycord::Events
     def initialize(data, bot)
       @bot = bot
 
-      @user_id = data["user_id"].to_i
+      @user_id = data["user_id"].resolve_id
 
-      @channel_id = data["channel_id"].to_i
+      @channel_id = data["channel_id"].resolve_id
       @channel = bot.channel(@channel_id)
 
       @user = if channel.pm?

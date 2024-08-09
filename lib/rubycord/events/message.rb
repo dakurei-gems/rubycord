@@ -282,8 +282,8 @@ module Rubycord::Events
 
     # @!visibility private
     def initialize(data, bot)
-      @id = data["id"].to_i
-      @channel = bot.channel(data["channel_id"].to_i)
+      @id = data["id"].resolve_id
+      @channel = bot.channel(data["channel_id"].resolve_id)
       @saved_message = ""
       @bot = bot
     end

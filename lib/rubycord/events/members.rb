@@ -17,7 +17,7 @@ module Rubycord::Events
     def initialize(data, bot)
       @bot = bot
 
-      @server = bot.server(data["guild_id"].to_i)
+      @server = bot.server(data["guild_id"].resolve_id)
       return unless @server
 
       init_user(data, bot)
@@ -27,7 +27,7 @@ module Rubycord::Events
     private
 
     def init_user(data, _)
-      user_id = data["user"]["id"].to_i
+      user_id = data["user"]["id"].resolve_id
       @user = @server.member(user_id)
     end
 
@@ -36,7 +36,7 @@ module Rubycord::Events
       return unless data["roles"]
 
       data["roles"].each do |element|
-        role_id = element.to_i
+        role_id = element.resolve_id
         @roles << @server.roles.find { |r| r.id == role_id }
       end
     end
