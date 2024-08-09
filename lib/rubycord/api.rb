@@ -257,32 +257,6 @@ module Rubycord::API
     "#{cdn_url}/role-icons/#{role_id}/#{icon_hash}.#{format}"
   end
 
-  # Login to the server
-  # @deprecated Not available anymore
-  def login(email, password)
-    request(
-      :auth_login,
-      nil,
-      :post,
-      "#{api_base}/auth/login",
-      email: email,
-      password: password
-    )
-  end
-
-  # Logout from the server
-  # @deprecated Not available anymore
-  def logout(token)
-    request(
-      :auth_logout,
-      nil,
-      :post,
-      "#{api_base}/auth/logout",
-      nil,
-      authorization: token
-    )
-  end
-
   # Create an OAuth application
   def create_oauth_application(token, name, redirect_uris)
     request(
