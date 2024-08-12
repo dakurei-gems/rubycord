@@ -1,4 +1,4 @@
-require "discordrb"
+require "rubycord"
 
 # TODO: Integrate better into specs
 SIMPLE_RESPONSE = "hi"
@@ -10,7 +10,7 @@ TEST_CHANNELS = [
   "#channel-five"
 ].freeze
 
-describe Discordrb::Commands::CommandBot, order: :defined do
+describe Rubycord::Commands::CommandBot, order: :defined do
   let(:server) { double("server", id: 123) }
   let(:text_channel_data) { load_data_file(:text_channel) }
   let(:default_channel_id) { 123 }
@@ -28,7 +28,7 @@ describe Discordrb::Commands::CommandBot, order: :defined do
   let(:sixth_channel) do
     bot = double("bot")
     allow(bot).to receive(:token) { "fake token" }
-    Discordrb::Channel.new(text_channel_data, bot, server)
+    Rubycord::Channel.new(text_channel_data, bot, server)
   end
 
   def command_event_double
@@ -65,7 +65,7 @@ describe Discordrb::Commands::CommandBot, order: :defined do
     data = text_channel_data.dup.merge kwargs
     data["id"] = channel_id
     data["name"] = kwargs.fetch(:name) { default_channel_name }
-    channel = Discordrb::Channel.new(data, event.bot, server)
+    channel = Rubycord::Channel.new(data, event.bot, server)
     allow(event).to receive(:channel) { channel }
   end
 
@@ -86,7 +86,7 @@ describe Discordrb::Commands::CommandBot, order: :defined do
   end
 
   context "no defined commands" do
-    bot = Discordrb::Commands::CommandBot.new token: "token", help_available: false
+    bot = Rubycord::Commands::CommandBot.new token: "token", help_available: false
 
     it "should successfully trigger the command" do
       event = double
@@ -104,7 +104,7 @@ describe Discordrb::Commands::CommandBot, order: :defined do
   end
 
   context "single command" do
-    bot = Discordrb::Commands::CommandBot.new token: "token", help_available: false
+    bot = Rubycord::Commands::CommandBot.new token: "token", help_available: false
 
     bot.command :name do
       SIMPLE_RESPONSE
@@ -123,7 +123,7 @@ describe Discordrb::Commands::CommandBot, order: :defined do
     let(:plain_event) { command_event_double_for_channel(first_channel) }
 
     context "as a string" do
-      bot = Discordrb::Commands::CommandBot.new(token: "token", command_doesnt_exist_message: "command %command% does not exist!")
+      bot = Rubycord::Commands::CommandBot.new(token: "token", command_doesnt_exist_message: "command %command% does not exist!")
 
       it "replies with the message including % substitution" do
         expect(plain_event).to receive(:respond).with("command bleep_blorp does not exist!")
@@ -133,7 +133,7 @@ describe Discordrb::Commands::CommandBot, order: :defined do
     end
 
     context "as a lambda" do
-      bot = Discordrb::Commands::CommandBot.new(token: "token", command_doesnt_exist_message: ->(event) { "command %command% does not exist in #{event.channel.name} and 1+2=#{1 + 2}" })
+      bot = Rubycord::Commands::CommandBot.new(token: "token", command_doesnt_exist_message: ->(event) { "command %command% does not exist in #{event.channel.name} and 1+2=#{1 + 2}" })
 
       it "executes the lambda and replies with a message including % substitution" do
         expect(plain_event).to receive(:respond).with("command bleep_blorp does not exist in test-channel and 1+2=3")
@@ -143,7 +143,7 @@ describe Discordrb::Commands::CommandBot, order: :defined do
     end
 
     context "with a nil" do
-      bot = Discordrb::Commands::CommandBot.new(token: "token", command_doesnt_exist_message: ->(_event) {})
+      bot = Rubycord::Commands::CommandBot.new(token: "token", command_doesnt_exist_message: ->(_event) {})
 
       it "does not reply" do
         expect(plain_event).to_not receive(:respond)
@@ -155,7 +155,7 @@ describe Discordrb::Commands::CommandBot, order: :defined do
 
   describe "#execute_command", order: :defined do
     context "with role filter", order: :defined do
-      bot = Discordrb::Commands::CommandBot.new(token: "token", help_available: false)
+      bot = Rubycord::Commands::CommandBot.new(token: "token", help_available: false)
 
       describe "required_roles" do
         before do
@@ -212,7 +212,7 @@ describe Discordrb::Commands::CommandBot, order: :defined do
 
     context "with channel filter", order: :defined do
       context "when list is not initialized in bot parameters", order: :defined do
-        bot = Discordrb::Commands::CommandBot.new(token: "token", help_available: false)
+        bot = Rubycord::Commands::CommandBot.new(token: "token", help_available: false)
 
         bot.command :name do
           SIMPLE_RESPONSE
@@ -257,7 +257,7 @@ describe Discordrb::Commands::CommandBot, order: :defined do
       end
 
       context "when list is initialized in bot parameters", order: :defined do
-        bot = Discordrb::Commands::CommandBot.new(token: "token", help_available: false, channels: [TEST_CHANNELS[0]])
+        bot = Rubycord::Commands::CommandBot.new(token: "token", help_available: false, channels: [TEST_CHANNELS[0]])
 
         bot.command :name do
           SIMPLE_RESPONSE
@@ -317,7 +317,7 @@ describe Discordrb::Commands::CommandBot, order: :defined do
       end
 
       context "listed as a channel name", order: :defined do
-        bot = Discordrb::Commands::CommandBot.new(token: "token", help_available: false)
+        bot = Rubycord::Commands::CommandBot.new(token: "token", help_available: false)
 
         bot.command :name do
           SIMPLE_RESPONSE
@@ -346,7 +346,7 @@ describe Discordrb::Commands::CommandBot, order: :defined do
       end
 
       context "listed as an object", order: :defined do
-        bot = Discordrb::Commands::CommandBot.new(token: "token", help_available: false)
+        bot = Rubycord::Commands::CommandBot.new(token: "token", help_available: false)
 
         bot.command :name do
           SIMPLE_RESPONSE
@@ -375,7 +375,7 @@ describe Discordrb::Commands::CommandBot, order: :defined do
       end
 
       context "command_bot#channels=", order: :defined do
-        bot = Discordrb::Commands::CommandBot.new(token: "token", help_available: false, channels: [TEST_CHANNELS[0], TEST_CHANNELS[1]])
+        bot = Rubycord::Commands::CommandBot.new(token: "token", help_available: false, channels: [TEST_CHANNELS[0], TEST_CHANNELS[1]])
 
         bot.command :name do
           SIMPLE_RESPONSE

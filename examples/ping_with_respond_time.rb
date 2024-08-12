@@ -1,9 +1,9 @@
 # This example is nearly the same as the normal ping example, but rather than simply responding with "Pong!", it also
 # responds with the time it took to send the message.
 
-require "discordrb"
+require "rubycord"
 
-bot = Discordrb::Bot.new token: "B0T.T0KEN.here"
+bot = Rubycord::Bot.new token: "B0T.T0KEN.here"
 
 bot.message(content: "Ping!") do |event|
   # The `respond` method returns a `Message` object, which is stored in a variable `m`. The `edit` method is then called

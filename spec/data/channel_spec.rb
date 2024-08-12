@@ -1,9 +1,9 @@
-require "discordrb"
+require "rubycord"
 require "mock/api_mock"
 
 using APIMock
 
-describe Discordrb::Channel do
+describe Rubycord::Channel do
   let(:data) { load_data_file(:text_channel) }
   # Instantiate the doubles here so we can apply mocks in the specs
   let(:bot) { double("bot") }
@@ -81,7 +81,7 @@ describe Discordrb::Channel do
         allow(JSON).to receive(:parse)
         data = double(property_name)
         expectation = Array.new(num) { anything } << data << any_args
-        expect(Discordrb::API::Channel).to receive(:update).with(*expectation)
+        expect(Rubycord::API::Channel).to receive(:update).with(*expectation)
         new_data = {property_name => data}
         channel.__send__(:update_channel_data, new_data)
       end
@@ -102,7 +102,7 @@ describe Discordrb::Channel do
         new_data = double("new data")
         allow(new_data).to receive(:[])
         allow(new_data).to receive(:[]).with(:permission_overwrites).and_return(nil)
-        expect(Discordrb::API::Channel).to receive(:update).with(any_args, nil, anything)
+        expect(Rubycord::API::Channel).to receive(:update).with(any_args, nil, anything)
         channel.__send__(:update_channel_data, new_data)
       end
     end
@@ -116,7 +116,7 @@ describe Discordrb::Channel do
         new_data = double("new data")
         allow(new_data).to receive(:[])
         allow(new_data).to receive(:[]).with(:nsfw).and_return(1)
-        expect(Discordrb::API::Channel).to receive(:update).with(any_args, nsfw, anything, anything, anything)
+        expect(Rubycord::API::Channel).to receive(:update).with(any_args, nsfw, anything, anything, anything)
         channel.__send__(:update_channel_data, new_data)
       end
     end
@@ -130,7 +130,7 @@ describe Discordrb::Channel do
         new_data = double("new data")
         allow(new_data).to receive(:[])
         allow(new_data).to receive(:[]).with(:nsfw).and_return(1)
-        expect(Discordrb::API::Channel).to receive(:update).with(any_args, nsfw, anything, anything, anything)
+        expect(Rubycord::API::Channel).to receive(:update).with(any_args, nsfw, anything, anything, anything)
         channel.__send__(:update_channel_data, new_data)
       end
     end
@@ -144,7 +144,7 @@ describe Discordrb::Channel do
         new_data = double("new data")
         allow(new_data).to receive(:[])
         allow(new_data).to receive(:[]).with(:rate_limit_per_user).and_return(5)
-        expect(Discordrb::API::Channel).to receive(:update).with(any_args, rate_limit_per_user)
+        expect(Rubycord::API::Channel).to receive(:update).with(any_args, rate_limit_per_user)
         channel.__send__(:update_channel_data, new_data)
       end
     end
@@ -153,17 +153,17 @@ describe Discordrb::Channel do
       response_data = double("new data")
       expect(channel).to receive(:update_data).with(response_data)
       allow(JSON).to receive(:parse).and_return(response_data)
-      allow(Discordrb::API::Channel).to receive(:update)
+      allow(Rubycord::API::Channel).to receive(:update)
       channel.__send__(:update_channel_data, double("data", :[] => double("sub_data", map: double)))
     end
 
     context "when NoPermission is raised" do
       it "should not call update_data" do
-        allow(Discordrb::API::Channel).to receive(:update).and_raise(Discordrb::Errors::NoPermission)
+        allow(Rubycord::API::Channel).to receive(:update).and_raise(Rubycord::Errors::NoPermission)
         expect(channel).not_to receive(:update_data)
         begin
           channel.__send__(:update_channel_data, double("data", :[] => double("sub_data", map: double)))
-        rescue Discordrb::Errors::NoPermission
+        rescue Rubycord::Errors::NoPermission
           nil
         end
       end
@@ -200,14 +200,14 @@ describe Discordrb::Channel do
     include_examples("update property data", :parent_id)
 
     it "should call process_permission_overwrites" do
-      allow(Discordrb::API::Channel).to receive(:resolve).and_return("{}")
+      allow(Rubycord::API::Channel).to receive(:resolve).and_return("{}")
       expect(channel).to receive(:process_permission_overwrites)
       channel.__send__(:update_data)
     end
 
     context "when data is not provided" do
       it "should request it from the API" do
-        expect(Discordrb::API::Channel).to receive(:resolve).and_return("{}")
+        expect(Rubycord::API::Channel).to receive(:resolve).and_return("{}")
         channel.__send__(:update_data)
       end
     end
@@ -243,9 +243,9 @@ describe Discordrb::Channel do
   describe "#bulk_delete" do
     it "should log with old messages" do
       messages = [1, 2, 3, 4]
-      allow(Discordrb::IDObject).to receive(:synthesise).and_return(3)
-      allow(Discordrb::API::Channel).to receive(:bulk_delete_messages)
-      expect(Discordrb::LOGGER).to receive(:warn).exactly(2).times
+      allow(Rubycord::IDObject).to receive(:synthesise).and_return(3)
+      allow(Rubycord::API::Channel).to receive(:bulk_delete_messages)
+      expect(Rubycord::LOGGER).to receive(:warn).exactly(2).times
       channel.__send__(:bulk_delete, messages)
     end
 
@@ -260,12 +260,12 @@ describe Discordrb::Channel do
       let(:@bot) { double("bot", token: "token") }
 
       it "should remove old messages " do
-        allow(Discordrb::IDObject).to receive(:synthesise).and_return(4)
+        allow(Rubycord::IDObject).to receive(:synthesise).and_return(4)
         messages = [1, 2, 3, 4]
 
         # Suppresses some noisy WARN logging from specs output
-        allow(Discordrb::LOGGER).to receive(:warn)
-        allow(Discordrb::API::Channel).to receive(:bulk_delete_messages)
+        allow(Rubycord::LOGGER).to receive(:warn)
+        allow(Rubycord::API::Channel).to receive(:bulk_delete_messages)
 
         channel.__send__(:delete_messages, messages)
         expect(messages).to eq [4]
@@ -278,8 +278,8 @@ describe Discordrb::Channel do
       overwrite = double("overwrite")
       element = {"id" => 1}
       overwrites = [element]
-      allow(Discordrb::Overwrite).to receive(:from_hash).and_call_original
-      allow(Discordrb::Overwrite).to receive(:from_hash).with(element).and_return(overwrite)
+      allow(Rubycord::Overwrite).to receive(:from_hash).and_call_original
+      allow(Rubycord::Overwrite).to receive(:from_hash).with(element).and_return(overwrite)
       channel.__send__(:process_permission_overwrites, overwrites)
       expect(channel.instance_variable_get(:@permission_overwrites)[1]).to eq(overwrite)
     end
@@ -289,7 +289,7 @@ describe Discordrb::Channel do
     it "should call the API" do
       allow(server).to receive(:channels).and_return([])
       allow(server).to receive(:id).and_return(double)
-      expect(Discordrb::API::Server).to receive(:update_channel_positions)
+      expect(Rubycord::API::Server).to receive(:update_channel_positions)
 
       channel.sort_after
     end
@@ -300,7 +300,7 @@ describe Discordrb::Channel do
       allow(server).to receive(:id).and_return(double)
       non_text_channels = channels.reject { |e| e.type == 0 }
 
-      expect(Discordrb::API::Server).to receive(:update_channel_positions)
+      expect(Rubycord::API::Server).to receive(:update_channel_positions)
         .with(any_args, an_array_excluding(*non_text_channels.map { |e| {id: e.id, position: instance_of(Integer)} }))
       channel.sort_after
     end
@@ -333,7 +333,7 @@ describe Discordrb::Channel do
         other_channel = double("other", id: 2, resolve_id: double, type: channel.type, category?: nil, server: channel.server, parent: category, position: 5)
         allow(category).to receive(:children).and_return [other_channel, channel]
         allow(bot).to receive(:channel).and_return(other_channel)
-        expect(Discordrb::API::Server).to receive(:update_channel_positions)
+        expect(Rubycord::API::Server).to receive(:update_channel_positions)
           .with(any_args, [{id: 2, position: 0}, {id: channel.id, position: 1, parent_id: category.id}])
         channel.sort_after(other_channel)
       end
@@ -344,7 +344,7 @@ describe Discordrb::Channel do
         other_channel = double("other", id: 2, resolve_id: double, type: channel.type, category?: nil, server: channel.server, parent: nil, parent_id: nil, position: 5)
         allow(server).to receive(:channels).and_return [other_channel, channel]
         allow(bot).to receive(:channel).and_return(other_channel)
-        expect(Discordrb::API::Server).to receive(:update_channel_positions)
+        expect(Rubycord::API::Server).to receive(:update_channel_positions)
           .with(any_args, [{id: 2, position: 0}, {id: channel.id, position: 1, parent_id: nil}])
         channel.sort_after(other_channel)
       end

@@ -18,5 +18,5 @@ about: Request a new feature, or change an existing one
   what you want to do.
 
   Do your best to think about how this new feature would impact the code
-  of other people who use discordrb, and not just your own bot's codebase.
+  of other people who use rubycord, and not just your own bot's codebase.
 --->

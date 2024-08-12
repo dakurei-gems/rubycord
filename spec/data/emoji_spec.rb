@@ -1,6 +1,6 @@
-require "discordrb"
+require "rubycord"
 
-describe Discordrb::Emoji do
+describe Rubycord::Emoji do
   let(:bot) { double("bot") }
 
   subject(:emoji) do

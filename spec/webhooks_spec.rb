@@ -1,14 +1,14 @@
 require "securerandom"
-require "discordrb/webhooks"
+require "rubycord/webhooks"
 
-describe Discordrb::Webhooks do
-  describe Discordrb::Webhooks::Builder do
+describe Rubycord::Webhooks do
+  describe Rubycord::Webhooks::Builder do
     it "should be able to add embeds" do
-      builder = Discordrb::Webhooks::Builder.new
+      builder = Rubycord::Webhooks::Builder.new
 
       embed = builder.add_embed do |e|
         e.title = "a"
-        e.image = Discordrb::Webhooks::EmbedImage.new(url: "https://example.com/image.png")
+        e.image = Rubycord::Webhooks::EmbedImage.new(url: "https://example.com/image.png")
       end
 
       expect(builder.embeds.length).to eq 1
@@ -16,9 +16,9 @@ describe Discordrb::Webhooks do
     end
   end
 
-  describe Discordrb::Webhooks::Embed do
+  describe Rubycord::Webhooks::Embed do
     it "should be able to have fields added" do
-      embed = Discordrb::Webhooks::Embed.new
+      embed = Rubycord::Webhooks::Embed.new
 
       embed.add_field(name: "a", value: "b", inline: true)
 
@@ -27,7 +27,7 @@ describe Discordrb::Webhooks do
 
     describe "#colour=" do
       it "should accept colours in decimal format" do
-        embed = Discordrb::Webhooks::Embed.new
+        embed = Rubycord::Webhooks::Embed.new
         colour = 1234
 
         embed.colour = colour
@@ -35,14 +35,14 @@ describe Discordrb::Webhooks do
       end
 
       it "should raise if the colour value is too high" do
-        embed = Discordrb::Webhooks::Embed.new
+        embed = Rubycord::Webhooks::Embed.new
         colour = 100_000_000
 
         expect { embed.colour = colour }.to raise_error(ArgumentError)
       end
 
       it "should accept colours in hex format" do
-        embed = Discordrb::Webhooks::Embed.new
+        embed = Rubycord::Webhooks::Embed.new
         colour = "162a3f"
 
         embed.colour = colour
@@ -50,7 +50,7 @@ describe Discordrb::Webhooks do
       end
 
       it "should accept colours in hex format with a # in front" do
-        embed = Discordrb::Webhooks::Embed.new
+        embed = Rubycord::Webhooks::Embed.new
         colour = "#162a3f"
 
         embed.colour = colour
@@ -58,7 +58,7 @@ describe Discordrb::Webhooks do
       end
 
       it "should accept colours as a RGB tuple" do
-        embed = Discordrb::Webhooks::Embed.new
+        embed = Rubycord::Webhooks::Embed.new
         colour = [22, 42, 63]
 
         embed.colour = colour
@@ -66,21 +66,21 @@ describe Discordrb::Webhooks do
       end
 
       it "should raise if a RGB tuple is of the wrong size" do
-        embed = Discordrb::Webhooks::Embed.new
+        embed = Rubycord::Webhooks::Embed.new
 
         expect { embed.colour = [0, 1] }.to raise_error(ArgumentError)
         expect { embed.colour = [0, 1, 2, 3] }.to raise_error(ArgumentError)
       end
 
       it "should raise if a RGB tuple results in a too large value" do
-        embed = Discordrb::Webhooks::Embed.new
+        embed = Rubycord::Webhooks::Embed.new
 
         expect { embed.colour = [2000, 1, 2] }.to raise_error(ArgumentError)
       end
     end
   end
 
-  describe Discordrb::Webhooks::Client do
+  describe Rubycord::Webhooks::Client do
     let(:id) { SecureRandom.bytes(8) }
     let(:token) { SecureRandom.bytes(24) }
     let(:provided_url) { instance_double(String) }
@@ -105,7 +105,7 @@ describe Discordrb::Webhooks do
 
     describe "#execute" do
       let(:json_hash) { instance_double(Hash) }
-      let(:default_builder) { instance_double(Discordrb::Webhooks::Builder, to_json_hash: json_hash) }
+      let(:default_builder) { instance_double(Rubycord::Webhooks::Builder, to_json_hash: json_hash) }
 
       before do
         allow(subject).to receive(:post_json).with(any_args)
@@ -114,14 +114,14 @@ describe Discordrb::Webhooks do
       end
 
       it "takes a default builder" do
-        expect { |b| subject.execute(default_builder, &b) }.to yield_with_args(default_builder, instance_of(Discordrb::Webhooks::View))
+        expect { |b| subject.execute(default_builder, &b) }.to yield_with_args(default_builder, instance_of(Rubycord::Webhooks::View))
       end
 
       context "when a builder is not provided" do
         it "creates a new builder if none is provided" do
           expect { |b| subject.execute(&b) }.to yield_with_args(
-            instance_of(Discordrb::Webhooks::Builder),
-            instance_of(Discordrb::Webhooks::View)
+            instance_of(Rubycord::Webhooks::Builder),
+            instance_of(Rubycord::Webhooks::View)
           )
         end
       end
@@ -176,14 +176,14 @@ describe Discordrb::Webhooks do
     describe "#edit_message" do
       let(:message_id) { SecureRandom.bytes(8) }
       let(:json_hash) { {} }
-      let(:default_builder) { instance_double(Discordrb::Webhooks::Builder, to_json_hash: json_hash) }
+      let(:default_builder) { instance_double(Rubycord::Webhooks::Builder, to_json_hash: json_hash) }
 
       before do
         allow(RestClient).to receive(:patch).with(any_args)
       end
 
       it "creates a new builder if one is not provided" do
-        expect { |b| subject.edit_message(message_id, &b) }.to yield_with_args(instance_of(Discordrb::Webhooks::Builder))
+        expect { |b| subject.edit_message(message_id, &b) }.to yield_with_args(instance_of(Rubycord::Webhooks::Builder))
       end
 
       it "uses the provided builder" do
@@ -217,7 +217,7 @@ describe Discordrb::Webhooks do
     end
 
     describe "#post_json" do
-      let(:builder) { Discordrb::Webhooks::Builder.new(content: "value") }
+      let(:builder) { Rubycord::Webhooks::Builder.new(content: "value") }
 
       before do
         allow(RestClient).to receive(:post).with(any_args)
@@ -240,7 +240,7 @@ describe Discordrb::Webhooks do
     describe "#post_multipart" do
       let(:post_data) { instance_double(Hash) }
       let(:multipart_hash) { instance_double(Hash) }
-      let(:builder) { instance_double(Discordrb::Webhooks::Builder, to_multipart_hash: multipart_hash) }
+      let(:builder) { instance_double(Rubycord::Webhooks::Builder, to_multipart_hash: multipart_hash) }
 
       before do
         allow(RestClient).to receive(:post).with(any_args)

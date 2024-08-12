@@ -1,6 +1,6 @@
-require "discordrb"
+require "rubycord"
 
-describe Discordrb::Bot do
+describe Rubycord::Bot do
   subject(:bot) do
     described_class.new(token: "fake_token")
   end
@@ -9,7 +9,7 @@ describe Discordrb::Bot do
   fixture_property :server_id, :server_data, ["id"], :to_i
 
   # TODO: Use some way of mocking the API instead of setting the server to not exist
-  let!(:server) { Discordrb::Server.new(server_data, bot) }
+  let!(:server) { Rubycord::Server.new(server_data, bot) }
 
   fixture :dispatch_event, %i[emoji dispatch_event]
   fixture :dispatch_add, %i[emoji dispatch_add]
@@ -102,61 +102,61 @@ describe Discordrb::Bot do
     end
 
     context "when handling a PRESENCE_UPDATE" do
-      let(:user) { instance_double(Discordrb::User, activities: [], id: 12_345, client_status: nil) }
+      let(:user) { instance_double(Rubycord::User, activities: [], id: 12_345, client_status: nil) }
       let(:guild_id) { 123_456 }
-      let(:activity) { instance_double(Discordrb::Activity, name: "name") }
+      let(:activity) { instance_double(Rubycord::Activity, name: "name") }
       let(:activity_fixture) { {"name" => "New Activity"} }
-      let(:old_activity) { instance_double(Discordrb::Activity, "old_activity", name: "Old Activity") }
+      let(:old_activity) { instance_double(Rubycord::Activity, "old_activity", name: "Old Activity") }
 
       before do
         allow(bot.instance_variable_get(:@users)).to receive(:[]).with(user.id).and_return(user)
         allow(bot).to receive(:update_presence).and_return(nil)
-        allow(bot).to receive(:raise_event).with(kind_of(Discordrb::Events::PresenceEvent))
-        allow(bot).to receive(:raise_event).with(kind_of(Discordrb::Events::PlayingEvent))
+        allow(bot).to receive(:raise_event).with(kind_of(Rubycord::Events::PresenceEvent))
+        allow(bot).to receive(:raise_event).with(kind_of(Rubycord::Events::PlayingEvent))
         allow(bot).to receive(:user).with(user.id).and_return(user)
-        allow(bot).to receive(:server).with(guild_id).and_return(instance_double(Discordrb::Server))
+        allow(bot).to receive(:server).with(guild_id).and_return(instance_double(Rubycord::Server))
       end
 
       it "raises a PlayingEvent for each new activity" do
         bot.send(:handle_dispatch, :PRESENCE_UPDATE, {"activities" => [activity_fixture, activity_fixture], "user" => {"id" => user.id}, "guild_id" => guild_id})
-        expect(bot).to have_received(:raise_event).with(instance_of(Discordrb::Events::PlayingEvent)).twice
+        expect(bot).to have_received(:raise_event).with(instance_of(Rubycord::Events::PlayingEvent)).twice
       end
 
       it "raises a PlayingEvent for each removed activity" do
         allow(user).to receive(:activities).and_return([old_activity])
         bot.send(:handle_dispatch, :PRESENCE_UPDATE, {"activities" => [], "user" => {"id" => user.id}, "guild_id" => guild_id})
 
-        expect(bot).to have_received(:raise_event).with(instance_of(Discordrb::Events::PlayingEvent))
+        expect(bot).to have_received(:raise_event).with(instance_of(Rubycord::Events::PlayingEvent))
       end
 
       it "raises a PlayingEvent for each new and removed activity" do
         allow(user).to receive(:activities).and_return([old_activity])
         bot.send(:handle_dispatch, :PRESENCE_UPDATE, {"activities" => [activity_fixture], "user" => {"id" => user.id}, "guild_id" => guild_id})
 
-        expect(bot).to have_received(:raise_event).with(an_instance_of(Discordrb::Events::PlayingEvent)).twice
+        expect(bot).to have_received(:raise_event).with(an_instance_of(Rubycord::Events::PlayingEvent)).twice
       end
 
       it "raises a PresenceEvent when the change is not activity based" do
         bot.send(:handle_dispatch, :PRESENCE_UPDATE, {"activities" => [], "user" => {"id" => user.id}, "guild_id" => guild_id, "status" => "online"})
 
-        expect(bot).to have_received(:raise_event).with(an_instance_of(Discordrb::Events::PresenceEvent))
+        expect(bot).to have_received(:raise_event).with(an_instance_of(Rubycord::Events::PresenceEvent))
       end
     end
 
     context "when handling a MESSAGE_CREATE event" do
       let(:channel_id) { instance_double(Integer, "channel_id") }
-      let(:channel) { instance_double(Discordrb::Channel, recipient: author, server: nil) }
+      let(:channel) { instance_double(Rubycord::Channel, recipient: author, server: nil) }
       let(:user_id) { instance_double(Integer, "user_id") }
-      let(:author) { instance_double(Discordrb::User, id: user_id) }
+      let(:author) { instance_double(Rubycord::User, id: user_id) }
       let(:message_fixture) { {"author" => {"id" => user_id}, "channel_id" => channel_id} }
-      let(:message) { instance_double(Discordrb::Message, channel: channel, from_bot?: false, mentions: []) }
+      let(:message) { instance_double(Rubycord::Message, channel: channel, from_bot?: false, mentions: []) }
 
       before do
         allow(bot).to receive(:channel).with(channel_id).and_return(channel)
-        allow(channel).to receive(:is_a?).with(Discordrb::Channel).and_return(true)
+        allow(channel).to receive(:is_a?).with(Rubycord::Channel).and_return(true)
         allow(bot).to receive(:ignored?).with(user_id).and_return(false)
         allow(bot).to receive(:raise_event)
-        allow(Discordrb::Message).to receive(:new).and_return(message)
+        allow(Rubycord::Message).to receive(:new).and_return(message)
       end
 
       it "raises a ChannelCreateEvent if the DM channel is uncached" do
@@ -165,7 +165,7 @@ describe Discordrb::Bot do
 
         bot.send(:handle_dispatch, :MESSAGE_CREATE, message_fixture)
 
-        expect(bot).to have_received(:raise_event).with(instance_of(Discordrb::Events::ChannelCreateEvent))
+        expect(bot).to have_received(:raise_event).with(instance_of(Rubycord::Events::ChannelCreateEvent))
       end
 
       it "does not raise a ChannelCreateEvent if the DM channel is cached" do
@@ -174,7 +174,7 @@ describe Discordrb::Bot do
 
         bot.send(:handle_dispatch, :MESSAGE_CREATE, message_fixture)
 
-        expect(bot).to_not have_received(:raise_event).with(instance_of(Discordrb::Events::ChannelCreateEvent))
+        expect(bot).to_not have_received(:raise_event).with(instance_of(Rubycord::Events::ChannelCreateEvent))
       end
     end
   end
@@ -225,8 +225,8 @@ describe Discordrb::Bot do
       file = double(:file, original_filename: original_filename, read: true)
       new_filename = double("new filename")
 
-      allow(Discordrb::API::Channel).to receive(:upload_file).and_return("{}")
-      allow(Discordrb::Message).to receive(:new)
+      allow(Rubycord::API::Channel).to receive(:upload_file).and_return("{}")
+      allow(Rubycord::Message).to receive(:new)
 
       bot.send_file(channel, file, filename: new_filename)
       expect(file.original_filename).to eq new_filename
@@ -236,8 +236,8 @@ describe Discordrb::Bot do
       original_filename = double(:original_filename)
       file = double(:file, read: true, original_filename: original_filename)
 
-      allow(Discordrb::API::Channel).to receive(:upload_file).and_return("{}")
-      allow(Discordrb::Message).to receive(:new)
+      allow(Rubycord::API::Channel).to receive(:upload_file).and_return("{}")
+      allow(Rubycord::Message).to receive(:new)
 
       bot.send_file(channel, file)
       expect(file.original_filename).to eq original_filename
@@ -246,8 +246,8 @@ describe Discordrb::Bot do
     it 'prepends "SPOILER_" when spoiler is truthy and the filename does not start with "SPOILER_"' do
       file = double(:file, read: true)
 
-      allow(Discordrb::API::Channel).to receive(:upload_file).and_return("{}")
-      allow(Discordrb::Message).to receive(:new)
+      allow(Rubycord::API::Channel).to receive(:upload_file).and_return("{}")
+      allow(Rubycord::Message).to receive(:new)
 
       bot.send_file(channel, file, filename: "file.txt", spoiler: true)
       expect(file.original_filename).to eq "SPOILER_file.txt"
@@ -256,8 +256,8 @@ describe Discordrb::Bot do
     it 'does not prepend "SPOILER_" if the filename starts with "SPOILER_"' do
       file = double(:file, read: true, path: "SPOILER_file.txt")
 
-      allow(Discordrb::API::Channel).to receive(:upload_file).and_return("{}")
-      allow(Discordrb::Message).to receive(:new)
+      allow(Rubycord::API::Channel).to receive(:upload_file).and_return("{}")
+      allow(Rubycord::Message).to receive(:new)
 
       bot.send_file(channel, file, spoiler: true)
       expect(file.original_filename).to eq "SPOILER_file.txt"
@@ -266,8 +266,8 @@ describe Discordrb::Bot do
     it "uses the original filename when spoiler is truthy and filename is nil" do
       file = double(:file, read: true, path: "file.txt")
 
-      allow(Discordrb::API::Channel).to receive(:upload_file).and_return("{}")
-      allow(Discordrb::Message).to receive(:new)
+      allow(Rubycord::API::Channel).to receive(:upload_file).and_return("{}")
+      allow(Rubycord::Message).to receive(:new)
 
       bot.send_file(channel, file, spoiler: true)
       expect(file.original_filename).to eq "SPOILER_file.txt"

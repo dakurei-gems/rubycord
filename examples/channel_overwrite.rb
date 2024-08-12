@@ -1,20 +1,20 @@
-require "discordrb"
+require "rubycord"
 require "securerandom"
 
 CHANNEL_EDIT = ENV.fetch("CHANNEL_EDIT")
 ROLE_1 = ENV.fetch("ROLE_1")
 ROLE_2 = ENV.fetch("ROLE_2")
 
-bot = Discordrb::Bot.new(token: ENV.fetch("DISCORDRB_TOKEN"))
+bot = Rubycord::Bot.new(token: ENV.fetch("RUBYCORD_TOKEN"))
 
 bot.message do |event|
   if event.message.content == "DEFINE_OVERWRITE"
     event.channel.send_message("Define overwrite in this channel")
 
-    allow = Discordrb::Permissions.new
+    allow = Rubycord::Permissions.new
     allow.can_mention_everyone = true
 
-    overwrite = Discordrb::Overwrite.new(ROLE_1, type: "role", allow: allow, deny: Discordrb::Permissions.new)
+    overwrite = Rubycord::Overwrite.new(ROLE_1, type: "role", allow: allow, deny: Rubycord::Permissions.new)
 
     event.bot.channel(CHANNEL_EDIT, event.server).define_overwrite(overwrite)
   end
@@ -33,15 +33,15 @@ bot.message do |event|
   if event.message.content == "BULK_OVERWRITE"
     event.channel.send_message("Bulk overwrite in this channel")
 
-    allow = Discordrb::Permissions.new
+    allow = Rubycord::Permissions.new
     allow.can_mention_everyone = true
 
-    deny = Discordrb::Permissions.new
+    deny = Rubycord::Permissions.new
     deny.can_mention_everyone = true
 
     overwrites = []
-    overwrites << Discordrb::Overwrite.new(ROLE_1, type: "role", allow: allow, deny: Discordrb::Permissions.new)
-    overwrites << Discordrb::Overwrite.new(ROLE_2, type: "role", allow: Discordrb::Permissions.new, deny: deny)
+    overwrites << Rubycord::Overwrite.new(ROLE_1, type: "role", allow: allow, deny: Rubycord::Permissions.new)
+    overwrites << Rubycord::Overwrite.new(ROLE_2, type: "role", allow: Rubycord::Permissions.new, deny: deny)
 
     event.bot.channel(CHANNEL_EDIT, event.server).permission_overwrites = overwrites
     puts(event.bot.channel(CHANNEL_EDIT, event.server).permission_overwrites.map { |_, v| "#{v.type} - #{v.id} - #{v.allow.bits} / #{v.deny.bits}" })

@@ -1,6 +1,6 @@
-require "discordrb"
+require "rubycord"
 
-describe Discordrb::Message do
+describe Rubycord::Message do
   let(:server) { double("server") }
   let(:channel) { double("channel", server: server) }
   let(:token) { double("token") }
@@ -48,8 +48,8 @@ describe Discordrb::Message do
 
   describe "#emoji" do
     it "caches and returns only emojis from the message" do
-      emoji_a = Discordrb::Emoji.new({"name" => "a", "id" => 123}, bot, server)
-      emoji_b = Discordrb::Emoji.new({"name" => "b", "id" => 456}, bot, server)
+      emoji_a = Rubycord::Emoji.new({"name" => "a", "id" => 123}, bot, server)
+      emoji_b = Rubycord::Emoji.new({"name" => "b", "id" => 456}, bot, server)
 
       allow(bot).to receive(:user).with("123").and_return(message_author)
       allow(bot).to receive(:channel).with("123", server).and_return(channel)
@@ -67,8 +67,8 @@ describe Discordrb::Message do
     end
 
     it "calls Bot#parse_mentions once" do
-      emoji_a = Discordrb::Emoji.new({"name" => "a", "id" => 123}, bot, server)
-      emoji_b = Discordrb::Emoji.new({"name" => "b", "id" => 456}, bot, server)
+      emoji_a = Rubycord::Emoji.new({"name" => "a", "id" => 123}, bot, server)
+      emoji_b = Rubycord::Emoji.new({"name" => "b", "id" => 456}, bot, server)
 
       allow(bot).to receive(:parse_mentions).once.and_return([emoji_a, emoji_b])
 
@@ -116,24 +116,24 @@ describe Discordrb::Message do
 
     before do
       # Return the appropriate number of users based on after_id
-      allow(Discordrb::API::Channel).to receive(:get_reactions)
+      allow(Rubycord::API::Channel).to receive(:get_reactions)
         .with(any_args, nil, anything) # ..., after_id, limit
         .and_return([user_data].to_json)
 
-      allow(Discordrb::API::Channel).to receive(:get_reactions)
+      allow(Rubycord::API::Channel).to receive(:get_reactions)
         .with(any_args, user_data["id"].to_i, anything)
         .and_return([].to_json)
     end
 
     it "calls the API method" do
-      expect(Discordrb::API::Channel).to receive(:get_reactions)
+      expect(Rubycord::API::Channel).to receive(:get_reactions)
         .with(any_args, '\u{1F44D}', nil, nil, 27)
 
       message.reacted_with('\u{1F44D}', limit: 27)
     end
 
     it "fetches all users when limit is nil" do
-      expect(Discordrb::Paginator).to receive(:new).with(nil, :down)
+      expect(Rubycord::Paginator).to receive(:new).with(nil, :down)
 
       message.reacted_with('\u{1F44D}', limit: nil)
     end
@@ -141,7 +141,7 @@ describe Discordrb::Message do
     it "converts Emoji to strings" do
       allow(emoji).to receive(:to_reaction).and_return("123")
 
-      expect(Discordrb::API::Channel).to receive(:get_reactions)
+      expect(Rubycord::API::Channel).to receive(:get_reactions)
         .with(any_args, "123", nil, nil, anything)
 
       message.reacted_with(emoji)
@@ -150,7 +150,7 @@ describe Discordrb::Message do
     it "converts Reaction to strings" do
       allow(reaction).to receive(:to_s).and_return("123")
 
-      expect(Discordrb::API::Channel).to receive(:get_reactions)
+      expect(Rubycord::API::Channel).to receive(:get_reactions)
         .with(any_args, "123", nil, nil, anything)
 
       message.reacted_with(reaction)
@@ -214,7 +214,7 @@ describe Discordrb::Message do
 
     context "when allowed_mentions is an AllowedMentions" do
       let(:hash) { instance_double("Hash", "hash") }
-      let(:allowed_mentions) { instance_double("Discordrb::AllowedMentions", "allowed_mentions") }
+      let(:allowed_mentions) { instance_double("Rubycord::AllowedMentions", "allowed_mentions") }
       let(:mention_user) { instance_double("TrueClass", "mention_user") }
 
       before do
@@ -245,11 +245,11 @@ describe Discordrb::Message do
     let(:message) { described_class.new(message_data, bot) }
     let(:content) { instance_double("String", "content") }
     let(:tts) { instance_double("TrueClass", "tts") }
-    let(:embed) { instance_double("Discordrb::Webhooks::Embed", "embed") }
+    let(:embed) { instance_double("Rubycord::Webhooks::Embed", "embed") }
     let(:attachments) { instance_double("Array", "attachments") }
     let(:allowed_mentions) { instance_double("Hash", "allowed_mentions") }
-    let(:message_reference) { instance_double("Discordrb::Message") }
-    let(:components) { instance_double("Discordrb::Webhooks::View") }
+    let(:message_reference) { instance_double("Rubycord::Message") }
+    let(:components) { instance_double("Rubycord::Webhooks::View") }
 
     it "forwards arguments to Channel#send_message" do
       expect(channel).to receive(:send_message).with(content, tts, embed, attachments, allowed_mentions, message_reference, components)

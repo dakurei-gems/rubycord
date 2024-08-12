@@ -1,12 +1,12 @@
-# discordrb can send music or other audio data to voice channels. This example exists to show that off.
+# rubycord can send music or other audio data to voice channels. This example exists to show that off.
 #
 # To avoid copyright infringement, the example music I will be using is a self-composed piece of highly debatable
 # quality. If you want something better you can replace the files in the data/ directory. Make sure to execute this
 # example from the appropriate place, so that it has access to the files in that directory.
 
-require "discordrb"
+require "rubycord"
 
-bot = Discordrb::Commands::CommandBot.new token: ENV.fetch("DISCORDRB_TOKEN"), prefix: "!"
+bot = Rubycord::Commands::CommandBot.new token: ENV.fetch("RUBYCORD_TOKEN"), prefix: "!"
 
 bot.command(:connect) do |event|
   # The `voice_channel` method returns the voice channel the user is currently in, or `nil` if the user is not in a

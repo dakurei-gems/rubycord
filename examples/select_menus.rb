@@ -1,7 +1,7 @@
-require "discordrb"
+require "rubycord"
 require "securerandom"
 
-bot = Discordrb::Bot.new(token: ENV.fetch("DISCORDRB_TOKEN"))
+bot = Rubycord::Bot.new(token: ENV.fetch("RUBYCORD_TOKEN"))
 
 bot.message do |event|
   if event.message.content == "TEST"
@@ -9,7 +9,7 @@ bot.message do |event|
 
     event.channel.send_message(
       "string_select (old select_menu, but alias define to keep legacy)", false, nil, nil, nil, nil,
-      Discordrb::Components::View.new do |builder|
+      Rubycord::Components::View.new do |builder|
         builder.row do |r|
           r.string_select(custom_id: "string_select", placeholder: "Test of StringSelect", max_values: 3) do |ss|
             ss.option(label: "Value 1", value: "1", description: "First value", emoji: {name: "1️⃣"})
@@ -28,7 +28,7 @@ bot.message do |event|
 
     event.channel.send_message(
       "user_select", false, nil, nil, nil, nil,
-      Discordrb::Components::View.new do |builder|
+      Rubycord::Components::View.new do |builder|
         builder.row do |r|
           r.user_select(custom_id: "user_select", placeholder: "Test of UserSelect", max_values: 3, disabled: true)
         end
@@ -37,7 +37,7 @@ bot.message do |event|
 
     event.channel.send_message(
       "user_select", false, nil, nil, nil, nil,
-      Discordrb::Components::View.new do |builder|
+      Rubycord::Components::View.new do |builder|
         builder.row do |r|
           r.user_select(custom_id: "user_select", placeholder: "Test of UserSelect", max_values: 3)
         end
@@ -46,7 +46,7 @@ bot.message do |event|
 
     event.channel.send_message(
       "role_select", false, nil, nil, nil, nil,
-      Discordrb::Components::View.new do |builder|
+      Rubycord::Components::View.new do |builder|
         builder.row do |r|
           r.role_select(custom_id: "role_select", placeholder: "Test of RoleSelect", max_values: 3)
         end
@@ -55,7 +55,7 @@ bot.message do |event|
 
     event.channel.send_message(
       "mentionable_select", false, nil, nil, nil, nil,
-      Discordrb::Components::View.new do |builder|
+      Rubycord::Components::View.new do |builder|
         builder.row do |r|
           r.mentionable_select(custom_id: "mentionable_select", placeholder: "Test of MentionableSelect", max_values: 3)
         end
@@ -64,7 +64,7 @@ bot.message do |event|
 
     event.channel.send_message(
       "channel_select", false, nil, nil, nil, nil,
-      Discordrb::Components::View.new do |builder|
+      Rubycord::Components::View.new do |builder|
         builder.row do |r|
           r.channel_select(custom_id: "channel_select", placeholder: "Test of ChannelSelect", max_values: 3)
         end

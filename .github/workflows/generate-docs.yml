@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - stable
     tags:
       - v*
   pull_request:
@@ -14,7 +13,6 @@ on:
 jobs:
   pages:
     name: Generate Docs
-    if: github.repository == 'dakurei-gems/discordrb'
     runs-on: ubuntu-latest
     env:
       api-dir: ./
@@ -26,7 +24,7 @@ jobs:
       - name: Checkout repository for Yard
         uses: actions/checkout@v4
         with:
-          path: discordrb_docs
+          path: rubycord_docs
 
       - name: Install OS package
         run: |
@@ -45,33 +43,33 @@ jobs:
           bundler-cache: true
 
       - name: Checkout repository for Github Pages
-        if: github.event_name == 'push'
+        if: github.repository == 'dakurei-gems/rubycord' && github.event_name == 'push'
         uses: actions/checkout@v4
         with:
-          path: discordrb_gh
+          path: rubycord_gh
           ref: gh-pages
 
       - name: Run bundle install
         working-directory: ${{env.api-dir}}
         run: |
           gem install bundler
-          BUNDLE_GEMFILE=discordrb_docs/Gemfile bundle install --jobs 4 --retry 3
+          BUNDLE_GEMFILE=rubycord_docs/Gemfile bundle install --jobs 4 --retry 3
 
       - name: Generate Yard docs
         working-directory: ${{env.api-dir}}
         run: |
-          cd discordrb_docs
+          cd rubycord_docs
           bundle exec yard --output-dir /tmp/docs
 
       - name: Cleanup Yard doc files
         run: |
-          cd discordrb_docs
+          cd rubycord_docs
           DOC_PATH="/tmp/docs" bin/clean_doc
 
       - name: Commit docs
-        if: github.event_name == 'push'
+        if: github.repository == 'dakurei-gems/rubycord' && github.event_name == 'push'
         run: |
-          cd discordrb_gh
+          cd rubycord_gh
           mkdir -p $GITHUB_REF_NAME
           rm -rf $GITHUB_REF_NAME/*
           cp -r /tmp/docs/. $GITHUB_REF_NAME
@@ -79,7 +77,7 @@ jobs:
           git commit --allow-empty -m "[skip ci] Deploy docs"
 
       - name: Push
-        if: github.event_name == 'push'
+        if: github.repository == 'dakurei-gems/rubycord' && github.event_name == 'push'
         run: |
-          cd discordrb_gh
+          cd rubycord_gh
           git push

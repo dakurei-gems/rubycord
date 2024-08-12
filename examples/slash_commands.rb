@@ -1,6 +1,6 @@
-require "discordrb"
+require "rubycord"
 
-bot = Discordrb::Bot.new(token: ENV.fetch("SLASH_COMMAND_BOT_TOKEN", nil), intents: [:server_messages])
+bot = Rubycord::Bot.new(token: ENV.fetch("SLASH_COMMAND_BOT_TOKEN", nil), intents: [:server_messages])
 
 # We need to register our application commands separately from the handlers with a special DSL.
 # This example uses server specific commands so that they appear immediately for testing,

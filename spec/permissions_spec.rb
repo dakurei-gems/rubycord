@@ -1,11 +1,11 @@
-require "discordrb"
+require "rubycord"
 
-describe Discordrb::Permissions do
-  subject { Discordrb::Permissions.new }
+describe Rubycord::Permissions do
+  subject { Rubycord::Permissions.new }
 
-  describe Discordrb::Permissions::FLAGS do
+  describe Rubycord::Permissions::FLAGS do
     it "creates a setter for each flag" do
-      responds_to_methods = Discordrb::Permissions::FLAGS.map do |_, flag|
+      responds_to_methods = Rubycord::Permissions::FLAGS.map do |_, flag|
         subject.respond_to?(:"can_#{flag}=")
       end
 
@@ -16,13 +16,13 @@ describe Discordrb::Permissions do
       writer = double
       expect(writer).to receive(:write)
 
-      Discordrb::Permissions.new(0, writer).can_view_channel = true
+      Rubycord::Permissions.new(0, writer).can_view_channel = true
     end
   end
 
   context "with FLAGS stubbed" do
     before do
-      stub_const("Discordrb::Permissions::FLAGS", 0 => :foo, 1 => :bar)
+      stub_const("Rubycord::Permissions::FLAGS", 0 => :foo, 1 => :bar)
     end
 
     describe "#init_vars" do
@@ -38,7 +38,7 @@ describe Discordrb::Permissions do
 
     describe ".bits" do
       it "returns the correct packed bits from an array of symbols" do
-        expect(Discordrb::Permissions.bits(%i[foo bar])).to eq 3
+        expect(Rubycord::Permissions.bits(%i[foo bar])).to eq 3
       end
     end
 
@@ -61,19 +61,19 @@ describe Discordrb::Permissions do
       end
 
       it "can initialize with an array of symbols" do
-        instance = Discordrb::Permissions.new %i[foo bar]
+        instance = Rubycord::Permissions.new %i[foo bar]
         expect(instance.bits).to eq 3
       end
 
       it "calls #init_vars" do
-        expect_any_instance_of(Discordrb::Permissions).to receive(:init_vars)
+        expect_any_instance_of(Rubycord::Permissions).to receive(:init_vars)
         subject
       end
     end
 
     describe "#defined_permissions" do
       it "returns the defined permissions" do
-        instance = Discordrb::Permissions.new 3
+        instance = Rubycord::Permissions.new 3
         expect(instance.defined_permissions).to eq %i[foo bar]
       end
     end
@@ -81,18 +81,18 @@ describe Discordrb::Permissions do
 end
 
 class ExampleCalculator
-  include Discordrb::PermissionCalculator
+  include Rubycord::PermissionCalculator
   attr_accessor :server, :roles
 end
 
-describe Discordrb::PermissionCalculator do
+describe Rubycord::PermissionCalculator do
   subject { ExampleCalculator.new }
 
   describe "#defined_role_permission?" do
     it "solves permissions (issue #607)" do
-      everyone_role = double("everyone role", id: 0, position: 0, permissions: Discordrb::Permissions.new)
-      role_a = double("role a", id: 1, position: 1, permissions: Discordrb::Permissions.new)
-      role_b = double("role b", id: 2, position: 2, permissions: Discordrb::Permissions.new([:manage_messages]))
+      everyone_role = double("everyone role", id: 0, position: 0, permissions: Rubycord::Permissions.new)
+      role_a = double("role a", id: 1, position: 1, permissions: Rubycord::Permissions.new)
+      role_b = double("role b", id: 2, position: 2, permissions: Rubycord::Permissions.new([:manage_messages]))
 
       channel = double("channel")
       allow(subject).to receive(:permission_overwrite)
@@ -118,9 +118,9 @@ describe Discordrb::PermissionCalculator do
     end
 
     it "takes overwrites into account" do
-      everyone_role = double("everyone role", id: 0, position: 0, permissions: Discordrb::Permissions.new)
-      role_a = double("role a", id: 1, position: 1, permissions: Discordrb::Permissions.new([:manage_messages]))
-      role_b = double("role b", id: 2, position: 2, permissions: Discordrb::Permissions.new)
+      everyone_role = double("everyone role", id: 0, position: 0, permissions: Rubycord::Permissions.new)
+      role_a = double("role a", id: 1, position: 1, permissions: Rubycord::Permissions.new([:manage_messages]))
+      role_b = double("role b", id: 2, position: 2, permissions: Rubycord::Permissions.new)
       channel = double("channel")
 
       subject.server = double("server", everyone_role: everyone_role)

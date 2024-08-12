@@ -1,34 +1,33 @@
-[![Github Actions Rspec](https://github.com/dakurei-gems/discordrb/actions/workflows/rspec.yml/badge.svg?branch=main&event=push)](https://github.com/dakurei-gems/discordrb/actions/workflows/rspec.yml)
-[![Github Actions Standard](https://github.com/dakurei-gems/discordrb/actions/workflows/standard.yml/badge.svg?branch=main&event=push)](https://github.com/dakurei-gems/discordrb/actions/workflows/standard.yml)
-[![Github Actions CodeQL](https://github.com/dakurei-gems/discordrb/actions/workflows/codeql.yml/badge.svg?branch=main&event=push)](https://github.com/dakurei-gems/discordrb/actions/workflows/codeql.yml)
+[![Gem](https://img.shields.io/gem/v/rubycord.svg)](https://rubygems.org/gems/rubycord)
+[![Gem](https://img.shields.io/gem/dt/rubycord.svg)](https://rubygems.org/gems/rubycord)
+[![Gem](https://img.shields.io/badge/docs-v3.5.1-979797.svg)](https://dakurei-gems.github.io/rubycord/v3.5.1/)
+[![Github Actions Rspec](https://github.com/dakurei-gems/rubycord/actions/workflows/rspec.yml/badge.svg?branch=main&event=push)](https://github.com/dakurei-gems/rubycord/actions/workflows/rspec.yml)
+[![Github Actions Standard](https://github.com/dakurei-gems/rubycord/actions/workflows/standard.yml/badge.svg?branch=main&event=push)](https://github.com/dakurei-gems/rubycord/actions/workflows/standard.yml)
+[![Github Actions CodeQL](https://github.com/dakurei-gems/rubycord/actions/workflows/codeql.yml/badge.svg?branch=main&event=push)](https://github.com/dakurei-gems/rubycord/actions/workflows/codeql.yml)
+[![Inline docs](https://img.shields.io/badge/docs-main-979797.svg)](https://dakurei-gems.github.io/rubycord/main/)
 
-[![Release](https://img.shields.io/badge/gem-v3.5.1-007ec6.svg)](https://github.com/dakurei-gems/discordrb/releases/tag/v3.5.1)
-[![Release](https://img.shields.io/badge/docs-v3.5.1-979797.svg)](https://dakurei-gems.github.io/discordrb/v3.5.1/)
-[![Stable](https://img.shields.io/badge/gem-stable-007ec6.svg)](https://github.com/dakurei-gems/discordrb/tree/stable)
-[![Stable](https://img.shields.io/badge/docs-stable-979797.svg)](https://dakurei-gems.github.io/discordrb/stable/)
-[![Main (Unreleased)](https://img.shields.io/badge/gem-main-007ec6.svg)](https://github.com/dakurei-gems/discordrb/tree/main)
-[![Main (Unreleased)](https://img.shields.io/badge/docs-main-979797.svg)](https://dakurei-gems.github.io/discordrb/main/)
-
-# discordrb
+# rubycord
 
 An implementation of the [Discord](https://discord.com/) API using Ruby.
 
+_Fork of the [Discordrb](https://github.com/shardlab/discordrb) project starting from [this release](https://github.com/shardlab/discordrb/releases/tag/v3.5.0)_
+
 ## Quick links to sections
 
-- [Introduction](https://github.com/dakurei-gems/discordrb#introduction)
-- [Dependencies](https://github.com/dakurei-gems/discordrb#dependencies)
-- [Installation](https://github.com/dakurei-gems/discordrb#installation)
-- [Usage](https://github.com/dakurei-gems/discordrb#usage)
-- [Webhooks Client](https://github.com/dakurei-gems/discordrb#webhooks-client)
-- [Support](https://github.com/dakurei-gems/discordrb#support)
-- [Development](https://github.com/dakurei-gems/discordrb#development), [Contributing](https://github.com/dakurei-gems/discordrb#contributing)
-- [License](https://github.com/dakurei-gems/discordrb#license)
+- [Introduction](https://github.com/dakurei-gems/rubycord#introduction)
+- [Dependencies](https://github.com/dakurei-gems/rubycord#dependencies)
+- [Installation](https://github.com/dakurei-gems/rubycord#installation)
+- [Usage](https://github.com/dakurei-gems/rubycord#usage)
+- [Webhooks Client](https://github.com/dakurei-gems/rubycord#webhooks-client)
+- [Support](https://github.com/dakurei-gems/rubycord#support)
+- [Development](https://github.com/dakurei-gems/rubycord#development), [Contributing](https://github.com/dakurei-gems/rubycord#contributing)
+- [License](https://github.com/dakurei-gems/rubycord#license)
 
-See also: [Documentation](https://dakurei-gems.github.io/discordrb/v3.5.1/), [Tutorials](https://github.com/dakurei-gems/discordrb/wiki)
+See also: [Documentation](https://dakurei-gems.github.io/rubycord/v3.5.1/), [Tutorials](https://github.com/dakurei-gems/rubycord/wiki)
 
 ## Introduction
 
-`discordrb` aims to meet the following design goals:
+`rubycord` aims to meet the following design goals:
 
 1. Full coverage of the public bot API.
 2. Expressive, high level abstractions for rapid development of common applications.
@@ -36,7 +35,7 @@ See also: [Documentation](https://dakurei-gems.github.io/discordrb/v3.5.1/), [Tu
 
 If you enjoy using the library, consider getting involved with the community to help us improve and meet these goals!
 
-**You should consider using `discordrb` if:**
+**You should consider using `rubycord` if:**
 
 - You need a bot - and fast - for small or medium sized communities, and don't want to be bogged down with "low level" details. Getting started takes minutes, and utilities like a command parser and tools for modularization make it simple to quickly add or change your bots functionality.
 - You like or want to learn Ruby, or want to contribute to a Ruby project. A lot of our users are new to Ruby, and eventually make their first open source contributions with us. We have an active Discord channel with experienced members who will happily help you get involved, either as a user or contributor.
@@ -56,35 +55,30 @@ If you enjoy using the library, consider getting involved with the community to 
 
 This section only applies to you if you want to use voice functionality.
 
-- [libsodium](https://github.com/dakurei-gems/discordrb/wiki/Installing-libsodium)
-- A compiled libopus distribution for your system, anywhere the script can find it. See [here](https://github.com/dakurei-gems/discordrb/wiki/Installing-libopus) for installation instructions.
+- [libsodium](https://github.com/dakurei-gems/rubycord/wiki/Installing-libsodium)
+- A compiled libopus distribution for your system, anywhere the script can find it. See [here](https://github.com/dakurei-gems/rubycord/wiki/Installing-libopus) for installation instructions.
 - [FFmpeg](https://www.ffmpeg.org/download.html) installed and in your PATH
 
 ## Installation
 
 ### With Bundler
 
-Using [Bundler](https://bundler.io/#getting-started), you can add discordrb to your Gemfile:
+Using [Bundler](https://bundler.io/#getting-started), you can add rubycord to your Gemfile:
 
 ```ruby
-gem "discordrb", github: "dakurei-gems/discordrb", branch: "stable"
+gem "rubycord"
 ```
 
 And then install via `bundle install`.
 
-_If you want to run a specific release, use this gem line:_
-```ruby
-gem "discordrb", github: "dakurei-gems/discordrb", tag: "v3.5.1"
-```
-
 _If you want to run the latest code instead, use this gem line instead:_
 ```ruby
-gem "discordrb", github: "dakurei-gems/discordrb", branch: "main"
+gem "rubycord", github: "dakurei-gems/rubycord", branch: "main"
 ```
 
-⚠️ **Note that `main` may contain breaking changes or other unstable code !**
+⚠️ **Note that main may contain breaking changes or other unstable code !**
 
-Run the [ping example](https://github.com/dakurei-gems/discordrb/blob/main/examples/ping.rb) to verify that the installation works (make sure to replace the token and client ID in there with your bots'!):
+Run the [ping example](https://github.com/dakurei-gems/rubycord/blob/main/examples/ping.rb) to verify that the installation works (make sure to replace the token and client ID in there with your bots'!):
 
 To run the bot while using bundler:
 
@@ -92,17 +86,45 @@ To run the bot while using bundler:
 bundle exec ruby ping.rb
 ```
 
+### With Gem
+
+Alternatively, while Bundler is the recommended option, you can also install rubycord without it.
+
+#### Linux / macOS
+
+```sh
+gem install rubycord
+```
+
+#### Windows
+
+> **Make sure you have the DevKit installed! See the [Dependencies](https://github.com/dakurei-gems/rubycord#dependencies) section)**
+
+```sh
+gem install rubycord --platform=ruby
+```
+
+To run the bot:
+
+```sh
+ruby ping.rb
+```
+
+### Installation Troubleshooting
+
+See <https://github.com/dakurei-gems/rubycord/wiki/FAQ#installation> for a list of common problems and solutions when installing `rubycord`.
+
 ## Usage
 
 You can make a simple bot like this:
 
 ```ruby
-require 'discordrb'
+require "rubycord"
 
-bot = Discordrb::Bot.new token: '<token here>'
+bot = Rubycord::Bot.new token: '<token here>'
 
-bot.message(with_text: 'Ping!') do |event|
-  event.respond 'Pong!'
+bot.message(with_text: "Ping!") do |event|
+  event.respond "Pong!"
 end
 
 bot.run
@@ -110,60 +132,60 @@ bot.run
 
 This bot responds to every "Ping!" with a "Pong!".
 
-See [additional examples here](https://github.com/dakurei-gems/discordrb/tree/main/examples).
+See [additional examples here](https://github.com/dakurei-gems/rubycord/tree/main/examples).
 
-You can find examples of projects that use discordrb by [searching for the discordrb topic on GitHub](https://github.com/topics/discordrb).
+You can find examples of projects that use rubycord by [searching for the rubycord topic on GitHub](https://github.com/topics/rubycord).
 
-If you've made an open source project on GitHub that uses discordrb, consider adding the `discordrb` topic to your repo!
+If you've made an open source project on GitHub that uses rubycord, consider adding the `rubycord` topic to your repo!
 
 ## Webhooks Client
 
-Also included is a webhooks client, which can be used as a separate gem `discordrb-webhooks`. This special client can be used to form requests to Discord webhook URLs in a high-level manner.
+Also included is a webhooks client, which can be used as a separate gem `rubycord-webhooks`. This special client can be used to form requests to Discord webhook URLs in a high-level manner.
 
-- [`discordrb-webhooks` documentation](https://dakurei-gems.github.io/discordrb/v3.5.1/Discordrb/Webhooks.html)
+- [`rubycord-webhooks` documentation](https://dakurei-gems.github.io/rubycord/v3.5.1/Rubycord/Webhooks.html)
 - [More information about webhooks](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks)
-- [Embed visualizer tool](https://leovoel.github.io/embed-visualizer/) - Includes a discordrb code generator for forming embeds
+- [Embed visualizer tool](https://leovoel.github.io/embed-visualizer/)
 
 ### Usage
 
 ```ruby
-require 'discordrb/webhooks'
+require "rubycord/webhooks"
 
-WEBHOOK_URL = 'https://discord.com/api/webhooks/424070213278105610/yByxDncRvHi02mhKQheviQI2erKkfRRwFcEp0MMBfib1ds6ZHN13xhPZNS2-fJo_ApSw'.freeze
+WEBHOOK_URL = "<webhook url here>".freeze
 
-client = Discordrb::Webhooks::Client.new(url: WEBHOOK_URL)
+client = Rubycord::Webhooks::Client.new(url: WEBHOOK_URL)
 client.execute do |builder|
-  builder.content = 'Hello world!'
+  builder.content = "Hello world!"
   builder.add_embed do |embed|
-    embed.title = 'Embed title'
-    embed.description = 'Embed description'
+    embed.title = "Embed title"
+    embed.description = "Embed description"
     embed.timestamp = Time.now
   end
 end
 ```
 
-**Note:** The `discordrb` gem relies on `discordrb-webhooks`. If you already have `discordrb` installed, `require 'discordrb/webhooks'` will include all of the `Webhooks` features as well.
+**Note:** The `rubycord` gem relies on `rubycord-webhooks`. If you already have `rubycord` installed, `require 'rubycord/webhooks'` will include all of the `Webhooks` features as well.
 
 ## Support
 
 If you need help or have a question, you can:
 
-1. [Open an issue](https://github.com/dakurei-gems/discordrb/issues). Be sure to read the issue template, and provide as much detail as you can.
+1. [Open an issue](https://github.com/dakurei-gems/rubycord/issues). Be sure to read the issue template, and provide as much detail as you can.
 
 ## Contributing
 
 Thank you for your interest in contributing!
-Bug reports and pull requests are welcome on GitHub at <https://github.com/dakurei-gems/discordrb>.
+Bug reports and pull requests are welcome on GitHub at <https://github.com/dakurei-gems/rubycord>.
 
 Be sure to use the search function in our documentation or on GitHub, to see if there are any duplicate issues/PRs before anything else
 
 ## Development setup
 
-**This section is for developing discordrb itself! If you just want to make a bot, see the [Installation](https://github.com/dakurei-gems/discordrb#installation) section.**
+**This section is for developing rubycord itself! If you just want to make a bot, see the [Installation](https://github.com/dakurei-gems/rubycord#installation) section.**
 
 After checking out the repo, run `bin/setup` to install dependencies. You can then run tests via `bundle exec rspec spec`. Make sure to run standard also: `bundle exec standardrb`. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
-To install this gem onto your local machine, run `bundle exec rake install`.
+To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
 ## License
 

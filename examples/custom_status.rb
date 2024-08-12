@@ -1,6 +1,6 @@
-require "discordrb"
+require "rubycord"
 
-bot = Discordrb::Bot.new token: ENV.fetch("DISCORDRB_TOKEN")
+bot = Rubycord::Bot.new token: ENV.fetch("RUBYCORD_TOKEN")
 custom_status = ["Hello World!", "❤️ Love you", "Finally custom status 🎉"]
 initialized = false
 thread = []
@@ -20,7 +20,7 @@ bot.ready do |_|
   bot.competing = "mario kart"
   sleep 5
 
-  bot.stream("discordrb", "https://twitch.tv/shardlab")
+  bot.stream("rubycord", "https://twitch.tv/dakurei")
   sleep 5
 
   initialized = true
