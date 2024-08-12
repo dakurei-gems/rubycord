@@ -17,7 +17,6 @@ Initial release, based on release [3.5.0](https://github.com/shardlab/discordrb/
 - Drop support to Ruby version prior to 3.1.3
 - Add dependencies & development dependencies
 - Migrating from Rubocop to Standard
-- Releases only available via GitHub (_not particularly interested in managing gem publishing via RubyGems, at least for the time being_)
 - **(breaking change)** Added missings permissions flags & Update permissions names ([#2](https://github.com/dakurei-gems/rubycord/pull/2))
 - **(breaking change)** Added missings intents & Update intents names ([#3](https://github.com/dakurei-gems/rubycord/pull/3))
 - **(breaking change)** Added missings errors & Update errors names ([#4](https://github.com/dakurei-gems/rubycord/pull/4))
