@@ -8,6 +8,7 @@ namespace :webhooks do
   Bundler::GemHelper.install_tasks(name: "rubycord-webhooks")
 end
 
+task install: %i[main:install webhooks:install]
 task build: %i[main:build webhooks:build]
 task release: %i[main:release webhooks:release]
 
