@@ -1,6 +1,6 @@
 [![Gem](https://img.shields.io/gem/v/rubycord.svg)](https://rubygems.org/gems/rubycord)
 [![Gem](https://img.shields.io/gem/dt/rubycord.svg)](https://rubygems.org/gems/rubycord)
-[![Gem](https://img.shields.io/badge/docs-v3.5.1-979797.svg)](https://dakurei-gems.github.io/rubycord/v3.5.1/)
+[![Gem](https://img.shields.io/badge/docs-v1.0.0-979797.svg)](https://dakurei-gems.github.io/rubycord/v1.0.0/)
 [![Github Actions Rspec](https://github.com/dakurei-gems/rubycord/actions/workflows/rspec.yml/badge.svg?branch=main&event=push)](https://github.com/dakurei-gems/rubycord/actions/workflows/rspec.yml)
 [![Github Actions Standard](https://github.com/dakurei-gems/rubycord/actions/workflows/standard.yml/badge.svg?branch=main&event=push)](https://github.com/dakurei-gems/rubycord/actions/workflows/standard.yml)
 [![Github Actions CodeQL](https://github.com/dakurei-gems/rubycord/actions/workflows/codeql.yml/badge.svg?branch=main&event=push)](https://github.com/dakurei-gems/rubycord/actions/workflows/codeql.yml)
@@ -23,7 +23,7 @@ _Fork of the [Discordrb](https://github.com/shardlab/discordrb) project starting
 - [Development](https://github.com/dakurei-gems/rubycord#development), [Contributing](https://github.com/dakurei-gems/rubycord#contributing)
 - [License](https://github.com/dakurei-gems/rubycord#license)
 
-See also: [Documentation](https://dakurei-gems.github.io/rubycord/v3.5.1/), [Tutorials](https://github.com/dakurei-gems/rubycord/wiki)
+See also: [Documentation](https://dakurei-gems.github.io/rubycord/v1.0.0/), [Tutorials](https://github.com/dakurei-gems/rubycord/wiki)
 
 ## Introduction
 
@@ -142,7 +142,7 @@ If you've made an open source project on GitHub that uses rubycord, consider add
 
 Also included is a webhooks client, which can be used as a separate gem `rubycord-webhooks`. This special client can be used to form requests to Discord webhook URLs in a high-level manner.
 
-- [`rubycord-webhooks` documentation](https://dakurei-gems.github.io/rubycord/v3.5.1/Rubycord/Webhooks.html)
+- [`rubycord-webhooks` documentation](https://dakurei-gems.github.io/rubycord/v1.0.0/Rubycord/Webhooks.html)
 - [More information about webhooks](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks)
 - [Embed visualizer tool](https://leovoel.github.io/embed-visualizer/)
 
