@@ -3,7 +3,7 @@ load "lib/rubycord/version.rb"
 Gem::Specification.new do |spec|
   spec.name = "rubycord"
   spec.version = Rubycord::VERSION
-  spec.authors = ["meew0", "swarley", "Dakurei"]
+  spec.authors = ["Dakurei"]
   spec.email = ["maxime.palanchini@gmail.com"]
 
   spec.summary = "Discord API for Ruby"
@@ -37,5 +37,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency "rest-client", ">= 2.0.0"
   spec.add_dependency "websocket-client-simple", ">= 0.3.0"
 
-  spec.add_dependency "rubycord-webhooks", "~> 3.5.1"
+  spec.add_dependency "rubycord-webhooks", "~> 1.0.0"
 end

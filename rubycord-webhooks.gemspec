@@ -3,7 +3,7 @@ load "lib/rubycord/webhooks/version.rb"
 Gem::Specification.new do |spec|
   spec.name = "rubycord-webhooks"
   spec.version = Rubycord::Webhooks::VERSION
-  spec.authors = ["meew0", "swarley", "Dakurei"]
+  spec.authors = ["Dakurei"]
   spec.email = ["maxime.palanchini@gmail.com"]
 
   spec.summary = "Webhook client for rubycord"
