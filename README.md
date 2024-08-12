@@ -10,6 +10,8 @@
 
 An implementation of the [Discord](https://discord.com/) API using Ruby.
 
+_Fork of the [Discordrb](https://github.com/shardlab/discordrb) project starting from [this release](https://github.com/shardlab/discordrb/releases/tag/v3.5.0)_
+
 ## Quick links to sections
 
 - [Introduction](https://github.com/dakurei-gems/rubycord#introduction)
