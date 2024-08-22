@@ -63,7 +63,7 @@ module Rubycord
 
     # Comparison by attributes [:id, :type, :allow, :deny]
     def ==(other)
-      false unless other.is_a? Rubycord::Overwrite
+      return false unless other.is_a?(Rubycord::Overwrite)
       id == other.id &&
         type == other.type &&
         allow == other.allow &&

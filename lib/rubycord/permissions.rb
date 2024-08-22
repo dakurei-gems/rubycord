@@ -143,7 +143,7 @@ module Rubycord
 
     # Comparison based on permission bits
     def ==(other)
-      false unless other.is_a? Rubycord::Permissions
+      return false unless other.is_a?(Rubycord::Permissions)
       bits == other.bits
     end
   end
