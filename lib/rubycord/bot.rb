@@ -522,7 +522,7 @@ module Rubycord
             end
           end
         elsif /(?<animated>^a|^${0}):(?<name>\w+):(?<id>\d+)/ =~ mention
-          array_to_return << (emoji(id) || Emoji.new({"animated" => !animated.nil?, "name" => name, "id" => id}, self, nil))
+          array_to_return << (emoji(id) || Emoji.new({"id" => id, "name" => name, "animated" => animated != ""}, self, nil))
         end
       end
       array_to_return
