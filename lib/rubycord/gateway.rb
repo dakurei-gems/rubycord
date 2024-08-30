@@ -448,10 +448,10 @@ module Rubycord
         loop do
           # Send a heartbeat if heartbeats are active and either no session exists yet, or an existing session is
           # suspended (e.g. after op7)
-          if (@session && !@session.suspended?) || !@session
-            sleep @heartbeat_interval
+          if !@pipe_broken && ((@session && !@session.suspended?) || !@session)
             @bot.raise_heartbeat_event
             heartbeat
+            sleep @heartbeat_interval
           else
             sleep 1
           end
@@ -487,7 +487,7 @@ module Rubycord
     # unexpected way
     def wait_for_reconnect
       # We disconnected in an unexpected way! Wait before reconnecting so we don't spam Discord's servers.
-      LOGGER.debug("Attempting to reconnect in #{@falloff} seconds.")
+      LOGGER.error("Attempting to reconnect in #{@falloff} seconds.")
       sleep @falloff
 
       # Calculate new falloff
