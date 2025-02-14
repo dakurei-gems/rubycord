@@ -886,7 +886,7 @@ module Rubycord
 
     # The default `inspect` method is overwritten to give more useful output.
     def inspect
-      "<Channel name=#{@name} id=#{@id} topic=\"#{@topic}\" type=#{@type} position=#{@position} server=#{@server || @server_id}>"
+      "<Channel id=#{@id} name=#{@name} parent_id=#{@parent_id} position=#{@position} type=#{@type}>"
     end
 
     # Adds a recipient to a group channel.
