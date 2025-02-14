@@ -881,7 +881,7 @@ module Rubycord
 
     # The inspect method is overwritten to give more useful output
     def inspect
-      "<Server name=#{@name} id=#{@id} large=#{@large} region=#{@region} owner=#{@owner} afk_channel_id=#{@afk_channel_id} system_channel_id=#{@system_channel_id} afk_timeout=#{@afk_timeout}>"
+      "<Server id=#{@id} name=#{@name} large=#{@large}>"
     end
 
     private
